@@ -16,8 +16,8 @@ public class UserRepositoryParse implements UserRepository {
   public User getUser(String name) {
 
     try {
-      ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-      query.whereEqualTo("name", name);
+      ParseQuery<ParseObject> query = ParseQuery.getQuery("Usuario");
+      query.whereEqualTo("Nombre", name);
       List<ParseObject> result = query.find();
       if (!result.isEmpty()) {
         ParseObject parseObject = result.iterator().next();

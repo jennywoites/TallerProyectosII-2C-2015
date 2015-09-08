@@ -15,8 +15,8 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource({"beans-configuration.xml"})
 public class Application extends SpringBootServletInitializer {
 
-  private static final String APP_ID = "LWDbRYanJdNgmh2Kg5z77PN4VAMjwYW9BiMxKJwU";
-  private static final String APP_REST_API_ID = "CLT9a0ceZU8xr4EKTyFpCjLyQEVpFgtjEyt2VLLc";
+  private static final String APP_ID = "EcXAT5pXyPP4x874uRSPKgC6cMgd3BBNdK6UKKAq";
+  private static final String APP_REST_API_ID = "J67tozPklrXNUwlRa3ncawb5IRb6toWYohcGYZ47";
 
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

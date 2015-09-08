@@ -15,8 +15,8 @@ public class User {
   }
 
   public User(ParseObject parseObject) {
-    this.name = parseObject.getString("name");
-    this.password = parseObject.getString("password");
+    this.name = parseObject.getString("Nombre");
+    this.password = parseObject.getString("Password");
   }
 
   public String getName() {
