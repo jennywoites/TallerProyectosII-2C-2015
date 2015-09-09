@@ -4,4 +4,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_adopcion">AdopcionActivity</string>
+    <string name="title_activity_perdido">PerdidoActivity</string>
+    <string name="title_activity_adopcion_publicar">AdopcionPublicarActivity</string>
+    <string name="title_activity_adopcion_buscar">AdopcionBuscarActivity</string>
+    <string name="title_activity_perdido_publicar">PerdidoPublicarActivity</string>
+    <string name="title_activity_perdido_buscar">PerdidoBuscarActivity</string>
+    <string name="title_activity_regitrar_datos_cuenta">RegitrarDatosCuentaActivity</string>
+    <string name="title_activity_registrar_datos_personales">RegistrarDatosPersonalesActivity
+    </string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

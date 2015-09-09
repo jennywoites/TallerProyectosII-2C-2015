@@ -6,10 +6,74 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.AdopcionPublicarActivity"/>
+      <point      
+        x = "3487"      
+        y = "42"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.PerdidoPublicarActivity"/>
+      <point      
+        x = "3497"      
+        y = "1458"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.AdopcionBuscarActivity"/>
+      <point      
+        x = "4583"      
+        y = "31"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.PerdidoActivity"/>
+      <point      
+        x = "2390"      
+        y = "1453"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.PerdidoBuscarActivity"/>
+      <point      
+        x = "4594"      
+        y = "1458"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
         className = "rha.app.MainActivity"/>
       <point      
-        x = "360"      
-        y = "208"/>
+        x = "70"      
+        y = "35"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.HomeActivity"/>
+      <point      
+        x = "1219"      
+        y = "37"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.RegistrarDatosPersonalesActivity"/>
+      <point      
+        x = "1229"      
+        y = "1458"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.RegitrarDatosCuentaActivity"/>
+      <point      
+        x = "186"      
+        y = "1464"/>
     </statePointEntry>
     <statePointEntry>
       <state      
@@ -18,6 +82,14 @@
       <point      
         x = "1484"      
         y = "200"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "rha.app.AdopcionActivity"/>
+      <point      
+        x = "2379"      
+        y = "37"/>
     </statePointEntry>
   </locations>
 </navigationModel>

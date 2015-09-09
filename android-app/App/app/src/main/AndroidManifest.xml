@@ -20,8 +20,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".AdopcionActivity"
+            android:label="@string/title_activity_adopcion" >
+        </activity>
+        <activity
+            android:name=".PerdidoActivity"
+            android:label="@string/title_activity_perdido" >
+        </activity>
+        <activity
+            android:name=".AdopcionPublicarActivity"
+            android:label="@string/title_activity_adopcion_publicar" >
+        </activity>
+        <activity
+            android:name=".AdopcionBuscarActivity"
+            android:label="@string/title_activity_adopcion_buscar" >
+        </activity>
+        <activity
+            android:name=".PerdidoPublicarActivity"
+            android:label="@string/title_activity_perdido_publicar" >
+        </activity>
+        <activity
+            android:name=".PerdidoBuscarActivity"
+            android:label="@string/title_activity_perdido_buscar" >
+        </activity>
+        <activity
+            android:name=".RegitrarDatosCuentaActivity"
+            android:label="@string/title_activity_regitrar_datos_cuenta" >
+        </activity>
+        <activity
+            android:name=".RegistrarDatosPersonalesActivity"
+            android:label="@string/title_activity_registrar_datos_personales" >
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home" >
         </activity>
     </application>
 

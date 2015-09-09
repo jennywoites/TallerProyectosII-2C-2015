@@ -8,27 +8,41 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test Parse.com"
-        android:id="@+id/btnParse.com"
-        android:layout_marginTop="45dp"
-        android:layout_centerHorizontal="true"
-        android:onClick="btnGuardarEnParse_Click" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear Usuario"
-        android:id="@+id/btnCrearUsuario"
-        android:layout_above="@+id/btnEntrar"
-        android:layout_centerHorizontal="true"
-        android:onClick="btnCrearUsuario_Click" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Entrar"
-        android:id="@+id/btnEntrar"
+        android:text="Login Facebook"
+        android:id="@+id/btn_login_facebook"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login Normal"
+        android:id="@+id/btn_login_normal"
+        android:layout_below="@+id/btn_login_facebook"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear Cuenta"
+        android:id="@+id/btn_crear_cuenta"
+        android:layout_below="@+id/btn_login_normal"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_mail"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:hint="Email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_password"
+        android:layout_below="@+id/txt_mail"
+        android:layout_centerHorizontal="true"
+        android:hint="Password" />
 </RelativeLayout>
