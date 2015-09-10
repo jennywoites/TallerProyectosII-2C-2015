@@ -1,4 +1,4 @@
-package rha.app;
+package com.fiuba.mascota;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -7,28 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class AdopcionActivity extends ActionBarActivity {
+import rha.app.R;
+
+public class AdopcionBuscarActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adopcion);
-        findViewById(R.id.btn_publicar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AdopcionActivity.this, AdopcionPublicarActivity.class));
-            }
-        });
-        findViewById(R.id.btn_buscar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(AdopcionActivity.this, AdopcionBuscarActivity.class));
-            }
-        });
+        setContentView(R.layout.activity_adopcion_buscar);
         findViewById(R.id.btn_volver).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AdopcionActivity.this, HomeActivity.class));
+                startActivity(new Intent(AdopcionBuscarActivity.this, AdopcionActivity.class));
             }
         });
     }
@@ -36,7 +26,7 @@ public class AdopcionActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_adopcion, menu);
+        getMenuInflater().inflate(R.menu.menu_adopcion_buscar, menu);
         return true;
     }
 

@@ -1,4 +1,4 @@
-package rha.app;
+package com.fiuba.mascota;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -6,31 +6,62 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.parse.ParseUser;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import rha.app.R;
 
 public class HomeActivity extends ActionBarActivity {
+
+    @InjectView(R.id.btn_salir)Button _btnSalir;
+    @InjectView(R.id.btn_adoptar)Button _btnSdoptar;
+    @InjectView(R.id.btn_notificar_mascota_perdida)Button _btnNotificarMascotaPerdida;
+    @InjectView(R.id.welcome_text) TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        findViewById(R.id.btn_salir).setOnClickListener(new View.OnClickListener() {
+        ButterKnife.inject(this);
+
+        CharSequence welcomeMessage = "Welcome " + ParseUser.getCurrentUser().getUsername();
+        welcomeText.setText(welcomeMessage);
+
+        _btnSalir.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, MainActivity.class));
+                logout();
             }
         });
-        findViewById(R.id.btn_adoptar).setOnClickListener(new View.OnClickListener() {
+
+        _btnSdoptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, AdopcionActivity.class));
             }
         });
-        findViewById(R.id.btn_notificar_mascota_perdida).setOnClickListener(new View.OnClickListener() {
+        _btnNotificarMascotaPerdida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, PerdidoActivity.class));
             }
         });
+    }
+
+    private void logout() {
+
+        //Call logout
+        ParseUser.logOut();
+
+        Intent intent = new Intent(HomeActivity.this, DispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

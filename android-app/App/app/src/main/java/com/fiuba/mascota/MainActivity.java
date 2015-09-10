@@ -1,4 +1,4 @@
-package rha.app;
+package com.fiuba.mascota;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
-import com.parse.GetCallback;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
-import java.util.List;
+import rha.app.R;
 
 public class MainActivity extends ActionBarActivity {
     @Override
@@ -21,30 +20,16 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Enable Local Datastore.
-        /*
+        //Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "EcXAT5pXyPP4x874uRSPKgC6cMgd3BBNdK6UKKAq", "cJ8rMk6fCUSx9uTNbz1F915yKaJawtN3VQSTbopX");
-        */
 
-        findViewById(R.id.btn_login_normal).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
-            }
-        });
-        findViewById(R.id.btn_login_facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
-            }
-        });
-        findViewById(R.id.btn_crear_cuenta).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RegitrarDatosCuentaActivity.class));
-            }
-        });
+        //Facebook Connect
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        ParseFacebookUtils.initialize(this);
+
+        Intent intent = new Intent(this, DispatchActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -67,12 +52,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
 
-    public void btnGuardarEnParse_Click(View view){
-        ParseObject grupo = new ParseObject("Grupo");
-        grupo.put("CantIntegrantes", "Cuatro");
-        grupo.put("Nombres", "Ramiro;Jenny;Nico;Juan");
-        grupo.saveInBackground();
     }
 }

@@ -1,4 +1,4 @@
-package rha.app;
+package com.fiuba.mascota;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -7,22 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class RegistrarDatosPersonalesActivity extends ActionBarActivity {
+import rha.app.R;
+
+public class PerdidoPublicarActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_datos_personales);
+        setContentView(R.layout.activity_perdido_publicar);
         findViewById(R.id.btn_volver).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrarDatosPersonalesActivity.this, RegitrarDatosCuentaActivity.class));
-            }
-        });
-        findViewById(R.id.btn_crear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegistrarDatosPersonalesActivity.this, HomeActivity.class));
+                startActivity(new Intent(PerdidoPublicarActivity.this, PerdidoActivity.class));
             }
         });
     }
@@ -30,7 +26,7 @@ public class RegistrarDatosPersonalesActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_registrar_datos_personales, menu);
+        getMenuInflater().inflate(R.menu.menu_perdido_publicar, menu);
         return true;
     }
 
