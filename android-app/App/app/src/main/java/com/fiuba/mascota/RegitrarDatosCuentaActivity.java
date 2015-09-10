@@ -29,10 +29,8 @@ public class RegitrarDatosCuentaActivity extends AppCompatActivity {
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_signup)
-    Button _signupButton;
-    @InjectView(R.id.link_login)
-    TextView _loginLink;
+    @InjectView(R.id.btn_signup) Button _signupButton;
+    @InjectView(R.id.link_login) TextView _loginLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +75,8 @@ public class RegitrarDatosCuentaActivity extends AppCompatActivity {
 
         ParseUser user = new ParseUser();
         user.setUsername(name);
-        user.setPassword(email);
-        user.setEmail(password);
+        user.setPassword(password);
+        user.setEmail(email);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
