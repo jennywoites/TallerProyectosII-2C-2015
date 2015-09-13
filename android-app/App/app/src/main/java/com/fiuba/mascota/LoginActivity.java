@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fiuba.mascota.utils.FacebookUtils;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -41,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final List<String> mPermissions = new ArrayList<String>() {{
         add("public_profile");
+        add("user_location");
+        add("user_hometown");
         add("email");
     }};
     
@@ -82,13 +85,19 @@ public class LoginActivity extends AppCompatActivity {
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, mPermissions, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
-                //if (user.isNew()) {
                 if (user != null) {
+
+                    FacebookUtils facebookUtils = FacebookUtils.getInstance();
+
+                    if(user.isNew())
+                    {
+                        facebookUtils.asociarUsuarioConDatosDeFacebook();
+                    }
+
                     Intent intent = new Intent(LoginActivity.this, DispatchActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
-                //  }
             }
         });
     }

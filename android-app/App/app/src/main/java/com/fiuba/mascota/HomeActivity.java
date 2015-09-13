@@ -29,7 +29,7 @@ public class HomeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.inject(this);
 
-        CharSequence welcomeMessage = "Welcome " + ParseUser.getCurrentUser().getUsername();
+        CharSequence welcomeMessage = "Welcome " + ParseUser.getCurrentUser().get("name");
         welcomeText.setText(welcomeMessage);
 
         _btnSalir.setOnClickListener(new View.OnClickListener() {
