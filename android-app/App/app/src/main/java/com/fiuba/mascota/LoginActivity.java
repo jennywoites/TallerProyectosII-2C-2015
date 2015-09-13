@@ -35,8 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     @InjectView(R.id.btn_login)
     Button _loginButton;
-    @InjectView(R.id.btn_logig_facebook)
-    Button _loginButtonFacebook;
     @InjectView(R.id.link_signup)
     TextView _signupLink;
 
@@ -61,14 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        _loginButtonFacebook.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                loginFacebook();
-            }
-        });
-
         _signupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -80,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void loginFacebook()
+    public void onLoginClick(View v)
     {
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, mPermissions, new LogInCallback() {
             @Override
