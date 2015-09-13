@@ -20,14 +20,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "EcXAT5pXyPP4x874uRSPKgC6cMgd3BBNdK6UKKAq", "cJ8rMk6fCUSx9uTNbz1F915yKaJawtN3VQSTbopX");
-
-        //Facebook Connect
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        ParseFacebookUtils.initialize(this);
-
         Intent intent = new Intent(this, DispatchActivity.class);
         startActivity(intent);
     }

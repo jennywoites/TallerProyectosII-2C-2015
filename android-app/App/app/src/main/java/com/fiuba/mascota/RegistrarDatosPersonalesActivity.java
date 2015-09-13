@@ -1,32 +1,62 @@
 package com.fiuba.mascota;
 
 import android.content.Intent;
+import android.provider.Telephony;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.parse.ParseUser;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import rha.app.R;
 
-public class RegistrarDatosPersonalesActivity extends ActionBarActivity {
+public class RegistrarDatosPersonalesActivity extends AppCompatActivity {
+
+    @InjectView(R.id.input_telefono) EditText _telefonoText;
+    @InjectView(R.id.input_ciudad) EditText _ciudadText;
+    @InjectView(R.id.input_calle) EditText _calleText;
+    @InjectView(R.id.input_codigo_postal) EditText _zipCodText;
+    @InjectView(R.id.btn_save) Button _saveButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registrar_datos_personales);
-        findViewById(R.id.btn_volver).setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_regitrar_datos_personales);
+        ButterKnife.inject(this);
+        _saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrarDatosPersonalesActivity.this, RegitrarDatosCuentaActivity.class));
+                confirmarDatos();
             }
         });
-        findViewById(R.id.btn_crear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegistrarDatosPersonalesActivity.this, HomeActivity.class));
-            }
-        });
+    }
+
+    private void confirmarDatos()
+    {
+        ParseUser user = ParseUser.getCurrentUser();
+        String telefono = _telefonoText.getText().toString();
+        String ciudad = _ciudadText.getText().toString();
+        String calle = _calleText.getText().toString();
+        String zipCode = _zipCodText.getText().toString();
+
+        user.put("phone", telefono);
+        user.put("city",ciudad);
+        user.put("street",calle);
+        user.put("zipcode",zipCode);
+
+        user.saveInBackground();
+        Intent intent = new Intent(RegistrarDatosPersonalesActivity.this, DispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
