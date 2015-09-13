@@ -12,7 +12,12 @@
     <string name="title_activity_perdido_publicar">PerdidoPublicarActivity</string>
     <string name="title_activity_perdido_buscar">PerdidoBuscarActivity</string>
     <string name="title_activity_regitrar_datos_cuenta">RegitrarDatosCuentaActivity</string>
-    <string name="title_activity_registrar_datos_personales">RegistrarDatosPersonalesActivity
-    </string>
+    <string name="title_activity_registrar_datos_personales">RegistrarDatosPersonalesActivity</string>
     <string name="title_activity_home">HomeActivity</string>
+
+    <string name="volver_pantalla_anterior_button">Volver</string>
+    <string name="adopcion_principal_publicar_adopcion">Publicar</string>
+    <string name="adopcion_principal_buscar_adopcion">Buscar</string>
+
+    <string name="title_adoptar_pantalla_principal">En Adopción</string>
 </resources>

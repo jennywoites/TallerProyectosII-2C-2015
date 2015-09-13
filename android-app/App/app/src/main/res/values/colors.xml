@@ -14,4 +14,9 @@
   <color name="base">#AAAAAA</color>
   <color name="iron">#CCCCCC</color>
   <color name="white">#FFFFFF</color>
+
+  <color name="fondo_base">#D6C084</color>
+  <color name="barra_navegacion">#F5DEB3</color>
+  <color name="fondo_boton">#d6cb85</color>
+  <color name="texto_boton">#85754E</color>
 </resources>
