@@ -1,48 +1,137 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context="com.fiuba.mascota.HomeActivity">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:background="@color/fondo_base"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Adoptar"
-        android:id="@+id/btn_adoptar"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp" />
+        android:background="@color/barra_navegacion">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Notificar Mascora Perdida"
-        android:id="@+id/btn_notificar_mascota_perdida"
-        android:layout_below="@+id/btn_adoptar"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar_sesion_button"
+            android:textColor="@color/texto_boton"
+            android:id="@+id/btn_salir"
+            android:layout_margin="10dp"
+            android:background="@color/fondo_boton"
+            android:clickable="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Editar Perfil"
-        android:id="@+id/btn_editar_perfil"
-        android:layout_below="@+id/btn_notificar_mascota_perdida"
-        android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:background="@android:color/transparent"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Salir"
-        android:id="@+id/btn_salir"
-        android:layout_below="@+id/btn_editar_perfil"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/editar_perfil_button"
+            android:textColor="@color/texto_boton"
+            android:background="@color/fondo_boton"
+            android:id="@+id/btn_editar_perfil"
+            android:clickable="true" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/welcome_text"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="7"
+            android:layout_margin="10dp"
+            android:id="@+id/home_imageView"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/home_image_dog_cat"
+            android:src="@mipmap/home_perros_y_gatos" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bienvenida_default"
+            android:textColor="@color/texto_boton"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:id="@+id/welcome_text" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:background="@android:color/transparent"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@mipmap/adoptar_button"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/adoptar_image_button" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/adopciones_button"
+                android:textColor="@color/texto_boton"
+                android:textSize="20sp"
+                android:id="@+id/btn_adoptar"
+                android:background="@color/fondo_boton"
+                android:clickable="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@mipmap/buscar_button"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/perdidas_image_button"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/mascotas_perdidas_button"
+                android:textColor="@color/texto_boton"
+                android:textSize="20sp"
+                android:background="@color/fondo_boton"
+                android:id="@+id/btn_notificar_mascota_perdida"
+                android:clickable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
