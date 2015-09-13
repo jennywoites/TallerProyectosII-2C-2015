@@ -18,10 +18,14 @@ import rha.app.R;
 
 public class HomeActivity extends ActionBarActivity {
 
-    @InjectView(R.id.btn_salir)Button _btnSalir;
-    @InjectView(R.id.btn_adoptar)Button _btnSdoptar;
-    @InjectView(R.id.btn_notificar_mascota_perdida)Button _btnNotificarMascotaPerdida;
-    @InjectView(R.id.welcome_text) TextView welcomeText;
+    @InjectView(R.id.btn_salir)
+    Button _btnSalir;
+    @InjectView(R.id.btn_adoptar)
+    Button _btnSdoptar;
+    @InjectView(R.id.btn_notificar_mascota_perdida)
+    Button _btnNotificarMascotaPerdida;
+    @InjectView(R.id.welcome_text)
+    TextView welcomeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,6 @@ public class HomeActivity extends ActionBarActivity {
     }
 
     private void logout() {
-
         //Call logout
         ParseUser.logOut();
 

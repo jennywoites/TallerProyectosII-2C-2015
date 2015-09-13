@@ -1,17 +1,32 @@
 <resources>
     <string name="app_name">App</string>
     <string name="facebook_app_id">1118874444808766</string>
+    <string name="google_api_key">AIzaSyA8SQnBoNts5HaBHUW0EiaAYqg0qrWe358</string>
 
     <!-- Login Screen -->
     <string name="link_signup">¿Aún no estás registrado?</string>
     <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar Sesión</string>
+    <string name="error_email_login">ingrese un correo válido</string>
+    <string name="error_password_login">debe estar entre 4 y 10 caracteres</string>
 
     <!-- Resgristracion Screen -->
     <string name="btn_signup">Crear cuenta</string>
     <string name="name">Nombre</string>
     <string name="link_login">¿Ya tienes un usuario?</string>
+     <string name="error_name_sigunp">al menos 3 caracteres</string>
+
+    <!-- Resgristracion Datos Personales Screen -->
+    <string name="telefono">Teléfono</string>
+    <string name="provincia">Provincia</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="direccion">Dirección</string>
+    <string name="zipcode">Código Postal</string>
+    <string name="save">Guardar</string>
+    <string name="error_telefono_sigunp">entre 8 y 15 números</string>
+    <string name="error_direccion_sigunp">ingrese una dirección valida</string>
+    <string name="error_zipcode_sigunp">ingrese 4 números</string>
 
     <string name="hello_world">Hello world!</string>
 

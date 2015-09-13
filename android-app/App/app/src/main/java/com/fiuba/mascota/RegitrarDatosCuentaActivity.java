@@ -74,8 +74,9 @@ public class RegitrarDatosCuentaActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         ParseUser user = new ParseUser();
-        user.setUsername(name);
+        user.put("name",name);
         user.setPassword(password);
+        user.setUsername(email);
         user.setEmail(email);
 
         user.signUpInBackground(new SignUpCallback() {
@@ -107,22 +108,26 @@ public class RegitrarDatosCuentaActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
+        String errorName = getResources().getString(R.string.error_name_sigunp);
+        String errorMail = getResources().getString(R.string.error_email_login);
+        String errorPassword = getResources().getString(R.string.error_password_login);
+
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError(errorName);
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(errorMail);
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(errorPassword);
             valid = false;
         } else {
             _passwordText.setError(null);

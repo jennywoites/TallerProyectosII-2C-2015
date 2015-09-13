@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @InjectView(R.id.input_username)
-    EditText _userNameText;
+    @InjectView(R.id.input_email)
+    EditText _emailText;
     @InjectView(R.id.input_password)
     EditText _passwordText;
     @InjectView(R.id.btn_login)
@@ -108,11 +108,11 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String username = _userNameText.getText().toString();
+        String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
         // Call the Parse login method
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
+        ParseUser.logInInBackground(email, password, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
                 progressDialog.dismiss();
@@ -159,26 +159,27 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
         _loginButton.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String username = _userNameText.getText().toString();
+        String username = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
+        String errorEmail = getResources().getString(R.string.error_email_login);
+        String errorPassword = getResources().getString(R.string.error_password_login);
+
         if (username.isEmpty()) {
-            _userNameText.setError("enter a valid email address");
+            _emailText.setError(errorEmail);
             valid = false;
         } else {
-            _userNameText.setError(null);
+            _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(errorPassword);
             valid = false;
         } else {
             _passwordText.setError(null);
