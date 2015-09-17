@@ -47,8 +47,9 @@ public class AdopcionAdapter extends RecyclerView.Adapter<AdopcionAdapter.ViewHo
         Mascota mascota = mascotas.get(i);
         viewHolder.mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
         viewHolder.mascotaName.setText(mascota.name);
+        viewHolder.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
         viewHolder.mascotaDescription.setText(mascota.description); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
-        viewHolder.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_cat), null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
+        viewHolder.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
         viewHolder.currentMascota = mascota;
     }
 

@@ -24,14 +24,14 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:background="@android:drawable/screen_background_dark_transparent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true">
             <TextView
                 android:id="@+id/petName"
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
+                android:layout_height="32dp"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/petDescription"
                 android:layout_width="fill_parent"
-                android:layout_height="32dp"
+                android:layout_height="22dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:text="Description"
