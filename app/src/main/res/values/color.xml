@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ColorPrimary">#147e00</color>
+    <color name="ColorPrimaryDark">#004d00</color>
+    <!-- Color de la rallita indicadora -->
+    <color name="ColorPrimaryLight">#ffffff</color>
+
+    <color name="photo_tint">#88101010</color>
+    <color name="white">#FFF</color>
+</resources>

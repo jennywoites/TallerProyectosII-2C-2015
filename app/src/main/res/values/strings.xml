@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Mascota</string>
+    <string name="facebook_app_id">1118874444808766</string>
+
+    <string name="title_activity_adopcion">Adopciones</string>
+    <string name="title_activity_agregar_adopcion">Agregar Mascota</string>
+    <string name="title_activity_buscar_adopcion">Buscar Mascota</string>
+    <string name="title_activity_home">Inicio</string>
+    <string name="title_activity_about">Acerca de</string>
+    <string name="title_activity_profile">Perfil</string>
+    <string name="title_activity_missing">Perdidos</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_add_pet">Agregar Mascota</string>
+    <string name="action_search_pet">Buscar Mascota</string>
+    <string name="action_confirm">Publicar</string>
+    <string name="action_search">Buscar</string>
+
+    <string name="openDrawer">Abrir Menu</string>
+    <string name="closeDrawer">Cerrar Menu</string>
+    <string name="filter_title">Filtrar</string>
+    <string name="aply">Aplicar</string>
+    <string name="restore">Restablecer</string>
+
+</resources>
