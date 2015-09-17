@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Mascota;
 import ar.uba.fi.nicodiaz.mascota.model.MascotaManager;
@@ -122,6 +123,11 @@ public class AdopcionFragment extends Fragment {
             @Override
             public void onItemClick(View itemView, int position) {
                 // TODO: aca se maneja el click sobre un item de la lista:
+
+                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                i.putExtra("ID", list.get(position).name); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
+                startActivity(i);
+
                 String description = list.get(position).description;
                 Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
             }

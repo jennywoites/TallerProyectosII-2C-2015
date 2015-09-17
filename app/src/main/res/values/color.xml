@@ -7,4 +7,6 @@
 
     <color name="photo_tint">#88101010</color>
     <color name="white">#FFF</color>
+
+    <color name="black_trans80">#14000000</color>
 </resources>
