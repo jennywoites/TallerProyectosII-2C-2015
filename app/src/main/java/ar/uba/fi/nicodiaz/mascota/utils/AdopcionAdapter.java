@@ -45,8 +45,10 @@ public class AdopcionAdapter extends RecyclerView.Adapter<AdopcionAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Mascota mascota = mascotas.get(i);
-        viewHolder.mascotaName.setText(mascota.name);
         viewHolder.mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
+        viewHolder.mascotaName.setText(mascota.name);
+        viewHolder.mascotaDescription.setText(mascota.description); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
+        viewHolder.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(context.getResources().getDrawable(R.drawable.ic_cat), null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
         viewHolder.currentMascota = mascota;
     }
 
@@ -57,13 +59,15 @@ public class AdopcionAdapter extends RecyclerView.Adapter<AdopcionAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mascotaName;
+        public TextView mascotaDescription;
         public ImageView mascotaImage;
         public Mascota currentMascota;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            mascotaName = (TextView) itemView.findViewById(R.id.petName);
             mascotaImage = (ImageView) itemView.findViewById(R.id.petImage);
+            mascotaName = (TextView) itemView.findViewById(R.id.petName);
+            mascotaDescription = (TextView) itemView.findViewById(R.id.petDescription);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
