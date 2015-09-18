@@ -22,4 +22,9 @@
     <string name="filter_title">Filtrar</string>
     <string name="aply">Aplicar</string>
     <string name="restore">Restablecer</string>
+
+    <string name="Tabla_MascotaAdopcion_COL_Name">Name</string>
+    <string name="Tabla_MascotaAdopcion_COL_Description">Description</string>
+    <string name="Tabla_MascotaAdopcion_COL_Species">Species</string>
+    <string name="Tabla_MascotaAdopcion_COL_Age">Age</string>
 </resources>

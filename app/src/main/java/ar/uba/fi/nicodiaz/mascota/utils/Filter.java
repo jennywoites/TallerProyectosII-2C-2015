@@ -42,8 +42,12 @@ public class Filter {
 
         // TODO: especificar rangos:
         filters.add(new Filter("Edad")
-                        .addChildren("Cachorro")
-                        .addChildren("Adulto"));
+                .addChildren("0-3 months")
+                .addChildren("4-6 months")
+                .addChildren("7-12 months")
+                .addChildren("1-3 years")
+                .addChildren("4-7 years")
+                .addChildren("6-15 years"));
 
         // TODO: especificar rangos:
         filters.add(new Filter("Distancia")
