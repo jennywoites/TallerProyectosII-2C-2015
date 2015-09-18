@@ -3,6 +3,7 @@ package ar.uba.fi.nicodiaz.mascota.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Mascota;
 import ar.uba.fi.nicodiaz.mascota.model.MascotaManager;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 
@@ -43,7 +45,7 @@ public class AdopcionFragment extends Fragment {
 
     private List<Mascota> list;
     private RecyclerView listView;
-    private AdopcionAdapter listAdapter;
+    private AdopcionEndlessAdapter listAdapter;
 
     private Context activity;
 
@@ -118,8 +120,12 @@ public class AdopcionFragment extends Fragment {
         // ListView
         listView = (RecyclerView) view.findViewById(R.id.list_adoption);
 
-        listAdapter = new AdopcionAdapter(list, R.layout.row_adopcion, activity);
-        listAdapter.setOnItemClickListener(new AdopcionAdapter.OnItemClickListener() {
+        listView.setLayoutManager(new LinearLayoutManager(activity));
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setHasFixedSize(true);
+
+        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 // TODO: aca se maneja el click sobre un item de la lista:
@@ -130,10 +136,56 @@ public class AdopcionFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
+
+        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //add progress item
+                list.add(null);
+                listAdapter.notifyItemInserted(list.size() - 1);
+
+            /*  // remove progress item
+                list.remove(list.size() - 1);
+                listAdapter.notifyItemRemoved(list.size());
+
+                // add items
+                // TODO: aca llamar a la base de datos y pedir 20 elementos mas.
+
+                // Si no hay mas items que cargar, mostrar un toast y salir:
+                if (itemsDeBaseDeDatos == null) {
+                    Toast.makeText(activity, "No hay mas items", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                list.add(itemsDeBaseDeDatos);
+                listAdapter.notifyItemInserted(list.size());
+
+                listAdapter.setLoaded();
+             */
+
+                // TODO: eliminar esto despues, solo testing:
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //remove progress item
+                        list.remove(list.size() - 1);
+                        listAdapter.notifyItemRemoved(list.size());
+
+                        //add items one by one
+                        for (int i = 0; i < 10; i++) {
+                            list.add(new Mascota("Mascota " + (list.size() + 1), "Agregada", "pikachu"));
+                            listAdapter.notifyItemInserted(list.size());
+                        }
+                        listAdapter.setLoaded();
+                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                    }
+                }, 2000);
+            }
+        });
+
         listView.setAdapter(listAdapter);
-        listView.setLayoutManager(new LinearLayoutManager(activity));
-        listView.setItemAnimator(new DefaultItemAnimator());
-        listView.setHasFixedSize(true);
+
 
 
 

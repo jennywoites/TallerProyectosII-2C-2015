@@ -10,6 +10,16 @@ public class Mascota {
     public String description;
     public String imageName;
 
+    public Mascota () {
+
+    }
+
+    public Mascota(String name, String description, String imageName) {
+        this.name = name;
+        this.description = description;
+        this.imageName = imageName;
+    }
+
     public int getImageResourceId(Context context) {
         try {
             return context.getResources().getIdentifier(this.imageName, "drawable", context.getPackageName());
