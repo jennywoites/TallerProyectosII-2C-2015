@@ -127,9 +127,7 @@ public class AdopcionFragment extends Fragment {
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 i.putExtra("ID", list.get(position).name); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
                 startActivity(i);
-
-                String description = list.get(position).description;
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
         listView.setAdapter(listAdapter);

@@ -96,13 +96,24 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_close:
+                volverAtras();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
+    }
+
+
+    private void volverAtras() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
 }
