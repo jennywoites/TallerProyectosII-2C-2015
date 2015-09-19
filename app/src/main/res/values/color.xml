@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#147e00</color>
-    <color name="ColorPrimaryDark">#004d00</color>
+    <color name="ColorPrimary">#4CAF50</color>
+    <color name="ColorPrimaryDark">#388E3C</color>
+
     <!-- Color de la rallita indicadora -->
     <color name="ColorPrimaryLight">#ffffff</color>
 
     <color name="photo_tint">#88101010</color>
     <color name="white">#FFF</color>
+
+    <color name="button_disable">#C8E6C9</color>
 
     <color name="black_trans80">#14000000</color>
     <color name="translucent_scrim_bottom">#88000000</color>

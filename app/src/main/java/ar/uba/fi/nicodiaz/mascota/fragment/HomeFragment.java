@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ParseUser;
+
+import ar.uba.fi.nicodiaz.mascota.LoginActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 
 /**
@@ -61,6 +65,17 @@ public class HomeFragment extends Fragment {
             return true;
         }
 
+        if (id == R.id.action_logout) {
+            logout();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        ParseUser.logOut();
+        Intent intent = new Intent(activity, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

@@ -1,6 +1,36 @@
 <resources>
     <string name="app_name">Mascota</string>
     <string name="facebook_app_id">1118874444808766</string>
+    <string name="google_api_key">AIzaSyA8SQnBoNts5HaBHUW0EiaAYqg0qrWe358</string>
+
+    <!-- Login -->
+    <string name="facebook_label">Facebook</string>
+    <string name="link_signup">¿Aún no estás registrado?</string>
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="error_email_login">ingrese un correo válido</string>
+    <string name="error_password_login">debe estar entre 4 y 10 caracteres</string>
+
+    <!-- Datos cuenta -->
+    <string name="title_activity_datos_cuenta">Nuevo Usuario</string>
+    <string name="name_label">Nombre</string>
+    <string name="crear_usuario_label">Crear usuario</string>
+    <string name="ya_tenes_usuario_link">¿Ya tenes un usuario? Inicia Sesión</string>
+
+    <!-- Datos Personales Screen -->
+    <string name="title_activity_datos_personales">Datos Personales</string>
+    <string name="telefono">Teléfono</string>
+    <string name="registrar">Registrar</string>
+    <string name="direccion">Dirección</string>
+    <string name="piso">Piso</string>
+    <string name="depto">Departamento</string>
+    <string name="error_telefono_sigunp">entre 8 y 15 números</string>
+    <string name="error_direccion_sigunp">ingrese una dirección valida</string>
+    <string name="error_piso_sigunp">entre 0 y 3 números</string>
+    <string name="error_depto_sigunp">entre 0 y 2 caracteres</string>
+    <string name="error_conectividad_google_api">No se puede resolver la dirección, chequee su conectividad.</string>
+
 
     <string name="title_activity_adopcion">Adopciones</string>
     <string name="title_activity_agregar_adopcion">Agregar Mascota</string>
@@ -27,4 +57,8 @@
     <string name="Tabla_MascotaAdopcion_COL_Description">Description</string>
     <string name="Tabla_MascotaAdopcion_COL_Species">Species</string>
     <string name="Tabla_MascotaAdopcion_COL_Age">Age</string>
+    <string name="error_conectividad">La operación no podrá continuar por problemas de conectividad.</string>
+    <string name="action_logout">Cerrar Sesión</string>
+
+
 </resources>

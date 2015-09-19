@@ -37,13 +37,5 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
-
-        //Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "EcXAT5pXyPP4x874uRSPKgC6cMgd3BBNdK6UKKAq", "cJ8rMk6fCUSx9uTNbz1F915yKaJawtN3VQSTbopX");
-
-        //Facebook Connect
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        ParseFacebookUtils.initialize(this);
     }
 }
