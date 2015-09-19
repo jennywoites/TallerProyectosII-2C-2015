@@ -34,7 +34,6 @@ import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Mascota;
 import ar.uba.fi.nicodiaz.mascota.model.MascotaManager;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;

@@ -98,9 +98,9 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Mascota mascota = mascotas.get(i);
             ((MascotaViewHolder) viewHolder).mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
             ((MascotaViewHolder) viewHolder).mascotaName.setText(mascota.name);
-            ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
+          //  ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
             ((MascotaViewHolder) viewHolder).mascotaDescription.setText(mascota.description); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
-            ((MascotaViewHolder) viewHolder).mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
+            ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
             ((MascotaViewHolder) viewHolder).currentMascota = mascota;
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
