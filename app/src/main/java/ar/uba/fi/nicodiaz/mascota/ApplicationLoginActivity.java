@@ -14,7 +14,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import ar.uba.fi.nicodiaz.mascota.model.AddressService;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -89,7 +89,9 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                     Intent intent;
                     try {
 
-                        if (!AddressService.getInstance().hasSavedInformation(user.getObjectId())) {
+                        Boolean userHasSavedInformation = UserService.getInstance().hasSavedInformation();
+
+                        if (!userHasSavedInformation) {
                             intent = new Intent(ApplicationLoginActivity.this, RegistrarDatosPersonalesActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         } else {

@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-import ar.uba.fi.nicodiaz.mascota.model.AddressService;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 
@@ -20,11 +19,9 @@ public class DispatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserService userService = UserService.getInstance();
-        AddressService addressService = AddressService.getInstance();
         if (userService.userLogged()) {
-            String userID = userService.getUser().getID();
             try {
-                if (addressService.hasSavedInformation(userID)) {
+                if (userService.hasSavedInformation()) {
                     startActivity(new Intent(this, HomeActivity.class));
                 } else {
                     ParseUser.logOut();

@@ -2,21 +2,13 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,11 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.parse.ParseUser;
 
-import java.util.List;
-
-import ar.uba.fi.nicodiaz.mascota.fragment.HomeFragment;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
-import ar.uba.fi.nicodiaz.mascota.model.AddressService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
@@ -106,8 +94,6 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
         _saveButton.setEnabled(false);
 
         UserService userService = UserService.getInstance();
-        AddressService addressService = AddressService.getInstance();
-
         User user = userService.getUser();
 
         String telefono = _telefonoText.getText().toString();
@@ -116,9 +102,8 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
         direccion.setDepartamento(depto);
         direccion.setPiso(piso);
         user.setTelephone(telefono);
-
+        user.setAddress(direccion);
         userService.saveUser(user);
-        addressService.saveAddress(user.getID(), direccion);
 
         Intent intent = new Intent(RegistrarDatosPersonalesActivity.this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -211,7 +196,7 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
                 String address = place.getAddress().toString();
                 double longitude = place.getLatLng().longitude;
                 double latitude = place.getLatLng().latitude;
-                direccion = new Address(address, longitude, latitude);
+                direccion = new Address(address, latitude, longitude);
                 places.release();
             }
         });

@@ -14,7 +14,6 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.uba.fi.nicodiaz.mascota.model.AddressService;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.FacebookUtils;
@@ -44,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {
                     FacebookUtils facebookUtils = FacebookUtils.getInstance();
                     Intent intent;
-
+                    UserService userService = UserService.getInstance();
                     try {
-                        if (user.isNew() || !AddressService.getInstance().hasSavedInformation(user.getObjectId())) {
+                        if (user.isNew() || !userService.hasSavedInformation()) {
                             facebookUtils.asociarUsuarioConDatosDeFacebook();
                             intent = new Intent(LoginActivity.this, RegistrarDatosPersonalesActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

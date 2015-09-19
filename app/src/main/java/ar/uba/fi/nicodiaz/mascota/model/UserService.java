@@ -3,7 +3,6 @@ package ar.uba.fi.nicodiaz.mascota.model;
 import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
-import ar.uba.fi.nicodiaz.mascota.utils.UserMapping;
 
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
@@ -21,19 +20,27 @@ public class UserService {
     public User getUser() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            User user = UserMapping.mapUser(currentUser);
-            return user;
+            return new User(currentUser);
         }
+
         return null;
     }
 
     public void saveUser(User user) {
-        ParseUser currentUser = UserMapping.mapUser(user);
-        currentUser.saveInBackground();
+        user.getParseUser().saveInBackground();
     }
 
     public boolean userLogged() {
-        return ParseUser.getCurrentUser() != null;
+        return getUser() != null;
     }
 
+    public Boolean hasSavedInformation() throws ApplicationConnectionException {
+        User user = getUser();
+
+        if (user != null) {
+            return user.getAddress() != null;
+        }
+
+        return false;
+    }
 }

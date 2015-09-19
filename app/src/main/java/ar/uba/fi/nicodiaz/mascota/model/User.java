@@ -1,57 +1,67 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import com.parse.Parse;
+import com.parse.ParseClassName;
+import com.parse.ParseUser;
+
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
  */
 public class User {
 
-    private String id;
-    private String name;
-    private String email;
-    private String gender;
-    private String telephone;
+    public static String USER_NAME_FIELD = "name";
+    public static String USER_GENDER_FIELD = "gender";
+    public static String USER_PHONE_FIELD = "phone";
+    public static String USER_ADDRESS_FIELD = "address";
+
+    private ParseUser user;
+
+    public User(ParseUser user) {
+        this.user = user;
+    }
 
 
-    public User() {
+    public void setEmail(String email) {
+        this.user.setEmail(email);
     }
 
     public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return this.user.getEmail();
     }
 
     public String getName() {
-        return name;
+        return user.getString(USER_NAME_FIELD);
     }
 
     public void setName(String name) {
-        this.name = name;
+        user.put(USER_NAME_FIELD, name);
     }
 
     public String getGender() {
-        return gender;
+        return user.getString(USER_GENDER_FIELD);
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        user.put(USER_GENDER_FIELD, gender);
     }
 
     public String getTelephone() {
-        return telephone;
+        return user.getString(USER_PHONE_FIELD);
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone;
+        user.put(USER_PHONE_FIELD, telephone);
     }
 
-    public void setID(String id) {
-        this.id = id;
+    public Address getAddress() {
+        return (Address) user.getParseObject(USER_ADDRESS_FIELD);
     }
 
-    public String getID() {
-        return id;
+    public void setAddress(Address address) {
+        user.put(USER_ADDRESS_FIELD, address);
+    }
+
+    public ParseUser getParseUser() {
+        return user;
     }
 }

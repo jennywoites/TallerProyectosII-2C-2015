@@ -1,67 +1,61 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
  */
-public class Address {
+@ParseClassName("Direccion")
+public class Address extends ParseObject {
 
-    String calle;
-    String piso;
-    String departamento;
-    double latitud;
-    double longitud;
+    private static final String CALLE_KEY = "calle";
+    private static final String PISO_KEY = "piso";
+    private static final String DEPARTAMENTO_KEY = "depto";
+    private static final String LOCATION_KEY = "location";
 
-    public Address(String calle, double longitud, double latitud) {
-        this.calle = calle;
-        this.longitud = longitud;
-        this.latitud = latitud;
+    public Address() {
+
     }
 
-    public Address(String calle, String piso, String departamento, double longitud, double latitud) {
-        this.calle = calle;
-        this.piso = piso;
-        this.departamento = departamento;
-        this.longitud = longitud;
-        this.latitud = latitud;
+    public Address(String calle, double latitud, double longitud) {
+        setCalle(calle);
+        setLocation(latitud, longitud);
     }
+
 
     public String getCalle() {
-        return calle;
+        return getString(CALLE_KEY);
     }
 
     public void setCalle(String calle) {
-        this.calle = calle;
+        put(CALLE_KEY, calle);
     }
 
     public String getPiso() {
-        return piso;
+        return getString(PISO_KEY);
     }
 
     public void setPiso(String piso) {
-        this.piso = piso;
+        put(PISO_KEY, piso);
     }
 
     public String getDepartamento() {
-        return departamento;
+        return getString(DEPARTAMENTO_KEY);
     }
 
     public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+        put(DEPARTAMENTO_KEY, departamento);
     }
 
-    public double getLatitud() {
-        return latitud;
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint(LOCATION_KEY);
     }
 
-    public void setLatitud(double latitud) {
-        this.latitud = latitud;
+    public void setLocation(double latitud, double longitud) {
+        put(LOCATION_KEY, new ParseGeoPoint(latitud, longitud));
     }
 
-    public double getLongitud() {
-        return longitud;
-    }
 
-    public void setLongitud(double longitud) {
-        this.longitud = longitud;
-    }
 }
