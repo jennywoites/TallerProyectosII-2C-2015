@@ -11,113 +11,30 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
 
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtName"
-        android:hint="Name"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:maxLength="50"/>
-
-    <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtDescription"
-        android:hint="Description"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:maxLength="255"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Species"
-        android:id="@+id/lbspecies"
-        android:paddingLeft="5px"
-        android:layout_marginTop="12dp"/>
-
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/rgSpecie">
-
-        <RadioButton android:id="@+id/rdDog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dog"
-            />
-        <RadioButton android:id="@+id/rdCat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cat"
-            />
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Age"
-        android:id="@+id/lbAge"
-        android:paddingLeft="5px"
-        android:layout_marginTop="12dp"/>
-
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/rgAge">
-
-        <RadioButton android:id="@+id/rdAge1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0-3 months"/>
-        <RadioButton android:id="@+id/rdAge2"
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:text="4-6 months"/>
-        <RadioButton android:id="@+id/rdAge3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="7-12 months"/>
-        <RadioButton android:id="@+id/rdAge4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1-3 years"/>
-        <RadioButton android:id="@+id/rdAge5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4-7 years"/>
-        <RadioButton android:id="@+id/rdAge6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8-15 years"/>
-    </RadioGroup>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <ImageView
-            android:layout_width="103dp"
-            android:layout_height="103dp"
-            android:id="@+id/imageView"
-            android:background="@drawable/ic_action_check_black"
-            android:layout_gravity="center" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Subir Foto"
-            android:id="@+id/button1"
-            android:layout_gravity="center" />
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_info_basica"
+                    layout="@layout/cardview_adopcion_publicar_info_basica" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_info_basica_foto"
+                    layout="@layout/cardview_adopcion_publicar_info_basica_foto" />
+            </LinearLayout>
+        </ScrollView>
+
+
     </LinearLayout>
 </LinearLayout>

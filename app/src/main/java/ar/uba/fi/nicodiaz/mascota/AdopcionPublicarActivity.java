@@ -91,17 +91,23 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     }
 
     private void confirmarAgregarMascota() {
+        if (!this.validate()) {
+            return;
+        }
+
         String name = ((EditText)findViewById(R.id.txtName)).getText().toString();
         String description = ((EditText)findViewById(R.id.txtDescription)).getText().toString();
         String specie = this.getSpecieValue();
+        String sexo = this.getSexoValue();
         String age = this.getAgeValue();
 
-        // TODO: agrgar el usuario loggeado así se tiene un control de sus mascotas.
+        // TODO: agregar el usuario loggeado así se tiene un control de sus mascotas.
         ParseObject mascota = new ParseObject("MascotaAdopcion");
-        mascota.put(getResources().getString(R.string.Tabla_MascotaAdopcion_COL_Name), name);
-        mascota.put(getResources().getString(R.string.Tabla_MascotaAdopcion_COL_Description), description);
-        mascota.put(getResources().getString(R.string.Tabla_MascotaAdopcion_COL_Species), specie);
-        mascota.put(getResources().getString(R.string.Tabla_MascotaAdopcion_COL_Age), age);
+        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_NAME), name);
+        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_DESCRIPTION), description);
+        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_SPECIES), specie);
+        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_SEXO), sexo);
+        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_AGE), age);
         mascota.saveInBackground();
 
         Toast.makeText(AdopcionPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
@@ -114,9 +120,42 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         return(radiovalue);
     }
 
+    private String getSexoValue() {
+        RadioGroup rg = (RadioGroup)findViewById(R.id.rgSexo);
+        String radiovalue = ((RadioButton)findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        return(radiovalue);
+    }
+
     private String getAgeValue() {
         RadioGroup rg = (RadioGroup)findViewById(R.id.rgAge);
         String radiovalue = ((RadioButton)findViewById(rg.getCheckedRadioButtonId())).getText().toString();
         return(radiovalue);
+    }
+
+    private boolean validate() {
+        boolean valid = true;
+
+        EditText name = (EditText)findViewById(R.id.txtName);
+        EditText description = (EditText)findViewById(R.id.txtDescription);
+        String nameText = ((EditText)findViewById(R.id.txtName)).getText().toString();
+        String descriptionText = ((EditText)findViewById(R.id.txtDescription)).getText().toString();
+        String errorName = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_NAME);
+        String errorDescription = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION);
+
+        if (nameText.isEmpty()) {
+            name.setError(errorName);
+            valid = false;
+        } else {
+            name.setError(null);
+        }
+
+        if (descriptionText.isEmpty()) {
+            description.setError(errorDescription);
+            valid = false;
+        } else {
+            description.setError(null);
+        }
+
+        return (valid);
     }
 }

@@ -53,10 +53,13 @@
     <string name="aply">Aplicar</string>
     <string name="restore">Restablecer</string>
 
-    <string name="Tabla_MascotaAdopcion_COL_Name">Name</string>
-    <string name="Tabla_MascotaAdopcion_COL_Description">Description</string>
-    <string name="Tabla_MascotaAdopcion_COL_Species">Species</string>
-    <string name="Tabla_MascotaAdopcion_COL_Age">Age</string>
+    <string name="MASCOTA_ADOPCION_ERROR_EMPTY_NAME">Debe ingresar un nombre!</string>
+    <string name="MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION">Debe ingresar una descripción!</string>
+    <string name="MASCOTA_ADOPCION_TABLA_COL_NAME">Name</string>
+    <string name="MASCOTA_ADOPCION_TABLA_COL_DESCRIPTION">Description</string>
+    <string name="MASCOTA_ADOPCION_TABLA_COL_SPECIES">Species</string>
+    <string name="MASCOTA_ADOPCION_TABLA_COL_SEXO">Sexo</string>
+    <string name="MASCOTA_ADOPCION_TABLA_COL_AGE">Age</string>
     <string name="error_conectividad">La operación no podrá continuar por problemas de conectividad.</string>
     <string name="action_logout">Cerrar Sesión</string>
 

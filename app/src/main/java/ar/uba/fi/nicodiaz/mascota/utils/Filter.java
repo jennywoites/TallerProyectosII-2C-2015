@@ -47,7 +47,7 @@ public class Filter {
                 .addChildren("7-12 months")
                 .addChildren("1-3 years")
                 .addChildren("4-7 years")
-                .addChildren("6-15 years"));
+                .addChildren("8-15 years"));
 
         // TODO: especificar rangos:
         filters.add(new Filter("Distancia")
