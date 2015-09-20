@@ -10,7 +10,8 @@
     card_view:cardCornerRadius="12dp"
     android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginStart="16dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginBottom="16dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -24,7 +25,7 @@
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descripción"
+                android:text="Fotos"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
             <ImageView
@@ -37,14 +38,19 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_action_list_black"/>
         </RelativeLayout>
+
         <View style="@style/HorizontalDivider"/>
 
-        <TextView
-            style="@style/Base.TextAppearance.AppCompat.Body1"
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/photo_slider"
             android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:paddingTop="8dp" />
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/custom_indicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim."
-            android:paddingTop="8dp"/>
+            android:gravity="center" />
 
     </LinearLayout>
 

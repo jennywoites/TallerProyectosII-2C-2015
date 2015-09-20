@@ -1,15 +1,19 @@
 package ar.uba.fi.nicodiaz.mascota;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+
+import java.util.HashMap;
 
 
 public class MascotaDetalleActivity extends AppCompatActivity {
@@ -17,6 +21,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
     int mutedColor = R.attr.colorPrimary;
+    private SliderLayout photo_slider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +43,8 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         int id = getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()); // TODO: Esto debería salir de la base de datos
         header.setBackgroundResource(id);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.pikachu);
+        // TODO: si descomentamos esto, se ve el fondo transparente arriba, pero hay que validar:
+        /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu);
 
         Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
             @SuppressWarnings("ResourceType")
@@ -50,7 +55,34 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 collapsingToolbar.setContentScrimColor(mutedColor);
                 collapsingToolbar.setStatusBarScrimColor(R.color.black_trans80);
             }
-        });
+
+        });*/
+
+        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
+
+        // TODO: pedir de la base de datos con el ID recibido por intent
+        HashMap<String, Integer> photos = new HashMap<>();
+        photos.put("Photo 0", getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()));
+        photos.put("Photo 1", getResources().getIdentifier((petName + "1").toLowerCase(), "drawable", getPackageName()));
+        photos.put("Photo 2", getResources().getIdentifier((petName + "2").toLowerCase(), "drawable", getPackageName()));
+        photos.put("Photo 3", getResources().getIdentifier((petName + "3").toLowerCase(), "drawable", getPackageName()));
+
+        for (String name : photos.keySet()) {
+            DefaultSliderView slide = new DefaultSliderView(this);
+            slide.image(photos.get(name));
+            slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
+            photo_slider.addSlider(slide);
+        }
+
+        photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
+        photo_slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
+    }
+
+    @Override
+    protected void onStop() {
+        photo_slider.stopAutoCycle();
+        super.onStop();
     }
 
     @Override
