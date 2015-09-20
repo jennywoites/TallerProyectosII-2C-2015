@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/ColorPrimaryDark"
     tools:context=".SplashScreenActivity">
 
     <ImageView
@@ -11,5 +12,15 @@
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
         android:src="@drawable/splash_screen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App"
+        android:textColor="#FFF"
+        android:textSize="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="177dp" />
 
 </RelativeLayout>

@@ -65,6 +65,8 @@
         <activity
             android:name=".AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
+
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,6 +80,7 @@
         <activity
             android:name=".MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
+            android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
