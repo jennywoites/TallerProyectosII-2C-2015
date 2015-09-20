@@ -75,9 +75,9 @@
             <include
                 android:id="@+id/cardview_fotos"
                 layout="@layout/cardview_fotos_mascota"/>
-            <!--include
+            <include
                 android:id="@+id/cardview_video"
-                layout="@layout/cardview_video_mascota" /-->
+                layout="@layout/cardview_video_mascota" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
