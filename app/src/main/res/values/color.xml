@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ColorPrimary">#009688</color>
+    <color name="ColorPrimaryDark">#00796B</color>
+
+    <!-- Color de la rallita indicadora -->
+    <color name="ColorPrimaryLight">#ffffff</color>
+
+    <color name="photo_tint">#88101010</color>
+    <color name="white">#FFF</color>
+
+    <color name="button_disable">#B2DFDB</color>
+
+    <color name="black_trans80">#14000000</color>
+    <color name="translucent_scrim_bottom">#88000000</color>
+    <color name="translucent_scrim_bottom_center">#44000000</color>
+</resources>
+<!--
+    AMBER
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ColorPrimary">#FFC107</color>
+    <color name="ColorPrimaryDark">#FFA000</color>
+
+    &lt;!&ndash; Color de la rallita indicadora &ndash;&gt;
+    <color name="ColorPrimaryLight">#ffffff</color>
+
+    <color name="photo_tint">#88101010</color>
+    <color name="white">#FFF</color>
+
+    <color name="button_disable">#FFECB3</color>
+
+    <color name="black_trans80">#14000000</color>
+    <color name="translucent_scrim_bottom">#88000000</color>
+    <color name="translucent_scrim_bottom_center">#44000000</color>
+</resources>-->
+<!--
+
+GREEN
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <color name="ColorPrimary">#4CAF50</color>
     <color name="ColorPrimaryDark">#388E3C</color>
 
-    <!-- Color de la rallita indicadora -->
+    &lt;!&ndash; Color de la rallita indicadora &ndash;&gt;
     <color name="ColorPrimaryLight">#ffffff</color>
 
     <color name="photo_tint">#88101010</color>
@@ -14,4 +53,4 @@
     <color name="black_trans80">#14000000</color>
     <color name="translucent_scrim_bottom">#88000000</color>
     <color name="translucent_scrim_bottom_center">#44000000</color>
-</resources>
+</resources>-->

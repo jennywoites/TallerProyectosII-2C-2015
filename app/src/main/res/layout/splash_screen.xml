@@ -3,21 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ColorPrimaryDark"
+    android:background="@color/ColorPrimary"
     tools:context=".SplashScreenActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitXY"
-        android:src="@drawable/splash_screen" />
+        android:scaleType="centerInside"
+        android:src="@drawable/splash_screen_logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="App"
-        android:textColor="#FFF"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:textSize="42dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
