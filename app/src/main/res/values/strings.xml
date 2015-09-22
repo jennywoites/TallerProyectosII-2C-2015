@@ -62,6 +62,7 @@
     <string name="MASCOTA_ADOPCION_TABLA_COL_AGE">Age</string>
     <string name="error_conectividad">La operación no podrá continuar por problemas de conectividad.</string>
     <string name="action_logout">Cerrar Sesión</string>
+    <string name="no_data_available">No hay mascotas para mostrar</string>
 
 
 </resources>

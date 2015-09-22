@@ -44,6 +44,7 @@ public class AdopcionFragment extends Fragment {
 
     private List<Mascota> list;
     private RecyclerView listView;
+    private TextView emptyView;
     private AdopcionEndlessAdapter listAdapter;
 
     private Context activity;
@@ -185,18 +186,9 @@ public class AdopcionFragment extends Fragment {
 
         listView.setAdapter(listAdapter);
 
+        emptyView = (TextView) view.findViewById(R.id.empty_view);
 
-
-
-
-
-
-
-
-
-
-
-
+        checkEmptyList();
 
 
         // Filter:
@@ -270,6 +262,9 @@ public class AdopcionFragment extends Fragment {
                 }
 
                 Toast.makeText(activity, "Filtro Aplicado", Toast.LENGTH_SHORT).show();
+
+                // aplicar cambios a la lista
+                //applyQuery();
             }
         });
 
@@ -288,6 +283,30 @@ public class AdopcionFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void applyQuery() {
+        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que crear las clases Mascota acá.
+        // list = nueva lista.
+
+        // avisamos que cambió la lista:
+        // TODO: supongo que no hay problema al sobreescribir list, es decir, no habria que crear un nuevo listAdapter. A CONFIRMAR.
+        listAdapter.notifyDataSetChanged();
+
+        // vemos si hubo algun resultado:
+        checkEmptyList();
+    }
+
+    private void checkEmptyList() {
+
+
+        if (list.isEmpty()) {
+            listView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 
     // Filter:
