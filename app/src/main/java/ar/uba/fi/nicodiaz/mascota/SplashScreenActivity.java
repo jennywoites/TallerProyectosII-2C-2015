@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.facebook.FacebookSdk;
-import com.parse.Parse;
-import com.parse.ParseFacebookUtils;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,9 +17,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         setContentView(R.layout.splash_screen);
 
         TimerTask task = new TimerTask() {
@@ -31,7 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 Intent mainIntent = new Intent(SplashScreenActivity.this, DispatchActivity.class);
                 startActivity(mainIntent);
-                finish(); // TODO: not sure si hará quilombo con Parse y login.
+                finish();
             }
         };
 

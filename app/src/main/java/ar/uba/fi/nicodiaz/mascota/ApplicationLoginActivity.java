@@ -82,8 +82,8 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 if (e != null) {
                     // Show the error message
-                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT);
-                    return;
+                    Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
+
                 } else {
                     // Start an intent for the dispatch activity
                     Intent intent;
@@ -100,7 +100,7 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                         }
 
                     } catch (ApplicationConnectionException ex) {
-                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT);
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
                         return;
                     }
 

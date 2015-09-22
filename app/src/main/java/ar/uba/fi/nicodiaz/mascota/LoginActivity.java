@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                     } catch (ApplicationConnectionException e) {
-                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT);
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
                         return;
                     }
 

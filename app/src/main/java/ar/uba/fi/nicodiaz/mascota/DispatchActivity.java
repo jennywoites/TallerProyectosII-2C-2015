@@ -28,7 +28,7 @@ public class DispatchActivity extends AppCompatActivity {
                     startActivity(new Intent(this, LoginActivity.class));
                 }
             } catch (ApplicationConnectionException e) {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT);
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));
             }
 
