@@ -81,7 +81,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         }
 
         photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
-        photo_slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        //photo_slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
 
 
@@ -111,6 +111,12 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     protected void onStop() {
         photo_slider.stopAutoCycle();
         super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        photo_slider.startAutoCycle();
+        super.onRestart();
     }
 
     @Override
