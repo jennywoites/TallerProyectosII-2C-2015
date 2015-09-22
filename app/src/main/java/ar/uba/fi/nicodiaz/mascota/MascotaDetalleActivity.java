@@ -97,6 +97,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 Toast.makeText(view.getContext(),"Click",Toast.LENGTH_SHORT).show();
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video_id));
+                    intent.putExtra("force_fullscreen", true); // TODO: en versiones viejas de youtube puede no funcionar.
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + video_id));
