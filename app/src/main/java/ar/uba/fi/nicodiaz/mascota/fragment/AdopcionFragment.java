@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -18,9 +19,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +55,162 @@ public class AdopcionFragment extends Fragment {
 
     private DrawerLayout drawerLayout;
     private FloatingActionButton FAB;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        activity = getActivity();
+
+        // Toolbar:
+        setHasOptionsMenu(true);
+
+        // View:
+        View view = inflater.inflate(R.layout.fragment_adopcion, container, false);
+        view.setTag(TAG);
+
+        // FAB
+        FAB = (FloatingActionButton) view.findViewById(R.id.FAB_agregar_adopcion);
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nuevaAdopcion();
+            }
+        });
+
+        // Sliding Menu
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.sliding_layout);
+
+
+        // Cargando la lista de mascotas:
+        class PetLoader extends AsyncTask<Void, Void, Boolean> {
+            private LinearLayout linlaHeaderProgress;
+            private View view;
+
+            public PetLoader(View view) {
+                linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
+                this.view = view;
+            }
+
+            @Override
+            protected void onPreExecute() {
+                linlaHeaderProgress.setVisibility(View.VISIBLE);
+
+                // ListView
+                listView = (RecyclerView) view.findViewById(R.id.list_adoption);
+                listView.setLayoutManager(new LinearLayoutManager(activity));
+                listView.setItemAnimator(new DefaultItemAnimator());
+                listView.setHasFixedSize(true);
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                list = PetService.getInstance().getAdoptionPets();
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
+                listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View itemView, int position) {
+                        // TODO: aca se maneja el click sobre un item de la lista:
+
+                        Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                        i.putExtra("ID", list.get(position).getName()); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
+                        startActivity(i);
+                        getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
+                    }
+                });
+
+                listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+                    @Override
+                    public void onLoadMore() {
+                        //add progress item
+                        list.add(null);
+                        listAdapter.notifyItemInserted(list.size() - 1);
+
+                    /*  // remove progress item
+                        list.remove(list.size() - 1);
+                        listAdapter.notifyItemRemoved(list.size());
+
+                        // add items
+                        // TODO: aca llamar a la base de datos y pedir 20 elementos mas.
+
+                        // Si no hay mas items que cargar, mostrar un toast y salir:
+                        if (itemsDeBaseDeDatos == null) {
+                            Toast.makeText(activity, "No hay mas items", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        list.add(itemsDeBaseDeDatos);
+                        listAdapter.notifyItemInserted(list.size());
+
+                        listAdapter.setLoaded();
+                     */
+
+                        // TODO: eliminar esto despues, solo testing:
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //remove progress item
+                                list.remove(list.size() - 1);
+                                listAdapter.notifyItemRemoved(list.size());
+
+                                //add items one by one
+/*                        for (int i = 0; i < 10; i++) {
+                            list.add(new Mascota("Mascota " + (list.size() + 1), "Agregada", "pikachu"));
+                            listAdapter.notifyItemInserted(list.size());
+                        }*/
+                                listAdapter.setLoaded();
+                                //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                            }
+                        }, 2000);
+                    }
+                });
+
+                listView.setAdapter(listAdapter);
+
+                linlaHeaderProgress.setVisibility(View.GONE);
+
+                emptyView = (TextView) view.findViewById(R.id.empty_view);
+
+                checkEmptyList();
+            }
+
+        }
+
+        PetLoader loader = new PetLoader(view);
+        loader.execute();
+
+        // Filter:
+        createFilterMenu(view);
+
+        return view;
+    }
+
+
+    private void applyQuery() {
+        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que crear las clases Mascota acá.
+        // list = nueva lista.
+
+        // avisamos que cambió la lista:
+        // TODO: supongo que no hay problema al sobreescribir list, es decir, no habria que crear un nuevo listAdapter. A CONFIRMAR.
+        listAdapter.notifyDataSetChanged();
+
+        // vemos si hubo algun resultado:
+        checkEmptyList();
+    }
+
+    private void checkEmptyList() {
+        if (list.isEmpty()) {
+            listView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -86,111 +246,13 @@ public class AdopcionFragment extends Fragment {
         startActivity(i);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        list = PetService.getInstance().getAdoptionPets();
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity = getActivity();
-
-        // Toolbar:
-        setHasOptionsMenu(true);
-
-        // View:
-        View view = inflater.inflate(R.layout.fragment_adopcion, container, false);
-        view.setTag(TAG);
-
-        // FAB
-        FAB = (FloatingActionButton) view.findViewById(R.id.FAB_agregar_adopcion);
-        FAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nuevaAdopcion();
-            }
-        });
-
-        // Sliding Menu
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.sliding_layout);
-
-        // ListView
-        listView = (RecyclerView) view.findViewById(R.id.list_adoption);
-
-        listView.setLayoutManager(new LinearLayoutManager(activity));
-        listView.setItemAnimator(new DefaultItemAnimator());
-        listView.setHasFixedSize(true);
-
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                // TODO: aca se maneja el click sobre un item de la lista:
-
-                Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                i.putExtra("ID", list.get(position).getName()); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
-                startActivity(i);
-                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
-            }
-        });
-
-        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                //add progress item
-                list.add(null);
-                listAdapter.notifyItemInserted(list.size() - 1);
-
-            /*  // remove progress item
-                list.remove(list.size() - 1);
-                listAdapter.notifyItemRemoved(list.size());
-
-                // add items
-                // TODO: aca llamar a la base de datos y pedir 20 elementos mas.
-
-                // Si no hay mas items que cargar, mostrar un toast y salir:
-                if (itemsDeBaseDeDatos == null) {
-                    Toast.makeText(activity, "No hay mas items", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                list.add(itemsDeBaseDeDatos);
-                listAdapter.notifyItemInserted(list.size());
-
-                listAdapter.setLoaded();
-             */
-
-                // TODO: eliminar esto despues, solo testing:
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //remove progress item
-                        list.remove(list.size() - 1);
-                        listAdapter.notifyItemRemoved(list.size());
-
-                        //add items one by one
-/*                        for (int i = 0; i < 10; i++) {
-                            list.add(new Mascota("Mascota " + (list.size() + 1), "Agregada", "pikachu"));
-                            listAdapter.notifyItemInserted(list.size());
-                        }*/
-                        listAdapter.setLoaded();
-                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-                    }
-                }, 2000);
-            }
-        });
-
-        listView.setAdapter(listAdapter);
-
-        emptyView = (TextView) view.findViewById(R.id.empty_view);
-
-        checkEmptyList();
-
-
-        // Filter:
-
+    // Filter:
+    private SettingsListAdapter adapter;
+    private ExpandableListView filtersList;
+    private ArrayList<Filter> filters;
+    private Map<String, List<String>> selectedFilter;
+    private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
         filters = Filter.getFilters();
         adapter = new SettingsListAdapter(activity,
@@ -204,8 +266,6 @@ public class AdopcionFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-
-
                 CheckedTextView checkbox = (CheckedTextView) v.findViewById(R.id.list_item_text_child);
                 checkbox.toggle();
 
@@ -277,39 +337,13 @@ public class AdopcionFragment extends Fragment {
                 Toast.makeText(activity, "Filtro Desactivado", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-        return view;
     }
 
-    private void applyQuery() {
-        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que crear las clases Mascota acá.
-        // list = nueva lista.
-
-        // avisamos que cambió la lista:
-        // TODO: supongo que no hay problema al sobreescribir list, es decir, no habria que crear un nuevo listAdapter. A CONFIRMAR.
-        listAdapter.notifyDataSetChanged();
-
-        // vemos si hubo algun resultado:
-        checkEmptyList();
-    }
-
-    private void checkEmptyList() {
 
 
-        if (list.isEmpty()) {
-            listView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-    }
 
-    // Filter:
-    private SettingsListAdapter adapter;
-    private ExpandableListView filtersList;
-    private ArrayList<Filter> filters;
-    private Map<String, List<String>> selectedFilter;
+
+
+
+
 }
