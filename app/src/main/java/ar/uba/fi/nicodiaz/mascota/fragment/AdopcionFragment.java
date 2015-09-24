@@ -19,12 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -166,6 +164,12 @@ public class AdopcionFragment extends Fragment {
                                 //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
                             }
                         }, 2000);
+
+                        // TODO: este booleano setearlo si hay mas resultados o no.
+                        boolean endOfQuery = true;
+                        if (endOfQuery) {
+                            Toast.makeText(activity, "¡No hay mas mascotas!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 

@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.Mascota;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -104,7 +104,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
             ((MascotaViewHolder) viewHolder).currentMascota = mascota;
         } else {
-            ((ProgressViewHolder) viewHolder).progressBar.setIndeterminate(true);
+            ((ProgressViewHolder) viewHolder).progressBar.spin();
         }
     }
 
@@ -145,11 +145,11 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public static class ProgressViewHolder extends RecyclerView.ViewHolder {
-        public ProgressBar progressBar;
+        public ProgressWheel progressBar;
 
         public ProgressViewHolder(View v) {
             super(v);
-            progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+            progressBar = (ProgressWheel) v.findViewById(R.id.progressBar);
         }
     }
 }
