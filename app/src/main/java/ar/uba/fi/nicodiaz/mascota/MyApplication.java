@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
@@ -9,18 +10,20 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 
 /**
  * Created by Juan Manuel Romera on 13/9/2015.
  */
-public class MyApplication  extends Application {
+public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
 
         // Register your parse models
         ParseObject.registerSubclass(Address.class);
+        ParseObject.registerSubclass(AdoptionPet.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);
@@ -30,5 +33,10 @@ public class MyApplication  extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(this);
     }
+
+    public static Context getContext() {
+        return getContext();
+    }
+
 }
 

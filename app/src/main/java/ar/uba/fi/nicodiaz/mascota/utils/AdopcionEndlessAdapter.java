@@ -13,11 +13,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Mascota;
 
 /**
  * Created by nicolas on 13/09/15.
- *
+ * <p/>
  * From: http://stackoverflow.com/questions/30681905/adding-items-to-endless-scroll-recyclerview-with-progressbar-at-bottom/30691092#30691092
  */
 public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -31,7 +32,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    private List<Mascota> mascotas;
+    private List<AdoptionPet> mascotas;
     private Context context;
     private OnItemClickListener listener;
 
@@ -43,7 +44,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.listener = listener;
     }
 
-    public interface OnLoadMoreListener{
+    public interface OnLoadMoreListener {
         void onLoadMore();
     }
 
@@ -51,13 +52,13 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.onLoadMoreListener = onLoadMoreListener;
     }
 
-    public AdopcionEndlessAdapter(List<Mascota> mascotas, RecyclerView recyclerView, Context context) {
+    public AdopcionEndlessAdapter(List<AdoptionPet> mascotas, RecyclerView recyclerView, Context context) {
         this.mascotas = mascotas;
         this.context = context;
 
-        if(recyclerView.getLayoutManager()instanceof LinearLayoutManager) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
 
-            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -95,11 +96,11 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof MascotaViewHolder) {
-            Mascota mascota = mascotas.get(i);
-            ((MascotaViewHolder) viewHolder).mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
-            ((MascotaViewHolder) viewHolder).mascotaName.setText(mascota.name);
-          //  ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
-            ((MascotaViewHolder) viewHolder).mascotaDescription.setText(mascota.description); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
+            AdoptionPet mascota = mascotas.get(i);
+            //((MascotaViewHolder) viewHolder).mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
+            ((MascotaViewHolder) viewHolder).mascotaName.setText(mascota.getName());
+            //  ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
+            ((MascotaViewHolder) viewHolder).mascotaDescription.setText(mascota.getDescription()); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
             ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
             ((MascotaViewHolder) viewHolder).currentMascota = mascota;
         } else {
@@ -107,10 +108,9 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    public void setLoaded(){
+    public void setLoaded() {
         loading = false;
     }
-
 
 
     @Override
@@ -127,7 +127,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public TextView mascotaName;
         public TextView mascotaDescription;
         public ImageView mascotaImage;
-        public Mascota currentMascota;
+        public AdoptionPet currentMascota;
 
         public MascotaViewHolder(final View itemView) {
             super(itemView);
@@ -146,9 +146,10 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public static class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
+
         public ProgressViewHolder(View v) {
             super(v);
-            progressBar = (ProgressBar)v.findViewById(R.id.progressBar);
+            progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         }
     }
 }

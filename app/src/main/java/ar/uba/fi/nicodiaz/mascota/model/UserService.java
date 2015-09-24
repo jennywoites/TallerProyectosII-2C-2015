@@ -22,7 +22,6 @@ public class UserService {
         if (currentUser != null) {
             return new User(currentUser);
         }
-
         return null;
     }
 

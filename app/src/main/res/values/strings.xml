@@ -64,5 +64,14 @@
     <string name="action_logout">Cerrar Sesión</string>
     <string name="no_data_available">No hay mascotas para mostrar</string>
 
+    <!-- Caracteristicas Mascota -->
+    <string name="_0_3_months">0-3 meses</string>
+    <string name="_4_6_months">4-6 meses</string>
+    <string name="_7_12_months">7-12 meses</string>
+    <string name="_1_3_years">1-3 años</string>
+    <string name="_4_7_years">4-7 años</string>
+    <string name="_8_15_years">8-15 años</string>
+    <string name="dog">Perro</string>
+    <string name="cat">Gato</string>
 
 </resources>

@@ -32,8 +32,8 @@ import java.util.Map;
 import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.Mascota;
-import ar.uba.fi.nicodiaz.mascota.model.MascotaManager;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
@@ -42,7 +42,7 @@ public class AdopcionFragment extends Fragment {
 
     private static final String TAG = "AdopcionFragment";
 
-    private List<Mascota> list;
+    private List<AdoptionPet> list;
     private RecyclerView listView;
     private TextView emptyView;
     private AdopcionEndlessAdapter listAdapter;
@@ -89,9 +89,7 @@ public class AdopcionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // TODO: la lista esta hardcodeada
-        list = MascotaManager.getInstance().getMascotas();
+        list = PetService.getInstance().getAdoptionPets();
     }
 
     @Override
@@ -131,7 +129,7 @@ public class AdopcionFragment extends Fragment {
                 // TODO: aca se maneja el click sobre un item de la lista:
 
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                i.putExtra("ID", list.get(position).name); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
+                i.putExtra("ID", list.get(position).getName()); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
@@ -173,10 +171,10 @@ public class AdopcionFragment extends Fragment {
                         listAdapter.notifyItemRemoved(list.size());
 
                         //add items one by one
-                        for (int i = 0; i < 10; i++) {
+/*                        for (int i = 0; i < 10; i++) {
                             list.add(new Mascota("Mascota " + (list.size() + 1), "Agregada", "pikachu"));
                             listAdapter.notifyItemInserted(list.size());
-                        }
+                        }*/
                         listAdapter.setLoaded();
                         //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
                     }
