@@ -110,15 +110,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String gender = this.getSexoValue();
         String ageRange = this.getAgeValue();
 
-/*        // TODO: agregar el usuario loggeado así se tiene un control de sus mascotas.
-        ParseObject mascota = new ParseObject("MascotaAdopcion");
-        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_NAME), name);
-        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_DESCRIPTION), description);
-        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_SPECIES), specie);
-        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_SEXO), sexo);
-        mascota.put(getResources().getString(R.string.MASCOTA_ADOPCION_TABLA_COL_AGE), age);
-        mascota.saveInBackground();*/
-
         User user = UserService.getInstance().getUser();
 
         AdoptionPet pet = new AdoptionPet();
