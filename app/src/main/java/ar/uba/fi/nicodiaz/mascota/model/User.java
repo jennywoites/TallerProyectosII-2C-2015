@@ -1,7 +1,5 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import com.parse.Parse;
-import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
 /**
@@ -13,6 +11,8 @@ public class User {
     public static String USER_GENDER_FIELD = "gender";
     public static String USER_PHONE_FIELD = "phone";
     public static String USER_ADDRESS_FIELD = "address";
+    public static String MALE = "male";
+    public static String FEMALE = "female";
 
     private ParseUser user;
 
@@ -64,4 +64,20 @@ public class User {
     public ParseUser getParseUser() {
         return user;
     }
+
+    public boolean isMale() {
+        String gender = getGender();
+        if (gender != null) {
+            return gender.equals(MALE);
+        } else return false;
+    }
+
+    public boolean isFemale() {
+        String gender = getGender();
+        if (gender != null) {
+            return gender.equals(FEMALE);
+        } else return false;
+    }
+
+
 }

@@ -252,6 +252,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         EditText description = (EditText) findViewById(R.id.txtDescription);
         String nameText = ((EditText) findViewById(R.id.txtName)).getText().toString();
         String descriptionText = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
+
         String errorName = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_NAME);
         String errorDescription = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION);
 

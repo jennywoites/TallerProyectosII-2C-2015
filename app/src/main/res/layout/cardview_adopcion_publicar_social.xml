@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_gravity="center_horizontal"
-    card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="12dp"
-    android:layout_marginTop="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginStart="16dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -21,89 +20,121 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Información Social"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:text="Información Social" />
+
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="false"
                 android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/splash_screen_logo" />
         </RelativeLayout>
 
-        <View style="@style/HorizontalDivider"/>
+        <View style="@style/HorizontalDivider" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="¿Se lleva bien con otros animales?"
-            android:id="@+id/lbSocialAnimales"
-            android:paddingLeft="5px"
-            android:layout_marginTop="12dp"/>
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/rgPets">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-            <RadioButton android:id="@+id/rdSiAnimales"
+            <TextView
+                android:id="@+id/lbSocialAnimales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Si"
-                />
-            <RadioButton android:id="@+id/rdNoAnimales"
+                android:layout_marginTop="12dp"
+                android:paddingLeft="5px"
+                android:text="@string/pregunta_relacion_animales"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rgPets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No"
-                />
-        </RadioGroup>
+                android:layout_gravity="fill"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="¿Se lleva bien con los niños?"
-            android:id="@+id/lbSocialNiños"
-            android:paddingLeft="5px"
-            android:layout_marginTop="12dp"/>
-        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/rgChildren">
+                <RadioButton
+                    android:id="@+id/rdSiAnimales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si" />
 
-            <RadioButton android:id="@+id/rdSiNiños"
+                <RadioButton
+                    android:id="@+id/rdNoAnimales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/lbSocialNiños"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Si"
-                />
-            <RadioButton android:id="@+id/rdNoNiños"
+                android:layout_marginTop="12dp"
+                android:paddingLeft="5px"
+                android:text="@string/pregunta_relacion_niños"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rgChildren"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No"
-                />
-        </RadioGroup>
+                android:layout_gravity="fill"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-        <EditText
-            android:layout_width="wrap_content"
+                <RadioButton
+                    android:id="@+id/rdSiNiños"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Si" />
+
+                <RadioButton
+                    android:id="@+id/rdNoNiños"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+            </RadioGroup>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Comentarios -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtSocialNotes"
-            android:hint="Comentarios"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:maxLength="255"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/txtSocialNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/comentarios_label"
+                android:inputType="textCapSentences"
+                android:maxLength="255" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
