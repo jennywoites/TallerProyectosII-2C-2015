@@ -28,6 +28,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     // The minimum amount of items to have below your current scroll position before loading more.
     private int visibleThreshold = 1;
+    private int currentPage = 1; // TODO: o cero
     private int lastVisibleItem, totalItemCount;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
@@ -45,7 +46,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public interface OnLoadMoreListener {
-        void onLoadMore();
+        boolean onLoadMore(int currentPage);
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
@@ -69,7 +70,9 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         // End has been reached
                         // Do something
                         if (onLoadMoreListener != null) {
-                            onLoadMoreListener.onLoadMore();
+                            if (onLoadMoreListener.onLoadMore(currentPage)) {
+                                currentPage++;
+                            }
                         }
                         loading = true;
                     }

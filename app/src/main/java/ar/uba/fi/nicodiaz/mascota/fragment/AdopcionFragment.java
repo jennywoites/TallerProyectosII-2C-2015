@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -47,6 +46,9 @@ public class AdopcionFragment extends Fragment {
     private List<AdoptionPet> list;
     private RecyclerView listView;
     private TextView emptyView;
+    private boolean hayMas;
+    private int loops = 2;
+
     private AdopcionEndlessAdapter listAdapter;
 
     private Context activity;
@@ -77,13 +79,15 @@ public class AdopcionFragment extends Fragment {
         // Sliding Menu
         drawerLayout = (DrawerLayout) view.findViewById(R.id.sliding_layout);
 
+        hayMas = true;
+
 
         // Cargando la lista de mascotas:
-        class PetLoader extends AsyncTask<Void, Void, Boolean> {
+        class InitialPetLoader extends AsyncTask<Void, Void, Boolean> {
             private LinearLayout linlaHeaderProgress;
             private View view;
 
-            public PetLoader(View view) {
+            public InitialPetLoader(View view) {
                 linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
                 this.view = view;
             }
@@ -122,54 +126,59 @@ public class AdopcionFragment extends Fragment {
 
                 listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
                     @Override
-                    public void onLoadMore() {
-                        //add progress item
-                        list.add(null);
-                        listAdapter.notifyItemInserted(list.size() - 1);
+                    public boolean onLoadMore(int currentPage) {
 
-                    /*  // remove progress item
-                        list.remove(list.size() - 1);
-                        listAdapter.notifyItemRemoved(list.size());
+                        class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
 
-                        // add items
-                        // TODO: aca llamar a la base de datos y pedir 20 elementos mas.
+                            List<AdoptionPet> tmp;//DB
 
-                        // Si no hay mas items que cargar, mostrar un toast y salir:
-                        if (itemsDeBaseDeDatos == null) {
-                            Toast.makeText(activity, "No hay mas items", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        list.add(itemsDeBaseDeDatos);
-                        listAdapter.notifyItemInserted(list.size());
-
-                        listAdapter.setLoaded();
-                     */
-
-                        // TODO: eliminar esto despues, solo testing:
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
                             @Override
-                            public void run() {
-                                //remove progress item
-                                list.remove(list.size() - 1);
-                                listAdapter.notifyItemRemoved(list.size());
-
-                                //add items one by one
-/*                        for (int i = 0; i < 10; i++) {
-                            list.add(new Mascota("Mascota " + (list.size() + 1), "Agregada", "pikachu"));
-                            listAdapter.notifyItemInserted(list.size());
-                        }*/
-                                listAdapter.setLoaded();
-                                //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+                            protected void onPreExecute() {
+                                list.add(null);
+                                listAdapter.notifyItemInserted(list.size() - 1);
                             }
-                        }, 2000);
 
-                        // TODO: este booleano setearlo si hay mas resultados o no.
-                        boolean endOfQuery = true;
-                        if (endOfQuery) {
-                            Toast.makeText(activity, "¡No hay mas mascotas!", Toast.LENGTH_SHORT).show();
+                            @Override
+                            protected Boolean doInBackground(Integer... currentPage) {
+                                // TODO: llamar a la base de datos y pedir 20 elementos mas
+                                // TODO: pasarle el numero de paginacion actual para hacer la cuenta del offset
+
+                                // Simulo que se pueden hacer hasta 2 pedidos mas:
+                                if (loops == 0)
+                                    return false;
+
+                                // Simulo que tarda bastante:
+                                for(int i = 0; i < 12; i++) {
+                                    tmp = PetService.getInstance().getAdoptionPets();
+                                }
+                                loops--;
+
+                                //pagina:
+                                Log.i(String.valueOf(Log.INFO), String.valueOf(currentPage[0]));
+
+                                return true; // TODO: return true si hay mas datos, o false si no.
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean result) {
+                                list.remove(list.size() -1);
+                                listAdapter.notifyItemRemoved(list.size());
+                                if (!result) {
+                                    hayMas = false;
+                                    return;
+                                }
+                                list.addAll(tmp);
+
+                                listAdapter.notifyDataSetChanged();
+                                listAdapter.setLoaded();
+                            }
                         }
+
+                        if (hayMas) {
+                            new LoadMorePets().execute(currentPage);
+                            return true;
+                        }
+                        return false;
                     }
                 });
 
@@ -184,7 +193,7 @@ public class AdopcionFragment extends Fragment {
 
         }
 
-        PetLoader loader = new PetLoader(view);
+        InitialPetLoader loader = new InitialPetLoader(view);
         loader.execute();
 
         // Filter:
@@ -195,11 +204,10 @@ public class AdopcionFragment extends Fragment {
 
 
     private void applyQuery() {
-        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que crear las clases Mascota acá.
+        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que hacer clean de la lista y el adapter.
         // list = nueva lista.
 
         // avisamos que cambió la lista:
-        // TODO: supongo que no hay problema al sobreescribir list, es decir, no habria que crear un nuevo listAdapter. A CONFIRMAR.
         listAdapter.notifyDataSetChanged();
 
         // vemos si hubo algun resultado:
@@ -326,6 +334,7 @@ public class AdopcionFragment extends Fragment {
                 Toast.makeText(activity, "Filtro Aplicado", Toast.LENGTH_SHORT).show();
 
                 // aplicar cambios a la lista
+                hayMas = true;
                 //applyQuery();
             }
         });
@@ -342,12 +351,4 @@ public class AdopcionFragment extends Fragment {
             }
         });
     }
-
-
-
-
-
-
-
-
 }
