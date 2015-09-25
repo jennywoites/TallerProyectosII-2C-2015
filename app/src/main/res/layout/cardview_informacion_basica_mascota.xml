@@ -35,7 +35,7 @@
                 android:layout_alignParentStart="false"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_cat_gray" />
+                android:src="@drawable/splash_screen" />
         </RelativeLayout>
         <View style="@style/HorizontalDivider"/>
 

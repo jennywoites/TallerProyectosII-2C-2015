@@ -14,10 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
 import java.util.HashMap;
 
@@ -26,8 +28,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbar;
-    int mutedColor = R.attr.colorPrimary;
+    //int mutedColor = R.attr.colorPrimary;
     private SliderLayout photo_slider;
+    private SliderLayout video_slider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,8 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(petName);
 
         ImageView header = (ImageView) findViewById(R.id.header);
-        int id = getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()); // TODO: Esto debería salir de la base de datos
-        header.setBackgroundResource(id);
+        int id = getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName());
+        header.setBackgroundResource(id); // TODO: Esto debería salir de la base de datos
 
         // TODO: si descomentamos esto, se ve el fondo transparente arriba, pero hay que validar:
         /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu);
@@ -79,43 +82,60 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
             photo_slider.addSlider(slide);
         }
-
         photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
-        //photo_slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
 
 
         // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:
         // El id del video es el que aparece en la url de youtube del mismo. Eso habria que guardar.
 
-        final String video_id = "ycdcDFuGarM";
+        video_slider = (SliderLayout) findViewById(R.id.video_slider);
+        String id0 = "ycdcDFuGarM";
+        String id1 = "TSC8p9-eBNc";
+        String id2 = "RWSy24AVnZk";
+        final HashMap<String, String> videos = new HashMap<>();
+        videos.put("Video 0", id0);
+        videos.put("Video 1", id1);
+        videos.put("Video 2", id2);
 
-        Button video_button = (Button) findViewById(R.id.video_button);
-        video_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(),"Click",Toast.LENGTH_SHORT).show();
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video_id));
-                    intent.putExtra("force_fullscreen", true); // TODO: en versiones viejas de youtube puede no funcionar.
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + video_id));
-                    startActivity(intent);
+        for (final String name : videos.keySet()) {
+            TextSliderView slide = new TextSliderView(this);
+            slide.image("http://img.youtube.com/vi/" + videos.get(name) + "/mqdefault.jpg");
+            slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
+            slide.description("Reproducir");
+            slide.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                @Override
+                public void onSliderClick(BaseSliderView baseSliderView) {
+                    Toast.makeText(baseSliderView.getContext(),"Click",Toast.LENGTH_SHORT).show();
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videos.get(name)));
+                        intent.putExtra("force_fullscreen", true); // TODO: en versiones viejas de youtube puede no funcionar.
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videos.get(name)));
+                        startActivity(intent);
+                    }
                 }
-            }
-        });
+            });
+            video_slider.addSlider(slide);
+        }
+        video_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
+        video_slider.setCustomAnimation(new DescriptionAnimation());
+        video_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator_video));
+
     }
 
     @Override
     protected void onStop() {
         photo_slider.stopAutoCycle();
+        video_slider.stopAutoCycle();
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
         photo_slider.startAutoCycle();
+        video_slider.stopAutoCycle();
         super.onRestart();
     }
 

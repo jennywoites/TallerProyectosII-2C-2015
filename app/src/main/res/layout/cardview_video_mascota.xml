@@ -25,7 +25,7 @@
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Video"
+                android:text="Videos"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true" />
             <ImageView
@@ -36,17 +36,23 @@
                 android:layout_alignParentStart="false"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/splash_screen_logo"/>
+                android:src="@drawable/ic_movie"/>
         </RelativeLayout>
 
         <View style="@style/HorizontalDivider"/>
 
-        <Button
-            android:id="@+id/video_button"
-            android:text="Reproducir"
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/video_slider"
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:paddingTop="8dp" />
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/custom_indicator_video"
+            style="@style/AndroidImageSlider_Magnifier_Oval_Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
