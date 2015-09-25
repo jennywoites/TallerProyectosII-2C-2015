@@ -2,7 +2,6 @@ package ar.uba.fi.nicodiaz.mascota.model;
 
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -17,6 +16,7 @@ import ar.uba.fi.nicodiaz.mascota.MyApplication;
 public class PetService {
 
     private static PetService ourInstance = new PetService();
+    private static Integer LIMIT = 4;
 
     public static PetService getInstance() {
         return ourInstance;
@@ -31,25 +31,18 @@ public class PetService {
         adoptionPet.saveInBackground();
     }
 
-    public List<AdoptionPet> getAdoptionPets() {
+    public List<AdoptionPet> getAdoptionPets(int page) {
         List<AdoptionPet> adoptionPets = new ArrayList<>();
         ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
         query.addDescendingOrder("createdAt");
+        query.setLimit(LIMIT);
+        query.setSkip(page * LIMIT);
+
         try {
             adoptionPets = query.find();
         } catch (ParseException e) {
             Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-/*        query.findInBackground(new FindCallback<AdoptionPet>() {
-            @Override
-            public void done(List<AdoptionPet> list, ParseException e) {
-                if (e == null) {
-                    PetService.adoptionPets = list;
-                } else {
-                    Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
 
         return adoptionPets;
     }

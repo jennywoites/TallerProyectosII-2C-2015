@@ -9,6 +9,7 @@ import com.facebook.GraphResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ar.uba.fi.nicodiaz.mascota.DatabaseOperationListener;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
@@ -26,7 +27,7 @@ public class FacebookUtils {
     private FacebookUtils() {
     }
 
-    public void asociarUsuarioConDatosDeFacebook() {
+    public void asociarUsuarioConDatosDeFacebook(final DatabaseOperationListener databaseOperationListener) {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
@@ -58,10 +59,11 @@ public class FacebookUtils {
                                     user.setName(name);
                                 }
 
-                                userService.saveUser(user);
+                                userService.saveUser(user,databaseOperationListener);
 
                             } catch (JSONException e) {
                             }
+                            databaseOperationListener.onOperationSuccess();
                         }
                     }
                 });

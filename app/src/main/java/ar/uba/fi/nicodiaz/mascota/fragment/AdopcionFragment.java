@@ -107,7 +107,7 @@ public class AdopcionFragment extends Fragment {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                list = PetService.getInstance().getAdoptionPets();
+                list = PetService.getInstance().getAdoptionPets(0);
                 return true;
             }
 
@@ -142,28 +142,14 @@ public class AdopcionFragment extends Fragment {
 
                             @Override
                             protected Boolean doInBackground(Integer... currentPage) {
-                                // TODO: llamar a la base de datos y pedir 20 elementos mas
-                                // TODO: pasarle el numero de paginacion actual para hacer la cuenta del offset
-
-                                // Simulo que se pueden hacer hasta 2 pedidos mas:
-                                if (loops == 0)
-                                    return false;
-
-                                // Simulo que tarda bastante:
-                                for(int i = 0; i < 12; i++) {
-                                    tmp = PetService.getInstance().getAdoptionPets();
-                                }
-                                loops--;
-
-                                //pagina:
+                                tmp = PetService.getInstance().getAdoptionPets(currentPage[0]);
                                 Log.i(String.valueOf(Log.INFO), String.valueOf(currentPage[0]));
-
                                 return !tmp.isEmpty();
                             }
 
                             @Override
                             protected void onPostExecute(Boolean result) {
-                                list.remove(list.size() -1);
+                                list.remove(list.size() - 1);
                                 listAdapter.notifyItemRemoved(list.size());
                                 if (!result) {
                                     hayMas = false;
@@ -225,7 +211,7 @@ public class AdopcionFragment extends Fragment {
             protected Boolean doInBackground(Void... params) {
                 // TODO: realizar una query aca con los datos del filtro:
                 for (int i = 0; i < 7; i++) { // Simulo que tarda mas
-                    resultList = PetService.getInstance().getAdoptionPets();
+                    resultList = PetService.getInstance().getAdoptionPets(0);
                 }
                 loops = 3; // TODO: esto simula que la nueva query tiene 3 resultados mas de paginas. Borrar cuando este implementado posta.
                 return !(resultList.isEmpty());
@@ -296,6 +282,7 @@ public class AdopcionFragment extends Fragment {
     private ExpandableListView filtersList;
     private ArrayList<Filter> filters;
     private Map<String, List<String>> selectedFilter;
+
     private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
         filters = Filter.getFilters();

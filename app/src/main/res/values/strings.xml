@@ -11,6 +11,7 @@
     <string name="login">Iniciar Sesión</string>
     <string name="error_email_login">ingrese un correo válido</string>
     <string name="error_password_login">debe estar entre 4 y 10 caracteres</string>
+    <string name="loading_dialog_text">Cargando...</string>
 
     <!-- Datos cuenta -->
     <string name="title_activity_datos_cuenta">Nuevo Usuario</string>
@@ -73,5 +74,10 @@
     <string name="_8_15_years">8-15 años</string>
     <string name="dog">Perro</string>
     <string name="cat">Gato</string>
+    <string name="inicio_sesion_facebook_error">El inicio de sesion con facebook falló</string>
+
+    <!-- Services -->
+    <string name="error_saving_user">Error guardando usuario</string>
+
 
 </resources>

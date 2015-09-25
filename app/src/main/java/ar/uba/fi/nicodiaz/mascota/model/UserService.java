@@ -1,13 +1,21 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import com.parse.ParseUser;
+import android.util.Log;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import ar.uba.fi.nicodiaz.mascota.DatabaseOperationListener;
+import ar.uba.fi.nicodiaz.mascota.MyApplication;
+import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
  */
 public class UserService {
+    private static final String TAG = "UserService";
     private static UserService ourInstance = new UserService();
 
     public static UserService getInstance() {
@@ -27,6 +35,18 @@ public class UserService {
 
     public void saveUser(User user) {
         user.getParseUser().saveInBackground();
+    }
+
+    public void saveUser(User user, final DatabaseOperationListener databaseOperationListener) {
+        user.getParseUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.w(TAG, MyApplication.getContext().getResources().getString(R.string.error_saving_user) + e.toString());
+                }
+                databaseOperationListener.onOperationSuccess();
+            }
+        });
     }
 
     public boolean userLogged() {
