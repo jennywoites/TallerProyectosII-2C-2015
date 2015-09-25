@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,10 +87,10 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
 
 
+
+
         // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:
         // El id del video es el que aparece en la url de youtube del mismo. Eso habria que guardar.
-
-        video_slider = (SliderLayout) findViewById(R.id.video_slider);
         String id0 = "ycdcDFuGarM";
         String id1 = "TSC8p9-eBNc";
         String id2 = "RWSy24AVnZk";
@@ -98,31 +99,37 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         videos.put("Video 1", id1);
         videos.put("Video 2", id2);
 
-        for (final String name : videos.keySet()) {
-            TextSliderView slide = new TextSliderView(this);
-            slide.image("http://img.youtube.com/vi/" + videos.get(name) + "/mqdefault.jpg");
-            slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
-            slide.description("Reproducir");
-            slide.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-                @Override
-                public void onSliderClick(BaseSliderView baseSliderView) {
-                    Toast.makeText(baseSliderView.getContext(),"Click",Toast.LENGTH_SHORT).show();
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videos.get(name)));
-                        intent.putExtra("force_fullscreen", true); // TODO: en versiones viejas de youtube puede no funcionar.
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videos.get(name)));
-                        startActivity(intent);
-                    }
-                }
-            });
-            video_slider.addSlider(slide);
-        }
-        video_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
-        video_slider.setCustomAnimation(new DescriptionAnimation());
-        video_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator_video));
+        video_slider = (SliderLayout) findViewById(R.id.video_slider);
 
+        if (videos.isEmpty()) { // TODO: o otro metodo, la query de base de datos no devolvio datos
+            CardView cardview_video = (CardView) findViewById(R.id.cardview_video);
+            cardview_video.setVisibility(View.GONE);
+        } else {
+            for (final String name : videos.keySet()) {
+                TextSliderView slide = new TextSliderView(this);
+                slide.image("http://img.youtube.com/vi/" + videos.get(name) + "/mqdefault.jpg");
+                slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
+                slide.description("Reproducir");
+                slide.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                    @Override
+                    public void onSliderClick(BaseSliderView baseSliderView) {
+                        Toast.makeText(baseSliderView.getContext(), "Click", Toast.LENGTH_SHORT).show();
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videos.get(name)));
+                            intent.putExtra("force_fullscreen", true); // TODO: en versiones viejas de youtube puede no funcionar.
+                            startActivity(intent);
+                        } catch (ActivityNotFoundException e) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + videos.get(name)));
+                            startActivity(intent);
+                        }
+                    }
+                });
+                video_slider.addSlider(slide);
+            }
+            video_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
+            video_slider.setCustomAnimation(new DescriptionAnimation());
+            video_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator_video));
+        }
     }
 
     @Override
