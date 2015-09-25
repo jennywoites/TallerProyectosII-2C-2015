@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +20,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
@@ -30,8 +36,13 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1046;
     private Toolbar toolbar;
+    private Bitmap selectedBitmap;
     private ImageView image;
     private Button selectImageButton;
+    private ParseFile photoFile;
+    private ProgressDialog progressDialog;
+    private AdoptionPet pet;
+
 
     @Override
     public void onBackPressed() {
@@ -74,6 +85,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                 onPickPhoto();
             }
         });
+
+        pet = new AdoptionPet();
     }
 
     public void onPickPhoto() {
@@ -87,8 +100,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         if (data != null) {
             Uri photoUri = data.getData();
             try {
-                Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                image.setImageBitmap(selectedImage);
+                selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                saveScaledPhoto(selectedBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,6 +131,42 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         }
     }
 
+    private void saveScaledPhoto(Bitmap picture) {
+        uploadingPhoto();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        picture.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        byte[] scaledData = bos.toByteArray();
+
+        // Save the scaled image to Parse
+        photoFile = new ParseFile(picture.hashCode() + ".jpeg", scaledData);
+        photoFile.saveInBackground(new SaveCallback() {
+
+            public void done(ParseException e) {
+                finishUploadingPhoto();
+                if (e != null) {
+                    Toast.makeText(AdopcionPublicarActivity.this,
+                            getString(R.string.error_uploading_photo) + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    pet.setPicture(photoFile);
+                    image.setImageBitmap(selectedBitmap);
+                }
+            }
+        });
+    }
+
+    private void uploadingPhoto() {
+        progressDialog = ProgressDialog.show(this, null,
+                getString(R.string.subiendo_foto), true, false);
+    }
+
+    private void finishUploadingPhoto() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
     private void confirmarAgregarMascota() {
         if (!this.validate()) {
             return;
@@ -136,8 +185,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String medicineNotes = ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString();
 
         User user = UserService.getInstance().getUser();
-
-        AdoptionPet pet = new AdoptionPet();
         pet.setName(name);
         pet.setAgeRange(ageRange);
         pet.setDescription(description);
@@ -152,7 +199,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setMedicineNotes(medicineNotes);
 
         PetService.getInstance().saveAdoptionPet(pet);
-
         Toast.makeText(AdopcionPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
         finish();
     }

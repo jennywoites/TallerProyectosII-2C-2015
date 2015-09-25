@@ -164,4 +164,12 @@ public class AdoptionPet extends ParseObject implements Pet {
     public void setMedicineNotes(String notes) {
         put(MEDICINE_NOTES, notes);
     }
+
+    public void setPicture(ParseFile file) {
+        put(PICTURE, file);
+    }
+
+    public ParseFile getPicture() {
+        return getParseFile(PICTURE);
+    }
 }

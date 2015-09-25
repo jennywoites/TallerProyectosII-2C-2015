@@ -65,6 +65,8 @@
     <string name="action_logout">Cerrar Sesión</string>
     <string name="no_data_available">No hay mascotas para mostrar</string>
 
+    <string name="subiendo_foto">Cargando Foto...</string>
+
     <!-- Caracteristicas Mascota -->
     <string name="_0_3_months">0-3 meses</string>
     <string name="_4_6_months">4-6 meses</string>
@@ -78,6 +80,7 @@
 
     <!-- Services -->
     <string name="error_saving_user">Error guardando usuario</string>
+    <string name="error_uploading_photo">Ha ocurrido un error cargando la foto, intente nuevamente.</string>
 
 
 </resources>

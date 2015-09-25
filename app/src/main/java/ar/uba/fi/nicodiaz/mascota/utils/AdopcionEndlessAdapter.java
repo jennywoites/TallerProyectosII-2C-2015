@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
@@ -108,13 +111,27 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof MascotaViewHolder) {
+            MascotaViewHolder view = (MascotaViewHolder) viewHolder;
+
             AdoptionPet mascota = mascotas.get(i);
-            //((MascotaViewHolder) viewHolder).mascotaImage.setImageDrawable(context.getResources().getDrawable(mascota.getImageResourceId(context)));
-            ((MascotaViewHolder) viewHolder).mascotaName.setText(mascota.getName());
+            ParseFile photoFile = mascota.getPicture();
+            if (photoFile != null) {
+                view.mascotaImage.setVisibility(View.VISIBLE);
+                view.mascotaImage.setParseFile(photoFile);
+                view.mascotaImage.loadInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, ParseException e) {
+                    }
+                });
+            } else {
+                view.mascotaImage.setVisibility(View.INVISIBLE);
+            }
+
+            view.mascotaName.setText(mascota.getName());
             //  ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
-            ((MascotaViewHolder) viewHolder).mascotaDescription.setText(mascota.getDescription()); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
-            ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
-            ((MascotaViewHolder) viewHolder).currentMascota = mascota;
+            view.mascotaDescription.setText(mascota.getDescription()); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
+            view.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
+            view.currentMascota = mascota;
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.spin();
         }
@@ -138,12 +155,12 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public class MascotaViewHolder extends RecyclerView.ViewHolder {
         public TextView mascotaName;
         public TextView mascotaDescription;
-        public ImageView mascotaImage;
+        public ParseImageView mascotaImage;
         public AdoptionPet currentMascota;
 
         public MascotaViewHolder(final View itemView) {
             super(itemView);
-            mascotaImage = (ImageView) itemView.findViewById(R.id.petImage);
+            mascotaImage = (ParseImageView) itemView.findViewById(R.id.petImage);
             mascotaName = (TextView) itemView.findViewById(R.id.petName);
             mascotaDescription = (TextView) itemView.findViewById(R.id.petDescription);
             itemView.setOnClickListener(new View.OnClickListener() {
