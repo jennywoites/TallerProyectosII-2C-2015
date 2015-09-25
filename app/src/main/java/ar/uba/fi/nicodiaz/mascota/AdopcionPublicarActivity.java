@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -256,6 +258,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String errorName = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_NAME);
         String errorDescription = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION);
 
+
         if (nameText.isEmpty()) {
             name.setError(errorName);
             valid = false;
@@ -270,6 +273,38 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             description.setError(null);
         }
 
+        valid &= checkOpciones(R.id.rgSpecie, R.id.lbspecies);
+        valid &= checkOpciones(R.id.rgSexo, R.id.lbSexo);
+        valid &= checkOpciones(R.id.rgAge, R.id.lbAge);
+        valid &= checkOpciones(R.id.rgPets, R.id.lbSocialAnimales);
+        valid &= checkOpciones(R.id.rgChildren, R.id.lbSocialNiños);
+        valid &= checkOpciones(R.id.rgMedicine, R.id.lbMedicina);
+        valid &= checkOpciones(R.id.rgMedicineTime, R.id.lbMedicinaTiempo);
+
+        if (image.getDrawable() == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.ERROR);
+            builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
+            AlertDialog alert = builder.create();
+            alert.show();
+            valid = false;
+        }
+
+
         return (valid);
+    }
+
+    private boolean checkOpciones(int radioGrupoId, int labelId) {
+        String errorOpciones = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS);
+        RadioGroup rg = (RadioGroup) findViewById(radioGrupoId);
+        TextView textView = (TextView) findViewById(labelId);
+
+        if (rg.getCheckedRadioButtonId() == -1) {
+            textView.setError(errorOpciones);
+            return false;
+        } else {
+            textView.setError(null);
+            return true;
+        }
     }
 }
