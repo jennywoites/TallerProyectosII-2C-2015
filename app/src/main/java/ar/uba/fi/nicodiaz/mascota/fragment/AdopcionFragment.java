@@ -34,6 +34,7 @@ import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
@@ -55,6 +56,7 @@ public class AdopcionFragment extends Fragment {
 
     private DrawerLayout drawerLayout;
     private FloatingActionButton FAB;
+    private View mainView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,11 +66,11 @@ public class AdopcionFragment extends Fragment {
         setHasOptionsMenu(true);
 
         // View:
-        View view = inflater.inflate(R.layout.fragment_adopcion, container, false);
-        view.setTag(TAG);
+        mainView = inflater.inflate(R.layout.fragment_adopcion, container, false);
+        mainView.setTag(TAG);
 
         // FAB
-        FAB = (FloatingActionButton) view.findViewById(R.id.FAB_agregar_adopcion);
+        FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_adopcion);
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +79,7 @@ public class AdopcionFragment extends Fragment {
         });
 
         // Sliding Menu
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.sliding_layout);
+        drawerLayout = (DrawerLayout) mainView.findViewById(R.id.sliding_layout);
 
         hayMas = true;
 
@@ -156,7 +158,7 @@ public class AdopcionFragment extends Fragment {
                                 //pagina:
                                 Log.i(String.valueOf(Log.INFO), String.valueOf(currentPage[0]));
 
-                                return true; // TODO: return true si hay mas datos, o false si no.
+                                return !tmp.isEmpty();
                             }
 
                             @Override
@@ -183,9 +185,7 @@ public class AdopcionFragment extends Fragment {
                 });
 
                 listView.setAdapter(listAdapter);
-
                 linlaHeaderProgress.setVisibility(View.GONE);
-
                 emptyView = (TextView) view.findViewById(R.id.empty_view);
 
                 checkEmptyList();
@@ -193,25 +193,57 @@ public class AdopcionFragment extends Fragment {
 
         }
 
-        InitialPetLoader loader = new InitialPetLoader(view);
+        InitialPetLoader loader = new InitialPetLoader(mainView);
         loader.execute();
 
         // Filter:
-        createFilterMenu(view);
+        createFilterMenu(mainView);
 
-        return view;
+        return mainView;
     }
 
 
     private void applyQuery() {
-        // TODO: actualizar la lista "list" con los nuevos datos. Quizas haya que hacer clean de la lista y el adapter.
-        // list = nueva lista.
 
-        // avisamos que cambió la lista:
-        listAdapter.notifyDataSetChanged();
+        class NewPetLoader extends AsyncTask<Void, Void, Boolean> {
 
-        // vemos si hubo algun resultado:
-        checkEmptyList();
+            private LinearLayout linlaHeaderProgress;
+            private List<AdoptionPet> resultList;
+
+            public NewPetLoader(View view) {
+                linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
+            }
+
+            @Override
+            protected void onPreExecute() {
+                list.clear();
+                listAdapter.notifyDataSetChanged();
+                linlaHeaderProgress.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                // TODO: realizar una query aca con los datos del filtro:
+                for (int i = 0; i < 7; i++) { // Simulo que tarda mas
+                    resultList = PetService.getInstance().getAdoptionPets();
+                }
+                loops = 3; // TODO: esto simula que la nueva query tiene 3 resultados mas de paginas. Borrar cuando este implementado posta.
+                return !(resultList.isEmpty());
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                linlaHeaderProgress.setVisibility(View.GONE);
+                if (result) {
+                    list.addAll(resultList);
+                    listAdapter.notifyDataSetChanged();
+                    listAdapter.reset();
+                }
+                checkEmptyList();
+            }
+        }
+
+        new NewPetLoader(mainView).execute();
     }
 
     private void checkEmptyList() {
@@ -335,7 +367,7 @@ public class AdopcionFragment extends Fragment {
 
                 // aplicar cambios a la lista
                 hayMas = true;
-                //applyQuery();
+                applyQuery();
             }
         });
 
@@ -346,7 +378,7 @@ public class AdopcionFragment extends Fragment {
                 filters = Filter.getFilters();
                 adapter = new SettingsListAdapter(activity, filters, filtersList);
                 filtersList.setAdapter(adapter);
-                selectedFilter = new HashMap<>();
+                selectedFilter.clear();
                 Toast.makeText(activity, "Filtro Desactivado", Toast.LENGTH_SHORT).show();
             }
         });

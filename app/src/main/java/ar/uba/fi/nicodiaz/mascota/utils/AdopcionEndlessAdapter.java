@@ -25,6 +25,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
+    private final RecyclerView view;
 
     // The minimum amount of items to have below your current scroll position before loading more.
     private int visibleThreshold = 1;
@@ -53,13 +54,21 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.onLoadMoreListener = onLoadMoreListener;
     }
 
+    public void reset() {
+        loading = false;
+        totalItemCount = ((LinearLayoutManager) view.getLayoutManager()).getItemCount();
+        lastVisibleItem = ((LinearLayoutManager) view.getLayoutManager()).findLastVisibleItemPosition();
+        currentPage = 1; // TODO: o cero
+    }
+
     public AdopcionEndlessAdapter(List<AdoptionPet> mascotas, RecyclerView recyclerView, Context context) {
         this.mascotas = mascotas;
         this.context = context;
+        this.view = recyclerView;
 
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+        if (view.getLayoutManager() instanceof LinearLayoutManager) {
 
-            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) view.getLayoutManager();
             recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
