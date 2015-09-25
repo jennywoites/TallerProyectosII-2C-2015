@@ -19,6 +19,18 @@ public interface Pet {
 
     public User getCatcher();
 
+    public String getOtherPets();
+
+    public String getChildren();
+
+    public String getSocialNotes();
+
+    public String getMedicine();
+
+    public String getMedicineTime();
+
+    public String getMedicineNotes();
+
     public void setAgeRange(String ageRange);
 
     public void setDescription(String description);
@@ -32,4 +44,16 @@ public interface Pet {
     public void setOwner(User user);
 
     public void setCatcher(User user);
+
+    public void setOtherPets(String otherPets);
+
+    public void setChildren(String children);
+
+    public void setSocialNotes(String notes);
+
+    public void setMedicine(String medicine);
+
+    public void setMedicineTime(String time);
+
+    public void setMedicineNotes(String notes);
 }

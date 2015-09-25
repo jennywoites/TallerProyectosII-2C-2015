@@ -2,7 +2,6 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,21 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-
 import java.io.IOException;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
-import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
 
@@ -109,6 +103,12 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
         String ageRange = this.getAgeValue();
+        String pets = this.getPetsValue();
+        String children = this.getChildrenValue();
+        String socialNotes = ((EditText) findViewById(R.id.txtSocialNotes)).getText().toString();
+        String medicine = this.getMedicineValue();
+        String medicineTime = this.getMedicineTimeValue();
+        String medicineNotes = ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString();
 
         User user = UserService.getInstance().getUser();
 
@@ -119,6 +119,12 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setGender(gender);
         pet.setKind(kind);
         pet.setOwner(user);
+        pet.setOtherPets(pets);
+        pet.setChildren(children);
+        pet.setSocialNotes(socialNotes);
+        pet.setMedicine(medicine);
+        pet.setMedicineTime(medicineTime);
+        pet.setMedicineNotes(medicineNotes);
 
         PetService.getInstance().saveAdoptionPet(pet);
 
@@ -140,6 +146,30 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
     private String getAgeValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgAge);
+        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        return (radiovalue);
+    }
+
+    private String getPetsValue() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rgPets);
+        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        return (radiovalue);
+    }
+
+    private String getChildrenValue() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rgChildren);
+        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        return (radiovalue);
+    }
+
+    private String getMedicineValue() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicine);
+        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        return (radiovalue);
+    }
+
+    private String getMedicineTimeValue() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicineTime);
         String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
         return (radiovalue);
     }

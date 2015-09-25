@@ -30,6 +30,14 @@
                     layout="@layout/cardview_adopcion_publicar_info_basica" />
 
                 <include
+                    android:id="@+id/cardview_adopcion_publicar_social"
+                    layout="@layout/cardview_adopcion_publicar_social" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_medicina"
+                    layout="@layout/cardview_adopcion_publicar_medicina" />
+
+                <include
                     android:id="@+id/cardview_adopcion_publicar_info_basica_foto"
                     layout="@layout/cardview_adopcion_publicar_info_basica_foto" />
             </LinearLayout>
