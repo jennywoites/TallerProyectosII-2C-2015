@@ -13,20 +13,20 @@ import com.parse.SaveCallback;
 @ParseClassName("MascotaEnAdopcion")
 public class AdoptionPet extends ParseObject implements Pet {
 
-    private static final String AGE = "age";
-    private static final String DESCRIPTION = "description";
-    private static final String NAME = "name";
-    private static final String GENDER = "gender";
-    private static final String KIND = "kind";
-    private static final String OWNER = "owner";
-    private static final String CATCHER = "catcher";
-    private static final String PICTURE = "picture";
-    private static final String PETS = "pets";
-    private static final String CHILDREN = "children";
-    private static final String SOCIAL_NOTES = "socialNotes";
-    private static final String MEDICINE = "medicine";
-    private static final String MEDICINE_TIME = "medicineTime";
-    private static final String MEDICINE_NOTES = "medicineNotes";
+    public static final String AGE = "age";
+    public static final String DESCRIPTION = "description";
+    public static final String NAME = "name";
+    public static final String GENDER = "gender";
+    public static final String KIND = "kind";
+    public static final String OWNER = "owner";
+    public static final String CATCHER = "catcher";
+    public static final String PICTURE = "picture";
+    public static final String PETS = "pets";
+    public static final String CHILDREN = "children";
+    public static final String SOCIAL_NOTES = "socialNotes";
+    public static final String MEDICINE = "medicine";
+    public static final String MEDICINE_TIME = "medicineTime";
+    public static final String MEDICINE_NOTES = "medicineNotes";
 
     private AdoptionPet instance = this;
 

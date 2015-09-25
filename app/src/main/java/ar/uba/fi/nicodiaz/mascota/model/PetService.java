@@ -32,9 +32,11 @@ public class PetService {
     }
 
     public List<AdoptionPet> getAdoptionPets(int page) {
+        User user = UserService.getInstance().getUser();
         List<AdoptionPet> adoptionPets = new ArrayList<>();
         ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
         query.addDescendingOrder("createdAt");
+        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         query.setLimit(LIMIT);
         query.setSkip(page * LIMIT);
 
