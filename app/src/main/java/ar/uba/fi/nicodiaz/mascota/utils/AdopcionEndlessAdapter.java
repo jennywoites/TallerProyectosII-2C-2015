@@ -58,7 +58,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void reset() {
-        loading = false;
+        loading = true;
         totalItemCount = ((LinearLayoutManager) view.getLayoutManager()).getItemCount();
         lastVisibleItem = ((LinearLayoutManager) view.getLayoutManager()).findLastVisibleItemPosition();
         currentPage = 1; // TODO: o cero

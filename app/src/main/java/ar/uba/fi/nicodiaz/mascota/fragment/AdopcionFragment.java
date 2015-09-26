@@ -34,7 +34,6 @@ import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
@@ -205,6 +204,7 @@ public class AdopcionFragment extends Fragment {
                 list.clear();
                 listAdapter.notifyDataSetChanged();
                 linlaHeaderProgress.setVisibility(View.VISIBLE);
+                listAdapter.reset();
             }
 
             @Override
@@ -223,9 +223,9 @@ public class AdopcionFragment extends Fragment {
                 if (result) {
                     list.addAll(resultList);
                     listAdapter.notifyDataSetChanged();
-                    listAdapter.reset();
                 }
                 checkEmptyList();
+                listAdapter.setLoaded();
             }
         }
 
