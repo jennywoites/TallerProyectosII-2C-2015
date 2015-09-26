@@ -1,15 +1,10 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import ar.uba.fi.nicodiaz.mascota.MyApplication;
-import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
@@ -199,6 +194,16 @@ public class AdoptionPet extends ParseObject implements Pet {
     @Override
     public void setBreed(String breed) {
         put(BREED,breed);
+    }
+
+    @Override
+    public String getPreviewDescription() {
+        String previewDescription = "";
+
+        previewDescription += "Edad: " + getAgeRange();
+        previewDescription += " / Ubicación: " + "STUB"; // TODO: incluir barrio (?)
+
+        return previewDescription;
     }
 
     public void setPicture(ParseFile file) {

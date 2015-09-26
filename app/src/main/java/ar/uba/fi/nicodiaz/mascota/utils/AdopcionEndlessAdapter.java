@@ -129,7 +129,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
 
             view.mascotaName.setText(mascota.getName());
-            view.mascotaDescription.setText(mascota.getDescription());
+            view.mascotaDescription.setText(mascota.getPreviewDescription());
 
             if (mascota.isMale()) {
                 view.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null);

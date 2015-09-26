@@ -5,59 +5,61 @@ package ar.uba.fi.nicodiaz.mascota.model;
  */
 public interface Pet {
 
-    public String getAgeRange();
+    String getAgeRange();
 
-    public String getDescription();
+    String getDescription();
 
-    public String getName();
+    String getName();
 
-    public String getGender();
+    String getGender();
 
-    public String getKind();
+    String getKind();
 
-    public User getOwner();
+    User getOwner();
 
-    public User getCatcher();
+    User getCatcher();
 
-    public String getOtherPets();
+    String getOtherPets();
 
-    public String getChildren();
+    String getChildren();
 
-    public String getSocialNotes();
+    String getSocialNotes();
 
-    public String getMedicine();
+    String getMedicine();
 
-    public String getMedicineTime();
+    String getMedicineTime();
 
-    public String getMedicineNotes();
+    String getMedicineNotes();
 
-    public String getBreed();
+    String getBreed();
 
-    public void setAgeRange(String ageRange);
+    void setAgeRange(String ageRange);
 
-    public void setDescription(String description);
+    void setDescription(String description);
 
-    public void setName(String name);
+    void setName(String name);
 
-    public void setGender(String gender);
+    void setGender(String gender);
 
-    public void setKind(String petKind);
+    void setKind(String petKind);
 
-    public void setOwner(User user);
+    void setOwner(User user);
 
-    public void setCatcher(User user);
+    void setCatcher(User user);
 
-    public void setOtherPets(String otherPets);
+    void setOtherPets(String otherPets);
 
-    public void setChildren(String children);
+    void setChildren(String children);
 
-    public void setSocialNotes(String notes);
+    void setSocialNotes(String notes);
 
-    public void setMedicine(String medicine);
+    void setMedicine(String medicine);
 
-    public void setMedicineTime(String time);
+    void setMedicineTime(String time);
 
-    public void setMedicineNotes(String notes);
+    void setMedicineNotes(String notes);
 
-    public void setBreed(String breed);
+    void setBreed(String breed);
+
+    String getPreviewDescription();
 }
