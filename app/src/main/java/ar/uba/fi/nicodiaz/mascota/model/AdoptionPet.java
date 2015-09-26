@@ -1,11 +1,16 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
+
+import ar.uba.fi.nicodiaz.mascota.MyApplication;
+import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -18,6 +23,7 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String NAME = "name";
     public static final String GENDER = "gender";
     public static final String KIND = "kind";
+    public static final String BREED = "breed";
     public static final String OWNER = "owner";
     public static final String CATCHER = "catcher";
     public static final String PICTURE = "picture";
@@ -28,9 +34,29 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String MEDICINE_TIME = "medicineTime";
     public static final String MEDICINE_NOTES = "medicineNotes";
 
+    public static String MALE = "Macho";
+
     private AdoptionPet instance = this;
 
     public AdoptionPet() {
+    }
+
+    public AdoptionPet(ParseProxyObject ppo) {
+        setAgeRange(ppo.getString(AGE));
+        setDescription(ppo.getString(DESCRIPTION));
+        setName(ppo.getString(NAME));
+        setGender(ppo.getString(GENDER));
+        setKind(ppo.getString(KIND));
+        setBreed(ppo.getString(BREED));
+/*        User owner = new User(ppo.getParseUser(OWNER));
+        setOwner(owner);*/
+        setPicture(new ParseFile(ppo.getBytes(PICTURE)));
+        setOtherPets(ppo.getString(PETS));
+        setChildren(ppo.getString(CHILDREN));
+        setSocialNotes(ppo.getString(SOCIAL_NOTES));
+        setMedicine(ppo.getString(MEDICINE));
+        setMedicineTime(ppo.getString(MEDICINE_TIME));
+        setMedicineNotes(ppo.getString(MEDICINE_NOTES));
     }
 
     @Override
@@ -101,6 +127,11 @@ public class AdoptionPet extends ParseObject implements Pet {
     }
 
     @Override
+    public String getBreed() {
+        return getString(BREED);
+    }
+
+    @Override
     public void setAgeRange(String ageRange) {
         put(AGE, ageRange);
     }
@@ -165,6 +196,11 @@ public class AdoptionPet extends ParseObject implements Pet {
         put(MEDICINE_NOTES, notes);
     }
 
+    @Override
+    public void setBreed(String breed) {
+        put(BREED,breed);
+    }
+
     public void setPicture(ParseFile file) {
         put(PICTURE, file);
     }
@@ -172,4 +208,9 @@ public class AdoptionPet extends ParseObject implements Pet {
     public ParseFile getPicture() {
         return getParseFile(PICTURE);
     }
+
+    public boolean isMale() {
+        return getGender().equals(MALE);
+    }
+
 }

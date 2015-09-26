@@ -31,6 +31,8 @@ public interface Pet {
 
     public String getMedicineNotes();
 
+    public String getBreed();
+
     public void setAgeRange(String ageRange);
 
     public void setDescription(String description);
@@ -56,4 +58,6 @@ public interface Pet {
     public void setMedicineTime(String time);
 
     public void setMedicineNotes(String notes);
+
+    public void setBreed(String breed);
 }

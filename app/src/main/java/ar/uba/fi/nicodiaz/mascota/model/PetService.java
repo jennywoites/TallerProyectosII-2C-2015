@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.MyApplication;
+import ar.uba.fi.nicodiaz.mascota.R;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -17,6 +18,9 @@ public class PetService {
 
     private static PetService ourInstance = new PetService();
     private static Integer LIMIT = 4;
+    private static String CAT = "Gato";
+    private static String DOG = "Perro";
+
 
     public static PetService getInstance() {
         return ourInstance;
@@ -47,5 +51,14 @@ public class PetService {
         }
 
         return adoptionPets;
+    }
+
+    public int getIconPet(String petKind) {
+        if (petKind.equals(DOG)) {
+            return R.drawable.ic_dog;
+        } else if (petKind.equals(CAT)) {
+            return R.drawable.ic_cat;
+        }
+        return -1;
     }
 }

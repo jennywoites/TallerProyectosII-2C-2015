@@ -18,6 +18,7 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -128,9 +129,19 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
 
             view.mascotaName.setText(mascota.getName());
-            //  ((MascotaViewHolder) viewHolder).mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_cat), null);
-            view.mascotaDescription.setText(mascota.getDescription()); // TODO: aca hay que armarse el string como queremos que se muestre, con la edad, la ubicación, etc.
-            view.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null); // TODO: aca hay que elegir la imagen dependiendo del animal y sexo
+            view.mascotaDescription.setText(mascota.getDescription());
+
+            if (mascota.isMale()) {
+                view.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_male), null);
+            } else {
+                view.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_female), null);
+            }
+
+            int iconPetID = PetService.getInstance().getIconPet(mascota.getKind());
+            if (iconPetID != -1) {
+                view.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(iconPetID), null);
+            }
+
             view.currentMascota = mascota;
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.spin();

@@ -33,7 +33,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="32dp"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:text="Pet Name"
                 android:gravity="center_vertical"

@@ -17,9 +17,13 @@ import ar.uba.fi.nicodiaz.mascota.model.User;
  * Created by Juan Manuel Romera on 13/9/2015.
  */
 public class MyApplication extends Application {
+
+    private static Context mContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
 
         // Register your parse models
         ParseObject.registerSubclass(Address.class);
@@ -35,7 +39,7 @@ public class MyApplication extends Application {
     }
 
     public static Context getContext() {
-        return getContext();
+        return mContext;
     }
 
 }

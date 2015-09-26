@@ -50,6 +50,7 @@
             android:paddingTop="8dp"/>
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:id="@+id/infSexoPet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="sexo"
@@ -66,6 +67,7 @@
             android:paddingTop="8dp"/>
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:id="@+id/infRazaPet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="raza"
@@ -83,11 +85,12 @@
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="fill_parent"
+            android:id="@+id/infEdadPet"
             android:layout_height="wrap_content"
             android:text="edad"
             android:paddingStart="16dp"
             android:paddingBottom="8dp"/>
-
+<!--
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:textStyle="bold"
@@ -101,7 +104,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="situacion"
-            android:paddingStart="16dp" />
+            android:paddingStart="16dp" />-->
 
     </LinearLayout>
 

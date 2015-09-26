@@ -37,6 +37,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
+import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 
 public class AdopcionFragment extends Fragment {
@@ -119,7 +120,12 @@ public class AdopcionFragment extends Fragment {
                         // TODO: aca se maneja el click sobre un item de la lista:
 
                         Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                        i.putExtra("ID", list.get(position).getName()); // TODO: Acá tirarle algun ID para que la activity lo busque en la base de datos y obtenga TODOS los datos.
+                        ArrayList<String> urlPhotos = new ArrayList<String>();
+                        AdoptionPet adoptionPet = list.get(position);
+                        urlPhotos.add(adoptionPet.getPicture().getUrl());
+                        ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
+                        i.putExtra("Pet", ppo);
+                        i.putStringArrayListExtra("UrlPhotos", urlPhotos);
                         startActivity(i);
                         getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
                     }

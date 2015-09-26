@@ -76,6 +76,8 @@
     <string name="_8_15_years">8-15 años</string>
     <string name="dog">Perro</string>
     <string name="cat">Gato</string>
+    <string name="pet_male">Macho</string>
+    <string name="pet_female">Hembra</string>
     <string name="inicio_sesion_facebook_error">El inicio de sesion con facebook falló</string>
 
     <!-- Services -->
@@ -93,6 +95,7 @@
     <string name="MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS">Debes seleccionar alguna opción</string>
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
     <string name="ERROR">Error</string>
+    <string name="raza_desconocida">Desconocida</string>
 
 
 </resources>
