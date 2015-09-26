@@ -154,9 +154,11 @@ public class AdopcionFragment extends Fragment {
                                     hayMas = false;
                                     return;
                                 }
-                                list.addAll(tmp);
 
-                                listAdapter.notifyDataSetChanged();
+                                for (AdoptionPet pet : tmp) {
+                                    list.add(pet);
+                                    listAdapter.notifyItemInserted(list.size() - 1);
+                                }
                                 listAdapter.setLoaded();
                             }
                         }
