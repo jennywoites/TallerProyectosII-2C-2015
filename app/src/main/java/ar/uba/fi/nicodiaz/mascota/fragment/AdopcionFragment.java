@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
@@ -149,7 +150,13 @@ public class AdopcionFragment extends Fragment {
 
                             @Override
                             protected Boolean doInBackground(Integer... currentPage) {
-                                tmp = PetService.getInstance().getAdoptionPets(currentPage[0]);
+
+                                if (selectedFilter.isEmpty()) {
+                                    tmp = PetService.getInstance().getAdoptionPets(currentPage[0]);
+                                } else {
+                                    tmp = PetService.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
+                                }
+
                                 Log.i(String.valueOf(Log.INFO), String.valueOf(currentPage[0]));
                                 return !tmp.isEmpty();
                             }
@@ -220,11 +227,16 @@ public class AdopcionFragment extends Fragment {
             @Override
             protected Boolean doInBackground(Void... params) {
                 // TODO: realizar una query aca con los datos del filtro:
-                for (int i = 0; i < 7; i++) { // Simulo que tarda mas
+
+                Set<String> filtersKeys = selectedFilter.keySet();
+                resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
+                return !(resultList.isEmpty());
+
+     /*           for (int i = 0; i < 7; i++) { // Simulo que tarda mas
                     resultList = PetService.getInstance().getAdoptionPets(0);
                 }
-                loops = 3; // TODO: esto simula que la nueva query tiene 3 resultados mas de paginas. Borrar cuando este implementado posta.
-                return !(resultList.isEmpty());
+                loops = 3; // TODO: esto simula que la nueva query tiene 3 resultados mas de paginas. Borrar cuando este implementado posta.*/
+
             }
 
             @Override

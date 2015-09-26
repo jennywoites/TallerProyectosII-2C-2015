@@ -2,7 +2,10 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -26,8 +29,11 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
@@ -40,6 +46,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     //int mutedColor = R.attr.colorPrimary;
     private SliderLayout photo_slider;
     private SliderLayout video_slider;
+    private ImageView headerImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,14 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
 
         // Cargo la Foto en el header
-        final ImageView header = (ImageView) findViewById(R.id.header);
+        headerImage = (ImageView) findViewById(R.id.header);
+
+/*        final String photoUrl = urlPhotos.isEmpty() ? null : urlPhotos.get(0);
+        if (photoUrl != null) {
+            new LoadPhotoTask().execute(photoUrl);
+        }*/
+
+
         final ParseImageView imageView = new ParseImageView(this);
         ParseFile photoFile = adoptionPet.getPicture();
         if (photoFile != null) {
@@ -71,10 +85,16 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             imageView.loadInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
-                    header.setImageDrawable(imageView.getDrawable());
+
+                    try {
+                        headerImage.setImageDrawable(imageView.getDrawable());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
         }
+
 
         loadInformacionBasica(adoptionPet);
 
@@ -94,32 +114,45 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         });*/
 
 
-/*        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
+    /*        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
 
-        // TODO: pedir de la base de datos con el ID recibido por intent
-        HashMap<String, Integer> photos = new HashMap<>();
-        photos.put("Photo 0", getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()));
-        photos.put("Photo 1", getResources().getIdentifier((petName + "1").toLowerCase(), "drawable", getPackageName()));
-        photos.put("Photo 2", getResources().getIdentifier((petName + "2").toLowerCase(), "drawable", getPackageName()));
-        photos.put("Photo 3", getResources().getIdentifier((petName + "3").toLowerCase(), "drawable", getPackageName()));
-*/
+            // TODO: pedir de la base de datos con el ID recibido por intent
+            HashMap<String, Integer> photos = new HashMap<>();
+            photos.put("Photo 0", getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()));
+            photos.put("Photo 1", getResources().getIdentifier((petName + "1").toLowerCase(), "drawable", getPackageName()));
+            photos.put("Photo 2", getResources().getIdentifier((petName + "2").toLowerCase(), "drawable", getPackageName()));
+            photos.put("Photo 3", getResources().getIdentifier((petName + "3").toLowerCase(), "drawable", getPackageName()));
+    */
         final HashMap<String, String> photos = new HashMap<>();
         int aux = 0;
-        for (String url : urlPhotos) {
+        for (
+                String url
+                : urlPhotos)
+
+        {
             photos.put("Photo " + aux, url);
             aux++;
         }
 
 
-        for (String name : photos.keySet()) {
+        for (
+                String name
+                : photos.keySet())
+
+        {
             DefaultSliderView slide = new DefaultSliderView(this);
             slide.image(photos.get(name));
 
             slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
             photo_slider.addSlider(slide);
         }
+
         photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
-        photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
+        photo_slider.setCustomIndicator((PagerIndicator)
+
+                        findViewById(R.id.custom_indicator)
+
+        );
 
 
         // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:
@@ -132,12 +165,18 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         videos.put("Video 1", id1);
         videos.put("Video 2", id2);
 
-        video_slider = (SliderLayout) findViewById(R.id.video_slider);
+        video_slider = (SliderLayout)
 
-        if (videos.isEmpty()) { // TODO: o otro metodo, la query de base de datos no devolvio datos
+                findViewById(R.id.video_slider);
+
+        if (videos.isEmpty())
+
+        { // TODO: o otro metodo, la query de base de datos no devolvio datos
             CardView cardview_video = (CardView) findViewById(R.id.cardview_video);
             cardview_video.setVisibility(View.GONE);
-        } else {
+        } else
+
+        {
             for (final String name : videos.keySet()) {
                 TextSliderView slide = new TextSliderView(this);
                 slide.image("http://img.youtube.com/vi/" + videos.get(name) + "/mqdefault.jpg");
@@ -231,4 +270,28 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
+
+/*    private class LoadPhotoTask extends AsyncTask<String, String, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... arg0) {
+            try {
+                URL newURL = new URL(arg0[0]);
+                InputStream in = newURL.openStream();
+                Bitmap photo = BitmapFactory.decodeStream(in);
+                return photo;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            if (image != null) {
+                headerImage.setImageBitmap(image);
+            }
+        }
+    }*/
 }

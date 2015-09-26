@@ -2,10 +2,18 @@ package ar.uba.fi.nicodiaz.mascota.utils;
 
 import java.util.ArrayList;
 
+import ar.uba.fi.nicodiaz.mascota.MyApplication;
+import ar.uba.fi.nicodiaz.mascota.R;
+
 public class Filter {
 
     public ArrayList<Filter> children;
     public ArrayList<String> selection;
+
+    public static String ESPECIE = "Especie";
+    public static String SEXO = "Sexo";
+    public static String EDAD = "Edad";
+    public static String DISTANCIA = "Distancia";
 
 
     public String name;
@@ -32,30 +40,31 @@ public class Filter {
     public static ArrayList<Filter> getFilters() {
         ArrayList<Filter> filters = new ArrayList<>();
 
-        filters.add(new Filter("Especie")
-                            .addChildren("Perro")
-                            .addChildren("Gato"));
 
-        filters.add(new Filter("Sexo")
-                        .addChildren("Macho")
-                        .addChildren("Hembra"));
+        filters.add(new Filter(ESPECIE)
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.dog))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.cat)));
 
-        // TODO: especificar rangos:
-        filters.add(new Filter("Edad")
-                .addChildren("0-3 months")
-                .addChildren("4-6 months")
-                .addChildren("7-12 months")
-                .addChildren("1-3 years")
-                .addChildren("4-7 years")
-                .addChildren("8-15 years"));
+        filters.add(new Filter(SEXO)
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_male))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_female)));
 
         // TODO: especificar rangos:
-        filters.add(new Filter("Distancia")
-                        .addChildren("Menos de 1km")
-                        .addChildren("Entre 1km y 5km")
-                        .addChildren("Entre 5km y 10km")
-                        .addChildren("Entre 10km y 15km")
-                        .addChildren("Más de 15km"));
+        filters.add(new Filter(EDAD)
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._0_3_months))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._4_6_months))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._7_12_months))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._1_3_years))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._4_7_years))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string._8_15_years)));
+
+        // TODO: especificar rangos:
+        filters.add(new Filter(DISTANCIA)
+                .addChildren("Menos de 1km")
+                .addChildren("Entre 1km y 5km")
+                .addChildren("Entre 5km y 10km")
+                .addChildren("Entre 10km y 15km")
+                .addChildren("Más de 15km"));
 
         return filters;
     }
