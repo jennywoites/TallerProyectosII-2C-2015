@@ -122,7 +122,9 @@ public class AdopcionFragment extends Fragment {
                         Intent i = new Intent(activity, MascotaDetalleActivity.class);
                         ArrayList<String> urlPhotos = new ArrayList<String>();
                         AdoptionPet adoptionPet = list.get(position);
-                        urlPhotos.add(adoptionPet.getPicture().getUrl());
+                        if (adoptionPet.getPicture() != null) {
+                            urlPhotos.add(adoptionPet.getPicture().getUrl());
+                        }
                         ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
                         i.putExtra("Pet", ppo);
                         i.putStringArrayListExtra("UrlPhotos", urlPhotos);
