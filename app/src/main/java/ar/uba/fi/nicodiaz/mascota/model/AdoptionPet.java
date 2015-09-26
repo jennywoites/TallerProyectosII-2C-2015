@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -28,7 +29,7 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String MEDICINE = "medicine";
     public static final String MEDICINE_TIME = "medicineTime";
     public static final String MEDICINE_NOTES = "medicineNotes";
-
+    public static final String LOCATION = "location";
     public static String MALE = "Macho";
 
     private AdoptionPet instance = this;
@@ -153,6 +154,8 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public void setOwner(User user) {
+        ParseGeoPoint location = user.getAddress().getLocation();
+        put(LOCATION, location);
         put(OWNER, user.getParseUser());
     }
 
@@ -193,7 +196,7 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public void setBreed(String breed) {
-        put(BREED,breed);
+        put(BREED, breed);
     }
 
     @Override

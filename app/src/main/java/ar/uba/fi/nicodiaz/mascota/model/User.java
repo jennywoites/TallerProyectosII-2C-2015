@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 /**
@@ -54,7 +55,12 @@ public class User {
     }
 
     public Address getAddress() {
-        return (Address) user.getParseObject(USER_ADDRESS_FIELD);
+        try {
+            return (Address) user.getParseObject(USER_ADDRESS_FIELD).fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setAddress(Address address) {
