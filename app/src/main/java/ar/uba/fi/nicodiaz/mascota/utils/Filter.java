@@ -16,6 +16,9 @@ public class Filter {
     public static String DISTANCIA = "Distancia";
     public static String MAS_15 = "Más de 15km";
     public static String MENOS_1 = "Menos de 1km";
+    public static String D_ENTRE_1_5 = "Entre 1km y 5km";
+    public static String D_ENTRE_5_10 = "Entre 5km y 10km";
+    public static String D_ENTRE_10_15 = "Entre 10km y 15km";
 
 
     public String name;
@@ -63,9 +66,9 @@ public class Filter {
         // TODO: especificar rangos:
         filters.add(new Filter(DISTANCIA)
                 .addChildren(MENOS_1)
-                .addChildren("Entre 1km y 5km")
-                .addChildren("Entre 5km y 10km")
-                .addChildren("Entre 10km y 15km")
+                .addChildren(D_ENTRE_1_5)
+                .addChildren(D_ENTRE_5_10)
+                .addChildren(D_ENTRE_10_15)
                 .addChildren(MAS_15));
 
         return filters;

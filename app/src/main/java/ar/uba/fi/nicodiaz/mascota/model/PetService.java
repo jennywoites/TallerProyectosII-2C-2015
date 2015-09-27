@@ -76,7 +76,17 @@ public class PetService {
                         ParseQuery<AdoptionPet> queryDistance = ParseQuery.getQuery(AdoptionPet.class);
                         queryDistance.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), 1);
                         query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryDistance);
+                    } else if (distancia.equals(Filter.D_ENTRE_1_5)) {
+                        ParseQuery<AdoptionPet> queryResult = createQueryDistanceBetween(user, 5, 1);
+                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
+                    } else if (distancia.equals(Filter.D_ENTRE_5_10)) {
+                        ParseQuery<AdoptionPet> queryResult = createQueryDistanceBetween(user, 10, 5);
+                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
+                    } else if (distancia.equals(Filter.D_ENTRE_10_15)) {
+                        ParseQuery<AdoptionPet> queryResult = createQueryDistanceBetween(user, 15, 10);
+                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
                     }
+
 
                     querys.add(query);
                 }
@@ -105,6 +115,16 @@ public class PetService {
         }
 
         return query;
+    }
+
+    private ParseQuery<AdoptionPet> createQueryDistanceBetween(User user, int distanceMax, int distanceMin) {
+        ParseQuery<AdoptionPet> queryMax = ParseQuery.getQuery(AdoptionPet.class);
+        queryMax.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), distanceMax);
+
+        ParseQuery<AdoptionPet> queryMin = ParseQuery.getQuery(AdoptionPet.class);
+        queryMin.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), distanceMin);
+        ParseQuery<AdoptionPet> queryResult = queryMax.whereDoesNotMatchKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryMin);
+        return queryResult;
     }
 
 
