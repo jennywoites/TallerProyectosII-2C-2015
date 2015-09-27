@@ -14,6 +14,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 @ParseClassName("MascotaEnAdopcion")
 public class AdoptionPet extends ParseObject implements Pet {
 
+    public static final String OBJECT_ID = "objectId";
     public static final String AGE = "age";
     public static final String DESCRIPTION = "description";
     public static final String NAME = "name";

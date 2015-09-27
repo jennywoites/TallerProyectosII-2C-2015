@@ -56,30 +56,60 @@ public class PetService {
         return adoptionPets;
     }
 
-    public List<AdoptionPet> getAdoptionPets(int page, Map<String, List<String>> filter) {
+    public List<AdoptionPet> getAdoptionPets(int page, Map<String, List<String>> filters) {
+        Boolean hasDistanceFilter = Boolean.FALSE;
         User user = UserService.getInstance().getUser();
         List<AdoptionPet> adoptionPets = new ArrayList<>();
-        ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
-        query.addDescendingOrder("createdAt");
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
-        Set<String> filterKeys = filter.keySet();
-        for (String key : filterKeys) {
-            addFilter(query, key, filter.get(key));
-
-        }
-        query.setLimit(LIMIT);
-        query.setSkip(page * LIMIT);
-
+        List<ParseQuery<AdoptionPet>> querys = new ArrayList<ParseQuery<AdoptionPet>>();
+        ParseQuery<AdoptionPet> finalQuery;
         try {
-            adoptionPets = query.find();
+
+            List<String> distancias = filters.get(Filter.DISTANCIA);
+            if (!distancias.isEmpty()) {
+                for (String distancia : distancias) {
+                    ParseQuery<AdoptionPet> query = createQuery(user, filters);
+
+                    if (distancia.equals(Filter.MAS_15)) {
+                        ParseQuery<AdoptionPet> queryDistance = ParseQuery.getQuery(AdoptionPet.class);
+                        queryDistance.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), 15);
+                        query.whereDoesNotMatchKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryDistance);
+                    } else if (distancia.equals(Filter.MENOS_1)) {
+                        ParseQuery<AdoptionPet> queryDistance = ParseQuery.getQuery(AdoptionPet.class);
+                        queryDistance.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), 1);
+                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryDistance);
+                    }
+
+                    querys.add(query);
+                }
+                finalQuery = ParseQuery.or(querys);
+            } else {
+                finalQuery = createQuery(user, filters);
+            }
+
+            finalQuery.addDescendingOrder("createdAt");
+            finalQuery.setLimit(LIMIT);
+            finalQuery.setSkip(page * LIMIT);
+            adoptionPets = finalQuery.find();
         } catch (ParseException e) {
             Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
         return adoptionPets;
     }
 
-    private void addFilter(ParseQuery<AdoptionPet> query, String keyFilter, List<String> values) {
+    private ParseQuery<AdoptionPet> createQuery(User user, Map<String, List<String>> filters) {
+        ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
+        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        Set<String> filterKeys = filters.keySet();
+        for (String key : filterKeys) {
+            if (!key.equals(Filter.DISTANCIA))
+                addFilter(query, key, filters.get(key), user);
+        }
+
+        return query;
+    }
+
+
+    private void addFilter(ParseQuery<AdoptionPet> query, String keyFilter, List<String> values, User user) {
         if (keyFilter.equals(Filter.ESPECIE)) {
             query.whereContainedIn(AdoptionPet.KIND, values);
         } else if (keyFilter.equals(Filter.SEXO)) {
@@ -88,6 +118,17 @@ public class PetService {
             query.whereContainedIn(AdoptionPet.AGE, values);
         }
     }
+
+
+/*    // Do not want locations further than maxDistance
+    ParseQuery query = ParseQuery.getQuery("MyData");
+    query.whereWithinKilometers("location",userGeoPoint,maxDistance);
+
+    // Do not want locations closer than minDistance
+    ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("MyData");
+    innerQuery.whereWithinKilometers("location",userGeoPoint,minDistance);
+    query.whereDoesNotMatchKeyInQuery("objectId","objectId",innerQuery);*/
+
 
     public int getIconPet(String petKind) {
         if (petKind.equals(DOG)) {
