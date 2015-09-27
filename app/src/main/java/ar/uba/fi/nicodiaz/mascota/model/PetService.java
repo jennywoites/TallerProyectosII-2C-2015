@@ -64,9 +64,8 @@ public class PetService {
         ParseQuery<AdoptionPet> finalQuery;
         try {
 
-            List<String> distancias = filters.get(Filter.DISTANCIA);
-            if (!distancias.isEmpty()) {
-                for (String distancia : distancias) {
+            if (filters.containsKey(Filter.DISTANCIA) && !filters.get(Filter.DISTANCIA).isEmpty()) {
+                for (String distancia : filters.get(Filter.DISTANCIA)) {
                     ParseQuery<AdoptionPet> query = createQuery(user, filters);
 
                     if (distancia.equals(Filter.MAS_15)) {
