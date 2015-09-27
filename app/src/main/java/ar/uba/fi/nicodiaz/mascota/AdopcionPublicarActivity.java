@@ -188,7 +188,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             case R.id.action_confirmar_agregar_mascota_adopcion:
                 confirmarAgregarMascota();
                 return true;
-            case R.id.action_settings:
+            case R.id.action_cerrar:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
