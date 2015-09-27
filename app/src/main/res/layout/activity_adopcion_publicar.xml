@@ -40,6 +40,10 @@
                 <include
                     android:id="@+id/cardview_adopcion_publicar_info_basica_foto"
                     layout="@layout/cardview_adopcion_publicar_info_basica_foto" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_videos"
+                    layout="@layout/cardview_adopcion_publicar_videos" />
             </LinearLayout>
         </ScrollView>
 

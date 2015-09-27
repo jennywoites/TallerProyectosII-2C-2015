@@ -99,19 +99,20 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.drawer_home:
-                Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_SHORT).show();
                 fragment = new HomeFragment();
                 currentFragment = getResources().getString(R.string.app_name);
                 break;
+            case R.id.drawer_adoptions:
+                // Toast.makeText(getApplicationContext(), "Adoptions selected", Toast.LENGTH_SHORT).show();
+                fragment = new AdopcionFragment();
+                currentFragment = getResources().getString(R.string.title_activity_adopcion);
+                break;
+            /*
             case R.id.drawer_profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
                 fragment = new ProfileFragment();
                 currentFragment = getResources().getString(R.string.title_activity_profile);
-                break;
-            case R.id.drawer_adoptions:
-                Toast.makeText(getApplicationContext(), "Adoptions selected", Toast.LENGTH_SHORT).show();
-                fragment = new AdopcionFragment();
-                currentFragment = getResources().getString(R.string.title_activity_adopcion);
                 break;
             case R.id.drawer_missing:
                 Toast.makeText(getApplicationContext(), "Missing selected", Toast.LENGTH_SHORT).show();
@@ -123,6 +124,7 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new AboutFragment();
                 currentFragment = getResources().getString(R.string.title_activity_about);
                 break;
+            */
             default:
                 break;
         }

@@ -11,6 +11,7 @@
             android:checked="false"
             android:icon="@drawable/ic_adoption"
             android:title="@string/title_activity_adopcion" />
+        <!--
         <item
             android:id="@+id/drawer_missing"
             android:checked="false"
@@ -26,5 +27,6 @@
             android:checked="false"
             android:icon="@drawable/ic_about"
             android:title="@string/title_activity_about" />
+            -->
     </group>
 </menu>
