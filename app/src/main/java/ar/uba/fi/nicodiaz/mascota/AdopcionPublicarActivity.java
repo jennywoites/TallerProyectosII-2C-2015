@@ -1,16 +1,18 @@
 package ar.uba.fi.nicodiaz.mascota;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,13 +30,19 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import nl.changer.polypicker.Config;
+import nl.changer.polypicker.ImagePickerActivity;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
+
+    private static final int INTENT_REQUEST_GET_IMAGES = 13;
+    private static final int INTENT_REQUEST_GET_N_IMAGES = 14;
 
     private static final int PICK_IMAGE = 1046;
     private Toolbar toolbar;
@@ -44,6 +52,9 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private ParseFile photoFile;
     private ProgressDialog progressDialog;
     private AdoptionPet pet;
+
+    private HashSet<Uri> mMedia;
+    private Button selectImageButton2;
 
 
     @Override
@@ -88,27 +99,78 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             }
         });
 
+        selectImageButton2 = (Button) findViewById(R.id.button2);
+        selectImageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImages();
+            }
+        });
+
+        mMedia = new HashSet<Uri>();
+
         pet = new AdoptionPet();
     }
 
+    // Galeria anterior:
     public void onPickPhoto() {
         Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickIntent.setType("image/*");
         startActivityForResult(pickIntent, PICK_IMAGE);
+
+
+    }
+
+    private void getImages() {
+        Intent intent = new Intent(this, ImagePickerActivity.class);
+        Config config = new Config.Builder()
+                .setTabBackgroundColor(R.color.ColorPrimary)
+                .setTabSelectionIndicatorColor(R.color.white)
+                .setCameraButtonColor(R.color.ColorPrimary)
+                .build();
+        ImagePickerActivity.setConfig(config);
+        startActivityForResult(intent, INTENT_REQUEST_GET_IMAGES);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            Uri photoUri = data.getData();
-            try {
-                selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                saveScaledPhoto(selectedBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == INTENT_REQUEST_GET_IMAGES) {
+                Parcelable[] parcelableUris = intent.getParcelableArrayExtra(ImagePickerActivity.EXTRA_IMAGE_URIS);
+
+                if (parcelableUris == null) {
+                    return;
+                }
+
+                // Java doesn't allow array casting, this is a little hack
+                Uri[] uris = new Uri[parcelableUris.length];
+                System.arraycopy(parcelableUris, 0, uris, 0, parcelableUris.length);
+
+                if (uris != null) {
+                    for (Uri uri : uris) {
+                        Log.i(String.valueOf(Log.INFO), "Selected uri: " + uri);
+                        mMedia.add(uri);
+                    }
+
+                    //showMedia();
+                }
+            }
+            else if (requestCode == PICK_IMAGE) {
+                if (intent != null) {
+                    Uri photoUri = intent.getData();
+                    try {
+                        selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                        saveScaledPhoto(selectedBitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
