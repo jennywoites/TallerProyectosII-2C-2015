@@ -11,13 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import ar.uba.fi.nicodiaz.mascota.fragment.AboutFragment;
 import ar.uba.fi.nicodiaz.mascota.fragment.AdopcionFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.HomeFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.MissingFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.ProfileFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,11 +36,12 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new HomeFragment();
+        //Fragment fragment = new HomeFragment();
+        Fragment fragment = new AdopcionFragment();
         tx.replace(R.id.frame, fragment);
         tx.commit();
-
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        //getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_adopcion));
 
         // Fill user information in header.
         User user = UserService.getInstance().getUser();
@@ -98,11 +94,11 @@ public class HomeActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction;
 
         switch (menuItem.getItemId()) {
-            case R.id.drawer_home:
+            /*case R.id.drawer_home:
                 // Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_SHORT).show();
                 fragment = new HomeFragment();
                 currentFragment = getResources().getString(R.string.app_name);
-                break;
+                break;*/
             case R.id.drawer_adoptions:
                 // Toast.makeText(getApplicationContext(), "Adoptions selected", Toast.LENGTH_SHORT).show();
                 fragment = new AdopcionFragment();

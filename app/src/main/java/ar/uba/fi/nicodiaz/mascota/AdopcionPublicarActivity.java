@@ -117,8 +117,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickIntent.setType("image/*");
         startActivityForResult(pickIntent, PICK_IMAGE);
-
-
     }
 
     private void getImages() {
@@ -199,7 +197,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private void saveScaledPhoto(Bitmap picture) {
         uploadingPhoto();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        picture.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        picture.compress(Bitmap.CompressFormat.JPEG, 50, bos);
 
         byte[] scaledData = bos.toByteArray();
 
