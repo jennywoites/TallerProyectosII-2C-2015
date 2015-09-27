@@ -50,7 +50,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/txtVideo1"
+                android:id="@+id/txtVideoOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/MASCOTA_ADOPCION_VIDEO_1"
@@ -64,7 +64,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/txtVideo2"
+                android:id="@+id/txtVideoTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/MASCOTA_ADOPCION_VIDEO_2"
@@ -78,7 +78,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/txtVideo3"
+                android:id="@+id/txtVideoThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/MASCOTA_ADOPCION_VIDEO_3"

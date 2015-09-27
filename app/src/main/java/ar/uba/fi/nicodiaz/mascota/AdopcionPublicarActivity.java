@@ -248,8 +248,11 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String medicine = this.getMedicineValue();
         String medicineTime = this.getMedicineTimeValue();
         String medicineNotes = ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString();
-
+        String urlOne = ((EditText) findViewById(R.id.txtVideoOne)).getText().toString();
+        String urlTwo = ((EditText) findViewById(R.id.txtVideoTwo)).getText().toString();
+        String urlThree = ((EditText) findViewById(R.id.txtVideoThree)).getText().toString();
         User user = UserService.getInstance().getUser();
+
         pet.setName(name);
         pet.setAgeRange(ageRange);
         pet.setDescription(description);
