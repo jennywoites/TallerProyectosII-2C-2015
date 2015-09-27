@@ -43,7 +43,8 @@ public class PetService {
         List<AdoptionPet> adoptionPets = new ArrayList<>();
         ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
         query.addDescendingOrder("createdAt");
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        // Si se descomenta no trae las mascotas publicadas del usuario loggeado.
+        // query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         query.setLimit(LIMIT);
         query.setSkip(page * LIMIT);
 
