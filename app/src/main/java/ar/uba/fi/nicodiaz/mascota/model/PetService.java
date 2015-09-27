@@ -108,7 +108,7 @@ public class PetService {
 
     private ParseQuery<AdoptionPet> createQuery(User user, Map<String, List<String>> filters) {
         ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        //query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         Set<String> filterKeys = filters.keySet();
         for (String key : filterKeys) {
             if (!key.equals(Filter.DISTANCIA))
