@@ -30,6 +30,9 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String MEDICINE = "medicine";
     public static final String MEDICINE_TIME = "medicineTime";
     public static final String MEDICINE_NOTES = "medicineNotes";
+    public static final String VIDEO_ONE = "urlOne";
+    public static final String VIDEO_TWO = "urlTwo";
+    public static final String VIDEO_THREE = "urlThree";
     public static final String LOCATION = "location";
     public static String MALE = "Macho";
 
