@@ -38,11 +38,9 @@ public class HomeActivity extends AppCompatActivity {
 
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         Fragment fragment = new HomeFragment();
-        //Fragment fragment = new AdopcionFragment();
         tx.replace(R.id.frame, fragment);
         tx.commit();
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
-        //getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_adopcion));
 
         // Fill user information in header.
         User user = UserService.getInstance().getUser();
