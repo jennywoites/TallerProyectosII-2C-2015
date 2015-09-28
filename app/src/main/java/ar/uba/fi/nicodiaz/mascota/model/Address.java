@@ -14,14 +14,18 @@ public class Address extends ParseObject {
     private static final String PISO_KEY = "piso";
     private static final String DEPARTAMENTO_KEY = "depto";
     private static final String LOCATION_KEY = "location";
+    private static final String LOCALITY = "locality";
+    private static final String SUBLOCALITY = "sublocality";
 
     public Address() {
 
     }
 
-    public Address(String calle, double latitud, double longitud) {
+    public Address(String calle, double latitud, double longitud, String locality, String sublocality) {
         setCalle(calle);
         setLocation(latitud, longitud);
+        setLocality(locality);
+        setSubLocality(sublocality);
     }
 
 
@@ -55,6 +59,22 @@ public class Address extends ParseObject {
 
     public void setLocation(double latitud, double longitud) {
         put(LOCATION_KEY, new ParseGeoPoint(latitud, longitud));
+    }
+
+    public void setSubLocality(String subLocality) {
+        put(SUBLOCALITY, subLocality);
+    }
+
+    public String getSubLocality() {
+        return getString(SUBLOCALITY);
+    }
+
+    public void setLocality(String locality) {
+        put(LOCALITY, locality);
+    }
+
+    public String getLocality() {
+        return getString(LOCALITY);
     }
 
 

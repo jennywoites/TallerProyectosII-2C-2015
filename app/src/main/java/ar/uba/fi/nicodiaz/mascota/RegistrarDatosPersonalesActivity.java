@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,10 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.parse.ParseUser;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.User;
@@ -193,10 +198,28 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
                 }
                 // Get the Place object from the buffer.
                 final Place place = places.get(0);
+                Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
                 String address = place.getAddress().toString();
                 double longitude = place.getLatLng().longitude;
                 double latitude = place.getLatLng().latitude;
-                direccion = new Address(address, latitude, longitude);
+
+
+                List<android.location.Address> addresses = null;
+                String locality = "";
+                String subLocality = "";
+                try {
+                    addresses = gcd.getFromLocation(latitude, longitude, 1);
+                    if (addresses.size() > 0) {
+                        locality = addresses.get(0).getLocality();
+                        subLocality = addresses.get(0).getSubLocality();
+                    }
+
+                } catch (IOException e) {
+                    direccion = null;
+                    return;
+                }
+
+                direccion = new Address(address, latitude, longitude, locality, subLocality);
                 places.release();
             }
         });

@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -87,7 +88,11 @@ public class AdoptionPet extends ParseObject implements Pet {
     @Override
     public User getOwner() {
         ParseUser parseUser = getParseUser(OWNER);
-        return new User(parseUser);
+        try {
+            return new User(parseUser.fetchIfNeeded());
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     @Override
@@ -208,7 +213,13 @@ public class AdoptionPet extends ParseObject implements Pet {
         String previewDescription = "";
 
         previewDescription += "Edad: " + getAgeRange();
-        previewDescription += " / Ubicación: " + "STUB"; // TODO: incluir barrio (?)
+
+        Address address = getOwner().getAddress();
+        if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
+            previewDescription += " / Ubicación: " + address.getSubLocality();
+        } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
+            previewDescription += " / Ubicación: " + address.getLocality();
+        }
 
         return previewDescription;
     }

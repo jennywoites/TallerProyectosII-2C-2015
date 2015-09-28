@@ -57,10 +57,10 @@ public class User {
     public Address getAddress() {
         try {
             return (Address) user.getParseObject(USER_ADDRESS_FIELD).fetchIfNeeded();
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public void setAddress(Address address) {
@@ -84,6 +84,7 @@ public class User {
             return gender.equals(FEMALE);
         } else return false;
     }
+
 
 
 }
