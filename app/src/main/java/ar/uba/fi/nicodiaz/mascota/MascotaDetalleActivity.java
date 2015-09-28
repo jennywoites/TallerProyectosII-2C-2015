@@ -128,34 +128,20 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     */
         final HashMap<String, String> photos = new HashMap<>();
         int aux = 0;
-        for (
-                String url
-                : urlPhotos)
-
-        {
+        for (String url : urlPhotos) {
             photos.put("Photo " + aux, url);
             aux++;
         }
 
-
-        for (
-                String name
-                : photos.keySet())
-
-        {
+        for (String name : photos.keySet()) {
             DefaultSliderView slide = new DefaultSliderView(this);
             slide.image(photos.get(name));
-
             slide.setScaleType(BaseSliderView.ScaleType.CenterCrop);
             photo_slider.addSlider(slide);
         }
 
         photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
-        photo_slider.setCustomIndicator((PagerIndicator)
-
-                        findViewById(R.id.custom_indicator)
-
-        );
+        photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
 
 
         // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:

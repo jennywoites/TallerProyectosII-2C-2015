@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -35,11 +39,8 @@ import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
-
-    private static final int INTENT_REQUEST_GET_IMAGES = 13;
-    private static final int INTENT_REQUEST_GET_N_IMAGES = 14;
-
     private static final int PICK_IMAGE = 1046;
+    private static final int PICK_IMAGE_N = 1047;
     private Toolbar toolbar;
     private Bitmap selectedBitmap;
     private ImageView image;
@@ -47,6 +48,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private ParseFile photoFile;
     private ProgressDialog progressDialog;
     private AdoptionPet pet;
+    private List<Bitmap> photos;
+    private LinearLayout photos_layout;
 
     @Override
     public void onBackPressed() {
@@ -81,16 +84,28 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         //TODO: Si se encuentra forma de capturar este evento, descomentarlo y mandarlo al dialogo de onBackPressed()
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        photos = new ArrayList<>();
+        photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
         image = (ImageView) findViewById(R.id.imageView);
         selectImageButton = (Button) findViewById(R.id.button1);
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPhoto();
+                onPickPhoto2();
             }
         });
 
         pet = new AdoptionPet();
+    }
+
+    private void showMedia() {
+        for (Bitmap photo : photos) {
+            ImageView imageView = new ImageView(this);
+            imageView.setImageBitmap(photo);
+            imageView.setVisibility(View.VISIBLE);
+            photos_layout.addView(imageView);
+        }
+
     }
 
     // Galeria anterior:
@@ -99,6 +114,17 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pickIntent.setType("image/*");
         startActivityForResult(pickIntent, PICK_IMAGE);
     }
+
+    public void onPickPhoto2() {
+        photos.clear();
+        photos_layout.removeAllViewsInLayout();
+        Intent pickIntent = new Intent();
+        pickIntent.setType("image/*");
+        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+        pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(pickIntent, PICK_IMAGE_N);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -116,6 +142,36 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                     }
                 }
             }
+            else if (requestCode == PICK_IMAGE_N) {
+                if (intent != null) {
+                    Uri uri;
+                    if (intent.getData() != null) {
+                        uri = intent.getData();
+                        addPhoto(uri);
+                    } else if (intent.getClipData() != null) {
+                        ClipData clipData = intent.getClipData();
+                        for (int i = 0; i < clipData.getItemCount(); i++) {
+                            ClipData.Item item = clipData.getItemAt(i);
+                            uri = item.getUri();
+                            addPhoto(uri);
+                        }
+                    }
+                    showMedia();
+                }
+            }
+        }
+    }
+
+    private void addPhoto(Uri uri) {
+        Bitmap image = null;
+        try {
+            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        if (image != null) {
+            photos.add(image);
         }
     }
 
