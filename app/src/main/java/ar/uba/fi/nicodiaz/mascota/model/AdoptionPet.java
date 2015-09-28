@@ -7,6 +7,9 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
@@ -24,7 +27,6 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String BREED = "breed";
     public static final String OWNER = "owner";
     public static final String CATCHER = "catcher";
-    public static final String PICTURE = "picture";
     public static final String PETS = "pets";
     public static final String CHILDREN = "children";
     public static final String SOCIAL_NOTES = "socialNotes";
@@ -34,10 +36,13 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String VIDEO_ONE = "urlOne";
     public static final String VIDEO_TWO = "urlTwo";
     public static final String VIDEO_THREE = "urlThree";
+    public static final String PHOTO_ONE = "picture";
+    public static final String PHOTO_TWO = "picture2";
+    public static final String PHOTO_THREE = "picture3";
+    public static final String PHOTO_FOUR = "picture4";
+    public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
     public static String MALE = "Macho";
-
-    private AdoptionPet instance = this;
 
     public AdoptionPet() {
     }
@@ -51,7 +56,7 @@ public class AdoptionPet extends ParseObject implements Pet {
         setBreed(ppo.getString(BREED));
 /*        User owner = new User(ppo.getParseUser(OWNER));
         setOwner(owner);*/
-        setPicture(new ParseFile(ppo.getBytes(PICTURE)));
+        setPicture(new ParseFile(ppo.getBytes(PHOTO_ONE)));
         setOtherPets(ppo.getString(PETS));
         setChildren(ppo.getString(CHILDREN));
         setSocialNotes(ppo.getString(SOCIAL_NOTES));
@@ -225,15 +230,73 @@ public class AdoptionPet extends ParseObject implements Pet {
     }
 
     public void setPicture(ParseFile file) {
-        put(PICTURE, file);
+        if (get(PHOTO_ONE) == null) {
+            put(PHOTO_ONE, file);
+        } else if (get(PHOTO_TWO) == null) {
+            put(PHOTO_TWO, file);
+        } else if (get(PHOTO_THREE) == null) {
+            put(PHOTO_THREE, file);
+        } else if (get(PHOTO_FOUR) == null) {
+            put(PHOTO_FOUR, file);
+        } else if (get(PHOTO_FIVE) == null) {
+            put(PHOTO_FIVE, file);
+        }
     }
 
     public ParseFile getPicture() {
-        return getParseFile(PICTURE);
+        return getParseFile(PHOTO_ONE);
     }
 
     public boolean isMale() {
         return getGender().equals(MALE);
     }
 
+    public List<ParseFile> getPictures() {
+        List<ParseFile> list = new ArrayList<>();
+        if (get(PHOTO_ONE) != null) {
+            list.add(getParseFile(PHOTO_ONE));
+        }
+        if (get(PHOTO_TWO) != null) {
+            list.add(getParseFile(PHOTO_TWO));
+        }
+        if (get(PHOTO_THREE) != null) {
+            list.add(getParseFile(PHOTO_THREE));
+        }
+        if (get(PHOTO_FOUR) != null) {
+            list.add(getParseFile(PHOTO_FOUR));
+        }
+        if (get(PHOTO_FIVE) != null) {
+            list.add(getParseFile(PHOTO_FIVE));
+        }
+        return list;
+    }
+
+    public void setVideo1(String video1) {
+        put(VIDEO_ONE, video1);
+    }
+
+    public void setVideo2(String video2) {
+        put(VIDEO_TWO, video2);
+    }
+
+    public void setVideo3(String video3) {
+        put(VIDEO_THREE, video3);
+    }
+
+    public ArrayList<String> getVideos() {
+        ArrayList<String> list = new ArrayList<>();
+        String video1 = getString(VIDEO_ONE);
+        if (video1 != null && !video1.isEmpty()) {
+            list.add(video1);
+        }
+        String video2 = getString(VIDEO_TWO);
+        if (video2 != null && !video2.isEmpty()) {
+            list.add(video2);
+        }
+        String video3 = getString(VIDEO_THREE);
+        if (video3 != null && !video3.isEmpty()) {
+            list.add(video3);
+        }
+        return list;
+    }
 }

@@ -25,6 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseFile;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,17 +120,18 @@ public class AdopcionFragment extends Fragment {
                 listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        // TODO: aca se maneja el click sobre un item de la lista:
-
                         Intent i = new Intent(activity, MascotaDetalleActivity.class);
                         ArrayList<String> urlPhotos = new ArrayList<String>();
                         AdoptionPet adoptionPet = list.get(position);
-                        if (adoptionPet.getPicture() != null) {
-                            urlPhotos.add(adoptionPet.getPicture().getUrl());
+                        for (ParseFile picture : adoptionPet.getPictures()) {
+                            urlPhotos.add(picture.getUrl());
                         }
+                        ArrayList<String> urlVideos = adoptionPet.getVideos();
+
                         ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
                         i.putExtra("Pet", ppo);
                         i.putStringArrayListExtra("UrlPhotos", urlPhotos);
+                        i.putStringArrayListExtra("UrlVideos", urlVideos);
                         startActivity(i);
                         getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
                     }

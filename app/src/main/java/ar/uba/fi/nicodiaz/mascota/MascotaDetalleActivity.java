@@ -52,6 +52,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         ParseProxyObject ppo = (ParseProxyObject) getIntent().getSerializableExtra("Pet");
         ArrayList<String> urlPhotos = getIntent().getStringArrayListExtra("UrlPhotos");
+        ArrayList<String> urlVideos = getIntent().getStringArrayListExtra("UrlVideos");
         AdoptionPet adoptionPet = new AdoptionPet(ppo);
         String petName = adoptionPet.getName();
 
@@ -146,6 +147,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:
         // El id del video es el que aparece en la url de youtube del mismo. Eso habria que guardar.
+/*
         String id0 = "ycdcDFuGarM";
         String id1 = "TSC8p9-eBNc";
         String id2 = "RWSy24AVnZk";
@@ -153,6 +155,14 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         videos.put("Video 0", id0);
         videos.put("Video 1", id1);
         videos.put("Video 2", id2);
+*/
+        final HashMap<String, String> videos = new HashMap<>();
+        aux = 0;
+        for (String urlVideo : urlVideos) {
+            videos.put("Video " + aux, urlVideo);
+            aux++;
+        }
+
 
         video_slider = (SliderLayout)
 

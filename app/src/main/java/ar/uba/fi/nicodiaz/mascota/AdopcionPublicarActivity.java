@@ -157,19 +157,20 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }
-            else if (requestCode == PICK_IMAGE_N) {
+            } else if (requestCode == PICK_IMAGE_N) {
                 if (intent != null) {
                     Uri uri;
                     if (intent.getData() != null) {
                         uri = intent.getData();
-                        addPhoto(uri);
+                        Bitmap bitmap = addPhoto(uri);
+                        saveScaledPhoto(bitmap);
                     } else if (intent.getClipData() != null) {
                         ClipData clipData = intent.getClipData();
                         for (int i = 0; i < clipData.getItemCount(); i++) {
                             ClipData.Item item = clipData.getItemAt(i);
                             uri = item.getUri();
-                            addPhoto(uri);
+                            Bitmap bitmap = addPhoto(uri);
+                            saveScaledPhoto(bitmap);
                         }
                     }
                     showMedia();
@@ -178,17 +179,20 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         }
     }
 
-    private void addPhoto(Uri uri) {
+    private Bitmap addPhoto(Uri uri) {
         Bitmap image = null;
         try {
             image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
         if (image != null) {
             photos.add(image);
+            return image;
         }
+
+        return null;
     }
 
 
@@ -235,7 +239,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 } else {
                     pet.setPicture(photoFile);
-                    image.setImageBitmap(selectedBitmap);
                 }
             }
         });
@@ -259,6 +262,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
         String name = ((EditText) findViewById(R.id.txtName)).getText().toString();
         String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
+        String raza = ((EditText) findViewById(R.id.txtRace)).getText().toString();
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
         String ageRange = this.getAgeValue();
@@ -277,6 +281,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setAgeRange(ageRange);
         pet.setDescription(description);
         pet.setGender(gender);
+        pet.setBreed(raza);
         pet.setKind(kind);
         pet.setOwner(user);
         pet.setOtherPets(pets);
@@ -285,6 +290,9 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setMedicine(medicine);
         pet.setMedicineTime(medicineTime);
         pet.setMedicineNotes(medicineNotes);
+        pet.setVideo1(urlOne);
+        pet.setVideo2(urlTwo);
+        pet.setVideo3(urlThree);
 
         PetService.getInstance().saveAdoptionPet(pet);
         Toast.makeText(AdopcionPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
@@ -367,7 +375,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         valid &= checkOpciones(R.id.rgMedicine, R.id.lbMedicina);
         valid &= checkOpciones(R.id.rgMedicineTime, R.id.lbMedicinaTiempo);
 
-        if (image.getDrawable() == null) {
+        if (photos.isEmpty()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.ERROR);
             builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));

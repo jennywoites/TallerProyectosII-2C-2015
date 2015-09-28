@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -95,12 +96,14 @@ public class HomeFragment extends Fragment {
                         Intent i = new Intent(activity, MascotaDetalleActivity.class);
                         ArrayList<String> urlPhotos = new ArrayList<String>();
                         AdoptionPet adoptionPet = list.get(position);
-                        if (adoptionPet.getPicture() != null) {
-                            urlPhotos.add(adoptionPet.getPicture().getUrl());
+                        for (ParseFile picture : adoptionPet.getPictures()) {
+                            urlPhotos.add(picture.getUrl());
                         }
+                        ArrayList<String> urlVideos = adoptionPet.getVideos();
                         ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
                         i.putExtra("Pet", ppo);
                         i.putStringArrayListExtra("UrlPhotos", urlPhotos);
+                        i.putStringArrayListExtra("UrlVideos", urlVideos);
                         startActivity(i);
                         getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
                     }
