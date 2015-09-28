@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -45,8 +46,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private Bitmap selectedBitmap;
     private ImageView image;
     private Button selectImageButton;
-    private ParseFile photoFile;
-    private ProgressDialog progressDialog;
     private AdoptionPet pet;
     private List<Bitmap> photos;
     private LinearLayout photos_layout;
@@ -160,11 +159,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             } else if (requestCode == PICK_IMAGE_N) {
                 if (intent != null) {
                     Uri uri;
-                    if (intent.getData() != null) {
-                        uri = intent.getData();
-                        Bitmap bitmap = addPhoto(uri);
-                        saveScaledPhoto(bitmap);
-                    } else if (intent.getClipData() != null) {
+                    if (intent.getClipData() != null) {
                         ClipData clipData = intent.getClipData();
                         for (int i = 0; i < clipData.getItemCount(); i++) {
                             ClipData.Item item = clipData.getItemAt(i);
@@ -172,6 +167,10 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                             Bitmap bitmap = addPhoto(uri);
                             saveScaledPhoto(bitmap);
                         }
+                    } else if (intent.getData() != null) {
+                        uri = intent.getData();
+                        Bitmap bitmap = addPhoto(uri);
+                        saveScaledPhoto(bitmap);
                     }
                     showMedia();
                 }
@@ -221,18 +220,23 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     }
 
     private void saveScaledPhoto(Bitmap picture) {
-        uploadingPhoto();
+
+        final ProgressDialog progressDialog = ProgressDialog.show(this, null,
+                getString(R.string.subiendo_foto), true, false);
+
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         picture.compress(Bitmap.CompressFormat.JPEG, 50, bos);
 
         byte[] scaledData = bos.toByteArray();
 
         // Save the scaled image to Parse
-        photoFile = new ParseFile(picture.hashCode() + ".jpeg", scaledData);
+        final ParseFile photoFile = new ParseFile(picture.hashCode() + ".jpeg", scaledData);
         photoFile.saveInBackground(new SaveCallback() {
 
             public void done(ParseException e) {
-                finishUploadingPhoto();
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
                 if (e != null) {
                     Toast.makeText(AdopcionPublicarActivity.this,
                             getString(R.string.error_uploading_photo) + e.getMessage(),
@@ -242,17 +246,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void uploadingPhoto() {
-        progressDialog = ProgressDialog.show(this, null,
-                getString(R.string.subiendo_foto), true, false);
-    }
-
-    private void finishUploadingPhoto() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
     }
 
     private void confirmarAgregarMascota() {
