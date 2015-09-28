@@ -43,7 +43,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_N = 1047;
     private Toolbar toolbar;
     private Bitmap selectedBitmap;
-    private ImageView image;
     private Button selectImageButton;
     private ParseFile photoFile;
     private ProgressDialog progressDialog;
@@ -88,7 +87,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         photos = new ArrayList<>();
         photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
         photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
-        image = (ImageView) findViewById(R.id.imageView);
         selectImageButton = (Button) findViewById(R.id.button1);
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

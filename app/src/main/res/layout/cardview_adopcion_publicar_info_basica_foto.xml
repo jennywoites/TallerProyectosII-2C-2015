@@ -42,15 +42,6 @@
 
         <View style="@style/HorizontalDivider" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="12dp"
-            android:layout_gravity="fill"
-            android:visibility="gone"
-            android:background="@drawable/upload_photo" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="160dp">
@@ -60,7 +51,7 @@
                 android:foregroundGravity="left"
                 android:fillViewport="false">
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/photos_layout"
                     android:orientation="horizontal"
