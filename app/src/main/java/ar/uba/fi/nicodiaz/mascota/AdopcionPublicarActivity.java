@@ -32,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -90,7 +89,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPhoto2();
+                onPickPhoto();
             }
         });
 
@@ -119,14 +118,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
     }
 
-    // Galeria anterior:
     public void onPickPhoto() {
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-        startActivityForResult(pickIntent, PICK_IMAGE);
-    }
-
-    public void onPickPhoto2() {
         photos.clear();
         photos_layout.removeAllViewsInLayout();
         photos_layout.setVisibility(View.GONE);
@@ -144,17 +136,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == PICK_IMAGE) {
-                if (intent != null) {
-                    Uri photoUri = intent.getData();
-                    try {
-                        selectedBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-                        saveScaledPhoto(selectedBitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (requestCode == PICK_IMAGE_N) {
+            if (requestCode == PICK_IMAGE_N) {
                 if (intent != null) {
                     Uri uri;
                     if (intent.getClipData() != null) {
@@ -232,9 +214,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         photoFile.saveInBackground(new SaveCallback() {
 
             public void done(ParseException e) {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
+                progressDialog.dismiss();
                 if (e != null) {
                     Toast.makeText(AdopcionPublicarActivity.this,
                             getString(R.string.error_uploading_photo) + e.getMessage(),
@@ -292,44 +272,37 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
     private String getSpecieValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgSpecie);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getSexoValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgSexo);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getAgeValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgAge);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getPetsValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgPets);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getChildrenValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgChildren);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getMedicineValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicine);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private String getMedicineTimeValue() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicineTime);
-        String radiovalue = ((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString();
-        return (radiovalue);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
     private boolean validate() {
