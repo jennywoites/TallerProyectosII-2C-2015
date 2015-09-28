@@ -50,6 +50,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private AdoptionPet pet;
     private List<Bitmap> photos;
     private LinearLayout photos_layout;
+    private TextView photos_empty;
 
     @Override
     public void onBackPressed() {
@@ -86,6 +87,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
         photos = new ArrayList<>();
         photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
+        photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
         image = (ImageView) findViewById(R.id.imageView);
         selectImageButton = (Button) findViewById(R.id.button1);
         selectImageButton.setOnClickListener(new View.OnClickListener() {
@@ -99,11 +101,23 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     }
 
     private void showMedia() {
+        if (photos.isEmpty()) {
+            photos_layout.setVisibility(View.GONE);
+            photos_empty.setVisibility(View.VISIBLE);
+        } else {
+            photos_layout.setVisibility(View.VISIBLE);
+            photos_empty.setVisibility(View.GONE);
+        }
+
         for (Bitmap photo : photos) {
             ImageView imageView = new ImageView(this);
+            imageView.setAdjustViewBounds(true);
+            imageView.setMaxHeight(360);
+            imageView.setMaxWidth(360);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setImageBitmap(photo);
             imageView.setVisibility(View.VISIBLE);
-            photos_layout.addView(imageView);
+            photos_layout.addView(imageView, 0);
         }
 
     }
@@ -118,6 +132,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     public void onPickPhoto2() {
         photos.clear();
         photos_layout.removeAllViewsInLayout();
+        photos_layout.setVisibility(View.GONE);
+        photos_empty.setVisibility(View.VISIBLE);
         Intent pickIntent = new Intent();
         pickIntent.setType("image/*");
         pickIntent.setAction(Intent.ACTION_GET_CONTENT);
