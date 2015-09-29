@@ -22,6 +22,13 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -43,6 +50,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     private SliderLayout video_slider;
     private ImageView headerImage;
     private FloatingActionButton FAB;
+    private MapView map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,16 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         if (photoUrl != null) {
             new LoadPhotoTask().execute(photoUrl);
         }*/
+
+        map = (MapView) findViewById(R.id.map_view);
+        map.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                LatLng sydney = new LatLng(-34, 151);
+                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(sydney, 10)));
+            }
+        });
 
 
         final ParseImageView imageView = new ParseImageView(this);

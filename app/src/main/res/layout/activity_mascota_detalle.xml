@@ -66,12 +66,9 @@
             <include
                 android:id="@+id/cardview_descripcion"
                 layout="@layout/cardview_descripcion_mascota" />
-
-            <!-- El ultimo tiene que tener marginBottom = 16dp -->
-
-            <!--include
+            <include
                 android:id="@+id/cardview_ubicacion"
-                layout="@layout/cardview_ubicacion_mascota" /-->
+                layout="@layout/cardview_ubicacion_mascota"/>
             <include
                 android:id="@+id/cardview_fotos"
                 layout="@layout/cardview_fotos_mascota"/>
