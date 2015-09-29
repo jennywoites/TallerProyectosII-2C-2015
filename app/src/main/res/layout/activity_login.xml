@@ -27,7 +27,7 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/com_facebook_button_background"
 
-            android:drawableLeft="@drawable/facebook_logo"
+            android:drawableStart="@drawable/facebook_logo"
             android:onClick="onFacebookLoginClick"
             android:padding="12dp"
 
@@ -36,7 +36,6 @@
             android:textSize="@dimen/com_facebook_share_button_text_size"
             android:textStyle="normal" />
 
-        <!-- android:enabled="false", para la 1ra iteración donde el botón de inicio normal debe estar grisado.-->
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -44,15 +43,14 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/button_drawable"
 
-            android:drawableLeft="@drawable/app_logo_btn"
+            android:drawableStart="@drawable/app_logo_btn"
             android:onClick="onApplicationLoginClick"
             android:padding="12dp"
 
             android:text="@string/app_name"
             android:textColor="@color/com_facebook_share_button_text_color"
             android:textSize="@dimen/com_facebook_share_button_text_size"
-            android:textStyle="normal"
-            android:enabled="false"/>
+            android:textStyle="normal"/>
 
     </LinearLayout>
 
