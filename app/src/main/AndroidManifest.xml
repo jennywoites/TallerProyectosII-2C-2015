@@ -2,31 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ar.uba.fi.nicodiaz.mascota" >
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/splash_screen_icon"
         android:label="@string/app_name"
-        android:name=".MyApplication"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
-
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key"/>
-
+            android:value="@string/google_api_key" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -60,32 +55,30 @@
         </activity>
         <activity
             android:name=".RegistrarDatosPersonalesActivity"
-            android:label="@string/title_activity_datos_personales">
+            android:label="@string/title_activity_datos_personales" >
         </activity>
-        <activity
-            android:name=".RegistrarDatosCuentaActivity" >
+        <activity android:name=".RegistrarDatosCuentaActivity" >
         </activity>
         <activity
             android:name=".AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
-
-            android:screenOrientation="portrait"
-            android:parentActivityName=".HomeActivity" >
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_home"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".HomeActivity" >
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />

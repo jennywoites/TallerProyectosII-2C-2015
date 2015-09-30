@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 
@@ -51,6 +53,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     private ImageView headerImage;
     private FloatingActionButton FAB;
     private MapView map;
+    private GoogleMap mMap;
+    private String petName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         ArrayList<String> urlPhotos = getIntent().getStringArrayListExtra("UrlPhotos");
         ArrayList<String> urlVideos = getIntent().getStringArrayListExtra("UrlVideos");
         AdoptionPet adoptionPet = new AdoptionPet(ppo);
-        String petName = adoptionPet.getName();
+        petName = adoptionPet.getName();
 
         toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);
@@ -79,26 +84,10 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             }
         });
 
-        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
+
 
         // Cargo la Foto en el header
         headerImage = (ImageView) findViewById(R.id.header);
-
-/*        final String photoUrl = urlPhotos.isEmpty() ? null : urlPhotos.get(0);
-        if (photoUrl != null) {
-            new LoadPhotoTask().execute(photoUrl);
-        }*/
-
-        map = (MapView) findViewById(R.id.map_view);
-        map.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(sydney, 10)));
-            }
-        });
-
 
         final ParseImageView imageView = new ParseImageView(this);
         ParseFile photoFile = adoptionPet.getPicture();
@@ -136,15 +125,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         });*/
 
 
-    /*        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
-
-            // TODO: pedir de la base de datos con el ID recibido por intent
-            HashMap<String, Integer> photos = new HashMap<>();
-            photos.put("Photo 0", getResources().getIdentifier(petName.toLowerCase(), "drawable", getPackageName()));
-            photos.put("Photo 1", getResources().getIdentifier((petName + "1").toLowerCase(), "drawable", getPackageName()));
-            photos.put("Photo 2", getResources().getIdentifier((petName + "2").toLowerCase(), "drawable", getPackageName()));
-            photos.put("Photo 3", getResources().getIdentifier((petName + "3").toLowerCase(), "drawable", getPackageName()));
-    */
+        photo_slider = (SliderLayout) findViewById(R.id.photo_slider);
         final HashMap<String, String> photos = new HashMap<>();
         int aux = 0;
         for (String url : urlPhotos) {
@@ -163,17 +144,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
 
 
-        // TODO: pedir de la base de datos con el ID recibido por el intent el id de video que tenga:
-        // El id del video es el que aparece en la url de youtube del mismo. Eso habria que guardar.
-/*
-        String id0 = "ycdcDFuGarM";
-        String id1 = "TSC8p9-eBNc";
-        String id2 = "RWSy24AVnZk";
-        final HashMap<String, String> videos = new HashMap<>();
-        videos.put("Video 0", id0);
-        videos.put("Video 1", id1);
-        videos.put("Video 2", id2);
-*/
+
+        video_slider = (SliderLayout) findViewById(R.id.video_slider);
+
         final HashMap<String, String> videos = new HashMap<>();
         aux = 0;
         for (String urlVideo : urlVideos) {
@@ -181,19 +154,10 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             aux++;
         }
 
-
-        video_slider = (SliderLayout)
-
-                findViewById(R.id.video_slider);
-
-        if (videos.isEmpty())
-
-        { // TODO: o otro metodo, la query de base de datos no devolvio datos
+        if (videos.isEmpty()) { // TODO: o otro metodo, la query de base de datos no devolvio datos
             CardView cardview_video = (CardView) findViewById(R.id.cardview_video);
             cardview_video.setVisibility(View.GONE);
-        } else
-
-        {
+        } else {
             for (final String name : videos.keySet()) {
                 TextSliderView slide = new TextSliderView(this);
                 slide.image("http://img.youtube.com/vi/" + videos.get(name) + "/mqdefault.jpg");
@@ -219,7 +183,10 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             video_slider.setCustomAnimation(new DescriptionAnimation());
             video_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator_video));
         }
+
+        setUpMapIfNeeded();
     }
+
 
     private void loadInformacionBasica(AdoptionPet adoptionPet) {
 
@@ -288,27 +255,49 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
 
-/*    private class LoadPhotoTask extends AsyncTask<String, String, Bitmap> {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
 
-        @Override
-        protected Bitmap doInBackground(String... arg0) {
-            try {
-                URL newURL = new URL(arg0[0]);
-                InputStream in = newURL.openStream();
-                Bitmap photo = BitmapFactory.decodeStream(in);
-                return photo;
-            } catch (Exception ex) {
-                ex.printStackTrace();
+    /**
+     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
+     * installed) and the map has not already been instantiated.. This will ensure that we only ever
+     * call {@link #setUpMap()} once when {@link #mMap} is not null.
+     * <p/>
+     * If it isn't installed {@link SupportMapFragment} (and
+     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
+     * install/update the Google Play services APK on their device.
+     * <p/>
+     * A user can return to this FragmentActivity after following the prompt and correctly
+     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
+     * have been completely destroyed during this process (it is likely that it would only be
+     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
+     * method in {@link #onResume()} to guarantee that it will be called.
+     */
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
             }
-
-            return null;
         }
+    }
 
-        @Override
-        protected void onPostExecute(Bitmap image) {
-            if (image != null) {
-                headerImage.setImageBitmap(image);
-            }
-        }
-    }*/
+    /**
+     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
+     * just add a marker near Africa.
+     * <p/>
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     */
+    private void setUpMap() {
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney")).showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(sydney, 14)));
+    }
 }
