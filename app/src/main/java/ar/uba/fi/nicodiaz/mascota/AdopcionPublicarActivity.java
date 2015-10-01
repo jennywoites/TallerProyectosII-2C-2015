@@ -87,8 +87,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
         final AutoCompleteTextView raza = (AutoCompleteTextView) findViewById(R.id.txtRace);
         String[] razaPerros = getResources().getStringArray(R.array.dogs);
-        //String[] razaGatos = getResources().getStringArray(R.array.cats);
-        String[] razaGatos = {};
+        String[] razaGatos = getResources().getStringArray(R.array.cats);
 
         final ArrayAdapter<String> adapterDogs = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaPerros);
         final ArrayAdapter<String> adapterCats = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaGatos);

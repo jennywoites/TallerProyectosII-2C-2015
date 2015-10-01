@@ -100,6 +100,82 @@
     <string name="ERROR">Error</string>
     <string name="raza_desconocida">Desconocida</string>
 
+    <string-array name="cats">
+        <item>Desconocido</item>
+        <item>Mezcla</item>
+        <item>Abisinio</item>
+        <item>Alemán de Pelo Largo</item>
+        <item>American Curl</item>
+        <item>American Shorthair</item>
+        <item>American Wirehair</item>
+        <item>Angora Turco</item>
+        <item>Ashera</item>
+        <item>Asiático Humo Atigrado</item>
+        <item>Balinés</item>
+        <item>Bengalí</item>
+        <item>Bobtail Japonés</item>
+        <item>Bombay</item>
+        <item>Brasileño de Pelo Corto</item>
+        <item>British Shorthair</item>
+        <item>Burmés</item>
+        <item>Burmilla</item>
+        <item>California Spangled</item>
+        <item>Ceilán</item>
+        <item>Chartreux</item>
+        <item>Chausie</item>
+        <item>Colorpoint Shorthair</item>
+        <item>Común Europeo</item>
+        <item>Cornish Rex</item>
+        <item>Cymric</item>
+        <item>Devon Rex</item>
+        <item>Exótico</item>
+        <item>Foldex</item>
+        <item>German Rex</item>
+        <item>Habana</item>
+        <item>Highland Fold</item>
+        <item>Himalayo</item>
+        <item>Javanes</item>
+        <item>Khao Manee</item>
+        <item>Korat</item>
+        <item>Kurilian Bobtail</item>
+        <item>LaPerm</item>
+        <item>Maine Coon</item>
+        <item>Manx</item>
+        <item>Mau Egipcio</item>
+        <item>Munchkin</item>
+        <item>Nebelung</item>
+        <item>Ocicat</item>
+        <item>Oriental de Pelo Largo</item>
+        <item>Persa</item>
+        <item>Peterbald</item>
+        <item>Pixie Bob</item>
+        <item>Rabón Japonés</item>
+        <item>Ragamuffin</item>
+        <item>Ragdoll</item>
+        <item>Ruso Azul</item>
+        <item>Sagrado de Birmania</item>
+        <item>Savannah</item>
+        <item>Scottish Fold</item>
+        <item>Selkirk Rex</item>
+        <item>Serengeti</item>
+        <item>Seychellois</item>
+        <item>Siamés</item>
+        <item>Siberiano</item>
+        <item>Silvestre del Bosque de Noruega</item>
+        <item>Singapura</item>
+        <item>Skogkatt</item>
+        <item>Snowshoe</item>
+        <item>Sokoke</item>
+        <item>Somalí</item>
+        <item>Sphynx</item>
+        <item>Thai</item>
+        <item>Tonquinés</item>
+        <item>Toyger</item>
+        <item>Tricolor</item>
+        <item>Van Turco</item>
+        <item>York Chocolate</item>
+    </string-array>
+
     <string-array name="dogs">
         <item>Desconocido</item>
         <item>Mezcla</item>
