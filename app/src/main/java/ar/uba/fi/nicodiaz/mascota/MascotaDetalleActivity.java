@@ -2,6 +2,8 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -25,7 +27,6 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,11 +36,13 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 
@@ -296,8 +299,21 @@ public class MascotaDetalleActivity extends AppCompatActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney")).showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(sydney, 14)));
+        LatLng fiuba = new LatLng(-34.617811, -58.368700);
+        mMap.addMarker(new MarkerOptions().position(fiuba).title("FIUBA")).showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(fiuba, 16)));
+        try {
+            TextView ubicacion = (TextView) findViewById(R.id.text_ubicacion);
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(fiuba.latitude, fiuba.longitude, 1);
+            StringBuilder sb = new StringBuilder();
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+                sb.append(address.getThoroughfare()).append(" ").append(address.getSubThoroughfare()).append(", ").append(address.getLocality());
+            }
+            ubicacion.setText(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
