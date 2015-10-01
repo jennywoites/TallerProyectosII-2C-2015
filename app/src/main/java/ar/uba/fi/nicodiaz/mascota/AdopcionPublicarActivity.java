@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -81,6 +83,32 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
         //TODO: Si se encuentra forma de capturar este evento, descomentarlo y mandarlo al dialogo de onBackPressed()
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        final AutoCompleteTextView raza = (AutoCompleteTextView) findViewById(R.id.txtRace);
+        String[] razaPerros = getResources().getStringArray(R.array.dogs);
+        //String[] razaGatos = getResources().getStringArray(R.array.cats);
+        String[] razaGatos = {};
+
+        final ArrayAdapter<String> adapterDogs = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaPerros);
+        final ArrayAdapter<String> adapterCats = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaGatos);
+
+
+        RadioGroup species = (RadioGroup) findViewById(R.id.rgSpecie);
+        species.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rdDog:
+                        raza.setAdapter(adapterDogs);
+                        break;
+                    case R.id.rdCat:
+                        raza.setAdapter(adapterCats);
+                        break;
+                }
+            }
+        });
+
 
         photos = new ArrayList<>();
         photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
@@ -159,7 +187,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     }
 
     private Bitmap addPhoto(Uri uri) {
-        Bitmap image = null;
+        Bitmap image;
         try {
             image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
         } catch (IOException e) {
@@ -233,7 +261,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
         String name = ((EditText) findViewById(R.id.txtName)).getText().toString();
         String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
-        String raza = ((EditText) findViewById(R.id.txtRace)).getText().toString();
+        String raza = ((AutoCompleteTextView) findViewById(R.id.txtRace)).getText().toString();
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
         String ageRange = this.getAgeValue();

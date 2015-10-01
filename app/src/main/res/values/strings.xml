@@ -100,5 +100,307 @@
     <string name="ERROR">Error</string>
     <string name="raza_desconocida">Desconocida</string>
 
-
+    <string-array name="dogs">
+        <item>Desconocido</item>
+        <item>Mezcla</item>
+        <item>Affenpinscher</item>
+        <item>Afgano</item>
+        <item>Akita</item>
+        <item>Akita Americano</item>
+        <item>Alano Español</item>
+        <item>American Bully</item>
+        <item>American Foxhound</item>
+        <item>American Pitbull Terrier</item>
+        <item>American Staffordshire</item>
+        <item>Australian Silky Terrier</item>
+        <item>Azawakh</item>
+        <item>Barbet</item>
+        <item>Basenji</item>
+        <item>Basset Artesiano de Normandia</item>
+        <item>Basset Azul de Gascuña</item>
+        <item>Basset Hound</item>
+        <item>Basset Leonardo de Bretaña</item>
+        <item>Beagle</item>
+        <item>Beagle Harrier</item>
+        <item>Berger de Picardie</item>
+        <item>Bichón Boloñés</item>
+        <item>Bichón Frisé</item>
+        <item>Bichón Habanero</item>
+        <item>Bichón Maltés</item>
+        <item>Billy</item>
+        <item>Black and Tan Coonhound</item>
+        <item>Bloodhound</item>
+        <item>Bobtail</item>
+        <item>Bodeguero Andalúz</item>
+        <item>Boerboel</item>
+        <item>Border Collie</item>
+        <item>Border Terrier</item>
+        <item>Borzoi (Galgo Ruso)</item>
+        <item>Boston Terrier</item>
+        <item>Boxer</item>
+        <item>Boyero Australiano</item>
+        <item>Boyero Flandes</item>
+        <item>Boyero de las Ardenas</item>
+        <item>Braco Alemán</item>
+        <item>Braco de Auvernia</item>
+        <item>Braco de Weimar</item>
+        <item>Braco del Ariege</item>
+        <item>Braco del Bourbonnais</item>
+        <item>Braco Francés</item>
+        <item>Braco Italiano</item>
+        <item>Braco San Germain</item>
+        <item>Briard</item>
+        <item>Brittany</item>
+        <item>Broholmer</item>
+        <item>Buhund Noruego</item>
+        <item>Bull Terrier</item>
+        <item>Bulldog</item>
+        <item>Bulldog Americano</item>
+        <item>Bulldog Francés</item>
+        <item>Bullmastín</item>
+        <item>Cairn Terrier</item>
+        <item>Cane Corso</item>
+        <item>Caniche (Poodie)</item>
+        <item>Carlino</item>
+        <item>Cavalier King Charles</item>
+        <item>Chihuahua</item>
+        <item>Chin Japonés</item>
+        <item>Chow Chow</item>
+        <item>Cimarrón Uruguayo</item>
+        <item>Cirneco del Etna</item>
+        <item>Clumber Spaniel</item>
+        <item>Cobrador de Nueva Escocia</item>
+        <item>Cocker Spaniel</item>
+        <item>Cocker Americano</item>
+        <item>Collie</item>
+        <item>Collie Barbudo</item>
+        <item>Collie Smooth</item>
+        <item>Corgi Galés Cárdigan</item>
+        <item>Corgi Galés Pembroke</item>
+        <item>Cotón de Tuléar</item>
+        <item>Curly Coated Retriever</item>
+        <item>Dálmata</item>
+        <item>Dandie Dinmont Terrier</item>
+        <item>Deerhound Escocés</item>
+        <item>Doberman</item>
+        <item>Dogo Argentino</item>
+        <item>Dogo Canario</item>
+        <item>Dogo de Burdeos</item>
+        <item>Dogo Mallorquín</item>
+        <item>Drever</item>
+        <item>Eikhound Noruego</item>
+        <item>Epagneul Breton</item>
+        <item>Eurasier</item>
+        <item>Faraón Hound</item>
+        <item>Field Spaniel</item>
+        <item>Fila Brasilero</item>
+        <item>Fila de San Miguel</item>
+        <item>Fox Terrier</item>
+        <item>Fox Terrier Toy</item>
+        <item>Foxhound Americano</item>
+        <item>Foxhound Inglés</item>
+        <item>Galgo Español</item>
+        <item>Galgo Italiano</item>
+        <item>Gascón Saintongeois</item>
+        <item>Glen of Imaal Terrier</item>
+        <item>Golden Retriever</item>
+        <item>Gran Basset Grifón Vendeano</item>
+        <item>Gran Danés</item>
+        <item>Greyhound</item>
+        <item>Grifon Belga</item>
+        <item>Grifon de Bruselas</item>
+        <item>Grifon de Muestra Bohemio</item>
+        <item>Grifon de Muestra Eslovaco</item>
+        <item>Grifon de Muestra Korthais</item>
+        <item>Hamilton Stovare</item>
+        <item>Harrier</item>
+        <item>Hokkaïdo</item>
+        <item>Hovawart</item>
+        <item>Husky Siberiano</item>
+        <item>Irish Soft Coated Wheaten Terrier</item>
+        <item>Jack Russell Terrier</item>
+        <item>Jamthund</item>
+        <item>Kai</item>
+        <item>Karjalankarhukoira</item>
+        <item>Keedhond</item>
+        <item>Kerry Blue Terrier</item>
+        <item>Kishu</item>
+        <item>Komondor</item>
+        <item>Korea Jinco Dog</item>
+        <item>Kromforhrländer</item>
+        <item>Kuvasz</item>
+        <item>Labrador Retriever</item>
+        <item>Laïka de Siberia Oriental</item>
+        <item>Laïka Ruso-Europeo</item>
+        <item>Lakeland Terrier</item>
+        <item>Landseer</item>
+        <item>Lebrel Húngaro</item>
+        <item>Leonberger</item>
+        <item>Lhasa Apso</item>
+        <item>Lunderhund</item>
+        <item>Löwchen</item>
+        <item>Malamute de Alaska</item>
+        <item>Mastín</item>
+        <item>Mastín Napolitano</item>
+        <item>Mastín Tibetano</item>
+        <item>Mudi</item>
+        <item>Münsterländer</item>
+        <item>Otterhound</item>
+        <item>Papillon</item>
+        <item>Parson Russell Terrier</item>
+        <item>Pastor Alemán</item>
+        <item>Pastor Australiano</item>
+        <item>Pastor Belga</item>
+        <item>Pastor Blanco Suizo</item>
+        <item>Pastor Catalán</item>
+        <item>Pastor de Anatolia</item>
+        <item>Pastor de Beauce</item>
+        <item>Pastor de los Pirineos</item>
+        <item>Pastor de Shetland</item>
+        <item>Pastor Polaco de Tierras Bajas</item>
+        <item>Pequeño Basset Grifón Vendeano</item>
+        <item>Pequeño Brabanzón</item>
+        <item>Pequinés</item>
+        <item>Perdiguero de Burgos</item>
+        <item>Perdiguero de Drente</item>
+        <item>Perdiguero Portugués</item>
+        <item>Perro Crestado Chino</item>
+        <item>Perro de Agua Americano</item>
+        <item>Perro de Agua Español</item>
+        <item>Perro de Agua Portugués</item>
+        <item>Perro de Canaan</item>
+        <item>Perro de Castro Laboreiro</item>
+        <item>Perro de Groenlandia</item>
+        <item>Perro de Montaña Appenzell</item>
+        <item>Perro de Montaña Bernés</item>
+        <item>Perro de Montaña de la Sierra de la Estrela</item>
+        <item>Perro de Montaña de los Pirineos</item>
+        <item>Perro de Montaña del Atlas</item>
+        <item>Perro de Montaña Gran Suizo</item>
+        <item>Perro de Pastor Bergamasco</item>
+        <item>Perro de Pastor de Asia Central</item>
+        <item>Perro de Pastor de Karst</item>
+        <item>Perro de Pastor de Rusia Meridional</item>
+        <item>Perro de Pastor del Cáucaso</item>
+        <item>Perro de Pastor Islandés</item>
+        <item>Perro de Pastor Polaco de las Llanuras</item>
+        <item>Perro de Pastor Polaco de Podhale</item>
+        <item>Perro de Pastor Portugués</item>
+        <item>Perro de Pastor Yugoslavo de Charpianina</item>
+        <item>Perro Entlebucher</item>
+        <item>Perro Esquimal Americano</item>
+        <item>Perro Esquimal Canadiense</item>
+        <item>Perro Lobo Checoslovaco</item>
+        <item>Perro Lobo de Sarioos</item>
+        <item>Perro Pastor Croato</item>
+        <item>Perro Pastor Mallorquín</item>
+        <item>Perro Pastor Maremmano-Abruzzese</item>
+        <item>Perro sin pelo del Perú</item>
+        <item>Perro sin pelo Mexicano</item>
+        <item>Perro Smous Holandés</item>
+        <item>Pinscher</item>
+        <item>Pinscher Australiano</item>
+        <item>Pinscher Miniatura</item>
+        <item>Plott Hound</item>
+        <item>Podenco Canario</item>
+        <item>Podenco Ibicenco</item>
+        <item>Podenco Portugués</item>
+        <item>Pointer</item>
+        <item>Pointer Alemán</item>
+        <item>Poitevin</item>
+        <item>Pomerania</item>
+        <item>Porcelaine</item>
+        <item>Pudelpointer</item>
+        <item>Puli</item>
+        <item>Pumi</item>
+        <item>Rafeiro del Alentejo</item>
+        <item>Rastreador de Hannover</item>
+        <item>Rastreador Montañes de Baviera</item>
+        <item>Retriever de la Bahía de los Chesapeake</item>
+        <item>Retriver de Pelo Liso</item>
+        <item>Ridgeback de Rodesia</item>
+        <item>Rottweiler</item>
+        <item>Sabueso Alemán</item>
+        <item>Sabueso Artesiano</item>
+        <item>Sabueso Austríaco Negro y Fuego</item>
+        <item>Sabueso de Bosnia</item>
+        <item>Sabueso de Hygen</item>
+        <item>Sabueso de las Montañas de Montenegro</item>
+        <item>Sabueso de Smaland</item>
+        <item>Sabueso de Transilvania</item>
+        <item>Sabueso de Tiroi</item>
+        <item>Sabueso Eslovaco</item>
+        <item>Sabueso Español</item>
+        <item>Sabueso Estirio</item>
+        <item>Sabueso Finlandés</item>
+        <item>Sabueso Francés Tricolor</item>
+        <item>Sabueso Haiden</item>
+        <item>Sabueso Italiano</item>
+        <item>Sabueso Noruego</item>
+        <item>Sabueso Polaco</item>
+        <item>Sabueso Schiller</item>
+        <item>Sabueso Serbio</item>
+        <item>Sabueso Suizo</item>
+        <item>Sabueso Tricolor Serbio</item>
+        <item>Saluki (Galgo Persa)</item>
+        <item>Samoyedo</item>
+        <item>San Bernardo</item>
+        <item>Schapendoes Neerlandés</item>
+        <item>Schipperke</item>
+        <item>Schnauzer</item>
+        <item>Sealyham Terrier</item>
+        <item>Setter Gordon</item>
+        <item>Setter Inglés</item>
+        <item>Setter Irlandés</item>
+        <item>Shar Pei</item>
+        <item>Shiba</item>
+        <item>ShihTzu</item>
+        <item>Shikoku</item>
+        <item>Silky Terrier</item>
+        <item>Sioughi (Galgo Árabe)</item>
+        <item>Spaniel Continental Enano</item>
+        <item>Spaniel de Agua Irlandés</item>
+        <item>Spaniel de Point-Audemer</item>
+        <item>Spaniel de Sussex</item>
+        <item>Spaniel Picardo</item>
+        <item>Spaniel Tibetano</item>
+        <item>Spinone Italiano</item>
+        <item>Spitz Alemán</item>
+        <item>Spitz Finlandés</item>
+        <item>Spitz Japonés</item>
+        <item>Springer Spaniel Galés</item>
+        <item>Springer Spaniel Inglés</item>
+        <item>Spitz de Norrbotten</item>
+        <item>Stabyhoun</item>
+        <item>Staffordshire Bull Terrier</item>
+        <item>Tchuvatch Eslovaco</item>
+        <item>Teckel</item>
+        <item>Tejonero Alpino</item>
+        <item>Tejonero de Westfalia</item>
+        <item>Terranova</item>
+        <item>Terrier Australiano</item>
+        <item>Terrier Bedlington</item>
+        <item>Terrier Brasileño</item>
+        <item>Terrier Cazador Alemán</item>
+        <item>Terrier Cesky</item>
+        <item>Terrier de Airedale</item>
+        <item>Terrier de Norfolk</item>
+        <item>Terrier de Skye</item>
+        <item>Terrier Escocés</item>
+        <item>Terrier Galés</item>
+        <item>Terrier Irlandés</item>
+        <item>Terrier Japonés</item>
+        <item>Terrier Tibetano</item>
+        <item>Thai Ridgeback Dog</item>
+        <item>Tosa Inu</item>
+        <item>Valhund Sueco</item>
+        <item>Vizsia</item>
+        <item>Volpino Italiano</item>
+        <item>West Highland</item>
+        <item>Wetterhound</item>
+        <item>Wheaten Terrier</item>
+        <item>Whippet</item>
+        <item>Wolfhound Irlandés</item>
+        <item>Yorkshire Terrier</item>
+    </string-array>
 </resources>
