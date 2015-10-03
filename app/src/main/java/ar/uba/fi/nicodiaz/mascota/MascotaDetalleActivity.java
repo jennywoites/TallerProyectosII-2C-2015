@@ -2,8 +2,6 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -36,11 +34,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
@@ -58,6 +53,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     private MapView map;
     private GoogleMap mMap;
     private String petName;
+    private AdoptionPet adoptionPet;
 
 
     @Override
@@ -69,7 +65,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         ParseProxyObject ppo = (ParseProxyObject) getIntent().getSerializableExtra("Pet");
         ArrayList<String> urlPhotos = getIntent().getStringArrayListExtra("UrlPhotos");
         ArrayList<String> urlVideos = getIntent().getStringArrayListExtra("UrlVideos");
-        AdoptionPet adoptionPet = new AdoptionPet(ppo);
+        adoptionPet = new AdoptionPet(ppo);
         petName = adoptionPet.getName();
 
         toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
@@ -350,13 +346,21 @@ public class MascotaDetalleActivity extends AppCompatActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        LatLng fiuba = new LatLng(-34.617811, -58.368700);
-        mMap.addMarker(new MarkerOptions().position(fiuba).title("FIUBA")).showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(fiuba, 16)));
-        try {
+        ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = adoptionPet.getAddress();
+
+        TextView ubicacion = (TextView) findViewById(R.id.text_ubicacion);
+        ubicacion.setText(adoptionPetAddress.getCalle());
+
+        double latitude = adoptionPetAddress.getLocation().getLatitude();
+        double longitude = adoptionPetAddress.getLocation().getLongitude();
+        LatLng posicion = new LatLng(latitude, longitude);
+        String msg = adoptionPet.getName() + " esta acá";
+        mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
+/*        try {
             TextView ubicacion = (TextView) findViewById(R.id.text_ubicacion);
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(fiuba.latitude, fiuba.longitude, 1);
+            List<Address> addresses = geocoder.getFromLocation(posicion.latitude, posicion.longitude, 1);
             StringBuilder sb = new StringBuilder();
             if (addresses.size() > 0) {
                 Address address = addresses.get(0);
@@ -365,6 +369,6 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             ubicacion.setText(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

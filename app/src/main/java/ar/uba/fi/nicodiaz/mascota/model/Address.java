@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
+import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
+
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
  */
@@ -20,6 +22,19 @@ public class Address extends ParseObject {
     public Address() {
 
     }
+
+    public Address(ParseProxyObject ppo) {
+        setCalle(ppo.getString(CALLE_KEY));
+        setPiso(ppo.getString(PISO_KEY));
+        setDepartamento(ppo.getString(DEPARTAMENTO_KEY));
+        setLocality(ppo.getString(LOCALITY));
+        setSubLocality((ppo.getString(SUBLOCALITY)));
+
+        double latitude = ppo.getDouble(LOCATION_KEY + "-lat");
+        double longitude = ppo.getDouble(LOCATION_KEY + "-long");
+        setLocation(latitude, longitude);
+    }
+
 
     public Address(String calle, double latitud, double longitud, String locality, String sublocality) {
         setCalle(calle);

@@ -1,14 +1,18 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 18/9/2015.
  */
 public class User {
 
+    public static String USER_OBJECT_ID = "objectId";
+    public static String USERNAME = "username";
     public static String USER_NAME_FIELD = "name";
+    public static String USER_EMAIL_FIELD = "email";
     public static String USER_GENDER_FIELD = "gender";
     public static String USER_PHONE_FIELD = "phone";
     public static String USER_ADDRESS_FIELD = "address";
@@ -19,6 +23,17 @@ public class User {
 
     public User(ParseUser user) {
         this.user = user;
+    }
+
+    public User(ParseProxyObject ppo) {
+        this.user = new ParseUser();
+        setUsername(ppo.getString(USERNAME));
+        setEmail(ppo.getString(USER_EMAIL_FIELD));
+        setName(ppo.getString(USER_NAME_FIELD));
+        setGender(ppo.getString(USER_GENDER_FIELD));
+        setTelephone(ppo.getString(USER_PHONE_FIELD));
+        ParseProxyObject addressPPO = ppo.getParseObject(USER_ADDRESS_FIELD);
+        setAddress(new Address(addressPPO));
     }
 
 
@@ -36,6 +51,10 @@ public class User {
 
     public void setName(String name) {
         user.put(USER_NAME_FIELD, name);
+    }
+
+    public void setUsername(String username) {
+        user.setUsername(username);
     }
 
     public String getGender() {
@@ -84,7 +103,6 @@ public class User {
             return gender.equals(FEMALE);
         } else return false;
     }
-
 
 
 }

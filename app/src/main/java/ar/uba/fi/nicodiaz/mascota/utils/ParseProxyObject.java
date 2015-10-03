@@ -2,11 +2,14 @@ package ar.uba.fi.nicodiaz.mascota.utils;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.Serializable;
 import java.util.HashMap;
+
+import ar.uba.fi.nicodiaz.mascota.model.Address;
 
 public class ParseProxyObject implements Serializable {
 
@@ -41,6 +44,13 @@ public class ParseProxyObject implements Serializable {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+            } else if (classType == ParseGeoPoint.class) {
+                ParseGeoPoint geoPoint = (ParseGeoPoint) object.get(key);
+                values.put(key + "-lat", geoPoint.getLatitude());
+                values.put(key + "-long", geoPoint.getLongitude());
+            } else if (classType == Address.class) {
+                ParseProxyObject parsObject = new ParseProxyObject((ParseObject) object.get(key));
+                values.put(key, parsObject);
             }
         }
     }
@@ -69,6 +79,14 @@ public class ParseProxyObject implements Serializable {
         }
     }
 
+    public double getDouble(String key) {
+        if (has(key)) {
+            return (Double) values.get(key);
+        } else {
+            return 0;
+        }
+    }
+
     public byte[] getBytes(String key) {
         if (has(key)) {
             return (byte[]) values.get(key);
@@ -77,7 +95,7 @@ public class ParseProxyObject implements Serializable {
         }
     }
 
-    public ParseProxyObject getParseUser(String key) {
+    public ParseProxyObject getParseObject(String key) {
         if (has(key)) {
             return (ParseProxyObject) values.get(key);
         } else {

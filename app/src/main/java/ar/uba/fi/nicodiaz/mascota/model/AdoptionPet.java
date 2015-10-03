@@ -54,8 +54,8 @@ public class AdoptionPet extends ParseObject implements Pet {
         setGender(ppo.getString(GENDER));
         setKind(ppo.getString(KIND));
         setBreed(ppo.getString(BREED));
-/*        User owner = new User(ppo.getParseUser(OWNER));
-        setOwner(owner);*/
+        User owner = new User(ppo.getParseObject(OWNER));
+        setOwner(owner);
         setPicture(new ParseFile(ppo.getBytes(PHOTO_ONE)));
         setOtherPets(ppo.getString(PETS));
         setChildren(ppo.getString(CHILDREN));
@@ -211,6 +211,11 @@ public class AdoptionPet extends ParseObject implements Pet {
     @Override
     public void setBreed(String breed) {
         put(BREED, breed);
+    }
+
+    public Address getAddress() {
+        Address address = getOwner().getAddress();
+        return address;
     }
 
     @Override
