@@ -100,6 +100,9 @@
     <string name="ERROR">Error</string>
     <string name="raza_desconocida">Desconocida</string>
     <string name="inf_social_title">Información Social</string>
+    <string name="informacion_medica_title">Información Médica</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
 
     <string-array name="cats">
         <item>Desconocido</item>

@@ -69,13 +69,13 @@
                     android:id="@+id/rdSiAnimales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Si" />
+                    android:text="@string/yes" />
 
                 <RadioButton
                     android:id="@+id/rdNoAnimales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No" />
+                    android:text="@string/no" />
             </RadioGroup>
 
         </android.support.design.widget.TextInputLayout>
@@ -108,13 +108,13 @@
                     android:id="@+id/rdSiNiños"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Si" />
+                    android:text="@string/yes" />
 
                 <RadioButton
                     android:id="@+id/rdNoNiños"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No" />
+                    android:text="@string/no" />
             </RadioGroup>
 
         </android.support.design.widget.TextInputLayout>

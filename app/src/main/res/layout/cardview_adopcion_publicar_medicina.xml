@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="Información Médica" />
+                android:text="@string/informacion_medica_title" />
 
             <ImageView
                 android:layout_width="42dp"
@@ -69,13 +69,13 @@
                     android:id="@+id/rdSi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Si" />
+                    android:text="@string/yes" />
 
                 <RadioButton
                     android:id="@+id/rdNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No" />
+                    android:text="@string/no" />
             </RadioGroup>
 
         </android.support.design.widget.TextInputLayout>

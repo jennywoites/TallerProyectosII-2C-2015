@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/product_detail_main_content"
@@ -77,6 +76,10 @@
             <include
                 android:id="@+id/cardview_social"
                 layout="@layout/cardview_informacion_social_mascota" />
+
+            <include
+                android:id="@+id/cardview_medica"
+                layout="@layout/cardview_informacion_medica_mascota" />
 
             <include
                 android:id="@+id/cardview_fotos"

@@ -111,6 +111,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         loadInformacionBasica(adoptionPet);
         loadInformacionSocial(adoptionPet);
+        loadInformacionMedica(adoptionPet);
 
         // TODO: si descomentamos esto, se ve el fondo transparente arriba, pero hay que validar:
         /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu);
@@ -226,6 +227,37 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             textView.setVisibility(View.GONE);
 
             textView = (TextView) findViewById(R.id.infComentariosSocial);
+            textView.setVisibility(View.GONE);
+        }
+    }
+
+    private void loadInformacionMedica(AdoptionPet adoptionPet) {
+        TextView textView = (TextView) findViewById(R.id.infTomaMedicina);
+        textView.setText(adoptionPet.getMedicine());
+
+        String responseNO = getResources().getString(R.string.no);
+
+        if (adoptionPet.getMedicine().equals(responseNO)) {
+            textView = (TextView) findViewById(R.id.infPeriocidadLabel);
+            textView.setVisibility(View.GONE);
+
+            textView = (TextView) findViewById(R.id.infPeriocidad);
+            textView.setVisibility(View.GONE);
+        } else {
+            textView = (TextView) findViewById(R.id.infPeriocidad);
+            textView.setText(adoptionPet.getMedicineTime());
+        }
+
+
+        String medicineNotes = adoptionPet.getMedicineNotes();
+        if (!medicineNotes.isEmpty()) {
+            textView = (TextView) findViewById(R.id.infComentariosMedicina);
+            textView.setText(medicineNotes);
+        } else {
+            textView = (TextView) findViewById(R.id.comentariosMedicinaLabel);
+            textView.setVisibility(View.GONE);
+
+            textView = (TextView) findViewById(R.id.infComentariosMedicina);
             textView.setVisibility(View.GONE);
         }
     }
