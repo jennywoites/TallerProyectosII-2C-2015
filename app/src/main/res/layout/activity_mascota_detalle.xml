@@ -1,24 +1,25 @@
 <android.support.design.widget.CoordinatorLayout
-    android:id="@+id/product_detail_main_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity"
+    android:id="@+id/product_detail_main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="216dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="true"
             android:foregroundGravity="bottom|right"
             android:foregroundTintMode="add"
-            android:clipToPadding="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -27,10 +28,10 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="Pet Image"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:contentDescription="Pet Image" />
+                app:layout_collapseMode="parallax" />
 
             <View
                 android:layout_width="match_parent"
@@ -40,11 +41,11 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/anim_toolbar"
-                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
-                app:layout_collapseMode="pin"
+                android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -60,18 +61,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <include
                 android:id="@+id/cardview_basica"
                 layout="@layout/cardview_informacion_basica_mascota" />
+
             <include
                 android:id="@+id/cardview_descripcion"
                 layout="@layout/cardview_descripcion_mascota" />
+
             <include
                 android:id="@+id/cardview_ubicacion"
-                layout="@layout/cardview_ubicacion_mascota"/>
+                layout="@layout/cardview_ubicacion_mascota" />
+
+            <include
+                android:id="@+id/cardview_social"
+                layout="@layout/cardview_informacion_social_mascota" />
+
             <include
                 android:id="@+id/cardview_fotos"
-                layout="@layout/cardview_fotos_mascota"/>
+                layout="@layout/cardview_fotos_mascota" />
+
             <include
                 android:id="@+id/cardview_video"
                 layout="@layout/cardview_video_mascota" />

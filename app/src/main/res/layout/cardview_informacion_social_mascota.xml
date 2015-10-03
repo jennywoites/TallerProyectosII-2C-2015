@@ -1,107 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:layout_gravity="center_horizontal"
-    card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="12dp"
-    android:layout_marginTop="16dp"
     android:layout_marginBottom="16dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginStart="16dp">
+    android:layout_marginStart="16dp"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Información básica"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:text="@string/inf_social_title" />
+
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="false"
                 android:layout_alignParentStart="false"
+                android:layout_alignParentTop="false"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/splash_screen" />
+                android:src="@drawable/ic_social" />
         </RelativeLayout>
-        <View style="@style/HorizontalDivider"/>
+
+        <View style="@style/HorizontalDivider" />
 
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:textStyle="bold"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Sexo"
-            android:paddingTop="8dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/pregunta_relacion_animales"
+            android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/infRelacionAnimales"
             style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:id="@+id/infSexoPet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="sexo"
+            android:paddingBottom="8dp"
             android:paddingStart="16dp"
-            android:paddingBottom="8dp"/>
+            android:text="si/no" />
 
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:textStyle="bold"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Raza"
-            android:paddingTop="8dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/pregunta_relacion_niños"
+            android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/infRelacionNiños"
             style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:id="@+id/infRazaPet"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="raza"
+            android:paddingBottom="8dp"
             android:paddingStart="16dp"
-            android:paddingBottom="8dp"/>
+            android:text="si/no" />
 
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:textStyle="bold"
+            android:id="@+id/comentariosSocialLabel"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Edad"
-            android:paddingTop="8dp"/>
+            android:paddingTop="8dp"
+            android:text="@string/comentarios_label"
+            android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/infComentariosSocial"
             style="@style/Base.TextAppearance.AppCompat.Body1"
             android:layout_width="fill_parent"
-            android:id="@+id/infEdadPet"
             android:layout_height="wrap_content"
-            android:text="edad"
             android:paddingStart="16dp"
-            android:paddingBottom="8dp"/>
-<!--
-        <TextView
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:textStyle="bold"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Situación"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"/>
-        <TextView
-            style="@style/Base.TextAppearance.AppCompat.Body1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="situacion"
-            android:paddingStart="16dp" />-->
+            android:paddingTop="8dp"
+            android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim." />
 
     </LinearLayout>
 

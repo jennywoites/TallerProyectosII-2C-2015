@@ -99,6 +99,7 @@
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
     <string name="ERROR">Error</string>
     <string name="raza_desconocida">Desconocida</string>
+    <string name="inf_social_title">Información Social</string>
 
     <string-array name="cats">
         <item>Desconocido</item>

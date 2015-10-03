@@ -88,7 +88,6 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         });
 
 
-
         // Cargo la Foto en el header
         headerImage = (ImageView) findViewById(R.id.header);
 
@@ -111,6 +110,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
 
         loadInformacionBasica(adoptionPet);
+        loadInformacionSocial(adoptionPet);
 
         // TODO: si descomentamos esto, se ve el fondo transparente arriba, pero hay que validar:
         /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pikachu);
@@ -145,7 +145,6 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         photo_slider.setPresetTransformer(SliderLayout.Transformer.RotateDown);
         photo_slider.setCustomIndicator((PagerIndicator) findViewById(R.id.custom_indicator));
-
 
 
         video_slider = (SliderLayout) findViewById(R.id.video_slider);
@@ -209,6 +208,26 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.infDescPet);
         textView.setText(adoptionPet.getDescription());
 
+    }
+
+    private void loadInformacionSocial(AdoptionPet adoptionPet) {
+        TextView textView = (TextView) findViewById(R.id.infRelacionNiños);
+        textView.setText(adoptionPet.getChildren());
+
+        textView = (TextView) findViewById(R.id.infRelacionAnimales);
+        textView.setText(adoptionPet.getOtherPets());
+
+        String socialNotes = adoptionPet.getSocialNotes();
+        if (!socialNotes.isEmpty()) {
+            textView = (TextView) findViewById(R.id.infComentariosSocial);
+            textView.setText(socialNotes);
+        } else {
+            textView = (TextView) findViewById(R.id.comentariosSocialLabel);
+            textView.setVisibility(View.GONE);
+
+            textView = (TextView) findViewById(R.id.infComentariosSocial);
+            textView.setVisibility(View.GONE);
+        }
     }
 
     @Override
