@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import ar.uba.fi.nicodiaz.mascota.fragment.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.fragment.HomeFragment;
+import ar.uba.fi.nicodiaz.mascota.fragment.MissingFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -28,8 +29,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(R.layout.activity_home);
 
@@ -94,27 +93,24 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.drawer_home:
-                // Toast.makeText(getApplicationContext(), "Home selected", Toast.LENGTH_SHORT).show();
                 fragment = new HomeFragment();
                 currentFragment = getResources().getString(R.string.app_name);
                 break;
             case R.id.drawer_adoptions:
-                // Toast.makeText(getApplicationContext(), "Adoptions selected", Toast.LENGTH_SHORT).show();
                 fragment = new AdopcionFragment();
                 currentFragment = getResources().getString(R.string.title_activity_adopcion);
                 break;
-            /*
-            case R.id.drawer_profile:
+
+/*            case R.id.drawer_profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
                 fragment = new ProfileFragment();
                 currentFragment = getResources().getString(R.string.title_activity_profile);
-                break;
+                break;*/
             case R.id.drawer_missing:
-                Toast.makeText(getApplicationContext(), "Missing selected", Toast.LENGTH_SHORT).show();
                 fragment = new MissingFragment();
                 currentFragment = getResources().getString(R.string.title_activity_missing);
                 break;
-            case R.id.drawer_about:
+            /*case R.id.drawer_about:
                 Toast.makeText(getApplicationContext(), "About selected", Toast.LENGTH_SHORT).show();
                 fragment = new AboutFragment();
                 currentFragment = getResources().getString(R.string.title_activity_about);
