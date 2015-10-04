@@ -44,7 +44,42 @@ public class HomeFragment extends Fragment {
     private AdopcionEndlessAdapter listAdapter;
 
     private Context activity;
-    private View mainView;
+
+    private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
+
+        private LinearLayout linlaHeaderProgress;
+        private List<AdoptionPet> resultList;
+
+        public PetListLoader(View view) {
+            linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
+            resultList = new ArrayList<>();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            list.clear();
+            listAdapter.notifyDataSetChanged();
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+            listAdapter.reset();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            resultList = PetService.getInstance().getAdoptionPets(0);
+            return !(resultList.isEmpty());
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            linlaHeaderProgress.setVisibility(View.GONE);
+            if (result) {
+                list.addAll(resultList);
+                listAdapter.notifyDataSetChanged();
+            }
+            checkEmptyList();
+            listAdapter.setLoaded();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,72 +89,43 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
 
         // View:
-        mainView = inflater.inflate(R.layout.fragment_home, container, false);
+        View mainView = inflater.inflate(R.layout.fragment_home, container, false);
         mainView.setTag(TAG);
 
+        // ListView
+        emptyView = (TextView) mainView.findViewById(R.id.empty_view);
+
+        list = new ArrayList<>();
+;
+        listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
+        listView.setLayoutManager(new LinearLayoutManager(activity));
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setHasFixedSize(true);
+
+        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                ArrayList<String> urlPhotos = new ArrayList<>();
+                AdoptionPet adoptionPet = list.get(position);
+                for (ParseFile picture : adoptionPet.getPictures()) {
+                    urlPhotos.add(picture.getUrl());
+                }
+                ArrayList<String> urlVideos = adoptionPet.getVideos();
+
+                ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
+                i.putExtra("Pet", ppo);
+                i.putStringArrayListExtra("UrlPhotos", urlPhotos);
+                i.putStringArrayListExtra("UrlVideos", urlVideos);
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
+            }
+        });
+        listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
-        class InitialPetLoader extends AsyncTask<Void, Void, Boolean> {
-            private LinearLayout linlaHeaderProgress;
-            private View view;
-
-            public InitialPetLoader(View view) {
-                linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
-                this.view = view;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                linlaHeaderProgress.setVisibility(View.VISIBLE);
-
-                // ListView
-                listView = (RecyclerView) view.findViewById(R.id.list_adoption);
-                listView.setLayoutManager(new LinearLayoutManager(activity));
-                listView.setItemAnimator(new DefaultItemAnimator());
-                listView.setHasFixedSize(true);
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                list = PetService.getInstance().getAdoptionPets(0);
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-                listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View itemView, int position) {
-                        // TODO: aca se maneja el click sobre un item de la lista:
-
-                        Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                        ArrayList<String> urlPhotos = new ArrayList<String>();
-                        AdoptionPet adoptionPet = list.get(position);
-                        for (ParseFile picture : adoptionPet.getPictures()) {
-                            urlPhotos.add(picture.getUrl());
-                        }
-                        ArrayList<String> urlVideos = adoptionPet.getVideos();
-                        ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
-                        i.putExtra("Pet", ppo);
-                        i.putStringArrayListExtra("UrlPhotos", urlPhotos);
-                        i.putStringArrayListExtra("UrlVideos", urlVideos);
-                        startActivity(i);
-                        getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
-                    }
-                });
-
-                listView.setAdapter(listAdapter);
-                linlaHeaderProgress.setVisibility(View.GONE);
-                emptyView = (TextView) view.findViewById(R.id.empty_view);
-
-                checkEmptyList();
-            }
-
-        }
-
-        InitialPetLoader loader = new InitialPetLoader(mainView);
-        loader.execute();
+        new PetListLoader(mainView).execute();
 
         return mainView;
     }

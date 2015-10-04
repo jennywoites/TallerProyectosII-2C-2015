@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
@@ -46,20 +44,92 @@ import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 public class AdopcionFragment extends Fragment {
 
     private static final String TAG = "AdopcionFragment";
-
     private List<AdoptionPet> list;
     private RecyclerView listView;
     private TextView emptyView;
     private boolean hayMas;
-    private int loops = 2;
-
     private AdopcionEndlessAdapter listAdapter;
-
     private Context activity;
-
     private DrawerLayout drawerLayout;
-    private FloatingActionButton FAB;
     private View mainView;
+
+    private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
+
+        List<AdoptionPet> resultList;
+
+        @Override
+        protected void onPreExecute() {
+            list.add(null);
+            listAdapter.notifyItemInserted(list.size() - 1);
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... currentPage) {
+            if (selectedFilter.isEmpty()) {
+                resultList = PetService.getInstance().getAdoptionPets(currentPage[0]);
+            } else {
+                resultList = PetService.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
+            }
+            return !resultList.isEmpty();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            list.remove(list.size() - 1);
+            listAdapter.notifyItemRemoved(list.size());
+            if (!result) {
+                hayMas = false;
+                return;
+            }
+
+            for (AdoptionPet pet : resultList) {
+                list.add(pet);
+                listAdapter.notifyItemInserted(list.size() - 1);
+            }
+            listAdapter.setLoaded();
+        }
+    }
+
+    private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
+
+        private LinearLayout linlaHeaderProgress;
+        private List<AdoptionPet> resultList;
+
+        public PetListLoader(View view) {
+            linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
+            resultList = new ArrayList<>();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            list.clear();
+            listAdapter.notifyDataSetChanged();
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+            listAdapter.reset();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            if (selectedFilter.isEmpty()) {
+                resultList = PetService.getInstance().getAdoptionPets(0);
+            }
+            else {
+                resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
+            }
+            return !(resultList.isEmpty());
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            linlaHeaderProgress.setVisibility(View.GONE);
+            if (result) {
+                list.addAll(resultList);
+                listAdapter.notifyDataSetChanged();
+            }
+            checkEmptyList();
+            listAdapter.setLoaded();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +143,7 @@ public class AdopcionFragment extends Fragment {
         mainView.setTag(TAG);
 
         // FAB
-        FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_adopcion);
+        FloatingActionButton FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_adopcion);
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,175 +156,60 @@ public class AdopcionFragment extends Fragment {
 
         hayMas = true;
 
-
-        // Cargando la lista de mascotas:
-        class InitialPetLoader extends AsyncTask<Void, Void, Boolean> {
-            private LinearLayout linlaHeaderProgress;
-            private View view;
-
-            public InitialPetLoader(View view) {
-                linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
-                this.view = view;
-            }
-
-            @Override
-            protected void onPreExecute() {
-                linlaHeaderProgress.setVisibility(View.VISIBLE);
-
-                // ListView
-                listView = (RecyclerView) view.findViewById(R.id.list_adoption);
-                listView.setLayoutManager(new LinearLayoutManager(activity));
-                listView.setItemAnimator(new DefaultItemAnimator());
-                listView.setHasFixedSize(true);
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                list = PetService.getInstance().getAdoptionPets(0);
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-                listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View itemView, int position) {
-                        Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                        ArrayList<String> urlPhotos = new ArrayList<String>();
-                        AdoptionPet adoptionPet = list.get(position);
-                        for (ParseFile picture : adoptionPet.getPictures()) {
-                            urlPhotos.add(picture.getUrl());
-                        }
-                        ArrayList<String> urlVideos = adoptionPet.getVideos();
-
-                        ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
-                        i.putExtra("Pet", ppo);
-                        i.putStringArrayListExtra("UrlPhotos", urlPhotos);
-                        i.putStringArrayListExtra("UrlVideos", urlVideos);
-                        startActivity(i);
-                        getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
-                    }
-                });
-
-                listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
-                    @Override
-                    public boolean onLoadMore(int currentPage) {
-
-                        class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
-
-                            List<AdoptionPet> tmp;//DB
-
-                            @Override
-                            protected void onPreExecute() {
-                                list.add(null);
-                                listAdapter.notifyItemInserted(list.size() - 1);
-                            }
-
-                            @Override
-                            protected Boolean doInBackground(Integer... currentPage) {
-
-                                if (selectedFilter.isEmpty()) {
-                                    tmp = PetService.getInstance().getAdoptionPets(currentPage[0]);
-                                } else {
-                                    tmp = PetService.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
-                                }
-
-                                Log.i(String.valueOf(Log.INFO), String.valueOf(currentPage[0]));
-                                return !tmp.isEmpty();
-                            }
-
-                            @Override
-                            protected void onPostExecute(Boolean result) {
-                                list.remove(list.size() - 1);
-                                listAdapter.notifyItemRemoved(list.size());
-                                if (!result) {
-                                    hayMas = false;
-                                    return;
-                                }
-
-                                for (AdoptionPet pet : tmp) {
-                                    list.add(pet);
-                                    listAdapter.notifyItemInserted(list.size() - 1);
-                                }
-                                listAdapter.setLoaded();
-                            }
-                        }
-
-                        if (hayMas) {
-                            new LoadMorePets().execute(currentPage);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                listView.setAdapter(listAdapter);
-                linlaHeaderProgress.setVisibility(View.GONE);
-                emptyView = (TextView) view.findViewById(R.id.empty_view);
-
-                checkEmptyList();
-            }
-
-        }
-
-        InitialPetLoader loader = new InitialPetLoader(mainView);
-        loader.execute();
-
         // Filter:
         createFilterMenu(mainView);
+
+        // ListView
+        emptyView = (TextView) mainView.findViewById(R.id.empty_view);
+
+        list = new ArrayList<>();
+
+        listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
+        listView.setLayoutManager(new LinearLayoutManager(activity));
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.setHasFixedSize(true);
+
+        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int position) {
+                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                ArrayList<String> urlPhotos = new ArrayList<>();
+                AdoptionPet adoptionPet = list.get(position);
+                for (ParseFile picture : adoptionPet.getPictures()) {
+                    urlPhotos.add(picture.getUrl());
+                }
+                ArrayList<String> urlVideos = adoptionPet.getVideos();
+
+                ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
+                i.putExtra("Pet", ppo);
+                i.putStringArrayListExtra("UrlPhotos", urlPhotos);
+                i.putStringArrayListExtra("UrlVideos", urlVideos);
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
+            }
+        });
+
+        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+            @Override
+            public boolean onLoadMore(int currentPage) {
+                if (hayMas) {
+                    new LoadMorePets().execute(currentPage);
+                    return true;
+                }
+                return false;
+            }
+        });
+        listView.setAdapter(listAdapter);
+
+        // Cargando la lista de mascotas:
+        new PetListLoader(mainView).execute();
 
         return mainView;
     }
 
-
     private void applyQuery() {
-
-        class NewPetLoader extends AsyncTask<Void, Void, Boolean> {
-
-            private LinearLayout linlaHeaderProgress;
-            private List<AdoptionPet> resultList;
-
-            public NewPetLoader(View view) {
-                linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
-            }
-
-            @Override
-            protected void onPreExecute() {
-                list.clear();
-                listAdapter.notifyDataSetChanged();
-                linlaHeaderProgress.setVisibility(View.VISIBLE);
-                listAdapter.reset();
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                // TODO: realizar una query aca con los datos del filtro:
-
-                Set<String> filtersKeys = selectedFilter.keySet();
-                resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
-                return !(resultList.isEmpty());
-
-     /*           for (int i = 0; i < 7; i++) { // Simulo que tarda mas
-                    resultList = PetService.getInstance().getAdoptionPets(0);
-                }
-                loops = 3; // TODO: esto simula que la nueva query tiene 3 resultados mas de paginas. Borrar cuando este implementado posta.*/
-
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                linlaHeaderProgress.setVisibility(View.GONE);
-                if (result) {
-                    list.addAll(resultList);
-                    listAdapter.notifyDataSetChanged();
-                }
-                checkEmptyList();
-                listAdapter.setLoaded();
-            }
-        }
-
-        new NewPetLoader(mainView).execute();
+        new PetListLoader(mainView).execute();
     }
 
     private void checkEmptyList() {
@@ -300,7 +255,6 @@ public class AdopcionFragment extends Fragment {
         Intent i = new Intent(activity, AdopcionPublicarActivity.class);
         startActivity(i);
     }
-
 
     // Filter:
     private SettingsListAdapter adapter;
@@ -364,16 +318,6 @@ public class AdopcionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
-
-                // TODO: aca se debería acceder a los elementos que fueron seleccionados con true y mandarlo a una query.
-                Log.i(String.valueOf(Log.INFO), "+++++++++++++");
-                for (String parent : selectedFilter.keySet()) {
-                    String childrens = "";
-                    for (String children : selectedFilter.get(parent)) {
-                        childrens += children + "|";
-                    }
-                    Log.i(String.valueOf(Log.INFO), parent + ": " + childrens);
-                }
 
                 Toast.makeText(activity, "Filtro Aplicado", Toast.LENGTH_SHORT).show();
 
