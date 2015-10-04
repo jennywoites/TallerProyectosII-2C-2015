@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:paddingLeft="5px"
-                android:text="@string/pregunta_relacion_animales"
+                android:text="@string/pregunta_relacion_animales_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:paddingLeft="5px"
-                android:text="@string/pregunta_relacion_niños"
+                android:text="@string/pregunta_relacion_niños_label"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
 

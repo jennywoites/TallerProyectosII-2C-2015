@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="Fotos" />
+                android:text="Fotos *" />
 
             <ImageView
                 android:layout_width="42dp"
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="No hay fotos seleccionadas"
+                android:text="No hay fotos seleccionadas \n ¡Debe subir al menos una!"
                 android:layout_gravity="center"/>
         </FrameLayout>
 
