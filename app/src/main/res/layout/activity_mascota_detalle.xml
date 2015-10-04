@@ -49,48 +49,28 @@
     </android.support.design.widget.AppBarLayout>
 
     <!-- Content here -->
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:id="@+id/scrollableView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <com.google.samples.apps.iosched.ui.widget.SlidingTabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/elevation"
+            android:background="@color/ColorPrimaryLight"/>
 
-            <include
-                android:id="@+id/cardview_basica"
-                layout="@layout/cardview_informacion_basica_mascota" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-            <include
-                android:id="@+id/cardview_descripcion"
-                layout="@layout/cardview_descripcion_mascota" />
-
-            <include
-                android:id="@+id/cardview_ubicacion"
-                layout="@layout/cardview_ubicacion_mascota" />
-
-            <include
-                android:id="@+id/cardview_social"
-                layout="@layout/cardview_informacion_social_mascota" />
-
-            <include
-                android:id="@+id/cardview_medica"
-                layout="@layout/cardview_informacion_medica_mascota" />
-
-            <include
-                android:id="@+id/cardview_fotos"
-                layout="@layout/cardview_fotos_mascota" />
-
-            <include
-                android:id="@+id/cardview_video"
-                layout="@layout/cardview_video_mascota" />
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/FAB_adoptar"
@@ -98,7 +78,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
+        android:elevation="@dimen/elevation"
         android:src="@drawable/ic_adoption_white"
-        app:layout_anchor="@+id/appbar"
+        app:layout_anchor="@+id/pager"
         app:layout_anchorGravity="bottom|right|end" />
+
 </android.support.design.widget.CoordinatorLayout>
