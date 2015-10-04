@@ -10,7 +10,8 @@
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_cerrar"
-        android:title="Cerrar"
+        android:title="Cancelar"
+        android:icon="@drawable/ic_action_close_white"
         android:orderInCategory="200"
         app:showAsAction="ifRoom"/>
 </menu>
