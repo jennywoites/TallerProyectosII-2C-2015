@@ -19,6 +19,13 @@
             android:checked="false"
             android:icon="@drawable/ic_missing"
             android:title="@string/title_activity_missing" />
+
+        <item
+            android:id="@+id/drawer_my_adoptions"
+            android:checked="false"
+            android:icon="@drawable/ic_user"
+            android:title="Mis Mascotas en Adopción" />
+
         <!--<item
             android:id="@+id/drawer_profile"
             android:checked="false"

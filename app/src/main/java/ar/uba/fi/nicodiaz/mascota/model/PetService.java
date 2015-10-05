@@ -158,4 +158,19 @@ public class PetService {
         }
         return -1;
     }
+
+    public List<AdoptionPet> getAdoptionPetsByUser() {
+        User user = UserService.getInstance().getUser();
+        List<AdoptionPet> adoptionPets = new ArrayList<>();
+        ParseQuery<AdoptionPet> query = ParseQuery.getQuery(AdoptionPet.class);
+        query.addDescendingOrder("createdAt");
+        query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        try {
+            adoptionPets = query.find();
+        } catch (ParseException e) {
+            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        return adoptionPets;
+    }
 }
