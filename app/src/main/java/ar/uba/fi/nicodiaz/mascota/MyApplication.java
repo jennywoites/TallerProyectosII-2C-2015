@@ -11,6 +11,7 @@ import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 
 /**
@@ -28,6 +29,7 @@ public class MyApplication extends Application {
         // Register your parse models
         ParseObject.registerSubclass(Address.class);
         ParseObject.registerSubclass(AdoptionPet.class);
+        ParseObject.registerSubclass(MissingPet.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);

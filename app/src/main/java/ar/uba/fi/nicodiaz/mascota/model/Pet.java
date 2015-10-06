@@ -1,5 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import com.parse.ParseFile;
+
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
  */
@@ -62,5 +64,9 @@ public interface Pet {
     void setBreed(String breed);
 
     String getPreviewDescription();
+
+    ParseFile getPicture();
+
+    boolean isMale();
 }
 
