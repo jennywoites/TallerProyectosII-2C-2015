@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import ar.uba.fi.nicodiaz.mascota.LoginActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
@@ -38,7 +40,7 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
-    private List<AdoptionPet> list;
+    private List<Pet> list;
     private RecyclerView listView;
     private TextView emptyView;
     private AdopcionEndlessAdapter listAdapter;
@@ -48,7 +50,7 @@ public class HomeFragment extends Fragment {
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<AdoptionPet> resultList;
+        private List<? extends Pet> resultList;
 
         public PetListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
@@ -96,7 +98,7 @@ public class HomeFragment extends Fragment {
         emptyView = (TextView) mainView.findViewById(R.id.empty_view);
 
         list = new ArrayList<>();
-;
+        ;
         listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
@@ -108,14 +110,15 @@ public class HomeFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 ArrayList<String> urlPhotos = new ArrayList<>();
-                AdoptionPet adoptionPet = list.get(position);
-                for (ParseFile picture : adoptionPet.getPictures()) {
+                Pet pet = list.get(position);
+                for (ParseFile picture : pet.getPictures()) {
                     urlPhotos.add(picture.getUrl());
                 }
-                ArrayList<String> urlVideos = adoptionPet.getVideos();
+                ArrayList<String> urlVideos = pet.getVideos();
 
-                ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
-                i.putExtra("Pet", ppo);
+                Serializable serializableObject = PetService.getInstance().getSerializableObject(pet);
+                i.putExtra("PetType", pet.getType());
+                i.putExtra("Pet", serializableObject);
                 i.putStringArrayListExtra("UrlPhotos", urlPhotos);
                 i.putStringArrayListExtra("UrlVideos", urlVideos);
                 startActivity(i);

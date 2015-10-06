@@ -18,6 +18,7 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 /**
@@ -38,7 +39,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    private List<AdoptionPet> mascotas;
+    private List<Pet> mascotas;
     private Context context;
     private OnItemClickListener listener;
 
@@ -65,7 +66,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         currentPage = 1; // TODO: o cero
     }
 
-    public AdopcionEndlessAdapter(List<AdoptionPet> mascotas, RecyclerView recyclerView, Context context) {
+    public AdopcionEndlessAdapter(List<Pet> mascotas, RecyclerView recyclerView, Context context) {
         this.mascotas = mascotas;
         this.context = context;
         this.view = recyclerView;
@@ -114,7 +115,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (viewHolder instanceof MascotaViewHolder) {
             MascotaViewHolder view = (MascotaViewHolder) viewHolder;
 
-            AdoptionPet mascota = mascotas.get(i);
+            Pet mascota = mascotas.get(i);
             ParseFile photoFile = mascota.getPicture();
             if (photoFile != null) {
                 view.mascotaImage.setVisibility(View.VISIBLE);
@@ -167,7 +168,7 @@ public class AdopcionEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public TextView mascotaName;
         public TextView mascotaDescription;
         public ParseImageView mascotaImage;
-        public AdoptionPet currentMascota;
+        public Pet currentMascota;
 
         public MascotaViewHolder(final View itemView) {
             super(itemView);

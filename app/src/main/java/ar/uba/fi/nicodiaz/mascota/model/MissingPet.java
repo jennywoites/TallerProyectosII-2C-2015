@@ -303,4 +303,9 @@ public class MissingPet extends ParseObject implements Pet {
         }
         return list;
     }
+
+    @Override
+    public char getType() {
+        return Pet.MISSING;
+    }
 }

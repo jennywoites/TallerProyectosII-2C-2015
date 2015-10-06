@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.parse.ParseFile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
@@ -44,7 +46,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 public class AdopcionFragment extends Fragment {
 
     private static final String TAG = "AdopcionFragment";
-    private List<AdoptionPet> list;
+    private List<Pet> list;
     private RecyclerView listView;
     private TextView emptyView;
     private boolean hayMas;
@@ -55,7 +57,7 @@ public class AdopcionFragment extends Fragment {
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
 
-        List<AdoptionPet> resultList;
+        List<? extends Pet> resultList;
 
         @Override
         protected void onPreExecute() {
@@ -82,7 +84,7 @@ public class AdopcionFragment extends Fragment {
                 return;
             }
 
-            for (AdoptionPet pet : resultList) {
+            for (Pet pet : resultList) {
                 list.add(pet);
                 listAdapter.notifyItemInserted(list.size() - 1);
             }
@@ -93,7 +95,7 @@ public class AdopcionFragment extends Fragment {
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<AdoptionPet> resultList;
+        private List<? extends Pet> resultList;
 
         public PetListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
@@ -112,8 +114,7 @@ public class AdopcionFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             if (selectedFilter.isEmpty()) {
                 resultList = PetService.getInstance().getAdoptionPets(0);
-            }
-            else {
+            } else {
                 resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
             }
             return !(resultList.isEmpty());
@@ -175,14 +176,15 @@ public class AdopcionFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 ArrayList<String> urlPhotos = new ArrayList<>();
-                AdoptionPet adoptionPet = list.get(position);
-                for (ParseFile picture : adoptionPet.getPictures()) {
+                Pet pet = list.get(position);
+                for (ParseFile picture : pet.getPictures()) {
                     urlPhotos.add(picture.getUrl());
                 }
-                ArrayList<String> urlVideos = adoptionPet.getVideos();
+                ArrayList<String> urlVideos = pet.getVideos();
 
-                ParseProxyObject ppo = new ParseProxyObject(adoptionPet);
-                i.putExtra("Pet", ppo);
+                Serializable serializableObject = PetService.getInstance().getSerializableObject(pet);
+                i.putExtra("PetType", pet.getType());
+                i.putExtra("Pet", serializableObject);
                 i.putStringArrayListExtra("UrlPhotos", urlPhotos);
                 i.putStringArrayListExtra("UrlVideos", urlVideos);
                 startActivity(i);

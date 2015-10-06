@@ -20,8 +20,11 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.io.Serializable;
+
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 
 public class MascotaDetalleActivity extends AppCompatActivity {
@@ -35,15 +38,16 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_mascota_detalle);
 
-        ParseProxyObject ppo = (ParseProxyObject) getIntent().getSerializableExtra("Pet");
-        AdoptionPet adoptionPet = new AdoptionPet(ppo);
+        char petType = getIntent().getCharExtra("PetType", '-');
+        Serializable serializableObject = getIntent().getSerializableExtra("Pet");
+        Pet pet = PetService.getInstance().getRealObject(serializableObject, petType);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(adoptionPet.getName());
+        collapsingToolbar.setTitle(pet.getName());
 
         FloatingActionButton FAB = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
         FAB.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +57,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             }
         });
 
-        loadHeader(adoptionPet);
+        loadHeader(pet);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -67,7 +71,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-                appBarLayout.setExpanded(false,true);
+                appBarLayout.setExpanded(false, true);
             }
 
             @Override
@@ -88,11 +92,11 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         tabs.setViewPager(pager);
     }
 
-    private void loadHeader(AdoptionPet adoptionPet) {
+    private void loadHeader(Pet pet) {
         final ImageView headerImage = (ImageView) findViewById(R.id.header);
 
         final ParseImageView imageView = new ParseImageView(this);
-        ParseFile photoFile = adoptionPet.getPicture();
+        ParseFile photoFile = pet.getPicture();
         if (photoFile != null) {
             imageView.setParseFile(photoFile);
             imageView.loadInBackground(new GetDataCallback() {

@@ -6,6 +6,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Set;
 import ar.uba.fi.nicodiaz.mascota.MyApplication;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
+import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -37,22 +39,22 @@ public class PetService {
         adoptionPet.saveInBackground();
     }
 
-    public List<AdoptionPet> getAdoptionPets(int page) {
+    public List<? extends Pet> getAdoptionPets(int page) {
         List<AdoptionPet> pets = getPets(page, AdoptionPet.class);
         return pets;
     }
 
-    public List<AdoptionPet> getAdoptionPets(int page, Map<String, List<String>> filters) {
+    public List<? extends Pet> getAdoptionPets(int page, Map<String, List<String>> filters) {
         List<AdoptionPet> pets = getPets(page, filters, AdoptionPet.class);
         return pets;
     }
 
-    public List<AdoptionPet> getAdoptionPetsByUser() {
+    public List<? extends Pet> getAdoptionPetsByUser() {
         List<AdoptionPet> pets = getPetsByUser(AdoptionPet.class);
         return pets;
     }
 
-    public List<MissingPet> getMissingPets(int page) {
+    public List<? extends Pet> getMissingPets(int page) {
         List<MissingPet> pets = getPets(page, MissingPet.class);
         return pets;
     }
@@ -184,5 +186,33 @@ public class PetService {
             return R.drawable.ic_cat;
         }
         return -1;
+    }
+
+    public Serializable getSerializableObject(Pet pet) {
+
+        ParseProxyObject ppo = null;
+        if (pet instanceof AdoptionPet) {
+            ppo = new ParseProxyObject((AdoptionPet) pet);
+        } else if (pet instanceof MissingPet) {
+            ppo = new ParseProxyObject((MissingPet) pet);
+        }
+
+        return ppo;
+    }
+
+    public Pet getRealObject(Serializable serializableObject, char petType) {
+        ParseProxyObject parseProxyObject = (ParseProxyObject) serializableObject;
+
+        switch (petType) {
+            case Pet.ADOPTION: {
+                return new AdoptionPet(parseProxyObject);
+            }
+            case Pet.MISSING: {
+                return new MissingPet(parseProxyObject);
+            }
+
+            default:
+                return null;
+        }
     }
 }

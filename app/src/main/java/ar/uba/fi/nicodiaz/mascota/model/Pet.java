@@ -2,10 +2,16 @@ package ar.uba.fi.nicodiaz.mascota.model;
 
 import com.parse.ParseFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
  */
 public interface Pet {
+
+    public final static char ADOPTION = 'A';
+    public final static char MISSING = 'M';
 
     String getAgeRange();
 
@@ -68,5 +74,11 @@ public interface Pet {
     ParseFile getPicture();
 
     boolean isMale();
+
+    List<ParseFile> getPictures();
+
+    ArrayList<String> getVideos();
+
+    char getType();
 }
 
