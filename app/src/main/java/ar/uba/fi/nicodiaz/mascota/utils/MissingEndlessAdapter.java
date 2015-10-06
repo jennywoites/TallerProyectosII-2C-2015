@@ -19,6 +19,7 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 /**
@@ -39,7 +40,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    private List<MissingPet> mascotas;
+    private List<Pet> mascotas;
     private Context context;
     private OnItemClickListener listener;
 
@@ -66,7 +67,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         currentPage = 1; // TODO: o cero
     }
 
-    public MissingEndlessAdapter(List<MissingPet> mascotas, RecyclerView recyclerView, Context context) {
+    public MissingEndlessAdapter(List<Pet> mascotas, RecyclerView recyclerView, Context context) {
         this.mascotas = mascotas;
         this.context = context;
         this.view = recyclerView;
@@ -115,7 +116,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (viewHolder instanceof MascotaViewHolder) {
             MascotaViewHolder view = (MascotaViewHolder) viewHolder;
 
-            MissingPet mascota = mascotas.get(i);
+            Pet mascota = mascotas.get(i);
             ParseFile photoFile = mascota.getPicture();
             if (photoFile != null) {
                 view.mascotaImage.setVisibility(View.VISIBLE);
@@ -168,7 +169,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView mascotaName;
         public TextView mascotaDescription;
         public ParseImageView mascotaImage;
-        public MissingPet currentMascota;
+        public Pet currentMascota;
 
         public MascotaViewHolder(final View itemView) {
             super(itemView);
