@@ -1,11 +1,8 @@
 package ar.uba.fi.nicodiaz.mascota;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +29,11 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
+import net.yazeed44.imagepicker.model.ImageEntry;
+import net.yazeed44.imagepicker.util.Picker;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,7 @@ import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
-    private static final int PICK_IMAGE = 1046;
-    private static final int PICK_IMAGE_N = 1047;
     private Toolbar toolbar;
-    private Bitmap selectedBitmap;
     private Button selectImageButton;
     private AdoptionPet pet;
     private List<Bitmap> photos;
@@ -85,7 +84,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         //TODO: Si se encuentra forma de capturar este evento, descomentarlo y mandarlo al dialogo de onBackPressed()
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         final AutoCompleteTextView raza = (AutoCompleteTextView) findViewById(R.id.txtRace);
         String[] razaPerros = getResources().getStringArray(R.array.dogs);
         String[] razaGatos = getResources().getStringArray(R.array.cats);
@@ -108,7 +106,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         photos = new ArrayList<>();
         photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
@@ -151,37 +148,29 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         photos_layout.removeAllViewsInLayout();
         photos_layout.setVisibility(View.GONE);
         photos_empty.setVisibility(View.VISIBLE);
-        Intent pickIntent = new Intent();
-        pickIntent.setType("image/*");
-        pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-        pickIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(pickIntent, PICK_IMAGE_N);
-    }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == PICK_IMAGE_N) {
-                if (intent != null) {
-                    Uri uri;
-                    if (intent.getClipData() != null) {
-                        ClipData clipData = intent.getClipData();
-                        for (int i = 0; i < clipData.getItemCount(); i++) {
-                            ClipData.Item item = clipData.getItemAt(i);
-                            uri = item.getUri();
-                            addPhoto(uri);
-                        }
-                    } else if (intent.getData() != null) {
-                        uri = intent.getData();
-                        addPhoto(uri);
-                    }
-                    showMedia();
+        new Picker.Builder(this, new Picker.PickListener() {
+            @Override
+            public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
+                for (ImageEntry image : images) {
+                    Log.d(String.valueOf(Log.DEBUG), image.path);
+                    addPhoto(Uri.fromFile(new File(image.path)));
                 }
+                showMedia();
             }
-        }
+            @Override
+            public void onCancel() {}
+        }, R.style.GalleryPicker)
+                .setFabBackgroundColor(getResources().getColor(R.color.ColorPrimary))
+                .setDoneFabIconTintColor(getResources().getColor(R.color.ColorPrimaryLight))
+                .setFabBackgroundColorWhenPressed(getResources().getColor(R.color.ColorPrimaryDark))
+                .setCaptureItemIconTintColor(getResources().getColor(R.color.ColorPrimaryLight))
+                .setAlbumNameTextColor(getResources().getColor(R.color.ColorPrimaryLight))
+                .setBackBtnInMainActivity(true)
+                .setPickMode(Picker.PickMode.MULTIPLE_IMAGES)
+                .setLimit(5)
+                .build()
+                .startActivity();
     }
 
     private Bitmap addPhoto(Uri uri) {

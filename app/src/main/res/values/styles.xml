@@ -17,6 +17,13 @@
         <item name="actionModeStyle">@style/CustomActionMode</item>
     </style>
 
+    <!-- En teoria esto es para el picker de galería -->
+    <style name="GalleryPicker" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@color/ColorPrimaryLight</item>
+    </style>
+
     <!-- Los colores de la action bar y sus elementos -->
     <style name="Widget.Mascota.ActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/ColorPrimary</item>
