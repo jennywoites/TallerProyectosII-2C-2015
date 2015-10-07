@@ -68,7 +68,7 @@
     <string name="action_logout">Cerrar Sesión</string>
     <string name="no_data_available">No hay mascotas para mostrar</string>
 
-    <string name="subiendo_foto">Cargando Foto...</string>
+    <string name="subiendo_foto">Subiendo Fotos...</string>
 
     <!-- Caracteristicas Mascota -->
     <string name="_0_3_months">0-3 meses</string>

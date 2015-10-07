@@ -3,10 +3,12 @@ package ar.uba.fi.nicodiaz.mascota;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -28,7 +30,6 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -171,13 +172,11 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                         for (int i = 0; i < clipData.getItemCount(); i++) {
                             ClipData.Item item = clipData.getItemAt(i);
                             uri = item.getUri();
-                            Bitmap bitmap = addPhoto(uri);
-                            saveScaledPhoto(bitmap);
+                            addPhoto(uri);
                         }
                     } else if (intent.getData() != null) {
                         uri = intent.getData();
-                        Bitmap bitmap = addPhoto(uri);
-                        saveScaledPhoto(bitmap);
+                        addPhoto(uri);
                     }
                     showMedia();
                 }
@@ -216,7 +215,10 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_confirmar_agregar_mascota_adopcion:
-                confirmarAgregarMascota();
+                if (!this.validate()) {
+                    return false;
+                }
+                new SavePetTask(this).execute();
                 return true;
             case R.id.action_cerrar:
                 onBackPressed();
@@ -226,37 +228,38 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         }
     }
 
-    private void saveScaledPhoto(Bitmap picture) {
+    private class SavePetTask extends AsyncTask<Void, Void, Boolean> {
 
-        final ProgressDialog progressDialog = ProgressDialog.show(this, null,
-                getString(R.string.subiendo_foto), true, false);
+        private ProgressDialog progressDialog;
+        private Context context;
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        picture.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+        public SavePetTask(Context context) {
+            this.context = context;
+        }
 
-        byte[] scaledData = bos.toByteArray();
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(context, null,
+                    getString(R.string.subiendo_foto), true, false);
+        }
 
-        // Save the scaled image to Parse
-        final ParseFile photoFile = new ParseFile(picture.hashCode() + ".jpeg", scaledData);
-        photoFile.saveInBackground(new SaveCallback() {
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            createPet();
+            return true;
+        }
 
-            public void done(ParseException e) {
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
                 progressDialog.dismiss();
-                if (e != null) {
-                    Toast.makeText(AdopcionPublicarActivity.this,
-                            getString(R.string.error_uploading_photo) + e.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    pet.setPicture(photoFile);
-                }
+                finishAndSavePet();
             }
-        });
+        }
     }
 
-    private void confirmarAgregarMascota() {
-        if (!this.validate()) {
-            return;
-        }
+
+    private void createPet() {
 
         String name = ((EditText) findViewById(R.id.txtName)).getText().toString();
         String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
@@ -292,6 +295,32 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
 
+        uploadPhotos();
+    }
+
+    private void uploadPhotos() {
+
+        for (Bitmap photo : photos) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+
+            byte[] scaledData = bos.toByteArray();
+
+            // Save the scaled image to Parse
+            final ParseFile photoFile = new ParseFile(photo.hashCode() + ".jpeg", scaledData);
+
+            try {
+                photoFile.save();
+            } catch (ParseException e) {
+                Toast.makeText(AdopcionPublicarActivity.this,
+                        getString(R.string.error_uploading_photo) + e.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+            pet.setPicture(photoFile);
+        }
+    }
+
+    private void finishAndSavePet() {
         PetService.getInstance().saveAdoptionPet(pet);
         Toast.makeText(AdopcionPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
         finish();
