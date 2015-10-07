@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +52,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private List<Bitmap> photos;
     private LinearLayout photos_layout;
     private TextView photos_empty;
+    private EditText nameEditText;
 
     @Override
     public void onBackPressed() {
@@ -116,6 +119,23 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             public void onClick(View view) {
                 onPickPhoto();
             }
+        });
+
+        // Solo permite caracteres de tipo letra o espacio
+        nameEditText = (EditText) findViewById(R.id.txtName);
+        nameEditText.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        if (source.equals("")) { // for backspace
+                            return source;
+                        }
+                        if (source.toString().matches("[a-zA-Z ]+")) {
+                            return source;
+                        }
+                        return "";
+                    }
+                }
         });
 
         pet = new AdoptionPet();
@@ -249,8 +269,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
 
 
     private void createPet() {
-
-        String name = ((EditText) findViewById(R.id.txtName)).getText().toString();
+        String name = nameEditText.getText().toString();
         String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
         String raza = ((AutoCompleteTextView) findViewById(R.id.txtRace)).getText().toString();
         String kind = this.getSpecieValue();

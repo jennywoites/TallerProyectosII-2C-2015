@@ -54,8 +54,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/pet_name_label"
-                android:inputType="textPersonName"
-                android:maxLength="50" />
+                android:inputType="textNoSuggestions|textCapWords"
+                android:maxLength="100" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Descripcion Label -->
