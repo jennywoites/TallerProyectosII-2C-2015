@@ -69,18 +69,22 @@
                     android:id="@+id/rdSi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    android:text="@string/yes"
+                    android:checked="false"/>
 
                 <RadioButton
                     android:id="@+id/rdNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no" />
+                    android:text="@string/no"
+                    android:checked="true"/>
             </RadioGroup>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/medicineTimeLayout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -107,19 +111,23 @@
                     android:id="@+id/rdPermanente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Permanente" />
+                    android:text="Permanente"
+                    android:checked="false"/>
 
                 <RadioButton
                     android:id="@+id/rdTemporal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Temporal" />
+                    android:text="Temporal"
+                    android:checked="false"/>
 
                 <RadioButton
+                    android:visibility="gone"
                     android:id="@+id/rdNoToma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No toma medicina" />
+                    android:text="No toma medicina"
+                    android:checked="true"/>
             </RadioGroup>
 
         </android.support.design.widget.TextInputLayout>

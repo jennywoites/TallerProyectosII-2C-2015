@@ -110,6 +110,25 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             }
         });
 
+        RadioGroup medicineYesNo = (RadioGroup) findViewById(R.id.rgMedicine);
+
+        medicineYesNo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rdSi:
+                        findViewById(R.id.medicineTimeLayout).setVisibility(View.VISIBLE);
+                        ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
+                        break;
+                    case R.id.rdNo:
+                        findViewById(R.id.medicineTimeLayout).setVisibility(View.GONE);
+                        ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
+                        break;
+                }
+            }
+        });
+
+
         photos = new ArrayList<>();
         photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
         photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
@@ -412,6 +431,18 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             valid = false;
         }
 
+        // Checkeo de medicina:
+        if (((RadioButton) findViewById(R.id.rdSi)).isChecked() && ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString().isEmpty()) {
+            EditText notes = (EditText) findViewById(R.id.txtMedicineNotes);
+            notes.setError("Debes especificar la medicina que toma");
+            valid = false;
+        }
+        if (((RadioButton) findViewById(R.id.rdSi)).isChecked() && ((RadioButton) findViewById(R.id.rdNoToma)).isChecked()) {
+            TextView medicineTime = (TextView) findViewById(R.id.lbMedicinaTiempo);
+            medicineTime.setError(getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS));
+            valid = false;
+        }
+        // Fin checkeo de medicina
 
         return (valid);
     }
