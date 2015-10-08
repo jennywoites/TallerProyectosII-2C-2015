@@ -69,6 +69,7 @@
     <string name="no_data_available">No hay mascotas para mostrar</string>
 
     <string name="subiendo_foto">Subiendo Fotos...</string>
+    <string name="grabando_mascota">Grabando Mascota...</string>
 
     <!-- Caracteristicas Mascota -->
     <string name="_0_3_months">0-3 meses</string>
@@ -107,6 +108,9 @@
     <string name="informacion_medica_title">Información Médica</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+
+    <string name="ERROR_ALTA_MASCOTA">Error Grabando Mascota</string>
+    <string name="ERROR_NO_CONECTIVIDAD_MENSAJE">Asegúrate que estas conectado a un red WI-FI o a la red de tu celular e intenta de nuevo.</string>
 
     <string-array name="cats">
         <item>Desconocido</item>

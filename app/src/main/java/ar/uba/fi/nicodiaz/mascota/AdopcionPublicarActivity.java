@@ -44,6 +44,8 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
+import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -197,8 +199,10 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                 }
                 showMedia();
             }
+
             @Override
-            public void onCancel() {}
+            public void onCancel() {
+            }
         }, R.style.GalleryPicker)
                 .setFabBackgroundColor(getResources().getColor(R.color.ColorPrimary))
                 .setDoneFabIconTintColor(getResources().getColor(R.color.ColorPrimaryLight))
@@ -256,7 +260,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         }
     }
 
-    private class SavePetTask extends AsyncTask<Void, Void, Boolean> {
+    private class SavePetTask extends AsyncTask<Void, Integer, Boolean> {
 
         private ProgressDialog progressDialog;
         private Context context;
@@ -268,12 +272,24 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show(context, null,
-                    getString(R.string.subiendo_foto), true, false);
+                    getString(R.string.grabando_mascota), true, false);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             createPet();
+
+            //Uploading Photo
+            int indexPhoto = 1;
+            for (Bitmap photo : photos) {
+                publishProgress(indexPhoto);
+                try {
+                    uploadPhoto(photo);
+                } catch (ApplicationConnectionException e) {
+                    return false;
+                }
+                indexPhoto++;
+            }
             return true;
         }
 
@@ -282,7 +298,18 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             if (result) {
                 progressDialog.dismiss();
                 finishAndSavePet();
+            } else {
+                progressDialog.dismiss();
+                AlertDialog noConnectionDialog = ErrorUtils.createNoConnectionDialog(context.getResources().getString(R.string.ERROR_ALTA_MASCOTA), context);
+                noConnectionDialog.show();
             }
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            Integer indexPhoto = values[0];
+            String message = "Subiendo Foto " + indexPhoto + " de " + photos.size();
+            progressDialog.setMessage(message);
         }
     }
 
@@ -321,30 +348,23 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
-
-        uploadPhotos();
     }
 
-    private void uploadPhotos() {
+    private void uploadPhoto(Bitmap photo) throws ApplicationConnectionException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 50, bos);
 
-        for (Bitmap photo : photos) {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+        byte[] scaledData = bos.toByteArray();
 
-            byte[] scaledData = bos.toByteArray();
+        // Save the scaled image to Parse
+        final ParseFile photoFile = new ParseFile(photo.hashCode() + ".jpeg", scaledData);
 
-            // Save the scaled image to Parse
-            final ParseFile photoFile = new ParseFile(photo.hashCode() + ".jpeg", scaledData);
-
-            try {
-                photoFile.save();
-            } catch (ParseException e) {
-                Toast.makeText(AdopcionPublicarActivity.this,
-                        getString(R.string.error_uploading_photo) + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-            }
-            pet.setPicture(photoFile);
+        try {
+            photoFile.save();
+        } catch (ParseException e) {
+            throw new ApplicationConnectionException();
         }
+        pet.setPicture(photoFile);
     }
 
     private void finishAndSavePet() {
