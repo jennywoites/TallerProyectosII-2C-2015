@@ -33,13 +33,7 @@ public class MascotaDetalleComentariosFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new CommentsAdapter(getActivity(), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = mRecyclerView.getChildPosition(v);
-                mAdapter.toggleGroup(position);
-            }
-        });
+        mAdapter = new CommentsAdapter(getActivity(), null);
         mRecyclerView.setAdapter(mAdapter);
 
         comments = getDummyComments();

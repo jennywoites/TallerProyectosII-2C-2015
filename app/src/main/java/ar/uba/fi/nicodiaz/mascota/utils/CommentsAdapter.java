@@ -74,7 +74,9 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
             default:
                 throw new IllegalStateException("unknown viewType");
         }
-        v.setOnClickListener(mListener);
+        if (mListener != null) {
+            v.setOnClickListener(mListener);
+        }
         return viewHolder;
     }
 
