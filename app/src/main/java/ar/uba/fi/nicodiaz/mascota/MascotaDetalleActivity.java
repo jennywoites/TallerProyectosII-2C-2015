@@ -22,14 +22,13 @@ import com.parse.ParseImageView;
 
 import java.io.Serializable;
 
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 
 public class MascotaDetalleActivity extends AppCompatActivity {
 
-    CharSequence Titles[] = {"Información", "Comentarios"};
+    CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
     int NumbOfTabs = 2;
 
     @Override
@@ -49,11 +48,19 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        FloatingActionButton FAB = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
-        FAB.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
+        FAB_adopt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MascotaDetalleActivity.this, "Próximamente podrás adoptarlo", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
+        FAB_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MascotaDetalleActivity.this, "Próximamente podrás hacer un comentario", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -72,6 +79,21 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
                 appBarLayout.setExpanded(false, true);
+
+                switch (position) {
+                    case 0:
+                        FAB_adopt.setVisibility(View.VISIBLE);
+                        FAB_comment.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        FAB_adopt.setVisibility(View.GONE);
+                        FAB_comment.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        FAB_adopt.setVisibility(View.GONE);
+                        FAB_comment.setVisibility(View.GONE);
+                        break;
+                }
             }
 
             @Override
