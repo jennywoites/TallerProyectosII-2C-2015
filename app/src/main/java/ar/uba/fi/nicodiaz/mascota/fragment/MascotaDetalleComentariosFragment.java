@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,23 @@ public class MascotaDetalleComentariosFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView emptyView;
     private List<Comment> comments;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reloadComments();
+    }
+
+    private void reloadComments() {
+        Log.d(String.valueOf(Log.DEBUG), "reloading");
+        if (comments != null) {
+            comments.clear();
+            mAdapter.clear();
+            comments = CommentService.getInstance().getComments(-1);
+            mAdapter.addAll(comments);
+            checkEmptyList();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

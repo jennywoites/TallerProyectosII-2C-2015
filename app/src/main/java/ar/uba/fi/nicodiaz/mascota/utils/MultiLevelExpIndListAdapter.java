@@ -36,7 +36,7 @@ public abstract class MultiLevelExpIndListAdapter extends RecyclerView.Adapter {
     /**
      * List of items to display.
      */
-    private List<ExpIndData> mData;
+    protected List<ExpIndData> mData;
 
     /**
      * Map an item to the relative group.

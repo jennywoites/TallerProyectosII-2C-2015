@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 public class NewCommentActivity extends AppCompatActivity {
 
     private EditText editText;
+    private int replyId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,9 @@ public class NewCommentActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        replyId = getIntent().getIntExtra("Parent", -1);
+        Log.d(String.valueOf(Log.DEBUG), "replyTo: " + String.valueOf(replyId));
 
         editText = (EditText) findViewById(R.id.comment_editText);
     }
@@ -83,7 +88,7 @@ public class NewCommentActivity extends AppCompatActivity {
             comment.text = text;
             comment.date = new Date(); // Ahora
             comment.id = -1; // TODO: hacer alguna forma de que sea secuencial y unico en toda la base de datos...
-            comment.parent = -1; // ESTE SIEMPRE ES PADRE, NO CAMBIAR!
+            comment.parent = replyId;
             comment.petId = 0; // TODO: poner la mascota actual que se esta haciendo el comentario.
 
             // TODO: Guardar comentario en la base de datos

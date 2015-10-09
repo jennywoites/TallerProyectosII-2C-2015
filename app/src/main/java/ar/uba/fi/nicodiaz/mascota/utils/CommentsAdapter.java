@@ -1,15 +1,18 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
+import ar.uba.fi.nicodiaz.mascota.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
 
@@ -25,15 +28,16 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
      */
     private final int mPaddingDP = 5;
 
-    public static class CommentViewHolder extends RecyclerView.ViewHolder {
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
         private View colorBand;
         public TextView authorTextView;
         public TextView commentTextView;
         public TextView hiddenCommentsCountTextView;
         public TextView dateTextView;
+        public Button replyButton;
         private View view;
 
-        private static final String[] indColors = {"#00B3A2", "#005E53"};
+        private final String[] indColors = {"#00B3A2", "#005E53"};
 
         public CommentViewHolder(View itemView) {
             super(itemView);
@@ -43,11 +47,20 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
             dateTextView = (TextView) itemView.findViewById(R.id.date_textview);
             colorBand = itemView.findViewById(R.id.color_band);
             hiddenCommentsCountTextView = (TextView) itemView.findViewById(R.id.hidden_comments_count_textview);
+            replyButton = (Button) itemView.findViewById(R.id.reply_button);
+            replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comment comment = (Comment) getItemAt(getAdapterPosition());
+                    Intent i = new Intent(mContext, NewCommentActivity.class);
+                    i.putExtra("Parent", comment.id);
+                    mContext.startActivity(i);
+                }
+            });
         }
 
         public void setColorBandColor(int indentation) {
             int colorId = (indentation % indColors.length);
-
             int color = Color.parseColor(indColors[colorId]); // TODO: esto puede pinchar, maximo 6 comentarios anidados?
             colorBand.setBackgroundColor(color);
         }
@@ -55,6 +68,7 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
         public void setPaddingLeft(int paddingLeft) {
             view.setPadding(paddingLeft,0,0,0);
         }
+
     }
 
     public CommentsAdapter(Context context, View.OnClickListener listener) {
