@@ -33,7 +33,7 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
         public TextView dateTextView;
         private View view;
 
-        private static final String[] indColors = {"#000000", "#3366FF", "#E65CE6", "#E68A5C", "#00E68A", "#CCCC33"};
+        private static final String[] indColors = {"#00B3A2", "#005E53"};
 
         public CommentViewHolder(View itemView) {
             super(itemView);
@@ -46,7 +46,9 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
         }
 
         public void setColorBandColor(int indentation) {
-            int color = Color.parseColor(indColors[indentation]); // TODO: esto puede pinchar, maximo 6 comentarios anidados?
+            int colorId = (indentation % indColors.length);
+
+            int color = Color.parseColor(indColors[colorId]); // TODO: esto puede pinchar, maximo 6 comentarios anidados?
             colorBand.setBackgroundColor(color);
         }
 

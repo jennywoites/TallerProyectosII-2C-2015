@@ -21,14 +21,26 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
     private List<Comment> mChildren;
     private boolean mIsGroup;
     private int mGroupSize;
+    public int parent;
 
-    public Comment(String author, String text) {
+    public Comment(int id, String author, String text) {
+        this.id = id;
         this.author = author;
         this.text = text;
         date = Calendar.getInstance().getTime();
         mChildren = new ArrayList<>();
-
+        parent = -1;
         setIndentation(0);
+    }
+
+    public Comment(int id, String author, String text, Date date) {
+        this.id = id;
+        this.author = author;
+        this.text = text;
+        this.date = date;
+        mChildren = new ArrayList<>();
+        setIndentation(0);
+        parent = -1;
     }
 
     @Override
@@ -57,7 +69,20 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
 
     public void addChild(Comment child) {
         mChildren.add(child);
+        child.parent = this.id;
         child.setIndentation(getIndentation() + 1);
+    }
+
+    public boolean isParent() {
+        return parent == -1;
+    }
+
+    public boolean isChild() {
+        return parent != -1;
+    }
+
+    public int getParent() {
+        return parent;
     }
 
     public int getIndentation() {
