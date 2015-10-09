@@ -1,8 +1,12 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 
 import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 
@@ -35,13 +39,14 @@ public class CommentService {
          * 2 - Este es otro comentario
          *   4 - Este es un hijo del anterior
          *     8- Este es un hijo de 4
+         *       9 - Este es un ultimo comentario
          *   7 - Este es otro hijo de 2
          * 6 - Este es un ultimo comentario
          */
 
         CommentDB comment = new CommentDB();
         comment.author = "Nico";
-        comment.text = "Este es un comentario.";
+        comment.text = "0 - Este es un comentario.";
         comment.parent = -1;
         comment.date = new Date();
         comment.id = 0;
@@ -49,31 +54,41 @@ public class CommentService {
 
         comment = new CommentDB();
         comment.author = "Jenny";
-        comment.text = "Este es un hijo del anterior.";
+        comment.text = "1 - Este es un hijo del anterior.";
         comment.parent = 0;
         comment.date = new Date();
         comment.id = 1;
         list.add(comment);
 
         comment = new CommentDB();
-        comment.author = "Juan";
-        comment.text = "Este es otro hijo de 0.";
-        comment.parent = 0;
-        comment.date = new Date();
-        comment.id = 3;
-        list.add(comment);
-
-        comment = new CommentDB();
         comment.author = "Jenny";
-        comment.text = "Este es un hijo del 3.";
+        comment.text = "5 - Este es un hijo del 3.";
         comment.parent = 3;
         comment.date = new Date();
         comment.id = 5;
         list.add(comment);
 
+
+
+        comment = new CommentDB();
+        comment.author = "Juan";
+        comment.text = "6 - Este es un ultimo comentario.";
+        comment.parent = -1;
+        comment.date = new Date();
+        comment.id = 6;
+        list.add(comment);
+
+        comment = new CommentDB();
+        comment.author = "Jenny";
+        comment.text = "4 - Este es un hijo del anterior.";
+        comment.parent = 2;
+        comment.date = new Date();
+        comment.id = 4;
+        list.add(comment);
+
         comment = new CommentDB();
         comment.author = "Ramiro";
-        comment.text = "Este es otro comentario.";
+        comment.text = "2 - Este es otro comentario.";
         comment.parent = -1;
         comment.date = new Date();
         comment.id = 2;
@@ -81,15 +96,7 @@ public class CommentService {
 
         comment = new CommentDB();
         comment.author = "Jenny";
-        comment.text = "Este es un hijo del anterior.";
-        comment.parent = 2;
-        comment.date = new Date();
-        comment.id = 4;
-        list.add(comment);
-
-        comment = new CommentDB();
-        comment.author = "Jenny";
-        comment.text = "Este es un hijo del 4.";
+        comment.text = "8 -Este es un hijo del 4.";
         comment.parent = 4;
         comment.date = new Date();
         comment.id = 8;
@@ -97,43 +104,75 @@ public class CommentService {
 
         comment = new CommentDB();
         comment.author = "Jenny";
-        comment.text = "Este es otro hijo del 2.";
+        comment.text = "7 - Este es otro hijo del 2.";
         comment.parent = 2;
         comment.date = new Date();
         comment.id = 7;
         list.add(comment);
 
+
+
         comment = new CommentDB();
         comment.author = "Juan";
-        comment.text = "Este es un ultimo comentario.";
-        comment.parent = -1;
+        comment.text = "9 - Este es un ultimo comentario.";
+        comment.parent = 8;
         comment.date = new Date();
-        comment.id = 6;
+        comment.id = 9;
+        list.add(comment);
+
+        comment = new CommentDB();
+        comment.author = "Juan";
+        comment.text = "3 - Este es otro hijo de 0.";
+        comment.parent = 0;
+        comment.date = new Date();
+        comment.id = 3;
         list.add(comment);
 
         return generateListOfComments(list);
     }
 
     public static List<Comment> generateListOfComments(List<CommentDB> listDB) {
-        /**
-         * TODO: quizas convenga usar un hash aca... no se. Si usamos esto, estamos OBLIGADOS a que desde la base de datos,
-         * los comentarios vengan ordenados, es decir: padre -> hijos. Nunca deberia aparecer un hijo antes que su padre.
-         * Esto podría complicar las cosas... quizas con un hash se simplifique. No tuve tiempo de pensarlo.
-         */
-
         List<Comment> comments = new ArrayList<>();
+        HashMap<Integer, List<Comment>> hash = new HashMap<>();
+
         for (CommentDB commentDB : listDB) {
-            Comment comment = new Comment(commentDB.id, commentDB.author, commentDB.text, commentDB.date);
-            comments.add(comment);
-            if (commentDB.parent != -1) {
-                for (Comment aux : comments) {
-                    if (aux.id == commentDB.parent) {
-                        aux.addChild(comment);
-                        break;
-                    }
+            if (commentDB.parent == -1) { // Is top parent
+                Comment comment = new Comment(commentDB.id, commentDB.author, commentDB.text, commentDB.date);
+                comments.add(comment); // Add it to the list
+            } else { // Is a child of some comment
+                if (hash.get(commentDB.parent) == null) {
+                    hash.put(commentDB.parent, new ArrayList<Comment>());
+                }
+                hash.get(commentDB.parent).add(new Comment(commentDB.id, commentDB.author, commentDB.text, commentDB.date)); // temporary to a hash
+            }
+        }
+
+        ListIterator<Comment> iter = comments.listIterator();
+        while (iter.hasNext()) {
+            Comment actual = iter.next();
+            int idActual = actual.id;
+            if (hash.get(idActual) != null) { // Tiene hijos
+                for (Comment child : hash.get(idActual)) { // Agrego esos hijos al actual
+                    actual.addChild(child);
+                    iter.add(child);
+                }
+                for (int i=0; i < hash.get(idActual).size(); i++) {
+                    iter.previous(); // returns the added element
                 }
             }
         }
+
+        // sort by date
+        Collections.sort(comments, new Comparator<Comment>() {
+            @Override
+            public int compare(Comment lhs, Comment rhs) {
+                if (lhs.date == null || rhs.date == null) {
+                    return 0;
+                }
+                return lhs.date.compareTo(rhs.date);
+            }
+        });
+
         return comments;
     }
 
