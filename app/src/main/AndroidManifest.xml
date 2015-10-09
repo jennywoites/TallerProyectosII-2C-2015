@@ -83,6 +83,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
+        <activity android:name=".NewCommentActivity"
+            android:label="Publicar un comentario"
+            android:windowSoftInputMode="stateVisible">
+        </activity>
     </application>
 
 </manifest>

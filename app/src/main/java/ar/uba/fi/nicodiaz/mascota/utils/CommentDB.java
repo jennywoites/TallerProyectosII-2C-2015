@@ -11,4 +11,5 @@ public class CommentDB {
     public Date date;
     public int parent;
     public int id;
+    public int petId;
 }

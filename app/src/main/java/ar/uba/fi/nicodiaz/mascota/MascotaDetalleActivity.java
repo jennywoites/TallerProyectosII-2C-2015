@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -60,7 +61,8 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         FAB_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MascotaDetalleActivity.this, "Próximamente podrás hacer un comentario", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MascotaDetalleActivity.this, NewCommentActivity.class);
+                startActivity(i);
             }
         });
 

@@ -115,6 +115,11 @@ public class CommentService {
     }
 
     public static List<Comment> generateListOfComments(List<CommentDB> listDB) {
+        /**
+         * TODO: quizas convenga usar un hash aca... no se. Si usamos esto, estamos OBLIGADOS a que desde la base de datos,
+         * los comentarios vengan ordenados, es decir: padre -> hijos. Nunca deberia aparecer un hijo antes que su padre.
+         * Esto podría complicar las cosas... quizas con un hash se simplifique. No tuve tiempo de pensarlo.
+         */
 
         List<Comment> comments = new ArrayList<>();
         for (CommentDB commentDB : listDB) {
@@ -132,6 +137,7 @@ public class CommentService {
         return comments;
     }
 
+    // TODO: quizas nunca usemos esta funcion
     public static List<CommentDB> generateListOfCommentsDB(List<Comment> comments) {
         List<CommentDB> listDB = new ArrayList<>();
         for (Comment comment : comments) {
