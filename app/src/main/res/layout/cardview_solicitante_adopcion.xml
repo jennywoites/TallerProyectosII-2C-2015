@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center_horizontal"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="12dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre del solicitante"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="26dp"
+                android:id="@+id/user_name"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/profile_image"/>
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ubicación"
+                android:id="@+id/user_ubication"
+                android:layout_below="@+id/user_name"
+                android:layout_marginStart="16dp"
+                android:layout_alignStart="@+id/textView3" />
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10/10/15 15:18"
+                android:layout_below="@+id/user_ubication"
+                android:layout_alignStart="@+id/user_name"
+                android:layout_marginStart="51dp"
+                android:id="@+id/textView3" />
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_user"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:elevation="@dimen/elevation"/>
+        </RelativeLayout>
+        <View style="@style/HorizontalDivider"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Mensaje"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"/>
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:id="@+id/infSexoPet"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Este es un mensaje que puede escribir el que solicita adoptar mi mascota. Podría poner las razones por las cuales la quiere adoptar y demás cosas que quiera. Este mensaje se escribe cuando el solicitante da al botón de Adoptar Mascota (el floating action button con simbolo de corazón) que se encuentra en las pantallas de detalle de mascota de adopción."
+            android:paddingStart="16dp"
+            android:maxLines="8"/>
+
+        <View style="@style/HorizontalDivider"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="ACEPTAR"
+                style="@style/Base.Widget.AppCompat.Button.Colored"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                android:text="RECHAZAR"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
