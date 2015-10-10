@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.fragment;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -35,7 +35,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 /**
  * Created by nicolas on 03/10/15.
  */
-public class MascotaDetalleFragment extends Fragment {
+public class MascotaDetalleDescripcionFragment extends Fragment {
 
     View view;
     private AdoptionPet adoptionPet;

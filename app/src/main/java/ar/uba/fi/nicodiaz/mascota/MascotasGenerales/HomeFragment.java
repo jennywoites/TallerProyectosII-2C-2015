@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.fragment;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.LoginActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by nicolas on 14/09/15.

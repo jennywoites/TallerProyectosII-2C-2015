@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
-import ar.uba.fi.nicodiaz.mascota.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
 

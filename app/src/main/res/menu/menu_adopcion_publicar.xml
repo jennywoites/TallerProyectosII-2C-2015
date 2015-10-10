@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity">
+    tools:context="ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity">
 
     <item android:id="@+id/action_confirmar_agregar_mascota_adopcion"
         android:title="@string/action_confirm"

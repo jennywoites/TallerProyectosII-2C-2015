@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import com.parse.ParseImageView;
 
 import java.io.Serializable;
 
+import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 

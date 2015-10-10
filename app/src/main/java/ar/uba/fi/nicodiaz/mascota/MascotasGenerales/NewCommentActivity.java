@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.Date;
 
+import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 
 public class NewCommentActivity extends AppCompatActivity {

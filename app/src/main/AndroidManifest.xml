@@ -60,7 +60,7 @@
         <activity android:name=".RegistrarDatosCuentaActivity" >
         </activity>
         <activity
-            android:name=".AdopcionPublicarActivity"
+            android:name=".MascotasGenerales.AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" >
@@ -75,7 +75,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".MascotaDetalleActivity"
+            android:name=".MascotasGenerales.MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" >
@@ -83,7 +83,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
-        <activity android:name=".NewCommentActivity"
+        <activity android:name=".MascotasGenerales.NewCommentActivity"
             android:label="Publicar un comentario"
             android:windowSoftInputMode="stateVisible">
         </activity>

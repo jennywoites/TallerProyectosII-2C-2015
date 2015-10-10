@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.fragment;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,22 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ar.uba.fi.nicodiaz.mascota.AdopcionPublicarActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.MissingEndlessAdapter;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 
-public class MissingFragment extends Fragment {
+public class PerdidasFragment extends Fragment {
 
-    private static final String TAG = "MissingFragment";
+    private static final String TAG = "PerdidasFragment";
     private List<Pet> list;
     private RecyclerView listView;
     private TextView emptyView;

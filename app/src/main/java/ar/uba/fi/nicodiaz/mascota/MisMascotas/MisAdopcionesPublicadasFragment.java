@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.fragment;
+package ar.uba.fi.nicodiaz.mascota.MisMascotas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,20 +20,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.uba.fi.nicodiaz.mascota.MascotaDetalleActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by nicolas on 14/09/15.
  */
-public class MyAdoptionsFragment extends Fragment {
+public class MisAdopcionesPublicadasFragment extends Fragment {
 
-    private static final String TAG = "MyAdoptionsFragment";
+    private static final String TAG = "MisAdopcionesPublicadasFragment";
 
     private Context activity;
     private View mainView;

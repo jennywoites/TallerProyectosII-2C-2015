@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import ar.uba.fi.nicodiaz.mascota.fragment.AdopcionFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.HomeFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.MissingFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.MyAdoptionsFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.PerdidasFragment;
+import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisAdopcionesPublicadasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
 
             case R.id.drawer_my_adoptions:
-                fragment = new MyAdoptionsFragment();
+                fragment = new MisAdopcionesPublicadasFragment();
                 currentFragment = "Mis Mascotas en Adopción";
                 break;
 
@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                 currentFragment = getResources().getString(R.string.title_activity_profile);
                 break;*/
             case R.id.drawer_missing:
-                fragment = new MissingFragment();
+                fragment = new PerdidasFragment();
                 currentFragment = getResources().getString(R.string.title_activity_missing);
                 break;
             /*case R.id.drawer_about:

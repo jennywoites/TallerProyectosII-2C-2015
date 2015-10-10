@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import ar.uba.fi.nicodiaz.mascota.fragment.MascotaDetalleComentariosFragment;
-import ar.uba.fi.nicodiaz.mascota.fragment.MascotaDetalleFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleComentariosFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleDescripcionFragment;
 
 /**
  * Created by nicolas on 03/10/15.
@@ -25,7 +25,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MascotaDetalleFragment();
+                return new MascotaDetalleDescripcionFragment();
             case 1:
                 return new MascotaDetalleComentariosFragment();
             default:
