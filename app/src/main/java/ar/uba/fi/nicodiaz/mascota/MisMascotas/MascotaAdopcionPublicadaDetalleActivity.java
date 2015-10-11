@@ -24,22 +24,21 @@ import com.parse.ParseImageView;
 import java.io.Serializable;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 
-public class MiAdopcionPublicadaDetalleActivity extends AppCompatActivity {
+public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
 
-    CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
-    int NumbOfTabs = 2;
+    CharSequence Titles[] = {"Información", "Comentarios", "Solicitudes"}; // TODO: obtener la cantidad de comentarios y solicitudes desde la base de datos.
+    int NumbOfTabs = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mascota_detalle);
+        setContentView(R.layout.activity_mascota_adopcion_publicada_detalle);
 
         char petType = getIntent().getCharExtra("PetType", '-');
         Serializable serializableObject = getIntent().getSerializableExtra("Pet");
@@ -52,11 +51,12 @@ public class MiAdopcionPublicadaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
-        FAB_adopt.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton FAB_edit = (FloatingActionButton) findViewById(R.id.FAB_editar);
+        FAB_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MiAdopcionPublicadaDetalleActivity.this, "Próximamente podrás adoptarlo", Toast.LENGTH_SHORT).show();
+                // TODO: editar mascota... podría llamarse de alguna forma a algo parecido a el de crear mascota, pero en lugar de agregar se updatee en la base de datos.
+                Toast.makeText(MascotaAdopcionPublicadaDetalleActivity.this, "Proximamente podrás editar tu mascota", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -64,14 +64,14 @@ public class MiAdopcionPublicadaDetalleActivity extends AppCompatActivity {
         FAB_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MiAdopcionPublicadaDetalleActivity.this, NewCommentActivity.class);
+                Intent i = new Intent(MascotaAdopcionPublicadaDetalleActivity.this, NewCommentActivity.class);
                 startActivity(i);
             }
         });
 
         loadHeader(pet);
 
-        ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+        ViewPagerAdapter adapter = new ViewPagerMascotaAdopcionPublicadaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -87,15 +87,15 @@ public class MiAdopcionPublicadaDetalleActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        FAB_adopt.setVisibility(View.VISIBLE);
+                        FAB_edit.setVisibility(View.VISIBLE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                     case 1:
-                        FAB_adopt.setVisibility(View.GONE);
+                        FAB_edit.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.VISIBLE);
                         break;
                     default:
-                        FAB_adopt.setVisibility(View.GONE);
+                        FAB_edit.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                 }
@@ -143,7 +143,7 @@ public class MiAdopcionPublicadaDetalleActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mascota_detalle, menu);
+        getMenuInflater().inflate(R.menu.menu_mascota_adopcion_publicada_detalle, menu);
         return true;
     }
 

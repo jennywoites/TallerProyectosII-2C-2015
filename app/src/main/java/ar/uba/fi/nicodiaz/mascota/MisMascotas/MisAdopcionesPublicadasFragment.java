@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -111,7 +110,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                Intent i = new Intent(activity, MascotaAdopcionPublicadaDetalleActivity.class);
                 ArrayList<String> urlPhotos = new ArrayList<>();
                 Pet pet = list.get(position);
                 for (ParseFile picture : pet.getPictures()) {
