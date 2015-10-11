@@ -13,12 +13,17 @@ import android.widget.Toast;
 import java.util.Date;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 
 public class NewCommentActivity extends AppCompatActivity {
 
     private EditText editText;
-    private int replyId;
+    private String  parentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,11 @@ public class NewCommentActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        replyId = getIntent().getIntExtra("Parent", -1);
-        Log.d(String.valueOf(Log.DEBUG), "replyTo: " + String.valueOf(replyId));
+        parentId = getIntent().getStringExtra("Parent");
+        if (parentId == null || parentId.isEmpty()) {
+            parentId = "-1";
+        }
+        Log.d(String.valueOf(Log.DEBUG), "replyTo: " + String.valueOf(parentId));
 
         editText = (EditText) findViewById(R.id.comment_editText);
     }
@@ -84,15 +92,16 @@ public class NewCommentActivity extends AppCompatActivity {
                 return false;
             }
 
-            CommentDB comment = new CommentDB();
-            comment.author = "foo"; // TODO: poner el usuario actual
-            comment.text = text;
-            comment.date = new Date(); // Ahora
-            comment.id = -1; // TODO: hacer alguna forma de que sea secuencial y unico en toda la base de datos...
-            comment.parent = replyId;
-            comment.petId = 0; // TODO: poner la mascota actual que se esta haciendo el comentario.
+            Pet pet = PetService.getInstance().getSelectedPet();
+            User user = UserService.getInstance().getUser();
 
-            // TODO: Guardar comentario en la base de datos
+            CommentDB comment = new CommentDB();
+            comment.setAuthor(user);
+            comment.setParentID(parentId);
+            comment.setText(text);
+            comment.setPetId(pet.getID());
+
+            CommentService.getInstance().save(comment);
 
             return true;
         }

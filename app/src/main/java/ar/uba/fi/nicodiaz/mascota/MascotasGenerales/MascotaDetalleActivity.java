@@ -36,12 +36,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_mascota_detalle);
 
-        char petType = getIntent().getCharExtra("PetType", '-');
-        Serializable serializableObject = getIntent().getSerializableExtra("Pet");
-        Pet pet = PetService.getInstance().getRealObject(serializableObject, petType);
+        Pet pet = PetService.getInstance().getSelectedPet();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);

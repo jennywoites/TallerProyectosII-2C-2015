@@ -13,6 +13,7 @@ import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 
 /**
  * Created by Juan Manuel Romera on 13/9/2015.
@@ -30,6 +31,7 @@ public class MyApplication extends Application {
         ParseObject.registerSubclass(Address.class);
         ParseObject.registerSubclass(AdoptionPet.class);
         ParseObject.registerSubclass(MissingPet.class);
+        ParseObject.registerSubclass(CommentDB.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);

@@ -302,4 +302,9 @@ public class MissingPet extends ParseObject implements Pet {
     public char getType() {
         return Pet.MISSING;
     }
+
+    @Override
+    public String getID() {
+        return getObjectId();
+    }
 }

@@ -1,15 +1,72 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import java.util.Date;
+
+import ar.uba.fi.nicodiaz.mascota.model.User;
 
 /**
  * Created by nicolas on 08/10/15.
  */
-public class CommentDB {
-    public String author;
-    public String text;
-    public Date date;
-    public int parent;
-    public int id;
-    public int petId;
+@ParseClassName("Comentarios")
+public class CommentDB extends ParseObject {
+
+    public static final String AUTHOR = "author";
+    public static final String TEXT = "text";
+    public static final String PET_ID = "petId";
+    public static final String PARENT_ID = "parentId";
+
+    public CommentDB() {
+    }
+
+
+    public String getObjetID() {
+        return getObjectId();
+    }
+
+    public User getAuthor() {
+        ParseUser parseUser = getParseUser(AUTHOR);
+        try {
+            return new User(parseUser.fetchIfNeeded());
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public void setAuthor(User author) {
+        put(AUTHOR, author.getParseUser());
+    }
+
+    public String getText() {
+        return getString(TEXT);
+    }
+
+    public void setText(String text) {
+        put(TEXT, text);
+    }
+
+    public Date getDate() {
+        return getCreatedAt();
+    }
+
+    public String getPetId() {
+        return getString(PET_ID);
+    }
+
+    public void setPetId(String petId) {
+        put(PET_ID, petId);
+    }
+
+    public String getParentID() {
+        return getString(PARENT_ID);
+    }
+
+    public void setParentID(String parentID) {
+        put(PARENT_ID, parentID);
+    }
+
 }

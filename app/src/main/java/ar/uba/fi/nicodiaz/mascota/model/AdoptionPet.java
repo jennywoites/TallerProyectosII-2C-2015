@@ -309,4 +309,9 @@ public class AdoptionPet extends ParseObject implements Pet {
     public char getType() {
         return Pet.ADOPTION;
     }
+
+    @Override
+    public String getID() {
+        return getObjectId();
+    }
 }

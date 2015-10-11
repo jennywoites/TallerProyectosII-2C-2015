@@ -111,18 +111,8 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
             @Override
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaAdopcionPublicadaDetalleActivity.class);
-                ArrayList<String> urlPhotos = new ArrayList<>();
                 Pet pet = list.get(position);
-                for (ParseFile picture : pet.getPictures()) {
-                    urlPhotos.add(picture.getUrl());
-                }
-                ArrayList<String> urlVideos = pet.getVideos();
-
-                Serializable serializableObject = PetService.getInstance().getSerializableObject(pet);
-                i.putExtra("PetType", pet.getType());
-                i.putExtra("Pet", serializableObject);
-                i.putStringArrayListExtra("UrlPhotos", urlPhotos);
-                i.putStringArrayListExtra("UrlVideos", urlVideos);
+                PetService.getInstance().setSelectedPet(pet);
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }

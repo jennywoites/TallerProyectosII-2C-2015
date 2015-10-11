@@ -15,32 +15,32 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
     public String author;
     public String text;
     public Date date;
-    public int id;
+    public String id;
 
     private int mIndentation;
     private List<Comment> mChildren;
     private boolean mIsGroup;
     private int mGroupSize;
-    public int parent;
+    public String parent;
 
-    public Comment(int id, String author, String text) {
+    public Comment(String id, String author, String text) {
         this.id = id;
         this.author = author;
         this.text = text;
         date = Calendar.getInstance().getTime();
         mChildren = new ArrayList<>();
-        parent = -1;
+        parent = "-1";
         setIndentation(0);
     }
 
-    public Comment(int id, String author, String text, Date date) {
+    public Comment(String id, String author, String text, Date date) {
         this.id = id;
         this.author = author;
         this.text = text;
         this.date = date;
         mChildren = new ArrayList<>();
         setIndentation(0);
-        parent = -1;
+        parent = "-1";
     }
 
     @Override
@@ -74,14 +74,14 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
     }
 
     public boolean isParent() {
-        return parent == -1;
+        return parent.equals("-1");
     }
 
     public boolean isChild() {
-        return parent != -1;
+        return !parent.equals("-1");
     }
 
-    public int getParent() {
+    public String getParent() {
         return parent;
     }
 

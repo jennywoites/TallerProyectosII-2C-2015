@@ -24,12 +24,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.Parse;
+import com.parse.ParseFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
@@ -38,7 +42,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment {
 
     View view;
-    private AdoptionPet adoptionPet;
+    private Pet adoptionPet;
     private SliderLayout photo_slider;
     private SliderLayout video_slider;
     private GoogleMap mMap;
@@ -47,12 +51,13 @@ public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_mascota_detalle, container, false);
+        adoptionPet = PetService.getInstance().getSelectedPet();
+        ArrayList<String> urlPhotos = new ArrayList<>();
+        for (ParseFile file : adoptionPet.getPictures()) {
+            urlPhotos.add(file.getUrl());
+        }
 
-        ArrayList<String> urlPhotos = getActivity().getIntent().getStringArrayListExtra("UrlPhotos");
-        ArrayList<String> urlVideos = getActivity().getIntent().getStringArrayListExtra("UrlVideos");
-
-        ParseProxyObject ppo = (ParseProxyObject) getActivity().getIntent().getSerializableExtra("Pet");
-        adoptionPet = new AdoptionPet(ppo);
+        ArrayList<String> urlVideos = adoptionPet.getVideos();
 
         loadInformacionBasica(adoptionPet);
         loadInformacionSocial(adoptionPet);
@@ -139,7 +144,7 @@ public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment
         photo_slider.setCustomIndicator((PagerIndicator) view.findViewById(R.id.custom_indicator));
     }
 
-    private void loadInformacionBasica(AdoptionPet adoptionPet) {
+    private void loadInformacionBasica(Pet adoptionPet) {
 
         TextView textView = (TextView) view.findViewById(R.id.infSexoPet);
         textView.setText(adoptionPet.getGender());
@@ -159,7 +164,7 @@ public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment
 
     }
 
-    private void loadInformacionSocial(AdoptionPet adoptionPet) {
+    private void loadInformacionSocial(Pet adoptionPet) {
         TextView textView = (TextView) view.findViewById(R.id.infRelacionNiños);
         textView.setText(adoptionPet.getChildren());
 
@@ -179,7 +184,7 @@ public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment
         }
     }
 
-    private void loadInformacionMedica(AdoptionPet adoptionPet) {
+    private void loadInformacionMedica(Pet adoptionPet) {
         TextView textView = (TextView) view.findViewById(R.id.infTomaMedicina);
         textView.setText(adoptionPet.getMedicine());
 

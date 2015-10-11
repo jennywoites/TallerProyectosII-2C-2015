@@ -26,6 +26,7 @@ public class PetService {
     private static Integer LIMIT = 4;
     private static String CAT = "Gato";
     private static String DOG = "Perro";
+    private static Pet selectedPet;
 
 
     public static PetService getInstance() {
@@ -218,5 +219,13 @@ public class PetService {
             default:
                 return null;
         }
+    }
+
+    public Pet getSelectedPet() {
+        return selectedPet;
+    }
+
+    public void setSelectedPet(Pet pet) {
+        this.selectedPet = pet;
     }
 }

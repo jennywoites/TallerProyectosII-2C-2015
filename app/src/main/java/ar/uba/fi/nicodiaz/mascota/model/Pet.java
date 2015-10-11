@@ -80,5 +80,9 @@ public interface Pet {
     ArrayList<String> getVideos();
 
     char getType();
+
+    String getID();
+
+    Address getAddress();
 }
 
