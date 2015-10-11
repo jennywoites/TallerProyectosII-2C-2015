@@ -24,12 +24,13 @@ import com.parse.ParseImageView;
 import java.io.Serializable;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 
-public class MiAdopcionSolicitadaDetalleActivity extends AppCompatActivity {
+public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
 
     CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
     int NumbOfTabs = 2;
@@ -38,7 +39,7 @@ public class MiAdopcionSolicitadaDetalleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mascota_detalle);
+        setContentView(R.layout.activity_mascota_solicitada_detalle);
 
         char petType = getIntent().getCharExtra("PetType", '-');
         Serializable serializableObject = getIntent().getSerializableExtra("Pet");
@@ -51,11 +52,11 @@ public class MiAdopcionSolicitadaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
+        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_desadoptar);
         FAB_adopt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MiAdopcionSolicitadaDetalleActivity.this, "Próximamente podrás adoptarlo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MascotaSolicitadaDetalleActivity.this, "Próximamente podrás desadoptarlo", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -63,14 +64,14 @@ public class MiAdopcionSolicitadaDetalleActivity extends AppCompatActivity {
         FAB_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MiAdopcionSolicitadaDetalleActivity.this, NewCommentActivity.class);
+                Intent i = new Intent(MascotaSolicitadaDetalleActivity.this, NewCommentActivity.class);
                 startActivity(i);
             }
         });
 
         loadHeader(pet);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+        ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

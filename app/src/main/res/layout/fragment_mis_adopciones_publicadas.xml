@@ -5,6 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeActivity">
 
     <TextView
@@ -63,4 +64,16 @@
         android:gravity="center"
         android:visibility="gone"
         android:text="@string/no_data_available" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/FAB_agregar_adopcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_add"
+        android:elevation="@dimen/elevation"
+        android:layout_gravity="end|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin" />
 </RelativeLayout>

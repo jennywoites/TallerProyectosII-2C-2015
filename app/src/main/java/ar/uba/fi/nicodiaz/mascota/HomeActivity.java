@@ -15,7 +15,7 @@ import android.widget.TextView;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.PerdidasFragment;
-import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisAdopcionesPublicadasFragment;
+import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisMascotasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -102,12 +102,6 @@ public class HomeActivity extends AppCompatActivity {
                 currentFragment = getResources().getString(R.string.title_activity_adopcion);
                 break;
 
-            case R.id.drawer_my_adoptions:
-                fragment = new MisAdopcionesPublicadasFragment();
-                currentFragment = "Mis Mascotas en Adopción";
-                break;
-
-
 /*            case R.id.drawer_profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
                 fragment = new ProfileFragment();
@@ -123,6 +117,11 @@ public class HomeActivity extends AppCompatActivity {
                 currentFragment = getResources().getString(R.string.title_activity_about);
                 break;
             */
+            case R.id.drawer_my_pets:
+                fragment = new MisMascotasFragment();
+                currentFragment = getResources().getString(R.string.title_activity_my_pets);
+                break;
+
             default:
                 break;
         }

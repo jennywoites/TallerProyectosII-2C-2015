@@ -69,7 +69,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         loadHeader(pet);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+        ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

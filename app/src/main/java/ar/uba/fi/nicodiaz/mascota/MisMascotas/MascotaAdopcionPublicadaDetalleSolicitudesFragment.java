@@ -1,7 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.MisMascotas;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,37 +13,32 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.RequestEndlessAdapter;
 
 /**
  * Created by nicolas on 14/09/15.
  */
-public class MisAdopcionesSolicitadasFragment extends Fragment {
+public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment {
 
     private static final String TAG = "MisAdopcionesPublicadasFragment";
 
     private Context activity;
     private View mainView;
     private TextView emptyView;
-    private ArrayList<Pet> list;
+    private ArrayList<String> list; // TODO: crear estructura de base de datos para solicitudes
     private RecyclerView listView;
-    private AdopcionEndlessAdapter listAdapter;
+    private RequestEndlessAdapter listAdapter;
 
-    private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
+    private class RequestListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<? extends Pet> resultList;
+        private List<String> resultList; // TODO: crear estructura de base de datos para solicitudes
 
-        public PetListLoader(View view) {
+        public RequestListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
             resultList = new ArrayList<>();
         }
@@ -59,7 +53,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = new ArrayList<>(); // TODO: hacer metodo para obtener las mascotas de adopcion que YO solicité adoptar.
+            resultList = new ArrayList<>();
+            resultList.add("Foo");// TODO: hacer metodo para obtener las mascotas de adopcion que YO solicité adoptar.
             return !(resultList.isEmpty());
         }
 
@@ -67,8 +62,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                for (Pet pet : resultList) {
-                    list.add(pet);
+                for (String solicitud : resultList) { // TODO: crear estructura de base de datos para solicitudes
+                    list.add(solicitud);
                 }
                 listAdapter.notifyDataSetChanged();
             }
@@ -82,7 +77,7 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         activity = getActivity();
 
         // View:
-        mainView = inflater.inflate(R.layout.fragment_mis_adopciones_solicitadas, container, false);
+        mainView = inflater.inflate(R.layout.fragment_mascota_adopcion_publicada_detalle_solicitudes, container, false);
         mainView.setTag(TAG);
 
         // ListView:
@@ -90,38 +85,16 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         list = new ArrayList<>();
 
-        listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
+        listView = (RecyclerView) mainView.findViewById(R.id.list_request);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
-                ArrayList<String> urlPhotos = new ArrayList<>();
-                Pet pet = list.get(position);
-                for (ParseFile picture : pet.getPictures()) {
-                    urlPhotos.add(picture.getUrl());
-                }
-                ArrayList<String> urlVideos = pet.getVideos();
-
-                Serializable serializableObject = PetService.getInstance().getSerializableObject(pet);
-                i.putExtra("PetType", pet.getType());
-                i.putExtra("Pet", serializableObject);
-                i.putStringArrayListExtra("UrlPhotos", urlPhotos);
-                i.putStringArrayListExtra("UrlVideos", urlVideos);
-                startActivity(i);
-                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
-            }
-        });
-
+        listAdapter = new RequestEndlessAdapter(list, listView, activity);
         listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
-        new PetListLoader(mainView).execute();
-
+        new RequestListLoader(mainView).execute();
 
         return mainView;
     }
