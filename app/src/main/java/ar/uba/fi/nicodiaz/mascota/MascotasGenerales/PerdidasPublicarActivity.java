@@ -69,9 +69,10 @@ import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class PerdidasPublicarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener{
+public class PerdidasPublicarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
     private Toolbar toolbar;
     private Button selectImageButton;
     private MissingPet pet;
@@ -131,6 +132,8 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perdidas_publicar);
+
+        ButterKnife.inject(this);
 
         // Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -209,7 +212,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         // -*-*-*-*-*-*-*-*-*-*-*
         // Completa la dirección.
         // -*-*-*-*-*-*-*-*-*-*-*
-        /*
+
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0, this)
                 .addApi(Places.GEO_DATA_API)
@@ -221,7 +224,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         mAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
         _addressAutoCompleteText.setAdapter(mAdapter);
-        */
+
     }
 
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
