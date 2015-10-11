@@ -85,7 +85,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
         activity = getActivity();
 
         // View:
-        mainView = inflater.inflate(R.layout.fragment_my_adoptions, container, false);
+        mainView = inflater.inflate(R.layout.fragment_mis_adopciones_publicadas, container, false);
         mainView.setTag(TAG);
 
         // FAB:
