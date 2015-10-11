@@ -56,12 +56,6 @@ public class MissingPet extends ParseObject implements Pet {
         User owner = new User(ppo.getParseObject(OWNER));
         setOwner(owner);
         setPicture(new ParseFile(ppo.getBytes(PHOTO_ONE)));
-        setOtherPets(ppo.getString(PETS));
-        setChildren(ppo.getString(CHILDREN));
-        setSocialNotes(ppo.getString(SOCIAL_NOTES));
-        setMedicine(ppo.getString(MEDICINE));
-        setMedicineTime(ppo.getString(MEDICINE_TIME));
-        setMedicineNotes(ppo.getString(MEDICINE_NOTES));
     }
 
     @Override

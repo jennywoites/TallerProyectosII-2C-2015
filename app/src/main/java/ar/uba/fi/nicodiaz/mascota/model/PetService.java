@@ -39,6 +39,10 @@ public class PetService {
         adoptionPet.saveInBackground();
     }
 
+    public void saveAdoptionPet(MissingPet adoptionPet) {
+        adoptionPet.saveInBackground();
+    }
+
     public List<? extends Pet> getAdoptionPets(int page) {
         List<AdoptionPet> pets = getPets(page, AdoptionPet.class);
         return pets;

@@ -62,6 +62,7 @@ import java.util.Locale;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
@@ -73,7 +74,7 @@ import butterknife.InjectView;
 public class PerdidasPublicarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener{
     private Toolbar toolbar;
     private Button selectImageButton;
-    private AdoptionPet pet;
+    private MissingPet pet;
     private List<Bitmap> photos;
     private LinearLayout photos_layout;
     private TextView photos_empty;
@@ -189,7 +190,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
                 }
         });
 
-        pet = new AdoptionPet();
+        pet = new MissingPet();
 
         // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
         // DatePicker Fecha última vista de la Mascota.

@@ -48,15 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/txtDirectionLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Dirección"
-                android:inputType="textNoSuggestions|textCapWords"
-                android:maxLength="100"
-                android:typeface="normal"/>
+            
             <AutoCompleteTextView
                 android:id="@+id/input_direccion"
                 android:layout_width="match_parent"
