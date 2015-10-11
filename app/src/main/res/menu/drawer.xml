@@ -21,10 +21,10 @@
             android:title="@string/title_activity_missing" />
 
         <item
-            android:id="@+id/drawer_my_adoptions"
+            android:id="@+id/drawer_my_pets"
             android:checked="false"
-            android:icon="@drawable/ic_user"
-            android:title="Mis Mascotas en Adopción" />
+            android:icon="@drawable/ic_social"
+            android:title="@string/title_activity_my_pets" />
 
         <!--<item
             android:id="@+id/drawer_profile"

@@ -111,6 +111,8 @@
 
     <string name="ERROR_ALTA_MASCOTA">Error Grabando Mascota</string>
     <string name="ERROR_NO_CONECTIVIDAD_MENSAJE">Asegúrate que estas conectado a un red WI-FI o a la red de tu celular e intenta de nuevo.</string>
+    <string name="title_activity_my_pets">Mis Mascotas</string>
+    <string name="title_activity_my_adoptions">Adopciones</string>
 
     <string-array name="cats">
         <item>Desconocido</item>

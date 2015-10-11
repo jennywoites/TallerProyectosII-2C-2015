@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
@@ -86,7 +88,16 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
         mainView = inflater.inflate(R.layout.fragment_my_adoptions, container, false);
         mainView.setTag(TAG);
 
-        // ListView
+        // FAB:
+        FloatingActionButton FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_adopcion);
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nuevaAdopcion();
+            }
+        });
+
+        // ListView:
         emptyView = (TextView) mainView.findViewById(R.id.empty_view);
 
         list = new ArrayList<>();
@@ -125,6 +136,11 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
 
 
         return mainView;
+    }
+
+    private void nuevaAdopcion() {
+        Intent i = new Intent(activity, AdopcionPublicarActivity.class);
+        startActivity(i);
     }
 
     private void checkEmptyList() {

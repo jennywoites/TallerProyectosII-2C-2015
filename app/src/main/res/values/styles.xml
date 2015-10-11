@@ -33,6 +33,7 @@
 
     <style name="ThemeOverlay.Mascota.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/ColorPrimaryLight</item>
+        <item name="android:textColorSecondary">@color/ColorPrimaryLight</item>
     </style>
 
     <!-- Contextual Action Bar Styling -->

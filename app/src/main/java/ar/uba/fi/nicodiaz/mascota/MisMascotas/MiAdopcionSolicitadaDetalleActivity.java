@@ -24,6 +24,7 @@ import com.parse.ParseImageView;
 import java.io.Serializable;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -70,7 +71,7 @@ public class MiAdopcionSolicitadaDetalleActivity extends AppCompatActivity {
 
         loadHeader(pet);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+        ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
