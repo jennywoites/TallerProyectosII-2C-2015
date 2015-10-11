@@ -250,8 +250,8 @@ public class PerdidasFragment extends Fragment {
     }
 
     private void nuevaPerdida() {
-    /*    Intent i = new Intent(activity, MissingPublicarActivity.class);
-        startActivity(i);*/
+        Intent i = new Intent(activity, PerdidasPublicarActivity.class);
+        startActivity(i);
     }
 
     // Filter:
