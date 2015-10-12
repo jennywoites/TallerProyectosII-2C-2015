@@ -35,7 +35,7 @@ public class MisMascotasFragment extends Fragment {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.frame, new MisAdopcionesFragment());
-                ft.addToBackStack(null);
+               // ft.addToBackStack(null);
                 ft.commit();
             }
         });
