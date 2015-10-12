@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseFile;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +49,7 @@ public class PerdidasFragment extends Fragment {
     private Context activity;
     private DrawerLayout drawerLayout;
     private View mainView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
 
@@ -104,6 +103,7 @@ public class PerdidasFragment extends Fragment {
             list.clear();
             listAdapter.notifyDataSetChanged();
             linlaHeaderProgress.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
             listAdapter.reset();
         }
 
@@ -126,6 +126,7 @@ public class PerdidasFragment extends Fragment {
             }
             checkEmptyList();
             listAdapter.setLoaded();
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -191,9 +192,17 @@ public class PerdidasFragment extends Fragment {
             }
         });
         listView.setAdapter(listAdapter);
+        swipeRefreshLayout = (SwipeRefreshLayout) mainView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ColorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                applyQuery();
+            }
+        });
 
         // Cargando la lista de mascotas:
-        new PetListLoader(mainView).execute();
+        applyQuery();
 
         return mainView;
     }
@@ -227,6 +236,9 @@ public class PerdidasFragment extends Fragment {
             case R.id.action_buscar_perdido:
                 buscarPerdido();
                 return true;
+            case R.id.action_refresh:
+                applyQuery();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -251,6 +263,7 @@ public class PerdidasFragment extends Fragment {
     private ExpandableListView filtersList;
     private ArrayList<Filter> filters;
     private Map<String, List<String>> selectedFilter;
+    private Map<String, List<String>> tempSelectedFilter;
 
     private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
@@ -260,6 +273,7 @@ public class PerdidasFragment extends Fragment {
         filtersList.setAdapter(adapter);
 
         selectedFilter = new HashMap<>();
+        tempSelectedFilter = new HashMap<>();
 
         filtersList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
@@ -292,10 +306,10 @@ public class PerdidasFragment extends Fragment {
                         //if (filter.selection.isEmpty() || filter.selection.size() == filter.children.size()) {
                         if (filter.selection.isEmpty()) {
                             sub.setText("");
-                            selectedFilter.remove(parentName);
+                            tempSelectedFilter.remove(parentName);
                         } else {
                             sub.setText(filter.selection.toString());
-                            selectedFilter.put(parentName, filter.selection);
+                            tempSelectedFilter.put(parentName, filter.selection);
                         }
                     }
                 }
@@ -308,10 +322,18 @@ public class PerdidasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
-
                 Toast.makeText(activity, "Filtro Aplicado", Toast.LENGTH_SHORT).show();
-
                 // aplicar cambios a la lista
+                selectedFilter.clear();
+
+                // Copiar los filtos seleccionados
+                for (String key : tempSelectedFilter.keySet()) {
+                    List<String> listValue = tempSelectedFilter.get(key);
+                    List<String> copiedListValue = new ArrayList<>();
+                    copiedListValue.addAll(listValue);
+                    selectedFilter.put(key, copiedListValue);
+                }
+
                 hayMas = true;
                 applyQuery();
             }
@@ -321,10 +343,10 @@ public class PerdidasFragment extends Fragment {
         cancelFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filters = Filter.getFilters(); // TODO: investigar que filtros va a querer el tipo. Si son los mismos que en adopcion, listo.
+                filters = Filter.getFilters();
                 adapter = new SettingsListAdapter(activity, filters, filtersList);
                 filtersList.setAdapter(adapter);
-                selectedFilter.clear();
+                tempSelectedFilter.clear();
                 Toast.makeText(activity, "Filtro Desactivado", Toast.LENGTH_SHORT).show();
             }
         });

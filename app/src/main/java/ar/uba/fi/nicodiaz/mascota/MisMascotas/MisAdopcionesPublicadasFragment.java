@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +16,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +38,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
     private ArrayList<Pet> list;
     private RecyclerView listView;
     private AdopcionEndlessAdapter listAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
@@ -56,6 +55,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
             list.clear();
             listAdapter.notifyDataSetChanged();
             linlaHeaderProgress.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
             listAdapter.reset();
         }
 
@@ -76,6 +76,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
             }
             checkEmptyList();
             listAdapter.setLoaded();
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -120,11 +121,24 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
 
         listView.setAdapter(listAdapter);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) mainView.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ColorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                applyQuery();
+            }
+        });
+
         // Cargando la lista de mascotas:
-        new PetListLoader(mainView).execute();
+        applyQuery();
 
 
         return mainView;
+    }
+
+    private void applyQuery() {
+        new PetListLoader(mainView).execute();
     }
 
     private void nuevaAdopcion() {

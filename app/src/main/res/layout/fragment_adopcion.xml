@@ -20,18 +20,33 @@
             android:layout_margin="8dp"
             android:gravity="center_vertical|center_horizontal" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_adoption"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_adoption"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                android:drawSelectorOnTop="false"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="2dp"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="1dp"
-            android:drawSelectorOnTop="false"
-            android:layout_below="@+id/title"
-            android:layout_marginTop="2dp"
-            android:scrollbars="vertical">
-        </android.support.v7.widget.RecyclerView>
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_data_available" />
 
         <LinearLayout
             android:id="@+id/linlaHeaderProgress"
@@ -59,14 +74,6 @@
                 wheel:matProg_barColor="@color/ColorPrimary"
                 wheel:matProg_progressIndeterminate="true" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="@string/no_data_available" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/FAB_agregar_adopcion"
