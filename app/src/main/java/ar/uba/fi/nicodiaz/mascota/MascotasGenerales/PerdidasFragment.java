@@ -154,8 +154,6 @@ public class PerdidasFragment extends Fragment {
         // Sliding Menu
         drawerLayout = (DrawerLayout) mainView.findViewById(R.id.sliding_layout);
 
-        hayMas = true;
-
         // Filter:
         createFilterMenu(mainView);
 
@@ -173,11 +171,13 @@ public class PerdidasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new MissingEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                Toast.makeText(activity, "Aún no está implementado.", Toast.LENGTH_SHORT).show();
+
+                /*Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 Pet pet = list.get(position);
                 PetService.getInstance().setSelectedPet(pet);
                 startActivity(i);
-                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);*/
             }
         });
 
@@ -208,6 +208,7 @@ public class PerdidasFragment extends Fragment {
     }
 
     private void applyQuery() {
+        hayMas = true;
         new PetListLoader(mainView).execute();
     }
 
@@ -333,8 +334,6 @@ public class PerdidasFragment extends Fragment {
                     copiedListValue.addAll(listValue);
                     selectedFilter.put(key, copiedListValue);
                 }
-
-                hayMas = true;
                 applyQuery();
             }
         });

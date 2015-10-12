@@ -154,8 +154,6 @@ public class AdopcionFragment extends Fragment {
         // Sliding Menu
         drawerLayout = (DrawerLayout) mainView.findViewById(R.id.sliding_layout);
 
-        hayMas = true;
-
         // Filter:
         createFilterMenu(mainView);
 
@@ -209,6 +207,7 @@ public class AdopcionFragment extends Fragment {
     }
 
     private void applyQuery() {
+        hayMas = true;
         new PetListLoader(mainView).execute();
     }
 
@@ -334,8 +333,6 @@ public class AdopcionFragment extends Fragment {
                     copiedListValue.addAll(listValue);
                     selectedFilter.put(key, copiedListValue);
                 }
-
-                hayMas = true;
                 applyQuery();
             }
         });

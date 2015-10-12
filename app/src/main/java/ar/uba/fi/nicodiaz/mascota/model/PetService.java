@@ -54,8 +54,8 @@ public class PetService {
         return pets;
     }
 
-    public List<? extends Pet> getAdoptionPetsByUser() {
-        List<AdoptionPet> pets = getPetsByUser(AdoptionPet.class);
+    public List<? extends Pet> getAdoptionPetsByUser(int page) {
+        List<AdoptionPet> pets = getPetsByUser(page, AdoptionPet.class);
         return pets;
     }
 
@@ -69,17 +69,14 @@ public class PetService {
         return pets;
     }
 
-    public List<MissingPet> getMissingPetsByUser() {
-        List<MissingPet> pets = getPetsByUser(MissingPet.class);
-        return pets;
-    }
-
-    private <T extends ParseObject> List<T> getPetsByUser(Class petClass) {
+    private <T extends ParseObject> List<T> getPetsByUser(int page, Class petClass) {
         User user = UserService.getInstance().getUser();
         List<T> pets = new ArrayList<>();
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
         query.addDescendingOrder("createdAt");
         query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        query.setLimit(LIMIT);
+        query.setSkip(page * LIMIT);
         try {
             pets = query.find();
         } catch (ParseException e) {

@@ -39,6 +39,40 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
     private RecyclerView listView;
     private AdopcionEndlessAdapter listAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean hayMas;
+
+    private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
+
+        List<? extends Pet> resultList;
+
+        @Override
+        protected void onPreExecute() {
+            list.add(null);
+            listAdapter.notifyItemInserted(list.size() - 1);
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... currentPage) {
+            resultList = PetService.getInstance().getAdoptionPetsByUser(currentPage[0]);
+            return !resultList.isEmpty();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            list.remove(list.size() - 1);
+            listAdapter.notifyItemRemoved(list.size());
+            if (!result) {
+                hayMas = false;
+                return;
+            }
+
+            for (Pet pet : resultList) {
+                list.add(pet);
+                listAdapter.notifyItemInserted(list.size() - 1);
+            }
+            listAdapter.setLoaded();
+        }
+    }
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
@@ -61,7 +95,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = PetService.getInstance().getAdoptionPetsByUser();
+            resultList = PetService.getInstance().getAdoptionPetsByUser(0);
             return !(resultList.isEmpty());
         }
 
@@ -118,6 +152,16 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
+        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+            @Override
+            public boolean onLoadMore(int currentPage) {
+                if (hayMas) {
+                    new LoadMorePets().execute(currentPage);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         listView.setAdapter(listAdapter);
 
@@ -138,6 +182,7 @@ public class MisAdopcionesPublicadasFragment extends Fragment {
     }
 
     private void applyQuery() {
+        hayMas = true;
         new PetListLoader(mainView).execute();
     }
 
