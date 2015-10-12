@@ -66,6 +66,7 @@ import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
+import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -321,7 +322,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
             public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
                 for (ImageEntry image : images) {
                     Log.d(String.valueOf(Log.DEBUG), image.path);
-                    addPhoto(Uri.fromFile(new File(image.path)));
+                    addPhoto(new File(image.path));
                 }
                 showMedia();
             }
@@ -342,10 +343,10 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
                 .startActivity();
     }
 
-    private Bitmap addPhoto(Uri uri) {
+    private Bitmap addPhoto(File file) {
         Bitmap image;
         try {
-            image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            image = PhotoUtils.resizeImage(file, PhotoUtils.PHOTO_WIDHT_MAX, PhotoUtils.PHOTO_HEIGHT_MAX);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -476,11 +477,12 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
     }
 
     private void uploadPhoto(Bitmap photo) throws ApplicationConnectionException {
+
+        Bitmap bitmapResized = PhotoUtils.resizeImage(photo, PhotoUtils.PHOTO_WIDHT_MAX, PhotoUtils.PHOTO_HEIGHT_MAX);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+        bitmapResized.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
         byte[] scaledData = bos.toByteArray();
-
         // Save the scaled image to Parse
         final ParseFile photoFile = new ParseFile(photo.hashCode() + ".jpeg", scaledData);
 
