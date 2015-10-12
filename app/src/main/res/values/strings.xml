@@ -61,9 +61,9 @@
     <string name="MASCOTA_ADOPCION_TABLA_COL_SPECIES">Species</string>
     <string name="MASCOTA_ADOPCION_TABLA_COL_SEXO">Sexo</string>
     <string name="MASCOTA_ADOPCION_TABLA_COL_AGE">Age</string>
-    <string name="MASCOTA_ADOPCION_VIDEO_1">ID de video YouTube 1</string>
-    <string name="MASCOTA_ADOPCION_VIDEO_2">ID de video YouTube 2</string>
-    <string name="MASCOTA_ADOPCION_VIDEO_3">ID de video YouTube 3</string>
+    <string name="MASCOTA_ADOPCION_VIDEO_1">Link a video YouTube 1</string>
+    <string name="MASCOTA_ADOPCION_VIDEO_2">Link a video YouTube 2</string>
+    <string name="MASCOTA_ADOPCION_VIDEO_3">Link a video YouTube 3</string>
     <string name="error_conectividad">La operación no podrá continuar por problemas de conectividad.</string>
     <string name="action_logout">Cerrar Sesión</string>
     <string name="no_data_available">No hay mascotas para mostrar</string>
