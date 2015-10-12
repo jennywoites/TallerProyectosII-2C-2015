@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,12 +92,29 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
         listView.setHasFixedSize(true);
 
         listAdapter = new RequestEndlessAdapter(list, listView, activity);
+        listAdapter.setOnConfirmListener(new RequestEndlessAdapter.OnConfirmListener() {
+            @Override
+            public void doAction() {
+                refresh();
+            }
+        });
+        listAdapter.setOnIgnoreListener(new RequestEndlessAdapter.OnIgnoreListener() {
+            @Override
+            public void doAction() {
+                refresh();
+            }
+        });
         listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
         new RequestListLoader(mainView).execute();
 
         return mainView;
+    }
+
+    private void refresh() {
+        Log.d(String.valueOf(Log.DEBUG), list.toString());
+        checkEmptyList();
     }
 
     private void checkEmptyList() {

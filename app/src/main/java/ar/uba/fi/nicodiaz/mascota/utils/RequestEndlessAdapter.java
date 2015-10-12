@@ -36,6 +36,24 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<String> requestList;
     private Context context;
+    private OnConfirmListener onConfirmListener;
+    private OnIgnoreListener onIgnoreListener;
+
+    public interface OnConfirmListener {
+        void doAction();
+    }
+
+    public interface OnIgnoreListener {
+        void doAction();
+    }
+
+    public void setOnConfirmListener(OnConfirmListener onConfirmListener) {
+        this.onConfirmListener = onConfirmListener;
+    }
+
+    public void setOnIgnoreListener(OnIgnoreListener onIgnoreListener) {
+        this.onIgnoreListener = onIgnoreListener;
+    }
 
     public interface OnLoadMoreListener {
         boolean onLoadMore(int currentPage);
@@ -147,7 +165,14 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    int index = getAdapterPosition(); // TODO: revisar esto...
+                    String ok = requestList.get(index);
+                    requestList.clear(); // Saco todos
+                    requestList.add(ok); // Menos el que aceptó
+                    notifyDataSetChanged();
+                    if (onConfirmListener != null) {
+                        onConfirmListener.doAction();
+                    }
                 }
             });
             ignoreButton = (Button) itemView.findViewById(R.id.ignore_button);
@@ -157,6 +182,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     int index = getAdapterPosition(); // TODO: revisar esto...
                     requestList.remove(index);
                     notifyItemRemoved(index);
+                    if (onIgnoreListener != null) {
+                        onIgnoreListener.doAction();
+                    }
                 }
             });
         }
