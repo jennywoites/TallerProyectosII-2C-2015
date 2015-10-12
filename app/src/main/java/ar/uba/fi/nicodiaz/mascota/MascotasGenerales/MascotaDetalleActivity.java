@@ -1,6 +1,8 @@
 package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -21,8 +23,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import java.io.Serializable;
-
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
@@ -32,6 +32,39 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
     CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
     int NumbOfTabs = 2;
+    FloatingActionButton FAB_adopt;
+    FloatingActionButton FAB_comment;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Si dio adoptar:
+        if (resultCode == Activity.RESULT_OK) {
+            disableAdoptFAB();
+        }
+    }
+
+    private void enableAdoptFAB() {
+        FAB_adopt.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ColorPrimary)));
+        FAB_adopt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MascotaDetalleActivity.this, SolicitarAdopcionActivity.class);
+                startActivityForResult(i, 0);
+            }
+        });
+    }
+
+    private void disableAdoptFAB() {
+        FAB_adopt.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.Disabled)));
+        FAB_adopt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MascotaDetalleActivity.this, "Ya ha enviado una solicitud de adopción.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +80,17 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
-        FAB_adopt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MascotaDetalleActivity.this, "Próximamente podrás adoptarlo", Toast.LENGTH_SHORT).show();
-            }
-        });
+        FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
 
-        final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
+        // TODO: consultar a base de datos si este usuario ya habia mandado una solicitud de adopcion (Y esta activa):
+        boolean yaAdopto = false;
+        if (yaAdopto) {
+            disableAdoptFAB();
+        } else {
+            enableAdoptFAB();
+        }
+
+        FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
         FAB_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

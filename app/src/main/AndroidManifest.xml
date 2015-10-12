@@ -89,6 +89,10 @@
             android:windowSoftInputMode="stateVisible" >
         </activity>
         <activity
+            android:name=".MascotasGenerales.SolicitarAdopcionActivity"
+            android:label="Adoptar" >
+        </activity>
+        <activity
             android:name=".MascotasGenerales.PerdidasPublicarActivity"
             android:label="@string/title_activity_perdida_publicar"
             android:theme="@style/AppTheme" >
