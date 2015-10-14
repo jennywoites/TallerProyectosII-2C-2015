@@ -15,6 +15,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -34,7 +35,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    private List<String> requestList;
+    private List<AdoptionRequest> requestList;
     private Context context;
     private OnConfirmListener onConfirmListener;
     private OnIgnoreListener onIgnoreListener;
@@ -70,7 +71,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         currentPage = 1; // TODO: o cero
     }
 
-    public RequestEndlessAdapter(List<String> list, RecyclerView recyclerView, Context context) {
+    public RequestEndlessAdapter(List<AdoptionRequest> list, RecyclerView recyclerView, Context context) {
         this.requestList = list;
         this.context = context;
         this.view = recyclerView;
@@ -119,11 +120,11 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (viewHolder instanceof RequestViewHolder) {
             RequestViewHolder view = (RequestViewHolder) viewHolder;
 
-            String request = requestList.get(i);
+            AdoptionRequest adoptionRequest = requestList.get(i);
+            view.userName.setText(adoptionRequest.getRequestingUser().getName());
+            view.message.setText(adoptionRequest.getMessage());
 
-            // TODO: actualizar view con los datos de la base de datos para esa solicitud
-
-            view.currentRequest = request;
+            view.currentRequest = adoptionRequest;
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.spin();
         }
@@ -145,7 +146,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class RequestViewHolder extends RecyclerView.ViewHolder {
-        public String currentRequest;
+        public AdoptionRequest currentRequest;
         public TextView userName;
         public TextView userUbication;
         public TextView requestDate;
@@ -154,7 +155,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public Button confirmButton;
         public Button ignoreButton;
 
-        public RequestViewHolder (View itemView) {
+        public RequestViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.user_name);
             userUbication = (TextView) itemView.findViewById(R.id.user_ubication);
@@ -166,9 +167,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     int index = getAdapterPosition(); // TODO: revisar esto...
-                    String ok = requestList.get(index);
+                    AdoptionRequest adoptionRequestOK = requestList.get(index);
                     requestList.clear(); // Saco todos
-                    requestList.add(ok); // Menos el que aceptó
+                    requestList.add(adoptionRequestOK); // Menos el que aceptó
                     notifyDataSetChanged();
                     if (onConfirmListener != null) {
                         onConfirmListener.doAction();

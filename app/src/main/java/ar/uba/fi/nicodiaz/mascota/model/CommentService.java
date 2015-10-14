@@ -6,14 +6,11 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
 import ar.uba.fi.nicodiaz.mascota.MyApplication;
-import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
 
 /**
  * Created by nicolas on 08/10/15.

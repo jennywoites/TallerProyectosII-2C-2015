@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.utils;
+package ar.uba.fi.nicodiaz.mascota.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;

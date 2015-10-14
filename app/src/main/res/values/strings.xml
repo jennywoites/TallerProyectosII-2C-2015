@@ -68,6 +68,8 @@
     <string name="action_logout">Cerrar Sesión</string>
     <string name="no_data_available">No hay mascotas para mostrar</string>
 
+    <string name="MASCOTA_SOLICITUD_ERROR_EMPTY_COMMENT">Debe ingresar un comentario!</string>
+
     <string name="subiendo_foto">Subiendo Fotos...</string>
     <string name="grabando_mascota">Grabando Mascota...</string>
 

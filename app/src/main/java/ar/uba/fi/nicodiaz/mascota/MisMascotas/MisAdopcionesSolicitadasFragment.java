@@ -23,6 +23,9 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 
 /**
@@ -59,7 +62,7 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = new ArrayList<>(); // TODO: hacer metodo para obtener las mascotas de adopcion que YO solicité adoptar.
+            resultList = RequestService.getInstance().getAdoptionPetRequestedByUser(0);
             return !(resultList.isEmpty());
         }
 

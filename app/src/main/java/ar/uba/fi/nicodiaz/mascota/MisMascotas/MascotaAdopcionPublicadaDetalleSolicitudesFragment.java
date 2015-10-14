@@ -18,6 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestEndlessAdapter;
 
 /**
@@ -30,14 +38,14 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
     private Context activity;
     private View mainView;
     private TextView emptyView;
-    private ArrayList<String> list; // TODO: crear estructura de base de datos para solicitudes
+    private ArrayList<AdoptionRequest> list;
     private RecyclerView listView;
     private RequestEndlessAdapter listAdapter;
 
     private class RequestListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<String> resultList; // TODO: crear estructura de base de datos para solicitudes
+        private List<AdoptionRequest> resultList;
 
         public RequestListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
@@ -54,8 +62,8 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = new ArrayList<>();
-            resultList.add("Foo");// TODO: hacer metodo para obtener las mascotas de adopcion que YO solicité adoptar.
+            Pet pet = PetService.getInstance().getSelectedPet();
+            resultList = RequestService.getInstance().getAdoptionRequests((AdoptionPet) pet);
             return !(resultList.isEmpty());
         }
 
@@ -63,8 +71,8 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                for (String solicitud : resultList) { // TODO: crear estructura de base de datos para solicitudes
-                    list.add(solicitud);
+                for (AdoptionRequest adoptionRequest : resultList) {
+                    list.add(adoptionRequest);
                 }
                 listAdapter.notifyDataSetChanged();
             }

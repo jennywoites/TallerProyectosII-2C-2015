@@ -7,13 +7,12 @@ import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
-import ar.uba.fi.nicodiaz.mascota.model.User;
-import ar.uba.fi.nicodiaz.mascota.utils.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 
 /**
  * Created by Juan Manuel Romera on 13/9/2015.
@@ -32,6 +31,7 @@ public class MyApplication extends Application {
         ParseObject.registerSubclass(AdoptionPet.class);
         ParseObject.registerSubclass(MissingPet.class);
         ParseObject.registerSubclass(CommentDB.class);
+        ParseObject.registerSubclass(AdoptionRequest.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);
