@@ -21,6 +21,10 @@ public class User {
 
     private ParseUser user;
 
+    public User () {
+        this.user = null;
+    }
+
     public User(ParseUser user) {
         this.user = user;
     }
