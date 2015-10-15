@@ -1,6 +1,8 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -146,6 +148,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class RequestViewHolder extends RecyclerView.ViewHolder {
+        public View bottomDivider;
+        public ImageView status_icon;
+        public TextView status;
         public AdoptionRequest currentRequest;
         public TextView userName;
         public TextView userUbication;
@@ -162,30 +167,77 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             requestDate = (TextView) itemView.findViewById(R.id.request_date);
             userPhoto = (ImageView) itemView.findViewById(R.id.profile_image);
             message = (TextView) itemView.findViewById(R.id.message);
+            status = (TextView) itemView.findViewById(R.id.request_status);
+            status_icon = (ImageView) itemView.findViewById(R.id.status_icon);
+            bottomDivider = itemView.findViewById(R.id.bottomDivider);
             confirmButton = (Button) itemView.findViewById(R.id.confirm_button);
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int index = getAdapterPosition(); // TODO: revisar esto...
-                    AdoptionRequest adoptionRequestOK = requestList.get(index);
-                    requestList.clear(); // Saco todos
-                    requestList.add(adoptionRequestOK); // Menos el que aceptó
-                    notifyDataSetChanged();
-                    if (onConfirmListener != null) {
-                        onConfirmListener.doAction();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("¿Realmente quiere aceptar esta solicitud de adopción?")
+                            .setCancelable(false)
+                            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    int index = getAdapterPosition();
+                                    AdoptionRequest adoptionRequestOK = requestList.get(index);
+                                    // TODO: marcar las demas request como "RECHAZADA" en la base de datos. (NO BORRARLAS).
+
+                                    // Actualizamos la vista:
+                                    status.setText("Aceptada");
+                                    status_icon.setImageResource(R.drawable.ic_action_approved);
+                                    confirmButton.setVisibility(View.GONE);
+                                    ignoreButton.setVisibility(View.GONE);
+                                    bottomDivider.setVisibility(View.GONE);
+                                    requestList.clear(); // Saco todos
+                                    requestList.add(adoptionRequestOK); // Menos el que aceptó
+                                    notifyDataSetChanged();
+                                    if (onConfirmListener != null) {
+                                        onConfirmListener.doAction();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
             ignoreButton = (Button) itemView.findViewById(R.id.ignore_button);
             ignoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int index = getAdapterPosition(); // TODO: revisar esto...
-                    requestList.remove(index);
-                    notifyItemRemoved(index);
-                    if (onIgnoreListener != null) {
-                        onIgnoreListener.doAction();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("¿Realmente quiere ignorar esta solicitud de adopción?")
+                            .setCancelable(false)
+                            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    int index = getAdapterPosition();
+
+                                    // TODO: marcar esta request como "RECHAZADA" en la base de datos. (NO BORRARLA).
+
+                                    // Actualizamos la vista:
+                                    requestList.remove(index);
+                                    notifyItemRemoved(index);
+                                    if (onIgnoreListener != null) {
+                                        onIgnoreListener.doAction();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
         }
