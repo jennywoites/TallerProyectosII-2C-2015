@@ -8,16 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
     }
 
     public void onFacebookLoginClick(View v) {
-        onLoadingStart(false);
+        onLoadingStart(true);
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this,
                 mPermissions, new LogInCallback() {
                     @Override
@@ -77,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
 
                             } catch (ApplicationConnectionException ex) {
                                 Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad) + ex.toString(), Toast.LENGTH_SHORT).show();
-                                return;
                             }
                         }
 
@@ -106,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
 
     private void onLoadingStart(boolean showSpinner) {
         if (showSpinner) {
-            progressDialog = ProgressDialog.show(this, null,
+            progressDialog = ProgressDialog.show(LoginActivity.this, "",
                     getString(R.string.loading_dialog_text), true, false);
         }
     }

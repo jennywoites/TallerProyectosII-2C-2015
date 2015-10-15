@@ -66,11 +66,7 @@ public class ApplicationLoginActivity extends AppCompatActivity {
             return;
         }
 
-        final ProgressDialog progressDialog = new ProgressDialog(ApplicationLoginActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = ProgressDialog.show(ApplicationLoginActivity.this, "", "Iniciando Sesión...", true, false);
 
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();

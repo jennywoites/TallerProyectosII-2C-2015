@@ -101,7 +101,7 @@
     <string name="pregunta_periocidad">¿Con qué periodicidad?</string>
     <string name="pregunta_medicina_label">¿Toma alguna medicina? *</string>
     <string name="pregunta_periocidad_label">¿Con qué periodicidad? *</string>
-    <string name="subir_foto">Subir Foto</string>
+    <string name="subir_foto">Subir Fotos</string>
     <string name="MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS">Debes seleccionar alguna opción</string>
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
     <string name="ERROR">Error</string>

@@ -17,6 +17,20 @@
         <item name="actionModeStyle">@style/CustomActionMode</item>
     </style>
 
+    <!-- Variant of {@link #AppTheme} with no title bar -->
+    <style name="AppTheme.Translucent.NoTitleBar" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Note that we use the base animation style here (that is no
+             animations) because we really have no idea how this kind of
+             activity will be used. -->
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoDisplay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <!-- En teoria esto es para el picker de galería -->
     <style name="GalleryPicker" parent="AppTheme">
         <item name="windowActionBar">false</item>
