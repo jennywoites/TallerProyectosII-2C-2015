@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
+package ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -171,13 +171,13 @@ public class PerdidasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new MissingEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Toast.makeText(activity, "Aún no está implementado.", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(activity, "Aún no está implementado.", Toast.LENGTH_SHORT).show();
 
-                /*Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                Intent i = new Intent(activity, MascotaPerdidaDetalleActivity.class);
                 Pet pet = list.get(position);
                 PetService.getInstance().setSelectedPet(pet);
                 startActivity(i);
-                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);*/
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
 

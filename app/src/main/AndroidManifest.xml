@@ -62,6 +62,22 @@
         <activity android:name=".RegistrarDatosCuentaActivity"
             android:label="Cuenta Mascota">
         </activity>
+        <activity android:name=".MascotasGenerales.Perdidas.MascotaPerdidaDetalleActivity"
+            android:label="@string/title_activity_mascota_detalle"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
+        <activity android:name=".MascotasGenerales.Perdidas.PerdidasPublicarActivity"
+            android:label="AgregarPerdida"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
         <activity
             android:name=".MascotasGenerales.AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
@@ -94,15 +110,6 @@
         <activity
             android:name=".MascotasGenerales.SolicitarAdopcionActivity"
             android:label="Adoptar" >
-        </activity>
-        <activity
-            android:name=".MascotasGenerales.PerdidasPublicarActivity"
-            android:label="@string/title_activity_perdida_publicar"
-            android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity
             android:name=".MisMascotas.MascotaAdopcionPublicadaDetalleActivity"

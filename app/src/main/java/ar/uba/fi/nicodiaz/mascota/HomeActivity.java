@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.PerdidasFragment;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasFragment;
 import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisMascotasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
