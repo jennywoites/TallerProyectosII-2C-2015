@@ -268,7 +268,7 @@ public class PerdidasFragment extends Fragment {
 
     private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
-        filters = Filter.getFilters();
+        filters = Filter.getPerdidasFilters();
         adapter = new SettingsListAdapter(activity,
                 filters, filtersList);
         filtersList.setAdapter(adapter);
@@ -342,7 +342,7 @@ public class PerdidasFragment extends Fragment {
         cancelFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filters = Filter.getFilters();
+                filters = Filter.getPerdidasFilters();
                 adapter = new SettingsListAdapter(activity, filters, filtersList);
                 filtersList.setAdapter(adapter);
                 tempSelectedFilter.clear();
