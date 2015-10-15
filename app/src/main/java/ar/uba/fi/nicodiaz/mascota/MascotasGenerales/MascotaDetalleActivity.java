@@ -24,13 +24,14 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 
 public class MascotaDetalleActivity extends AppCompatActivity {
 
-    CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
+    CharSequence Titles[];
     int NumbOfTabs = 2;
     FloatingActionButton FAB_adopt;
     FloatingActionButton FAB_comment;
@@ -71,11 +72,11 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mascota_detalle);
 
-        Pet pet = PetService.getInstance().getSelectedPet();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Pet pet = PetService.getInstance().getSelectedPet();
 
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
@@ -100,6 +101,10 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         });
 
         loadHeader(pet);
+
+
+        int commentsCount = CommentService.getInstance().getCount(pet.getID());
+        Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
 
         ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);

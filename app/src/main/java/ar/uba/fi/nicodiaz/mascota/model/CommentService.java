@@ -27,6 +27,18 @@ public class CommentService {
 
     }
 
+    public int getCount(String petID) {
+        ParseQuery<CommentDB> query = ParseQuery.getQuery(CommentDB.class);
+        query.whereEqualTo(CommentDB.PET_ID, petID);
+        int count = 0;
+        try {
+            count = query.count();
+        } catch (ParseException e) {
+            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return count;
+    }
+
     public List<Comment> getComments(String petID) {
         List<CommentDB> list = new ArrayList<>();
         ParseQuery<CommentDB> query = ParseQuery.getQuery(CommentDB.class);
