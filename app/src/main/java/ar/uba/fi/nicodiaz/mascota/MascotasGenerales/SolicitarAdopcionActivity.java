@@ -39,8 +39,6 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        // TODO: setear todos los campos para la mascota actual
         final Pet pet = PetService.getInstance().getSelectedPet();
         ((TextView) findViewById(R.id.titulo)).setText("¿Quiéres adoptar a " + pet.getName() + "?");
         ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());

@@ -24,9 +24,11 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 
 
 public class MascotaDetalleActivity extends AppCompatActivity {
@@ -83,9 +85,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
         FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
 
-        // TODO: consultar a base de datos si este usuario ya habia mandado una solicitud de adopcion (Y esta activa):
-        boolean yaAdopto = false;
-        if (yaAdopto) {
+        if (RequestService.getInstance().requestSent((AdoptionPet) pet)) {
             disableAdoptFAB();
         } else {
             enableAdoptFAB();

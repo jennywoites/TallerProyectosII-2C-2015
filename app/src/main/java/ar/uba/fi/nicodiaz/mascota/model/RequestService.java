@@ -27,6 +27,16 @@ public class RequestService {
 
     }
 
+    public boolean requestSent(AdoptionPet adoptionPet) {
+        User user = UserService.getInstance().getUser();
+        List<AdoptionRequest> adoptionRequests = getAdoptionRequestsToPets(user, 0);
+        for (AdoptionRequest adoptionRequest : adoptionRequests) {
+            if (adoptionRequest.getAdoptionPet().getID().equals(adoptionPet.getID()))
+                return true;
+        }
+        return false;
+    }
+
     public List<AdoptionPet> getAdoptionPetRequestedByUser(int page) {
         List<AdoptionPet> adoptionPets = new ArrayList<>();
         User user = UserService.getInstance().getUser();
