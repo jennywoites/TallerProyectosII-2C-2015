@@ -67,11 +67,7 @@ public class RegistrarDatosCuentaActivity extends AppCompatActivity {
 
         _signupButton.setEnabled(true);
 
-        final ProgressDialog progressDialog = new ProgressDialog(RegistrarDatosCuentaActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
+        final ProgressDialog progressDialog = ProgressDialog.show(RegistrarDatosCuentaActivity.this, "", "Creando cuenta...", true, false);
 
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
