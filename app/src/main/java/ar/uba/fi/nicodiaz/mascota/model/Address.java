@@ -81,6 +81,8 @@ public class Address extends ParseObject {
     }
 
     public String getSubLocality() {
+        if (getString(SUBLOCALITY) == null || getString(SUBLOCALITY).equals(""))
+            return getString(LOCALITY);
         return getString(SUBLOCALITY);
     }
 

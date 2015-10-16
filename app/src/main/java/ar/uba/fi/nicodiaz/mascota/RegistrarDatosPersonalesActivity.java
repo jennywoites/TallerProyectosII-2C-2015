@@ -210,8 +210,10 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
                 try {
                     addresses = gcd.getFromLocation(latitude, longitude, 1);
                     if (addresses.size() > 0) {
-                        locality = addresses.get(0).getLocality();
-                        subLocality = addresses.get(0).getSubLocality();
+                        if (addresses.get(0).getLocality() != null)
+                            locality = addresses.get(0).getLocality();
+                        if (addresses.get(0).getSubLocality() != null)
+                            subLocality = addresses.get(0).getSubLocality();
                     }
 
                 } catch (IOException e) {
