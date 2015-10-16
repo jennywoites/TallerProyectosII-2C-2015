@@ -88,7 +88,9 @@ public class PetService {
 
     private <T extends ParseObject> List<T> getPets(int page, Class petClass) {
         List<T> pets = new ArrayList<>();
+        User user = UserService.getInstance().getUser();
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
+        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         query.addDescendingOrder("createdAt");
         query.setLimit(LIMIT);
         query.setSkip(page * LIMIT);
@@ -150,7 +152,7 @@ public class PetService {
 
     private <T extends ParseObject> ParseQuery<T> createQuery(User user, Map<String, List<String>> filters, Class petClass) {
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
-        //query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         Set<String> filterKeys = filters.keySet();
         for (String key : filterKeys) {
             if (!key.equals(Filter.DISTANCIA))
