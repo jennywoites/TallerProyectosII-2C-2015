@@ -4,10 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +48,8 @@ import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -84,86 +84,92 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adopcion_publicar);
 
-        // Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_adopcion_publicar);
 
-        //TODO: Si se encuentra forma de capturar este evento, descomentarlo y mandarlo al dialogo de onBackPressed()
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                // Toolbar
+                toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
 
-        final AutoCompleteTextView raza = (AutoCompleteTextView) findViewById(R.id.txtRace);
-        String[] razaPerros = getResources().getStringArray(R.array.dogs);
-        String[] razaGatos = getResources().getStringArray(R.array.cats);
+                //TODO: Si se encuentra forma de capturar este evento, descomentarlo y mandarlo al dialogo de onBackPressed()
+                //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ArrayAdapter<String> adapterDogs = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaPerros);
-        final ArrayAdapter<String> adapterCats = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razaGatos);
+                final AutoCompleteTextView raza = (AutoCompleteTextView) findViewById(R.id.txtRace);
+                String[] razaPerros = getResources().getStringArray(R.array.dogs);
+                String[] razaGatos = getResources().getStringArray(R.array.cats);
 
-
-        RadioGroup species = (RadioGroup) findViewById(R.id.rgSpecie);
-        species.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rdDog:
-                        raza.setAdapter(adapterDogs);
-                        break;
-                    case R.id.rdCat:
-                        raza.setAdapter(adapterCats);
-                        break;
-                }
-            }
-        });
-
-        RadioGroup medicineYesNo = (RadioGroup) findViewById(R.id.rgMedicine);
-
-        medicineYesNo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rdSi:
-                        findViewById(R.id.medicineTimeLayout).setVisibility(View.VISIBLE);
-                        ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
-                        break;
-                    case R.id.rdNo:
-                        findViewById(R.id.medicineTimeLayout).setVisibility(View.GONE);
-                        ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
-                        break;
-                }
-            }
-        });
+                final ArrayAdapter<String> adapterDogs = new ArrayAdapter<>(mActivity, android.R.layout.simple_list_item_1, razaPerros);
+                final ArrayAdapter<String> adapterCats = new ArrayAdapter<>(mActivity, android.R.layout.simple_list_item_1, razaGatos);
 
 
-        photos = new ArrayList<>();
-        photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
-        photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
-        selectImageButton = (Button) findViewById(R.id.button1);
-        selectImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickPhoto();
-            }
-        });
-
-        // Solo permite caracteres de tipo letra o espacio
-        nameEditText = (EditText) findViewById(R.id.txtName);
-        nameEditText.setFilters(new InputFilter[]{
-                new InputFilter() {
+                RadioGroup species = (RadioGroup) findViewById(R.id.rgSpecie);
+                species.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
-                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                        if (source.equals("")) { // for backspace
-                            return source;
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switch (checkedId) {
+                            case R.id.rdDog:
+                                raza.setAdapter(adapterDogs);
+                                break;
+                            case R.id.rdCat:
+                                raza.setAdapter(adapterCats);
+                                break;
                         }
-                        if (source.toString().matches("[a-zA-Z ]+")) {
-                            return source;
-                        }
-                        return "";
                     }
-                }
-        });
+                });
 
-        pet = new AdoptionPet();
+                RadioGroup medicineYesNo = (RadioGroup) findViewById(R.id.rgMedicine);
+
+                medicineYesNo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switch (checkedId) {
+                            case R.id.rdSi:
+                                findViewById(R.id.medicineTimeLayout).setVisibility(View.VISIBLE);
+                                ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
+                                break;
+                            case R.id.rdNo:
+                                findViewById(R.id.medicineTimeLayout).setVisibility(View.GONE);
+                                ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
+                                break;
+                        }
+                    }
+                });
+
+
+                photos = new ArrayList<>();
+                photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
+                photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
+                selectImageButton = (Button) findViewById(R.id.button1);
+                selectImageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onPickPhoto();
+                    }
+                });
+
+                // Solo permite caracteres de tipo letra o espacio
+                nameEditText = (EditText) findViewById(R.id.txtName);
+                nameEditText.setFilters(new InputFilter[]{
+                        new InputFilter() {
+                            @Override
+                            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                                if (source.equals("")) { // for backspace
+                                    return source;
+                                }
+                                if (source.toString().matches("[a-zA-Z ]+")) {
+                                    return source;
+                                }
+                                return "";
+                            }
+                        }
+                });
+
+                pet = new AdoptionPet();
+            }
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     private void showMedia() {

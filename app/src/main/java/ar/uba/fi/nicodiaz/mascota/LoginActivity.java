@@ -19,6 +19,8 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.FacebookUtils;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements DatabaseOperationListener {
@@ -36,9 +38,14 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
 
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_login);
+                ButterKnife.inject(mActivity);
+            }
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     public void onFacebookLoginClick(View v) {

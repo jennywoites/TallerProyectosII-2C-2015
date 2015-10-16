@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
-import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 public class NewCommentActivity extends AppCompatActivity {
 
@@ -26,18 +28,24 @@ public class NewCommentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_comment);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_new_comment);
 
-        parentId = getIntent().getStringExtra("Parent");
-        if (parentId == null || parentId.isEmpty()) {
-            parentId = "-1";
-        }
-        Log.d(String.valueOf(Log.DEBUG), "replyTo: " + String.valueOf(parentId));
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
 
-        editText = (EditText) findViewById(R.id.comment_editText);
+                parentId = getIntent().getStringExtra("Parent");
+                if (parentId == null || parentId.isEmpty()) {
+                    parentId = "-1";
+                }
+                Log.d(String.valueOf(Log.DEBUG), "replyTo: " + String.valueOf(parentId));
+
+                editText = (EditText) findViewById(R.id.comment_editText);
+            }
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     @Override

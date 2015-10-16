@@ -20,6 +20,8 @@ import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasFragment;
 import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisMascotasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -33,61 +35,64 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home);
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_home);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+                toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
 
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new HomeFragment();
-        tx.replace(R.id.frame, fragment);
-        tx.commit();
-        getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new HomeFragment();
+                tx.replace(R.id.frame, fragment);
+                tx.commit();
+                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
 
-        // Fill user information in header.
-        User user = UserService.getInstance().getUser();
-        CircleImageView imageProfileView = (CircleImageView) findViewById(R.id.profile_image);
-        if (user.isMale()) {
-            imageProfileView.setImageResource(R.drawable.user_male);
-        } else if (user.isFemale()) {
-            imageProfileView.setImageResource(R.drawable.user_female);
-        }
+                // Fill user information in header.
+                User user = UserService.getInstance().getUser();
+                CircleImageView imageProfileView = (CircleImageView) findViewById(R.id.profile_image);
+                if (user.isMale()) {
+                    imageProfileView.setImageResource(R.drawable.user_male);
+                } else if (user.isFemale()) {
+                    imageProfileView.setImageResource(R.drawable.user_female);
+                }
 
-        TextView userName = (TextView) findViewById(R.id.username);
-        userName.setText(user.getName());
+                TextView userName = (TextView) findViewById(R.id.username);
+                userName.setText(user.getName());
 
-        TextView email = (TextView) findViewById(R.id.email);
-        if (user.getEmail() != null) {
-            email.setText(user.getEmail());
-        }
+                TextView email = (TextView) findViewById(R.id.email);
+                if (user.getEmail() != null) {
+                    email.setText(user.getEmail());
+                }
 
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setCheckedItem(R.id.drawer_home);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-                return selectFragment(menuItem);
-            }
-        });
+                navigationView = (NavigationView) findViewById(R.id.navigation_view);
+                navigationView.setCheckedItem(R.id.drawer_home);
+                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        drawerLayout.closeDrawers();
+                        return selectFragment(menuItem);
+                    }
+                });
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+                ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        super.onDrawerClosed(drawerView);
+                    }
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        super.onDrawerOpened(drawerView);
+                    }
+                };
+                drawerLayout.setDrawerListener(actionBarDrawerToggle);
+                actionBarDrawerToggle.syncState();
             }
         };
-
-
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+        WaitForInternet.setCallback(callback);
     }
 
     private boolean selectFragment(MenuItem menuItem) {

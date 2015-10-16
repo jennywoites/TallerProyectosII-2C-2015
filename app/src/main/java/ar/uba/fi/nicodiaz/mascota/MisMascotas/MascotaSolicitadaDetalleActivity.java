@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
@@ -27,6 +26,8 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 
 public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
@@ -37,16 +38,19 @@ public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mascota_solicitada_detalle);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
-        setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_mascota_solicitada_detalle);
 
-        Pet pet = PetService.getInstance().getSelectedPet();
+                Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
+                setSupportActionBar(toolbar);
+                //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(pet.getName());
+                Pet pet = PetService.getInstance().getSelectedPet();
+
+                final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                collapsingToolbar.setTitle(pet.getName());
 
         /*final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_desadoptar);
         FAB_adopt.setOnClickListener(new View.OnClickListener() {
@@ -56,66 +60,69 @@ public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
             }
         });*/
 
-        final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
-        FAB_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MascotaSolicitadaDetalleActivity.this, NewCommentActivity.class);
-                startActivity(i);
+                final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
+                FAB_comment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MascotaSolicitadaDetalleActivity.this, NewCommentActivity.class);
+                        startActivity(i);
+                    }
+                });
+
+                loadHeader(pet);
+
+                int commentsCount = CommentService.getInstance().getCount(pet.getID());
+                Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
+
+                ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+                ViewPager pager = (ViewPager) findViewById(R.id.pager);
+                pager.setAdapter(adapter);
+                pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+                        appBarLayout.setExpanded(false, true);
+
+                        switch (position) {
+                            case 0:
+                                //FAB_adopt.setVisibility(View.VISIBLE);
+                                FAB_comment.setVisibility(View.GONE);
+                                break;
+                            case 1:
+                                //FAB_adopt.setVisibility(View.GONE);
+                                FAB_comment.setVisibility(View.VISIBLE);
+                                break;
+                            default:
+                                //FAB_adopt.setVisibility(View.GONE);
+                                FAB_comment.setVisibility(View.GONE);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+
+                SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+                tabs.setDistributeEvenly(true);
+                tabs.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
+                tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                    @Override
+                    public int getIndicatorColor(int position) {
+                        return getResources().getColor(R.color.ColorPrimary);
+                    }
+                });
+                tabs.setViewPager(pager);
             }
-        });
-
-        loadHeader(pet);
-
-        int commentsCount = CommentService.getInstance().getCount(pet.getID());
-        Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
-
-        ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-                appBarLayout.setExpanded(false, true);
-
-                switch (position) {
-                    case 0:
-                        //FAB_adopt.setVisibility(View.VISIBLE);
-                        FAB_comment.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        //FAB_adopt.setVisibility(View.GONE);
-                        FAB_comment.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        //FAB_adopt.setVisibility(View.GONE);
-                        FAB_comment.setVisibility(View.GONE);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true);
-        tabs.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.ColorPrimary);
-            }
-        });
-        tabs.setViewPager(pager);
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     private void loadHeader(Pet pet) {

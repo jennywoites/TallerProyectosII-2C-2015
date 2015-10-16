@@ -15,6 +15,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -36,26 +38,32 @@ public class RegistrarDatosCuentaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_regitrar_datos_cuenta);
-        ButterKnife.inject(this);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_datos_cuenta));
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_regitrar_datos_cuenta);
+                ButterKnife.inject(mActivity);
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signup();
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_datos_cuenta));
+
+                _signupButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        signup();
+                    }
+                });
+
+                _loginLink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Finish the registration screen and return to the Login activity
+                        finish();
+                    }
+                });
             }
-        });
-
-        _loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                finish();
-            }
-        });
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     public void signup() {

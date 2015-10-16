@@ -28,69 +28,77 @@ import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 public class SolicitarAdopcionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_solicitar_adopcion);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_solicitar_adopcion);
 
-        final Pet pet = PetService.getInstance().getSelectedPet();
-        ((TextView) findViewById(R.id.titulo)).setText("¿Quiéres adoptar a " + pet.getName() + "?");
-        ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());
-        ((TextView) findViewById(R.id.infRazaPet)).setText(pet.getBreed());
-        ((TextView) findViewById(R.id.infEdadPet)).setText(pet.getAgeRange());
-        ((TextView) findViewById(R.id.infUbicacion)).setText(pet.getAddress().getSubLocality());
-        final ParseImageView imageView = new ParseImageView(this);
-        ParseFile photoFile = pet.getPicture();
-        if (photoFile != null) {
-            imageView.setParseFile(photoFile);
-            imageView.loadInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    try {
-                        ((ImageView) findViewById(R.id.imageView)).setImageDrawable(imageView.getDrawable());
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                setSupportActionBar(toolbar);
+
+                final Pet pet = PetService.getInstance().getSelectedPet();
+                ((TextView) findViewById(R.id.titulo)).setText("¿Quiéres adoptar a " + pet.getName() + "?");
+                ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());
+                ((TextView) findViewById(R.id.infRazaPet)).setText(pet.getBreed());
+                ((TextView) findViewById(R.id.infEdadPet)).setText(pet.getAgeRange());
+                ((TextView) findViewById(R.id.infUbicacion)).setText(pet.getAddress().getSubLocality());
+                final ParseImageView imageView = new ParseImageView(mActivity);
+                ParseFile photoFile = pet.getPicture();
+                if (photoFile != null) {
+                    imageView.setParseFile(photoFile);
+                    imageView.loadInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            try {
+                                ((ImageView) findViewById(R.id.imageView)).setImageDrawable(imageView.getDrawable());
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+                Button adoptBtn = (Button) findViewById(R.id.adopt);
+                adoptBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Guardar en base de datos request de adopcion para la mascota actual.
+                        if (!validate()) {
+                            return;
+                        }
+                        String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
+                        User user = UserService.getInstance().getUser();
+                        AdoptionRequest adoptionRequest = new AdoptionRequest();
+                        adoptionRequest.setMessage(message);
+                        adoptionRequest.setState("ENVIADA");
+                        adoptionRequest.setAdoptionPet((AdoptionPet) pet);
+                        adoptionRequest.setRequestingUser(user);
+                        adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
+
+                        RequestService.getInstance().save(adoptionRequest);
+                        setResult(Activity.RESULT_OK);
+                        finish();
                     }
-                }
-            });
-        }
+                });
 
-        Button adoptBtn = (Button) findViewById(R.id.adopt);
-        adoptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Guardar en base de datos request de adopcion para la mascota actual.
-                if (!validate()) {
-                    return;
-                }
-                String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
-                User user = UserService.getInstance().getUser();
-                AdoptionRequest adoptionRequest = new AdoptionRequest();
-                adoptionRequest.setMessage(message);
-                adoptionRequest.setState("ENVIADA");
-                adoptionRequest.setAdoptionPet((AdoptionPet) pet);
-                adoptionRequest.setRequestingUser(user);
-                adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
-
-                RequestService.getInstance().save(adoptionRequest);
-                setResult(Activity.RESULT_OK);
-                finish();
+                Button cancelBtn = (Button) findViewById(R.id.cancel);
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        volverAtras();
+                    }
+                });
             }
-        });
-
-        Button cancelBtn = (Button) findViewById(R.id.cancel);
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                volverAtras();
-            }
-        });
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     @Override

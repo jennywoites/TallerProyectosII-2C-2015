@@ -31,6 +31,8 @@ import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -61,32 +63,38 @@ public class RegistrarDatosPersonalesActivity extends AppCompatActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_regitrar_datos_personales);
-        ButterKnife.inject(this);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_datos_personales));
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                setContentView(R.layout.activity_regitrar_datos_personales);
+                ButterKnife.inject(mActivity);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_datos_personales));
 
-        // Register a listener that receives callbacks when a suggestion has been selected
-        _addressAutoCompleteText.setOnItemClickListener(this);
+                mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
+                        .enableAutoManage((AppCompatActivity) mActivity, 0, (GoogleApiClient.OnConnectionFailedListener) mActivity)
+                        .addApi(Places.GEO_DATA_API)
+                        .build();
 
-        // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
-        // the entire world.
-        mAdapter = new PlaceAutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
-                mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
-        _addressAutoCompleteText.setAdapter(mAdapter);
+                // Register a listener that receives callbacks when a suggestion has been selected
+                _addressAutoCompleteText.setOnItemClickListener((AdapterView.OnItemClickListener) mActivity);
 
-        _saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                confirmarDatos();
+                // Set up the adapter that will retrieve suggestions from the Places Geo Data API that cover
+                // the entire world.
+                mAdapter = new PlaceAutoCompleteAdapter(mActivity, android.R.layout.simple_list_item_1,
+                        mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
+                _addressAutoCompleteText.setAdapter(mAdapter);
+
+                _saveButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        confirmarDatos();
+                    }
+                });
             }
-        });
+        };
+        WaitForInternet.setCallback(callback);
     }
 
     private void confirmarDatos() {

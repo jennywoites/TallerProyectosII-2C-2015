@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorPrimary">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="No hay conexión a internet"
+        android:scaleType="centerInside"
+        android:src="@drawable/disconnected"
+        android:id="@+id/imageView2"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:src="@drawable/ic_action_refresh"
+        android:id="@+id/retry_button"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reintentar"
+        android:textSize="20sp"
+        android:textColor="@color/ColorPrimaryLight"
+        android:id="@+id/textView2"
+        android:layout_above="@+id/retry_button"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
