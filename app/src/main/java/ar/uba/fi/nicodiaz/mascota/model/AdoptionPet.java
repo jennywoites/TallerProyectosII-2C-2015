@@ -42,6 +42,7 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String PHOTO_FOUR = "picture4";
     public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
+    public static final String STATE = "state";
     public static String MALE = "Macho";
 
     public AdoptionPet() {
@@ -313,5 +314,14 @@ public class AdoptionPet extends ParseObject implements Pet {
     @Override
     public String getID() {
         return getObjectId();
+    }
+
+    public void setState(AdoptionPetState adoptionPetState) {
+        put(STATE, adoptionPetState.toString());
+    }
+
+    public AdoptionPetState getState() {
+        String text = getString(STATE);
+        return AdoptionPetState.getState(text);
     }
 }

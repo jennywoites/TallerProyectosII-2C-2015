@@ -90,6 +90,9 @@ public class PetService {
         List<T> pets = new ArrayList<>();
         User user = UserService.getInstance().getUser();
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
+        if (petClass.equals(AdoptionPet.class)) {
+            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+        }
         query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         query.addDescendingOrder("createdAt");
         query.setLimit(LIMIT);
@@ -153,6 +156,11 @@ public class PetService {
     private <T extends ParseObject> ParseQuery<T> createQuery(User user, Map<String, List<String>> filters, Class petClass) {
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
         query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        //Filtro las no adoptadas
+        if (petClass.equals(AdoptionPet.class)) {
+            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+        }
+
         Set<String> filterKeys = filters.keySet();
         for (String key : filterKeys) {
             if (!key.equals(Filter.DISTANCIA))
@@ -190,34 +198,6 @@ public class PetService {
             return R.drawable.ic_cat;
         }
         return -1;
-    }
-
-    public Serializable getSerializableObject(Pet pet) {
-
-        ParseProxyObject ppo = null;
-        if (pet instanceof AdoptionPet) {
-            ppo = new ParseProxyObject((AdoptionPet) pet);
-        } else if (pet instanceof MissingPet) {
-            ppo = new ParseProxyObject((MissingPet) pet);
-        }
-
-        return ppo;
-    }
-
-    public Pet getRealObject(Serializable serializableObject, char petType) {
-        ParseProxyObject parseProxyObject = (ParseProxyObject) serializableObject;
-
-        switch (petType) {
-            case Pet.ADOPTION: {
-                return new AdoptionPet(parseProxyObject);
-            }
-            case Pet.MISSING: {
-                return new MissingPet(parseProxyObject);
-            }
-
-            default:
-                return null;
-        }
     }
 
     public Pet getSelectedPet() {

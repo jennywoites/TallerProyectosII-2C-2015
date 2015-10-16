@@ -17,7 +17,11 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -214,16 +218,23 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
-                                    for (AdoptionRequest request: requestList ) {
+
+                                    RequestService requestService = RequestService.getInstance();
+                                    PetService petService = PetService.getInstance();
+                                    for (AdoptionRequest request : requestList) {
                                         request.setState("RECHAZADA");
-                                        request.saveInBackground();
+                                        requestService.save(request);
                                     }
 
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
                                     adoptionRequestOK.setState("ACEPTADA");
-                                    adoptionRequestOK.saveInBackground();
-                                    // TODO: marcar las demas request como "RECHAZADA" en la base de datos. (NO BORRARLAS).
+                                    requestService.save(adoptionRequestOK);
+
+                                    //Confirmo la mascota como adoptada
+                                    AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
+                                    adoptionPet.setState(AdoptionPetState.ADOPTED);
+                                    petService.saveAdoptionPet(adoptionPet);
 
                                     // Actualizamos la vista:
                                     requestList.clear(); // Saco todos
