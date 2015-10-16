@@ -17,6 +17,9 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
@@ -75,6 +78,7 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                 adoptionRequest.setState("ENVIADA");
                 adoptionRequest.setAdoptionPet((AdoptionPet) pet);
                 adoptionRequest.setRequestingUser(user);
+                adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
 
                 RequestService.getInstance().save(adoptionRequest);
                 setResult(Activity.RESULT_OK);

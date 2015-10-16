@@ -124,7 +124,25 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             AdoptionRequest adoptionRequest = requestList.get(i);
             view.userName.setText(adoptionRequest.getRequestingUser().getName());
+            view.userUbication.setText(adoptionRequest.getRequestingUser().getAddress().getSubLocality());
             view.message.setText(adoptionRequest.getMessage());
+            view.requestDate.setText(adoptionRequest.getDate());
+            /*final ParseImageView imageView = new ParseImageView(context);
+            ParseFile photoFile = adoptionRequest.getRequestingUser().getProfilePicture();
+            if (photoFile != null) {
+                imageView.setParseFile(photoFile);
+                imageView.loadInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] data, ParseException e) {
+                        try {
+                            view.userPhoto.setImageDrawable(imageView.getDrawable());
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+            }*/
+
 
             view.currentRequest = adoptionRequest;
         } else {

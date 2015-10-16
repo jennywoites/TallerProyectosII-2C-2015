@@ -15,6 +15,7 @@ public class AdoptionRequest extends ParseObject {
     public static final String ADOPTION_PET = "pet";
     public static final String MESSAGE = "message";
     public static final String STATE = "state";
+    public static final String DATE = "date";
 
     public AdoptionRequest() {
 
@@ -62,4 +63,11 @@ public class AdoptionRequest extends ParseObject {
         put(STATE, state);
     }
 
+    public String getDate() {
+        return getString(DATE);
+    }
+
+    public void setDate(String date) {
+        put(DATE, date);
+    }
 }
