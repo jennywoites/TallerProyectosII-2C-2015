@@ -2,7 +2,6 @@ package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,13 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.Comment;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
@@ -35,6 +38,27 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
 
 
         // TODO: setear todos los campos para la mascota actual
+        final Pet pet = PetService.getInstance().getSelectedPet();
+        ((TextView) findViewById(R.id.titulo)).setText("¿Quiéres adoptar a " + pet.getName() + "?");
+        ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());
+        ((TextView) findViewById(R.id.infRazaPet)).setText(pet.getBreed());
+        ((TextView) findViewById(R.id.infEdadPet)).setText(pet.getAgeRange());
+        ((TextView) findViewById(R.id.infUbicacion)).setText(pet.getAddress().getSubLocality());
+        final ParseImageView imageView = new ParseImageView(this);
+        ParseFile photoFile = pet.getPicture();
+        if (photoFile != null) {
+            imageView.setParseFile(photoFile);
+            imageView.loadInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    try {
+                        ((ImageView) findViewById(R.id.imageView)).setImageDrawable(imageView.getDrawable());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+        }
 
         Button adoptBtn = (Button) findViewById(R.id.adopt);
         adoptBtn.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +68,6 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                 if (!validate()) {
                     return;
                 }
-                Pet pet = PetService.getInstance().getSelectedPet();
                 String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
                 User user = UserService.getInstance().getUser();
                 AdoptionRequest adoptionRequest = new AdoptionRequest();
