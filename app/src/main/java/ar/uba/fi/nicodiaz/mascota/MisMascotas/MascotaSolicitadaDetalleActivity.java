@@ -48,13 +48,13 @@ public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_desadoptar);
+        /*final FloatingActionButton FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_desadoptar);
         FAB_adopt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MascotaSolicitadaDetalleActivity.this, "Próximamente podrás desadoptarlo", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
         FAB_comment.setOnClickListener(new View.OnClickListener() {
@@ -86,15 +86,15 @@ public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        FAB_adopt.setVisibility(View.VISIBLE);
+                        //FAB_adopt.setVisibility(View.VISIBLE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                     case 1:
-                        FAB_adopt.setVisibility(View.GONE);
+                        //FAB_adopt.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.VISIBLE);
                         break;
                     default:
-                        FAB_adopt.setVisibility(View.GONE);
+                        //FAB_adopt.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                 }

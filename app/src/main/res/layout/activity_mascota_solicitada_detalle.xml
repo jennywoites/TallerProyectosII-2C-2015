@@ -71,18 +71,18 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/FAB_desadoptar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:elevation="@dimen/elevation"
-        android:src="@drawable/ic_action_delete"
-        app:layout_anchor="@+id/pager"
-        app:layout_anchorGravity="bottom|right|end" />
-
+    <!--
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/FAB_desadoptar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:clickable="true"
+            android:elevation="@dimen/elevation"
+            android:src="@drawable/ic_action_delete"
+            app:layout_anchor="@+id/pager"
+            app:layout_anchorGravity="bottom|right|end" />
+        -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/FAB_comentar"
         android:layout_width="wrap_content"
