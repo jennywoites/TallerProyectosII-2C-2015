@@ -143,6 +143,20 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
             }*/
 
+            if (requestList.get(view.getAdapterPosition()).getState().equals("ENVIADA")) {
+                view.status.setText("Pendiente");
+                view.status_icon.setImageResource(R.drawable.ic_action_time);
+                view.confirmButton.setVisibility(View.VISIBLE);
+                view.ignoreButton.setVisibility(View.VISIBLE);
+                view.bottomDivider.setVisibility(View.VISIBLE);
+            } else { // Aceptada
+                view.status.setText("Aceptada");
+                view.status_icon.setImageResource(R.drawable.ic_action_approved);
+                view.confirmButton.setVisibility(View.GONE);
+                view.ignoreButton.setVisibility(View.GONE);
+                view.bottomDivider.setVisibility(View.GONE);
+            }
+
 
             view.currentRequest = adoptionRequest;
         } else {
@@ -189,6 +203,8 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             status_icon = (ImageView) itemView.findViewById(R.id.status_icon);
             bottomDivider = itemView.findViewById(R.id.bottomDivider);
             confirmButton = (Button) itemView.findViewById(R.id.confirm_button);
+            ignoreButton = (Button) itemView.findViewById(R.id.ignore_button);
+
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -198,18 +214,20 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
+                                    for (AdoptionRequest request: requestList ) {
+                                        request.setState("RECHAZADA");
+                                        request.saveInBackground();
+                                    }
+
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
+                                    adoptionRequestOK.setState("ACEPTADA");
+                                    adoptionRequestOK.saveInBackground();
                                     // TODO: marcar las demas request como "RECHAZADA" en la base de datos. (NO BORRARLAS).
 
                                     // Actualizamos la vista:
-                                    status.setText("Aceptada");
-                                    status_icon.setImageResource(R.drawable.ic_action_approved);
-                                    confirmButton.setVisibility(View.GONE);
-                                    ignoreButton.setVisibility(View.GONE);
-                                    bottomDivider.setVisibility(View.GONE);
                                     requestList.clear(); // Saco todos
-                                    requestList.add(adoptionRequestOK); // Menos el que aceptó
+                                    requestList.add(adoptionRequestOK); // Menos la que aceptó
                                     notifyDataSetChanged();
                                     if (onConfirmListener != null) {
                                         onConfirmListener.doAction();
@@ -226,7 +244,6 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     alert.show();
                 }
             });
-            ignoreButton = (Button) itemView.findViewById(R.id.ignore_button);
             ignoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -237,9 +254,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     int index = getAdapterPosition();
-
-                                    // TODO: marcar esta request como "RECHAZADA" en la base de datos. (NO BORRARLA).
-
+                                    AdoptionRequest request = requestList.get(index);
+                                    request.setState("RECHAZADA");
+                                    request.saveInBackground();
                                     // Actualizamos la vista:
                                     requestList.remove(index);
                                     notifyItemRemoved(index);

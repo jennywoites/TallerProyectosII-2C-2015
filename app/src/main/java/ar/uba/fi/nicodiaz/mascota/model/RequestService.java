@@ -53,6 +53,7 @@ public class RequestService {
         List<AdoptionRequest> list = new ArrayList<>();
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
         query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
+        query.whereNotEqualTo(AdoptionRequest.STATE,"RECHAZADA");
         try {
             list = query.find();
         } catch (ParseException e) {
