@@ -147,15 +147,23 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
             }*/
 
-            if (requestList.get(view.getAdapterPosition()).isPending()) {
+            AdoptionRequest request = requestList.get(view.getAdapterPosition());
+
+            if (request.isPending()) {
                 view.status.setText("Pendiente");
                 view.status_icon.setImageResource(R.drawable.ic_action_time);
                 view.confirmButton.setVisibility(View.VISIBLE);
                 view.ignoreButton.setVisibility(View.VISIBLE);
                 view.bottomDivider.setVisibility(View.VISIBLE);
-            } else { // Aceptada
+            } else if (request.isAccepted()) { // Aceptada
                 view.status.setText("Aceptada");
                 view.status_icon.setImageResource(R.drawable.ic_action_approved);
+                view.confirmButton.setVisibility(View.GONE);
+                view.ignoreButton.setVisibility(View.GONE);
+                view.bottomDivider.setVisibility(View.GONE);
+            } else if (request.isRejected()) { // Rechazada
+                view.status.setText("Rechazada");
+                view.status_icon.setImageResource(R.drawable.ic_action_rejected);
                 view.confirmButton.setVisibility(View.GONE);
                 view.ignoreButton.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.GONE);
@@ -259,14 +267,14 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿Realmente quiere ignorar esta solicitud de adopción?")
+                    builder.setMessage("¿Realmente quiere rechazar esta solicitud de adopción?")
                             .setCancelable(false)
                             .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     int index = getAdapterPosition();
                                     AdoptionRequest request = requestList.get(index);
-                                    request.ignore();
+                                    request.reject();
                                     request.saveInBackground();
                                     // Actualizamos la vista:
                                     requestList.remove(index);
