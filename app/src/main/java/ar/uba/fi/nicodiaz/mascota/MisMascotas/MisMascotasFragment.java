@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota.MisMascotas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 
 /**
@@ -35,21 +39,48 @@ public class MisMascotasFragment extends Fragment {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.frame, new MisAdopcionesFragment());
-               // ft.addToBackStack(null);
+                // ft.addToBackStack(null);
                 ft.commit();
             }
         });
 
-        /*ImageButton my_missing_button = (ImageButton) view.findViewById(R.id.missing_button);
-        my_adopt_button.setOnClickListener(new View.OnClickListener() {
+        ImageButton my_missing_button = (ImageButton) view.findViewById(R.id.missing_button);
+        my_missing_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                /*final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.frame, new MisAdopcionesPerdidasFragment());
                 ft.addToBackStack(null);
-                ft.commit();
+                ft.commit();*/
+                Toast.makeText(activity, "Próximamente podras hacerlo.", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
+        ImageButton add_adopt_button = (ImageButton) view.findViewById(R.id.add_adoption_button);
+        add_adopt_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(activity, AdopcionPublicarActivity.class);
+                startActivity(i);
+            }
+        });
+
+        ImageButton add_missing_button = (ImageButton) view.findViewById(R.id.add_missing_button);
+        add_missing_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(activity, PerdidasPublicarActivity.class);
+                startActivity(i);
+            }
+        });
+
+        ImageButton add_found_button = (ImageButton) view.findViewById(R.id.add_found_button);
+        add_found_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "Próximamente podras hacerlo.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
