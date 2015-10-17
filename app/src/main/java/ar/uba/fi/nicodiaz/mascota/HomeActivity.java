@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,11 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-
-import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
@@ -147,6 +143,7 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         if (fragment != null) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frame, fragment);
             fragmentTransaction.commit();
@@ -158,6 +155,10 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            super.onBackPressed();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("¿Desea salir de la aplicación?")
                 .setCancelable(false)
