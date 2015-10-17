@@ -1,21 +1,16 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import android.widget.Toast;
-
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ar.uba.fi.nicodiaz.mascota.MyApplication;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -80,7 +75,7 @@ public class PetService {
         try {
             pets = query.find();
         } catch (ParseException e) {
-            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         return pets;
@@ -101,7 +96,7 @@ public class PetService {
         try {
             pets = query.find();
         } catch (ParseException e) {
-            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         return pets;
@@ -148,7 +143,7 @@ public class PetService {
             finalQuery.setSkip(page * LIMIT);
             pets = finalQuery.find();
         } catch (ParseException e) {
-            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
         return pets;
     }

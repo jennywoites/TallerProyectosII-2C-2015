@@ -37,6 +37,7 @@ import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 
 public class AdopcionFragment extends Fragment {
 
@@ -114,6 +115,9 @@ public class AdopcionFragment extends Fragment {
             } else {
                 resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
             }
+            if (resultList == null)
+                return false;
+
             return !(resultList.isEmpty());
         }
 
@@ -212,6 +216,9 @@ public class AdopcionFragment extends Fragment {
     }
 
     private void checkEmptyList() {
+        if (!WaitForInternet.isConnected(activity)) {
+            Toast.makeText(activity, "Revise su conexión a Internet", Toast.LENGTH_SHORT).show();
+        }
         if (list.isEmpty()) {
             listView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);

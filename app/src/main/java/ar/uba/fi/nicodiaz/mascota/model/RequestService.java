@@ -1,14 +1,10 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import android.widget.Toast;
-
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import ar.uba.fi.nicodiaz.mascota.MyApplication;
 
 /**
  * Created by JFERRIO on 13/10/2015.
@@ -29,8 +25,15 @@ public class RequestService {
 
     public boolean requestSent(AdoptionPet adoptionPet) {
         User user = UserService.getInstance().getUser();
+        if (user == null)
+            return false;
         List<AdoptionRequest> adoptionRequests = getAdoptionRequestsToPets(user, 0);
+        if (adoptionRequests == null) {
+            return false;
+        }
         for (AdoptionRequest adoptionRequest : adoptionRequests) {
+            if (adoptionRequest == null)
+                return false;
             if (adoptionRequest.getAdoptionPet().getID().equals(adoptionPet.getID()))
                 return true;
         }
@@ -40,8 +43,15 @@ public class RequestService {
     public List<AdoptionPet> getAdoptionPetRequestedByUser(int page) {
         List<AdoptionPet> adoptionPets = new ArrayList<>();
         User user = UserService.getInstance().getUser();
+        if (user == null)
+            return null;
         List<AdoptionRequest> adoptionRequests = getAdoptionRequestsToPets(user, page);
+        if (adoptionRequests == null) {
+            return null;
+        }
         for (AdoptionRequest adoptionRequest : adoptionRequests) {
+            if (adoptionRequest == null)
+                return null;
             adoptionPets.add(adoptionRequest.getAdoptionPet());
         }
 
@@ -57,7 +67,7 @@ public class RequestService {
         try {
             list = query.find();
         } catch (ParseException e) {
-            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         return list;
@@ -79,7 +89,7 @@ public class RequestService {
         try {
             list = query.find();
         } catch (ParseException e) {
-            Toast.makeText(MyApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         return list;

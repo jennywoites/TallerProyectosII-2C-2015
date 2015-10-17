@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.CommentsAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 
 public class MascotaDetalleComentariosFragment extends Fragment {
 
@@ -27,6 +30,7 @@ public class MascotaDetalleComentariosFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView emptyView;
     private List<Comment> comments;
+    private Context activity;
 
     @Override
     public void onResume() {
@@ -41,6 +45,10 @@ public class MascotaDetalleComentariosFragment extends Fragment {
             mAdapter.clear();
             Pet selectedPet = PetService.getInstance().getSelectedPet();
             comments = CommentService.getInstance().getComments(selectedPet.getID());
+            if (comments == null) {
+                checkEmptyList();
+                return;
+            }
             mAdapter.addAll(comments);
             checkEmptyList();
         }
@@ -48,6 +56,8 @@ public class MascotaDetalleComentariosFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        activity = getActivity();
+
         View rootView = inflater.inflate(R.layout.fragment_mascota_detalle_comentarios, container, false);
         emptyView = (TextView) rootView.findViewById(R.id.empty_view);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.comments_recyclerview);
@@ -71,6 +81,9 @@ public class MascotaDetalleComentariosFragment extends Fragment {
     }
 
     private void checkEmptyList() {
+        if (!WaitForInternet.isConnected(activity)) {
+            Toast.makeText(activity, "Revise su conexión a Internet", Toast.LENGTH_SHORT).show();
+        }
         if (comments.isEmpty()) {
             mRecyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);

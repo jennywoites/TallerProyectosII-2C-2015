@@ -9,6 +9,8 @@ import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -18,22 +20,28 @@ public class DispatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UserService userService = UserService.getInstance();
-        if (userService.userLogged()) {
-            try {
-                if (userService.hasSavedInformation()) {
-                    startActivity(new Intent(this, HomeActivity.class));
-                } else {
-                    ParseUser.logOut();
-                    startActivity(new Intent(this, LoginActivity.class));
-                }
-            } catch (ApplicationConnectionException e) {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, LoginActivity.class));
-            }
 
-        } else {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
+        WaitForInternetCallback callback = new WaitForInternetCallback(this) {
+            public void onConnectionSuccess() {
+                UserService userService = UserService.getInstance();
+                if (userService.userLogged()) {
+                    try {
+                        if (userService.hasSavedInformation()) {
+                            startActivity(new Intent(mActivity, HomeActivity.class));
+                        } else {
+                            ParseUser.logOut();
+                            startActivity(new Intent(mActivity, LoginActivity.class));
+                        }
+                    } catch (ApplicationConnectionException e) {
+                        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(mActivity, LoginActivity.class));
+                    }
+
+                } else {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                }
+            }
+        };
+        WaitForInternet.setCallback(callback);
     }
 }

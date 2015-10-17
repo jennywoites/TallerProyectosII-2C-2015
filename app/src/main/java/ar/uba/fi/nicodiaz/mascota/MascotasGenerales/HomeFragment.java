@@ -17,11 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 
 /**
  * Created by nicolas on 14/09/15.
@@ -66,6 +66,8 @@ public class HomeFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             resultList = PetService.getInstance().getAdoptionPets(0);
+            if (resultList == null)
+                return false;
             return !(resultList.isEmpty());
         }
 
@@ -122,6 +124,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void checkEmptyList() {
+        if (!WaitForInternet.isConnected(activity)) {
+            Toast.makeText(activity, "Revise su conexión a Internet", Toast.LENGTH_SHORT).show();
+        }
         if (list.isEmpty()) {
             listView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
