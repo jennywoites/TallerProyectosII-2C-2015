@@ -71,7 +71,7 @@
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity android:name=".MascotasGenerales.Perdidas.PerdidasPublicarActivity"
-            android:label="AgregarPerdida"
+            android:label="Publicar una pérdida"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait" >
             <meta-data

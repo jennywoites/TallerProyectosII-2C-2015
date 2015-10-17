@@ -34,7 +34,7 @@
 
 
     <string name="title_activity_adopcion">Adopciones</string>
-    <string name="title_activity_agregar_adopcion">Agregar Mascota</string>
+    <string name="title_activity_agregar_adopcion">Publicar una adopción</string>
     <string name="title_activity_buscar_adopcion">Buscar Mascota</string>
     <string name="title_activity_home">Inicio</string>
     <string name="title_activity_about">Acerca de</string>
