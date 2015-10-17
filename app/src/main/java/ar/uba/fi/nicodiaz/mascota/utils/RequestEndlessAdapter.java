@@ -20,10 +20,11 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
-import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -232,7 +233,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 public void onClick(DialogInterface dialog, int id) {
 
                                     RequestService requestService = RequestService.getInstance();
-                                    PetService petService = PetService.getInstance();
+                                    PetService petService = PetServiceFactory.getInstance();
                                     for (AdoptionRequest request : requestList) {
                                         request.ignore();
                                         requestService.save(request);

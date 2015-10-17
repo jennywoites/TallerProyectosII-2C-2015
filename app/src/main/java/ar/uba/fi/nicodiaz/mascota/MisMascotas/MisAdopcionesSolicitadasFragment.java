@@ -16,19 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestAdoptionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 14/09/15.
@@ -110,7 +106,7 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
                 Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
                 AdoptionRequest adoptionRequest = list.get(position);
                 RequestService.getInstance().setSelectedAdoptionRequest(adoptionRequest);
-                PetService.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
+                PetServiceFactory.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }

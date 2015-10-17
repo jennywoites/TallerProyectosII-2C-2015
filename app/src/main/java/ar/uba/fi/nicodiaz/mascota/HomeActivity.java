@@ -14,6 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
+import java.util.HashMap;
+
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasFragment;
@@ -46,7 +51,15 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment = new HomeFragment();
                 tx.replace(R.id.frame, fragment);
                 tx.commit();
-                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+
+/*                String result = null;
+                try {
+                    result = ParseCloud.callFunction("hello", new HashMap<String, Object>());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }*/
+
+                getSupportActionBar().setTitle("Mascota");
 
                 // Fill user information in header.
                 User user = UserService.getInstance().getUser();

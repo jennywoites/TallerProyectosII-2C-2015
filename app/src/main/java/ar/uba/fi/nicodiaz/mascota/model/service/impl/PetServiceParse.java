@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.model;
+package ar.uba.fi.nicodiaz.mascota.model.service.impl;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -9,56 +9,66 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
  */
-public class PetService {
+public class PetServiceParse extends PetService {
 
-    private static PetService ourInstance = new PetService();
-    private static Integer LIMIT = 4;
-    private static String CAT = "Gato";
-    private static String DOG = "Perro";
+    private static PetServiceParse ourInstance = new PetServiceParse();
     private static Pet selectedPet;
 
 
-    public static PetService getInstance() {
+    public static PetServiceParse getInstance() {
         return ourInstance;
     }
 
-    private PetService() {
+    private PetServiceParse() {
     }
 
+    @Override
     public void saveAdoptionPet(AdoptionPet adoptionPet) {
         adoptionPet.saveInBackground();
     }
 
-    public void saveAdoptionPet(MissingPet adoptionPet) {
-        adoptionPet.saveInBackground();
+    @Override
+    public void saveMissingPet(MissingPet missingPet) {
+        missingPet.saveInBackground();
     }
 
+    @Override
     public List<? extends Pet> getAdoptionPets(int page) {
         List<AdoptionPet> pets = getPets(page, AdoptionPet.class);
         return pets;
     }
 
+    @Override
     public List<? extends Pet> getAdoptionPets(int page, Map<String, List<String>> filters) {
         List<AdoptionPet> pets = getPets(page, filters, AdoptionPet.class);
         return pets;
     }
 
+    @Override
     public List<? extends Pet> getAdoptionPetsByUser(int page) {
         List<AdoptionPet> pets = getPetsByUser(page, AdoptionPet.class);
         return pets;
     }
 
+    @Override
     public List<? extends Pet> getMissingPets(int page) {
         List<MissingPet> pets = getPets(page, MissingPet.class);
         return pets;
     }
 
+    @Override
     public List<MissingPet> getMissingPets(int page, Map<String, List<String>> filters) {
         List<MissingPet> pets = getPets(page, filters, MissingPet.class);
         return pets;
@@ -186,19 +196,12 @@ public class PetService {
         }
     }
 
-    public int getIconPet(String petKind) {
-        if (petKind.equals(DOG)) {
-            return R.drawable.ic_dog;
-        } else if (petKind.equals(CAT)) {
-            return R.drawable.ic_cat;
-        }
-        return -1;
-    }
-
+    @Override
     public Pet getSelectedPet() {
         return selectedPet;
     }
 
+    @Override
     public void setSelectedPet(Pet pet) {
         this.selectedPet = pet;
     }

@@ -18,9 +18,10 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.CommentsAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class MascotaDetalleComentariosFragment extends Fragment {
 
@@ -43,7 +44,7 @@ public class MascotaDetalleComentariosFragment extends Fragment {
         if (comments != null) {
             comments.clear();
             mAdapter.clear();
-            Pet selectedPet = PetService.getInstance().getSelectedPet();
+            Pet selectedPet = PetServiceFactory.getInstance().getSelectedPet();
             comments = CommentService.getInstance().getComments(selectedPet.getID());
             if (comments == null) {
                 checkEmptyList();
@@ -67,7 +68,7 @@ public class MascotaDetalleComentariosFragment extends Fragment {
         mAdapter = new CommentsAdapter(getActivity(), null);
         mRecyclerView.setAdapter(mAdapter);
 
-        Pet selectedPet = PetService.getInstance().getSelectedPet();
+        Pet selectedPet = PetServiceFactory.getInstance().getSelectedPet();
         comments = CommentService.getInstance().getComments(selectedPet.getID());
         mAdapter.addAll(comments);
         checkEmptyList();

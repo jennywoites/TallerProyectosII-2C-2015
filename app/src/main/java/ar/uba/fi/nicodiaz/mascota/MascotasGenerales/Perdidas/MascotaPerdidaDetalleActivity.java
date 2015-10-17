@@ -27,7 +27,8 @@ import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.SolicitarAdopcionActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
     CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
@@ -70,7 +71,7 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mascota_perdida_detalle);
-        Pet pet = PetService.getInstance().getSelectedPet();
+        Pet pet = PetServiceFactory.getInstance().getSelectedPet();
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);
 

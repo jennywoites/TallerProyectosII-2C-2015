@@ -24,13 +24,14 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class SolicitarAdopcionActivity extends AppCompatActivity {
 
@@ -45,7 +46,7 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
 
-                final Pet pet = PetService.getInstance().getSelectedPet();
+                final Pet pet = PetServiceFactory.getInstance().getSelectedPet();
                 ((TextView) findViewById(R.id.titulo)).setText("¿Quiéres adoptar a " + pet.getName() + "?");
                 ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());
                 ((TextView) findViewById(R.id.infRazaPet)).setText(pet.getBreed());

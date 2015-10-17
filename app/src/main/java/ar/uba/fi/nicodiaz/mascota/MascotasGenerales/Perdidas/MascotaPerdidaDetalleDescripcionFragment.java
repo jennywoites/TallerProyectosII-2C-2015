@@ -31,7 +31,8 @@ import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     View view;
@@ -43,7 +44,7 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mascota_perdida_detalle_descripcion, container, false);
-        missingPet = PetService.getInstance().getSelectedPet();
+        missingPet = PetServiceFactory.getInstance().getSelectedPet();
         ArrayList<String> urlPhotos = new ArrayList<>();
 
         for (ParseFile picture : missingPet.getPictures()) {

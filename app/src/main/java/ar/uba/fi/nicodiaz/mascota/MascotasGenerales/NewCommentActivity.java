@@ -14,11 +14,12 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class NewCommentActivity extends AppCompatActivity {
 
@@ -98,7 +99,7 @@ public class NewCommentActivity extends AppCompatActivity {
                 return false;
             }
 
-            Pet pet = PetService.getInstance().getSelectedPet();
+            Pet pet = PetServiceFactory.getInstance().getSelectedPet();
             User user = UserService.getInstance().getUser();
 
             CommentDB comment = new CommentDB();

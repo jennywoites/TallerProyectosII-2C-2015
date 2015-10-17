@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeActivity">
 
     <TextView
@@ -10,69 +11,169 @@
         android:layout_height="wrap_content"
         android:text="Mis Mascotas"
         android:textSize="24sp"
-        android:layout_margin="8dp"
-        android:layout_below="@id/toolbar"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="16dp" />
 
     <TextView
-        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Aquí podrás ver todas tus mascotas publicadas, ya sean para adoptar o tus mascotas perdidas."
         android:textSize="16sp"
-        android:layout_margin="8dp"
-        android:layout_below="@id/title"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center_vertical|center_horizontal" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center_vertical|center_horizontal"
         android:layout_gravity="center_vertical|center_horizontal"
         android:elevation="@dimen/elevation"
-        android:layout_below="@+id/description"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp">
+        android:id="@+id/linearLayout">
 
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mis Adopciones"
-            android:textSize="14sp"
-            android:layout_margin="8dp"
-            android:gravity="center_vertical|center_horizontal" />
-        <ImageButton
-            android:id="@+id/adoptions_button"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_adoption_white"
-            android:background="@color/ColorPrimary"
-            android:text="Mis mascotas para adoptar"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="8dp"/>
-
-        <TextView
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Mis Adopciones"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/adoptions_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_adoption_white"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mis Perdidas"
-            android:textSize="14sp"
-            android:layout_margin="8dp"
-            android:gravity="center_vertical|center_horizontal" />
-        <ImageButton
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:text="Mis mascotas perdidas"
-            android:src="@drawable/ic_action_search"
-            android:background="@color/ColorPrimary"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:elevation="8dp"/>
-
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Mis Perdidas"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/missing_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_action_search"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/description2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="¡Estas a un click de publicar una mascota!"
+        android:textSize="16sp"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:elevation="@dimen/elevation"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Perdí mi mascota"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/add_missing_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_action_search"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Encontré una mascota"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/add_found_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_social_white"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Dar en adopción"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/add_adoption_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_adoption_white"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

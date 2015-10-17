@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
@@ -50,6 +50,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -390,7 +391,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     }
 
     private void finishAndSavePet() {
-        PetService.getInstance().saveAdoptionPet(pet);
+        PetServiceFactory.getInstance().saveAdoptionPet(pet);
         Toast.makeText(AdopcionPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
         finish();
     }

@@ -24,17 +24,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.Parse;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 03/10/15.
@@ -51,7 +49,7 @@ public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_mascota_detalle, container, false);
-        adoptionPet = PetService.getInstance().getSelectedPet();
+        adoptionPet = PetServiceFactory.getInstance().getSelectedPet();
         ArrayList<String> urlPhotos = new ArrayList<>();
         for (ParseFile file : adoptionPet.getPictures()) {
             urlPhotos.add(file.getUrl());
