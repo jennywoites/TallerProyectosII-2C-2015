@@ -4,7 +4,9 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by JFERRIO on 13/10/2015.
@@ -21,6 +23,16 @@ public class RequestService {
 
     private RequestService() {
 
+    }
+
+    private AdoptionRequest adoptionRequest;
+
+    public AdoptionRequest getSelectedAdoptionRequest() {
+        return adoptionRequest;
+    }
+
+    public void setSelectedAdoptionRequest(AdoptionRequest adoptionRequest) {
+        this.adoptionRequest = adoptionRequest;
     }
 
     public boolean requestSent(AdoptionPet adoptionPet) {
@@ -40,8 +52,8 @@ public class RequestService {
         return false;
     }
 
-    public List<AdoptionPet> getAdoptionPetRequestedByUser(int page) {
-        List<AdoptionPet> adoptionPets = new ArrayList<>();
+    public Map<AdoptionPet, AdoptionRequest> getAdoptionPetRequestedByUser(int page) {
+        Map<AdoptionPet, AdoptionRequest> map = new HashMap<>();
         User user = UserService.getInstance().getUser();
         if (user == null)
             return null;
@@ -49,13 +61,13 @@ public class RequestService {
         if (adoptionRequests == null) {
             return null;
         }
+
         for (AdoptionRequest adoptionRequest : adoptionRequests) {
             if (adoptionRequest == null)
                 return null;
-            adoptionPets.add(adoptionRequest.getAdoptionPet());
+            map.put(adoptionRequest.getAdoptionPet(), adoptionRequest);
         }
-
-        return adoptionPets;
+        return map;
     }
 
 

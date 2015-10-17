@@ -16,13 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.RequestAdoptionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 
 /**
@@ -35,14 +40,15 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
     private Context activity;
     private View mainView;
     private TextView emptyView;
-    private ArrayList<Pet> list;
+    private ArrayList<AdoptionRequest> list;
     private RecyclerView listView;
-    private AdopcionEndlessAdapter listAdapter;
+    private RequestAdoptionEndlessAdapter listAdapter;
+
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<? extends Pet> resultList;
+        private List<AdoptionRequest> resultList;
 
         public PetListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
@@ -59,7 +65,7 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = RequestService.getInstance().getAdoptionPetRequestedByUser(0);
+            resultList = RequestService.getInstance().getAdoptionRequestsByUser(0);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -69,8 +75,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                for (Pet pet : resultList) {
-                    list.add(pet);
+                for (AdoptionRequest request : resultList) {
+                    list.add(request);
                 }
                 listAdapter.notifyDataSetChanged();
             }
@@ -97,13 +103,14 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+        listAdapter = new RequestAdoptionEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new RequestAdoptionEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
-                Pet pet = list.get(position);
-                PetService.getInstance().setSelectedPet(pet);
+                AdoptionRequest adoptionRequest = list.get(position);
+                RequestService.getInstance().setSelectedAdoptionRequest(adoptionRequest);
+                PetService.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
