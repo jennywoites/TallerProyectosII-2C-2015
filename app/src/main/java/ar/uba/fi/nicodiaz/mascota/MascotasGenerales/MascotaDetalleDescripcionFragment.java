@@ -31,7 +31,8 @@ import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 03/10/15.
@@ -49,7 +50,7 @@ public class MascotaDetalleDescripcionFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_mascota_detalle, container, false);
 
-        adoptionPet = PetService.getInstance().getSelectedPet();
+        adoptionPet = PetServiceFactory.getInstance().getSelectedPet();
 
         ArrayList<String> urlPhotos = new ArrayList<>();
         for (ParseFile picture : adoptionPet.getPictures()) {

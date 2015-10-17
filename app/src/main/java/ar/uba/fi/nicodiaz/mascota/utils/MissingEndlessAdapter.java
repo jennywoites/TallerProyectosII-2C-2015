@@ -17,10 +17,9 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -139,7 +138,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_female), null);
             }
 
-            int iconPetID = PetService.getInstance().getIconPet(mascota.getKind());
+            int iconPetID = PetServiceFactory.getInstance().getIconPet(mascota.getKind());
             if (iconPetID != -1) {
                 view.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(iconPetID), null);
             }

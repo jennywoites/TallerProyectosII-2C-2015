@@ -16,13 +16,13 @@ import com.parse.ParseImageView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
-import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -141,7 +141,7 @@ public class RequestAdoptionEndlessAdapter extends RecyclerView.Adapter<Recycler
                 view.mascotaDescription.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(R.drawable.ic_female), null);
             }
 
-            int iconPetID = PetService.getInstance().getIconPet(adoptionPet.getKind());
+            int iconPetID = PetServiceFactory.getInstance().getIconPet(adoptionPet.getKind());
             if (iconPetID != -1) {
                 view.mascotaName.setCompoundDrawablesWithIntrinsicBounds(null, null, context.getResources().getDrawable(iconPetID), null);
             }

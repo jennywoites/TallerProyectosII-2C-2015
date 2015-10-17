@@ -59,13 +59,14 @@ import java.util.regex.Pattern;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -493,7 +494,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
     }
 
     private void finishAndSavePet() {
-        PetService.getInstance().saveAdoptionPet(pet);
+        PetServiceFactory.getInstance().saveMissingPet(pet);
         Toast.makeText(PerdidasPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
         finish();
     }

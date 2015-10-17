@@ -33,11 +33,12 @@ import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class AdopcionFragment extends Fragment {
 
@@ -65,9 +66,9 @@ public class AdopcionFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Integer... currentPage) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetService.getInstance().getAdoptionPets(currentPage[0]);
+                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0]);
             } else {
-                resultList = PetService.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
+                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
             }
             return !resultList.isEmpty();
         }
@@ -111,9 +112,9 @@ public class AdopcionFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetService.getInstance().getAdoptionPets(0);
+                resultList = PetServiceFactory.getInstance().getAdoptionPets(0);
             } else {
-                resultList = PetService.getInstance().getAdoptionPets(0, selectedFilter);
+                resultList = PetServiceFactory.getInstance().getAdoptionPets(0, selectedFilter);
             }
             if (resultList == null)
                 return false;
@@ -177,7 +178,7 @@ public class AdopcionFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 Pet pet = list.get(position);
-                PetService.getInstance().setSelectedPet(pet);
+                PetServiceFactory.getInstance().setSelectedPet(pet);
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }

@@ -27,9 +27,10 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.LoginActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.PetService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 14/09/15.
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = PetService.getInstance().getAdoptionPets(0);
+            resultList = PetServiceFactory.getInstance().getAdoptionPets(0);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -110,7 +111,7 @@ public class HomeFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaDetalleActivity.class);
                 Pet pet = list.get(position);
-                PetService.getInstance().setSelectedPet(pet);
+                PetServiceFactory.getInstance().setSelectedPet(pet);
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
