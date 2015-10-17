@@ -147,7 +147,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
             }*/
 
-            if (requestList.get(view.getAdapterPosition()).getState().equals("ENVIADA")) {
+            if (requestList.get(view.getAdapterPosition()).isPending()) {
                 view.status.setText("Pendiente");
                 view.status_icon.setImageResource(R.drawable.ic_action_time);
                 view.confirmButton.setVisibility(View.VISIBLE);
@@ -222,13 +222,13 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     RequestService requestService = RequestService.getInstance();
                                     PetService petService = PetService.getInstance();
                                     for (AdoptionRequest request : requestList) {
-                                        request.setState("RECHAZADA");
+                                        request.ignore();
                                         requestService.save(request);
                                     }
 
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
-                                    adoptionRequestOK.setState("ACEPTADA");
+                                    adoptionRequestOK.accept();
                                     requestService.save(adoptionRequestOK);
 
                                     //Confirmo la mascota como adoptada
@@ -266,7 +266,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 public void onClick(DialogInterface dialog, int id) {
                                     int index = getAdapterPosition();
                                     AdoptionRequest request = requestList.get(index);
-                                    request.setState("RECHAZADA");
+                                    request.ignore();
                                     request.saveInBackground();
                                     // Actualizamos la vista:
                                     requestList.remove(index);

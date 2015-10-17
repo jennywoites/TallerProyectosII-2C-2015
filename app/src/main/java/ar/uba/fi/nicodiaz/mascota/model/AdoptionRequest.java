@@ -18,7 +18,6 @@ public class AdoptionRequest extends ParseObject {
     public static final String DATE = "date";
 
     public AdoptionRequest() {
-
     }
 
     public void setRequestingUser(User user) {
@@ -55,12 +54,13 @@ public class AdoptionRequest extends ParseObject {
         put(MESSAGE, message);
     }
 
-    public String getState() {
-        return getString(STATE);
+    public RequestState getState() {
+        String text = getString(STATE);
+        return RequestState.getState(text);
     }
 
-    public void setState(String state) {
-        put(STATE, state);
+    public void setState(RequestState state) {
+        put(STATE, state.toString());
     }
 
     public String getDate() {
@@ -70,4 +70,21 @@ public class AdoptionRequest extends ParseObject {
     public void setDate(String date) {
         put(DATE, date);
     }
+
+    public void accept() {
+        setState(RequestState.ACCEPTED);
+    }
+
+    public void ignore() {
+        setState(RequestState.IGNORED);
+    }
+
+    public void reject() {
+        setState(RequestState.REJECTED);
+    }
+
+    public boolean isPending() {
+        return getState().equals(RequestState.PENDING);
+    }
+
 }

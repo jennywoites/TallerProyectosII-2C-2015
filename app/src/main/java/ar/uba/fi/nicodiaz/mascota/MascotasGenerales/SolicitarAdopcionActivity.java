@@ -26,6 +26,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -78,7 +79,7 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                         User user = UserService.getInstance().getUser();
                         AdoptionRequest adoptionRequest = new AdoptionRequest();
                         adoptionRequest.setMessage(message);
-                        adoptionRequest.setState("ENVIADA");
+                        adoptionRequest.setState(RequestState.PENDING);
                         adoptionRequest.setAdoptionPet((AdoptionPet) pet);
                         adoptionRequest.setRequestingUser(user);
                         adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
