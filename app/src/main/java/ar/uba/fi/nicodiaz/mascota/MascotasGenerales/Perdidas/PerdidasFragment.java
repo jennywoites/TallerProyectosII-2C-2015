@@ -168,8 +168,6 @@ public class PerdidasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new MissingEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                // Toast.makeText(activity, "Aún no está implementado.", Toast.LENGTH_SHORT).show();
-
                 Intent i = new Intent(activity, MascotaPerdidaDetalleActivity.class);
                 Pet pet = list.get(position);
                 PetService.getInstance().setSelectedPet(pet);

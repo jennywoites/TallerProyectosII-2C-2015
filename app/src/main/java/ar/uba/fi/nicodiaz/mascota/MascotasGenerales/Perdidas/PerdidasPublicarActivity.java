@@ -48,11 +48,16 @@ import net.yazeed44.imagepicker.util.Picker;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.NonWritableChannelException;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -209,7 +214,6 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         // -*-*-*-*-*-*-*-*-*-*-*
         // Completa la dirección.
         // -*-*-*-*-*-*-*-*-*-*-*
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0, this)
                 .addApi(Places.GEO_DATA_API)
@@ -228,7 +232,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
     // Actualiza la vista con la fecha seleccionada.
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
     private void updateLabel() {
-        String myFormat = "dd/MM/yy";
+        String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         ((TextView) findViewById(R.id.txtDate)).setText(sdf.format(myCalendar.getTime()));
     }
@@ -438,7 +442,6 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         }
     }
 
-
     private void createPet() {
         String name = nameEditText.getText().toString();
         String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
@@ -450,6 +453,8 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         String urlTwo = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
         String urlThree = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
         User user = UserService.getInstance().getUser();
+        Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
+        Address lastKnowAddress = this.direccion;
 
         pet.setName(name);
         pet.setAgeRange(ageRange);
@@ -461,6 +466,20 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
+        pet.setLastKnowDate(lastKnowDate);
+        pet.setLastKnowAddress(lastKnowAddress);
+    }
+
+    private Date parseStringToDate(String lastKnowDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date convertedDate = null;
+
+        try {
+            convertedDate = dateFormat.parse(lastKnowDate);
+        } catch (java.text.ParseException e) {
+        }
+
+        return(convertedDate);
     }
 
     private String parseYouTubeVideoUrl(String url) {
@@ -515,7 +534,6 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
 
     private boolean validate() {
         boolean valid = true;
-
         EditText name = (EditText) findViewById(R.id.txtName);
         EditText description = (EditText) findViewById(R.id.txtDescription);
         String nameText = ((EditText) findViewById(R.id.txtName)).getText().toString();
@@ -547,6 +565,21 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.ERROR);
             builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
+            AlertDialog alert = builder.create();
+            alert.show();
+            valid = false;
+        }
+
+        // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+        // La última fecha conocida no puede ser futura.
+        // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+        Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
+        Date dateNow = Calendar.getInstance().getTime();
+
+        if (lastKnowDate.compareTo(dateNow) > 0){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.ERROR);
+            builder.setMessage(getString(R.string.ERROR_FECHA_FUTURA));
             AlertDialog alert = builder.create();
             alert.show();
             valid = false;

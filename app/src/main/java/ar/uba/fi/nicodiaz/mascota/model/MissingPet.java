@@ -8,6 +8,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
@@ -41,6 +42,8 @@ public class MissingPet extends ParseObject implements Pet {
     public static final String PHOTO_FOUR = "picture4";
     public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
+    public static final String LAST_KNOW_DATE = "lastKnowDate";
+    public static final String LAST_KNOW_ADDRESS = "lastKnowAddress";
     public static String MALE = "Macho";
 
     public MissingPet() {
@@ -306,5 +309,30 @@ public class MissingPet extends ParseObject implements Pet {
     @Override
     public String getID() {
         return getObjectId();
+    }
+
+    // -*-*-*-*-*-*-*-*-*-
+    // Última fecha vista.
+    // -*-*-*-*-*-*-*-*-*-
+    public void setLastKnowDate(Date lastKnowDate) {
+        put(LAST_KNOW_DATE, lastKnowDate);
+    }
+    public String getLastKnowDate() {
+        return getString(LAST_KNOW_DATE);
+    }
+
+    // -*-*-*-*-*-*-*-*-*-*-*-
+    // Última dirección vista-
+    // -*-*-*-*-*-*-*-*-*-*-*-
+    public void setLastKnowAddress(Address lastKnowAddress) {
+        put(LAST_KNOW_ADDRESS, lastKnowAddress);
+    }
+    public Address getLastKnowAddress() {
+        try {
+            return (Address) getParseObject(LAST_KNOW_ADDRESS).fetchIfNeeded();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

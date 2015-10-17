@@ -104,6 +104,7 @@
     <string name="subir_foto">Subir Fotos</string>
     <string name="MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS">Debes seleccionar alguna opción</string>
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
+    <string name="ERROR_FECHA_FUTURA">La última fecha conocida no puede ser futura.</string>
     <string name="ERROR">Error</string>
     <string name="raza_desconocida">Desconocida</string>
     <string name="inf_social_title">Información Social</string>
