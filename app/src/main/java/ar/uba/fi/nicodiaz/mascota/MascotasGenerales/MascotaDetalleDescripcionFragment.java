@@ -248,8 +248,8 @@ public class MascotaDetalleDescripcionFragment extends Fragment {
     private void setUpMap() {
         ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = adoptionPet.getAddress();
 
-        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
-        ubicacion.setText(adoptionPetAddress.getCalle());
+/*        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
+        ubicacion.setText(adoptionPetAddress.getCalle());*/
 
         double latitude = adoptionPetAddress.getLocation().getLatitude();
         double longitude = adoptionPetAddress.getLocation().getLongitude();
