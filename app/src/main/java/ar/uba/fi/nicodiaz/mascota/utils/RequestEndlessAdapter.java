@@ -22,6 +22,8 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
 /**
  * Created by nicolas on 13/09/15.
@@ -131,6 +133,14 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             view.userUbication.setText(adoptionRequest.getRequestingUser().getAddress().getSubLocality());
             view.message.setText(adoptionRequest.getMessage());
             view.requestDate.setText(adoptionRequest.getDate());
+
+            User requestingUser =  adoptionRequest.getRequestingUser();
+            if (requestingUser.isMale()) {
+                view.userPhoto.setImageResource(R.drawable.user_male);
+            } else if (requestingUser.isFemale()) {
+                view.userPhoto.setImageResource(R.drawable.user_female);
+            }
+
             /*final ParseImageView imageView = new ParseImageView(context);
             ParseFile photoFile = adoptionRequest.getRequestingUser().getProfilePicture();
             if (photoFile != null) {
@@ -158,12 +168,6 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } else if (request.isAccepted()) { // Aceptada
                 view.status.setText("Aceptada");
                 view.status_icon.setImageResource(R.drawable.ic_action_approved);
-                view.confirmButton.setVisibility(View.GONE);
-                view.ignoreButton.setVisibility(View.GONE);
-                view.bottomDivider.setVisibility(View.GONE);
-            } else if (request.isRejected()) { // Rechazada
-                view.status.setText("Rechazada");
-                view.status_icon.setImageResource(R.drawable.ic_action_rejected);
                 view.confirmButton.setVisibility(View.GONE);
                 view.ignoreButton.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.GONE);
