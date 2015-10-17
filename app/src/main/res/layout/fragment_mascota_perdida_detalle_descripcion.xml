@@ -25,6 +25,7 @@
             android:id="@+id/cardview_ubicacion"
             layout="@layout/cardview_ubicacion_mascota" />
 
+        <!--
         <include
             android:id="@+id/cardview_social"
             layout="@layout/cardview_informacion_social_mascota" />
@@ -32,6 +33,7 @@
         <include
             android:id="@+id/cardview_medica"
             layout="@layout/cardview_informacion_medica_mascota" />
+        -->
 
         <include
             android:id="@+id/cardview_fotos"

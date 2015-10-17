@@ -39,7 +39,6 @@ import ar.uba.fi.nicodiaz.mascota.utils.MissingEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 
 public class PerdidasFragment extends Fragment {
-
     private static final String TAG = "PerdidasFragment";
     private List<Pet> list;
     private RecyclerView listView;
@@ -52,7 +51,6 @@ public class PerdidasFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
-
         List<? extends Pet> resultList;
 
         @Override
@@ -89,7 +87,6 @@ public class PerdidasFragment extends Fragment {
     }
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
-
         private LinearLayout linlaHeaderProgress;
         private List<? extends Pet> resultList;
 

@@ -35,12 +35,17 @@ public class MascotaPerdidaDetalleComentariosFragment extends Fragment {
 
     private void reloadComments() {
         Log.d(String.valueOf(Log.DEBUG), "reloading");
+
         if (comments != null) {
             comments.clear();
             mAdapter.clear();
             Pet selectedPet = PetService.getInstance().getSelectedPet();
             comments = CommentService.getInstance().getComments(selectedPet.getID());
-            mAdapter.addAll(comments);
+
+            if ((comments != null) && (comments.size() > 0)) {
+                mAdapter.addAll(comments);
+            }
+
             checkEmptyList();
         }
     }
@@ -58,7 +63,11 @@ public class MascotaPerdidaDetalleComentariosFragment extends Fragment {
 
         Pet selectedPet = PetService.getInstance().getSelectedPet();
         comments = CommentService.getInstance().getComments(selectedPet.getID());
-        mAdapter.addAll(comments);
+
+        if ((comments != null) && (comments.size() > 0)) {
+            mAdapter.addAll(comments);
+        }
+
         checkEmptyList();
 
         if (savedInstanceState != null) {

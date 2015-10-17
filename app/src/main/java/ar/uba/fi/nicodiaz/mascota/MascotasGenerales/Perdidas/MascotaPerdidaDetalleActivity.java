@@ -30,9 +30,8 @@ import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PetService;
 
 public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
-
     CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
-    int NumbOfTabs = 1;
+    int NumbOfTabs = 2;
     FloatingActionButton FAB_adopt;
     FloatingActionButton FAB_comment;
 
@@ -70,14 +69,10 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_mascota_detalle);
         setContentView(R.layout.activity_mascota_perdida_detalle);
-
         Pet pet = PetService.getInstance().getSelectedPet();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
@@ -86,6 +81,7 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
         // TODO: consultar a base de datos si este usuario ya habia mandado una solicitud de adopcion (Y esta activa):
         boolean yaAdopto = false;
+
         if (yaAdopto) {
             disableAdoptFAB();
         } else {
@@ -153,9 +149,9 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
     private void loadHeader(Pet pet) {
         final ImageView headerImage = (ImageView) findViewById(R.id.header);
-
         final ParseImageView imageView = new ParseImageView(this);
         ParseFile photoFile = pet.getPicture();
+
         if (photoFile != null) {
             imageView.setParseFile(photoFile);
             imageView.loadInBackground(new GetDataCallback() {
@@ -174,16 +170,12 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_detalle, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_close:
                 volverAtras();
@@ -199,10 +191,8 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
 
-
     private void volverAtras() {
         finish();
         overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
-
 }
