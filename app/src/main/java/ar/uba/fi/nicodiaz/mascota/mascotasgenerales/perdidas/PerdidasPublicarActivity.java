@@ -532,12 +532,14 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         boolean valid = true;
         EditText name = (EditText) findViewById(R.id.txtName);
         EditText description = (EditText) findViewById(R.id.txtDescription);
+        EditText address = (EditText) findViewById(R.id.input_direccion);
         String nameText = ((EditText) findViewById(R.id.txtName)).getText().toString();
         String descriptionText = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
+        String addressText = ((EditText) findViewById(R.id.input_direccion)).getText().toString();
 
         String errorName = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_NAME);
         String errorDescription = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION);
-
+        String errorAddress = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_ADDRESS);
 
         if (nameText.isEmpty()) {
             name.setError(errorName);
@@ -553,32 +555,43 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
             description.setError(null);
         }
 
+        if (addressText.isEmpty()) {
+            address.setError(errorAddress);
+            valid = false;
+        } else {
+            address.setError(null);
+        }
+
         valid &= checkOpciones(R.id.rgSpecie, R.id.lbspecies);
         valid &= checkOpciones(R.id.rgSexo, R.id.lbSexo);
         valid &= checkOpciones(R.id.rgAge, R.id.lbAge);
 
-        if (photos.isEmpty()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.ERROR);
-            builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
-            AlertDialog alert = builder.create();
-            alert.show();
-            valid = false;
-        }
-
         // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
         // La última fecha conocida no puede ser futura.
         // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
-        Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
-        Date dateNow = Calendar.getInstance().getTime();
+        if (valid) {
+            Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
+            Date dateNow = Calendar.getInstance().getTime();
 
-        if (lastKnowDate.compareTo(dateNow) > 0){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.ERROR);
-            builder.setMessage(getString(R.string.ERROR_FECHA_FUTURA));
-            AlertDialog alert = builder.create();
-            alert.show();
-            valid = false;
+            if (lastKnowDate.compareTo(dateNow) > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.ADVERTENCIA);
+                builder.setMessage(getString(R.string.ERROR_FECHA_FUTURA));
+                AlertDialog alert = builder.create();
+                alert.show();
+                valid = false;
+            }
+        }
+
+        if (valid) {
+            if (photos.isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.ADVERTENCIA);
+                builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
+                AlertDialog alert = builder.create();
+                alert.show();
+                valid = false;
+            }
         }
 
         return (valid);

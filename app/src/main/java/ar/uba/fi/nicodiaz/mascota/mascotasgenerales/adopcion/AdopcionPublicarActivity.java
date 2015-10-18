@@ -464,15 +464,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         valid &= checkOpciones(R.id.rgMedicine, R.id.lbMedicina);
         valid &= checkOpciones(R.id.rgMedicineTime, R.id.lbMedicinaTiempo);
 
-        if (photos.isEmpty()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.ERROR);
-            builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
-            AlertDialog alert = builder.create();
-            alert.show();
-            valid = false;
-        }
-
         // Checkeo de medicina:
         if (((RadioButton) findViewById(R.id.rdSi)).isChecked() && ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString().isEmpty()) {
             EditText notes = (EditText) findViewById(R.id.txtMedicineNotes);
@@ -485,6 +476,17 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
             valid = false;
         }
         // Fin checkeo de medicina
+
+        if (valid) {
+            if (photos.isEmpty()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.ADVERTENCIA);
+                builder.setMessage(getString(R.string.ERROR_FOTO_NO_INCLUIDA));
+                AlertDialog alert = builder.create();
+                alert.show();
+                valid = false;
+            }
+        }
 
         return (valid);
     }

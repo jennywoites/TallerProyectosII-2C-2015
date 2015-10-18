@@ -56,6 +56,7 @@
 
     <string name="MASCOTA_ADOPCION_ERROR_EMPTY_NAME">Debe ingresar un nombre!</string>
     <string name="MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION">Debe ingresar una descripción!</string>
+    <string name="MASCOTA_ADOPCION_ERROR_EMPTY_ADDRESS">Debe ingresar una dirección de último contacto!</string>
     <string name="MASCOTA_ADOPCION_TABLA_COL_NAME">Name</string>
     <string name="MASCOTA_ADOPCION_TABLA_COL_DESCRIPTION">Description</string>
     <string name="MASCOTA_ADOPCION_TABLA_COL_SPECIES">Species</string>
@@ -106,6 +107,7 @@
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
     <string name="ERROR_FECHA_FUTURA">La última fecha conocida no puede ser futura.</string>
     <string name="ERROR">Error</string>
+    <string name="ADVERTENCIA">Advertencia!</string>
     <string name="raza_desconocida">Desconocida</string>
     <string name="inf_social_title">Información Social</string>
     <string name="informacion_medica_title">Información Médica</string>
