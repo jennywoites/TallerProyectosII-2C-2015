@@ -77,7 +77,9 @@ public class Address extends ParseObject {
     }
 
     public void setSubLocality(String subLocality) {
-        put(SUBLOCALITY, subLocality);
+        if (subLocality != null) {
+            put(SUBLOCALITY, subLocality);
+        }
     }
 
     public String getSubLocality() {

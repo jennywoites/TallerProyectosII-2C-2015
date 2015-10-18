@@ -210,21 +210,22 @@ public class MissingPet extends ParseObject implements Pet {
     }
 
     public Address getAddress() {
-        Address address = getOwner().getAddress();
+        Address address = this.getLastKnowAddress();
         return address;
     }
 
     @Override
     public String getPreviewDescription() {
         String previewDescription = "";
-
         previewDescription += "Edad: " + getAgeRange();
+        Address address = this.getLastKnowAddress();
 
-        Address address = getOwner().getAddress();
-        if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
-            previewDescription += " / Ubicación: " + address.getSubLocality();
-        } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
-            previewDescription += " / Ubicación: " + address.getLocality();
+        if (address != null) {
+            if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
+                previewDescription += " / Ubicación: " + address.getSubLocality();
+            } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
+                previewDescription += " / Ubicación: " + address.getLocality();
+            }
         }
 
         return previewDescription;
