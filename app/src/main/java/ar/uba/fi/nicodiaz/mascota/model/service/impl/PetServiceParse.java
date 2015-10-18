@@ -74,6 +74,12 @@ public class PetServiceParse extends PetService {
         return pets;
     }
 
+    @Override
+    public List<? extends Pet> getMissingPetsByUser(int page) {
+        List<MissingPet> pets = getPetsByUser(page, MissingPet.class);
+        return pets;
+    }
+
     private <T extends ParseObject> List<T> getPetsByUser(int page, Class petClass) {
         User user = UserService.getInstance().getUser();
         List<T> pets = new ArrayList<>();
