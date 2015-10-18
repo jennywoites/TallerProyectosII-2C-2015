@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
@@ -358,6 +359,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
+        pet.setState(AdoptionPetState.NO_ADOPTED);
     }
 
     private String parseYouTubeVideoUrl(String url) {

@@ -86,6 +86,7 @@ public class PetServiceParse extends PetService {
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
         query.addDescendingOrder("createdAt");
         query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
         query.setLimit(LIMIT);
         query.setSkip(page * LIMIT);
         try {

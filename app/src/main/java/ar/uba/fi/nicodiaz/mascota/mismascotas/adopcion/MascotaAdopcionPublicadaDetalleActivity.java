@@ -1,11 +1,13 @@
 package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,10 +23,13 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -34,6 +39,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
 
     CharSequence Titles[];
     int NumbOfTabs = 3;
+    private Pet pet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());
@@ -163,9 +169,35 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
             case R.id.action_close:
                 volverAtras();
                 return true;
+            case R.id.action_delete:
+                despublicar();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void despublicar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente quiere despublicar su mascota?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((AdoptionPet) pet).setState(AdoptionPetState.HIDDEN);
+                        PetService petService = PetServiceFactory.getInstance();
+                        petService.saveAdoptionPet((AdoptionPet) pet);
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
