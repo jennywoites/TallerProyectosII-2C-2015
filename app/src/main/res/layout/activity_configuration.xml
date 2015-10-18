@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="ar.uba.fi.nicodiaz.mascota.ConfigurationActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="56dp">
+
+        <!-- Modo Desarrolador Label -->
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchDevelopment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modo Desarrollador" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchEmptyAdoption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sin Mascotas en Adopcion"
+            android:enabled="false"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchOnlyDog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Solo Perros en Adopcion"
+            android:enabled="false"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchOnlyCats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Solo Gatos en Adopcion"
+            android:enabled="false"/>
+
+        <!-- Signup Button -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_save"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:text="Guardar" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

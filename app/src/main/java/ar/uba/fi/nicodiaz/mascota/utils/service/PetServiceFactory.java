@@ -19,4 +19,15 @@ public class PetServiceFactory {
         }
     }
 
+    public static void developmentModeEnable() {
+        developmentMode = Boolean.TRUE;
+    }
+
+    public static void developmentModeDisable() {
+        developmentMode = Boolean.FALSE;
+    }
+
+    public static boolean isDevelopmentMode() {
+        return developmentMode;
+    }
 }

@@ -1,22 +1,20 @@
 package ar.uba.fi.nicodiaz.mascota.model.service.impl;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabaseAdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
+import ar.uba.fi.nicodiaz.mascota.utils.service.MockDogFactory;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -25,18 +23,87 @@ public class PetServiceMock extends PetService {
 
     private static PetServiceMock ourInstance = new PetServiceMock();
     private static Pet selectedPet;
+    private static DatabaseAdoptionPetState databaseAdoptionPetState;
+
+
+    private List<AdoptionPet> adoptionPets;
+    private List<AdoptionPet> dogAdoptionPets;
+    private List<AdoptionPet> catAdoptionPets;
 
 
     public static PetServiceMock getInstance() {
         return ourInstance;
     }
 
-    private PetServiceMock() {
+    public DatabaseAdoptionPetState getDatabaseAdoptionPetState() {
+        return databaseAdoptionPetState;
     }
+
+    public void loadAdoptionPets(DatabaseAdoptionPetState databaseAdoptionPetState) {
+        this.databaseAdoptionPetState = databaseAdoptionPetState;
+        switch (databaseAdoptionPetState) {
+            case EMPTY:
+                adoptionPets = Collections.emptyList();
+                break;
+            case DOGS:
+                adoptionPets.clear();
+                adoptionPets = dogAdoptionPets;
+                break;
+            case CATS:
+                adoptionPets.clear();
+                adoptionPets = catAdoptionPets;
+                break;
+            case ALL:
+                adoptionPets.clear();
+                adoptionPets.addAll(dogAdoptionPets);
+                adoptionPets.addAll(catAdoptionPets);
+                break;
+        }
+    }
+
+    private PetServiceMock() {
+        this.adoptionPets = new ArrayList<>();
+        createAdoptionDogPets();
+        createAdoptionDogCats();
+        loadAdoptionPets(DatabaseAdoptionPetState.ALL);
+    }
+
+    private void createAdoptionDogPets() {
+        dogAdoptionPets = new ArrayList<>();
+
+        //Menos de 1Km
+        List<AdoptionPet> result = MockDogFactory.createMaleDogPets(5, "Richie McCaw", "Richie McCaw", "4-6 meses", new Address("", -34.579567, -58.434171, "", "Palermo"));
+        dogAdoptionPets.addAll(result);
+
+        //1-5 Km
+        result = MockDogFactory.createMaleDogPets(5, "Dan Carter", "Dan Carter", "0-3 meses", new Address("", -34.583577, -58.446402, "", "Villa Crespo"));
+        dogAdoptionPets.addAll(result);
+
+        //5-10Km
+        result = MockDogFactory.createMaleDogPets(5, "Julian Savea", "Julian Savea", "7-12 meses", new Address("", -34.614927, -58.484718, "", "Chacarita"));
+        dogAdoptionPets.addAll(result);
+
+        //10-15Km
+        result = MockDogFactory.createMaleDogPets(5, "Snny Bill Williams", "Snny Bill Williams", "1-3 años", new Address("", -34.671206, -58.484203, "", "Parque Chas"));
+        dogAdoptionPets.addAll(result);
+
+        //Mas 15
+        result = MockDogFactory.createMaleDogPets(5, "Ma'a Nonu", "Ma'a Nonu", "8-15 años", new Address("", -34.750441, -58.507206, "", "Mataderos"));
+        dogAdoptionPets.addAll(result);
+
+        result = MockDogFactory.createMaleDogPets(5, "", "Israel Dagg", "4-7 años", new Address("", -34.580616, -58.4316696, "", "Palermo"));
+        dogAdoptionPets.addAll(result);
+
+    }
+
+    private void createAdoptionDogCats() {
+        catAdoptionPets = new ArrayList<>();
+    }
+
 
     @Override
     public void saveAdoptionPet(AdoptionPet adoptionPet) {
-        adoptionPet.saveInBackground();
+        adoptionPets.add(adoptionPet);
     }
 
     @Override
@@ -46,155 +113,122 @@ public class PetServiceMock extends PetService {
 
     @Override
     public List<? extends Pet> getAdoptionPets(int page) {
-        List<AdoptionPet> pets = getPets(page, AdoptionPet.class);
-        return pets;
+        User user = UserService.getInstance().getUser();
+        List<AdoptionPet> filterResult = new ArrayList<>();
+        for (AdoptionPet adoptionPet : adoptionPets) {
+
+            String ownerID = adoptionPet.getOwner().getParseUser().getObjectId();
+            if (ownerID != null && ownerID.equals(user.getParseUser().getObjectId())) {
+                continue;
+            }
+            filterResult.add(adoptionPet);
+        }
+
+        int start = page * LIMIT;
+        if (start > filterResult.size())
+            return Collections.emptyList();
+        int end = ((start + LIMIT) > filterResult.size()) ? filterResult.size() : start + LIMIT;
+        return filterResult.subList(start, end);
     }
 
     @Override
     public List<? extends Pet> getAdoptionPets(int page, Map<String, List<String>> filters) {
-        List<AdoptionPet> pets = getPets(page, filters, AdoptionPet.class);
-        return pets;
+        User user = UserService.getInstance().getUser();
+        Address addressUser = user.getAddress();
+
+        List<AdoptionPet> filterResult = new ArrayList<>();
+        for (AdoptionPet adoptionPet : adoptionPets) {
+
+            String ownerID = adoptionPet.getOwner().getParseUser().getObjectId();
+            if (ownerID != null && ownerID.equals(user.getParseUser().getObjectId())) {
+                continue;
+            }
+
+            Boolean isOK = Boolean.TRUE;
+            for (String keyFilter : filters.keySet()) {
+                List<String> values = filters.get(keyFilter);
+                if (keyFilter.equals(Filter.ESPECIE)) {
+                    if (!values.isEmpty() && !values.contains(adoptionPet.getKind())) {
+                        isOK = Boolean.FALSE;
+                        continue;
+                    }
+                } else if (keyFilter.equals(Filter.SEXO)) {
+                    if (!values.isEmpty() && !values.contains(adoptionPet.getGender())) {
+                        isOK = Boolean.FALSE;
+                        continue;
+                    }
+                } else if (keyFilter.equals(Filter.EDAD)) {
+                    if (!values.isEmpty() && !values.contains(adoptionPet.getAgeRange())) {
+                        isOK = Boolean.FALSE;
+                        continue;
+                    }
+                } else if (keyFilter.equals(Filter.DISTANCIA)) {
+
+                    if (!values.isEmpty()) {
+
+                        double distanceInKilometers = addressUser.getLocation().distanceInKilometersTo(adoptionPet.getAddress().getLocation());
+                        if (distanceInKilometers < 1 && !values.contains(Filter.MENOS_1)) {
+                            isOK = Boolean.FALSE;
+                            continue;
+                        } else if ((distanceInKilometers >= 1 && distanceInKilometers < 5) && !values.contains(Filter.D_ENTRE_1_5)) {
+                            isOK = Boolean.FALSE;
+                            continue;
+                        } else if ((distanceInKilometers >= 5 && distanceInKilometers < 10) && !values.contains(Filter.D_ENTRE_5_10)) {
+                            isOK = Boolean.FALSE;
+                            continue;
+                        } else if ((distanceInKilometers >= 10 && distanceInKilometers < 15) && !values.contains(Filter.D_ENTRE_10_15)) {
+                            isOK = Boolean.FALSE;
+                            continue;
+                        } else if ((distanceInKilometers >= 15) && !values.contains(Filter.MAS_15)) {
+                            isOK = Boolean.FALSE;
+                            continue;
+                        }
+                    }
+
+
+                }
+            }
+
+            if (isOK) {
+                filterResult.add(adoptionPet);
+            }
+        }
+
+        int start = page * LIMIT;
+        if (start > filterResult.size())
+            return Collections.emptyList();
+        int end = ((start + LIMIT) > filterResult.size()) ? filterResult.size() : start + LIMIT;
+        return filterResult.subList(start, end);
+
     }
 
     @Override
     public List<? extends Pet> getAdoptionPetsByUser(int page) {
-        List<AdoptionPet> pets = getPetsByUser(page, AdoptionPet.class);
-        return pets;
+        List<AdoptionPet> filterResult = new ArrayList<>();
+        User user = UserService.getInstance().getUser();
+        for (AdoptionPet adoptionPet : adoptionPets) {
+            String ownerID = adoptionPet.getOwner().getParseUser().getObjectId();
+            if (ownerID != null && ownerID.equals(user.getParseUser().getObjectId())) {
+                filterResult.add(adoptionPet);
+            }
+        }
+        int start = page * LIMIT;
+        if (start > filterResult.size())
+            return Collections.emptyList();
+        int end = ((start + LIMIT) > filterResult.size()) ? filterResult.size() : start + LIMIT;
+        return filterResult.subList(start, end);
     }
 
     @Override
     public List<? extends Pet> getMissingPets(int page) {
-        List<MissingPet> pets = getPets(page, MissingPet.class);
-        return pets;
+        return Collections.emptyList();
     }
 
     @Override
     public List<MissingPet> getMissingPets(int page, Map<String, List<String>> filters) {
-        List<MissingPet> pets = getPets(page, filters, MissingPet.class);
-        return pets;
+        return Collections.emptyList();
     }
 
-    private <T extends ParseObject> List<T> getPetsByUser(int page, Class petClass) {
-        User user = UserService.getInstance().getUser();
-        List<T> pets = new ArrayList<>();
-        ParseQuery<T> query = ParseQuery.getQuery(petClass);
-        query.addDescendingOrder("createdAt");
-        query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
-        query.setLimit(LIMIT);
-        query.setSkip(page * LIMIT);
-        try {
-            pets = query.find();
-        } catch (ParseException e) {
-            return null;
-        }
-
-        return pets;
-    }
-
-    private <T extends ParseObject> List<T> getPets(int page, Class petClass) {
-        List<T> pets = new ArrayList<>();
-        User user = UserService.getInstance().getUser();
-        ParseQuery<T> query = ParseQuery.getQuery(petClass);
-        if (petClass.equals(AdoptionPet.class)) {
-            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
-        }
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
-        query.addDescendingOrder("createdAt");
-        query.setLimit(LIMIT);
-        query.setSkip(page * LIMIT);
-
-        try {
-            pets = query.find();
-        } catch (ParseException e) {
-            return null;
-        }
-
-        return pets;
-    }
-
-    private <T extends ParseObject> List<T> getPets(int page, Map<String, List<String>> filters, Class petClass) {
-        User user = UserService.getInstance().getUser();
-        List<T> pets = new ArrayList<>();
-        List<ParseQuery<T>> querys = new ArrayList<ParseQuery<T>>();
-        ParseQuery<T> finalQuery;
-        try {
-
-            if (filters.containsKey(Filter.DISTANCIA) && !filters.get(Filter.DISTANCIA).isEmpty()) {
-                for (String distancia : filters.get(Filter.DISTANCIA)) {
-                    ParseQuery<T> query = createQuery(user, filters, petClass);
-
-                    if (distancia.equals(Filter.MAS_15)) {
-                        ParseQuery<T> queryDistance = ParseQuery.getQuery(petClass);
-                        queryDistance.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), 15);
-                        query.whereDoesNotMatchKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryDistance);
-                    } else if (distancia.equals(Filter.MENOS_1)) {
-                        ParseQuery<T> queryDistance = ParseQuery.getQuery(petClass);
-                        queryDistance.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), 1);
-                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryDistance);
-                    } else if (distancia.equals(Filter.D_ENTRE_1_5)) {
-                        ParseQuery<T> queryResult = createQueryDistanceBetween(user, 5, 1, petClass);
-                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
-                    } else if (distancia.equals(Filter.D_ENTRE_5_10)) {
-                        ParseQuery<T> queryResult = createQueryDistanceBetween(user, 10, 5, petClass);
-                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
-                    } else if (distancia.equals(Filter.D_ENTRE_10_15)) {
-                        ParseQuery<T> queryResult = createQueryDistanceBetween(user, 15, 10, petClass);
-                        query.whereMatchesKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryResult);
-                    }
-                    querys.add(query);
-                }
-                finalQuery = ParseQuery.or(querys);
-            } else {
-                finalQuery = createQuery(user, filters, petClass);
-            }
-
-            finalQuery.addDescendingOrder("createdAt");
-            finalQuery.setLimit(LIMIT);
-            finalQuery.setSkip(page * LIMIT);
-            pets = finalQuery.find();
-        } catch (ParseException e) {
-            return null;
-        }
-        return pets;
-    }
-
-    private <T extends ParseObject> ParseQuery<T> createQuery(User user, Map<String, List<String>> filters, Class petClass) {
-        ParseQuery<T> query = ParseQuery.getQuery(petClass);
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
-        //Filtro las no adoptadas
-        if (petClass.equals(AdoptionPet.class)) {
-            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
-        }
-
-        Set<String> filterKeys = filters.keySet();
-        for (String key : filterKeys) {
-            if (!key.equals(Filter.DISTANCIA))
-                addFilter(query, key, filters.get(key), user);
-        }
-
-        return query;
-    }
-
-    private <T extends ParseObject> ParseQuery<T> createQueryDistanceBetween(User user, int distanceMax, int distanceMin, Class petClass) {
-        ParseQuery<T> queryMax = ParseQuery.getQuery(petClass);
-        queryMax.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), distanceMax);
-
-        ParseQuery<T> queryMin = ParseQuery.getQuery(petClass);
-        queryMin.whereWithinKilometers(AdoptionPet.LOCATION, user.getAddress().getLocation(), distanceMin);
-        ParseQuery<T> queryResult = queryMax.whereDoesNotMatchKeyInQuery(AdoptionPet.OBJECT_ID, AdoptionPet.OBJECT_ID, queryMin);
-        return queryResult;
-    }
-
-
-    private <T extends ParseObject> void addFilter(ParseQuery<T> query, String keyFilter, List<String> values, User user) {
-        if (keyFilter.equals(Filter.ESPECIE)) {
-            query.whereContainedIn(AdoptionPet.KIND, values);
-        } else if (keyFilter.equals(Filter.SEXO)) {
-            query.whereContainedIn(AdoptionPet.GENDER, values);
-        } else if (keyFilter.equals(Filter.EDAD)) {
-            query.whereContainedIn(AdoptionPet.AGE, values);
-        }
-    }
 
     @Override
     public Pet getSelectedPet() {

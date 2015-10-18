@@ -24,7 +24,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.uba.fi.nicodiaz.mascota.ConfigurationActivity;
 import ar.uba.fi.nicodiaz.mascota.LoginActivity;
+import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
@@ -154,6 +156,9 @@ public class HomeFragment extends Fragment {
         if (id == R.id.action_logout) {
             logout();
         }
+        if (id == R.id.action_config) {
+            createConfigurationFragmnet();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -163,5 +168,10 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(activity, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    private void createConfigurationFragmnet() {
+        Intent i = new Intent(activity, ConfigurationActivity.class);
+        startActivity(i);
     }
 }

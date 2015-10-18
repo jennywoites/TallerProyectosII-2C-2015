@@ -497,4 +497,5 @@
         <item>Yorkshire Terrier</item>
     </string-array>
     <string name="title_activity_perdida_publicar">PerdidaPublicarActivity</string>
+    <string name="configuracion">Configuración</string>
 </resources>

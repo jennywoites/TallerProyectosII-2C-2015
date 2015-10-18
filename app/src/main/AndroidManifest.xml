@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.uba.fi.nicodiaz.mascota" >
+    package="ar.uba.fi.nicodiaz.mascota">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/splash_screen_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -30,11 +30,11 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.Translucent.NoTitleBar"/>
+            android:theme="@style/AppTheme.Translucent.NoTitleBar" />
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,37 +43,35 @@
         </activity>
         <activity
             android:name=".DispatchActivity"
-            android:noHistory="true" >
-        </activity>
+            android:noHistory="true"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ApplicationLoginActivity"
             android:label="Cuenta Mascota"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".RegistrarDatosPersonalesActivity"
-            android:label="@string/title_activity_datos_personales" >
-        </activity>
-        <activity android:name=".RegistrarDatosCuentaActivity"
-            android:label="Cuenta Mascota">
-        </activity>
-        <activity android:name=".MascotasGenerales.Perdidas.MascotaPerdidaDetalleActivity"
+            android:label="@string/title_activity_datos_personales"></activity>
+        <activity
+            android:name=".RegistrarDatosCuentaActivity"
+            android:label="Cuenta Mascota"></activity>
+        <activity
+            android:name=".MascotasGenerales.Perdidas.MascotaPerdidaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
-        <activity android:name=".MascotasGenerales.Perdidas.PerdidasPublicarActivity"
+        <activity
+            android:name=".MascotasGenerales.Perdidas.PerdidasPublicarActivity"
             android:label="Publicar una pérdida"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -82,7 +80,7 @@
             android:name=".MascotasGenerales.AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -91,13 +89,12 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".MascotasGenerales.MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -105,17 +102,15 @@
         <activity
             android:name=".MascotasGenerales.NewCommentActivity"
             android:label="Publicar un comentario"
-            android:windowSoftInputMode="stateVisible" >
-        </activity>
+            android:windowSoftInputMode="stateVisible"></activity>
         <activity
             android:name=".MascotasGenerales.SolicitarAdopcionActivity"
-            android:label="Adoptar" >
-        </activity>
+            android:label="Adoptar"></activity>
         <activity
             android:name=".MisMascotas.MascotaAdopcionPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -124,11 +119,14 @@
             android:name=".MisMascotas.MascotaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ConfigurationActivity"
+            android:label="Configuracion"></activity>
     </application>
 
 </manifest>
