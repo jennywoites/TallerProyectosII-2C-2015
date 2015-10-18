@@ -34,6 +34,7 @@ public class MockDogFactory {
                 user.setAddress(address);
             }
 
+            adoptionPet.setLocation(user.getAddress());
             adoptionPet.setOwner(user);
             adoptionPet.setGender(gender);
             adoptionPet.setName(name + " " + i);

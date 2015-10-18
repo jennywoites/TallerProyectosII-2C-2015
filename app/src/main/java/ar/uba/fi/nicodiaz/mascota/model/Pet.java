@@ -69,6 +69,8 @@ public interface Pet {
 
     void setBreed(String breed);
 
+    void setLocation(Address address);
+
     String getPreviewDescription();
 
     ParseFile getPicture();

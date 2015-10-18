@@ -48,24 +48,6 @@ public class AdoptionPet extends ParseObject implements Pet {
     public AdoptionPet() {
     }
 
-    public AdoptionPet(ParseProxyObject ppo) {
-        setAgeRange(ppo.getString(AGE));
-        setDescription(ppo.getString(DESCRIPTION));
-        setName(ppo.getString(NAME));
-        setGender(ppo.getString(GENDER));
-        setKind(ppo.getString(KIND));
-        setBreed(ppo.getString(BREED));
-        User owner = new User(ppo.getParseObject(OWNER));
-        setOwner(owner);
-        setPicture(new ParseFile(ppo.getBytes(PHOTO_ONE)));
-        setOtherPets(ppo.getString(PETS));
-        setChildren(ppo.getString(CHILDREN));
-        setSocialNotes(ppo.getString(SOCIAL_NOTES));
-        setMedicine(ppo.getString(MEDICINE));
-        setMedicineTime(ppo.getString(MEDICINE_TIME));
-        setMedicineNotes(ppo.getString(MEDICINE_NOTES));
-    }
-
     @Override
     public String getAgeRange() {
         return getString(AGE);
@@ -169,8 +151,6 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public void setOwner(User user) {
-        ParseGeoPoint location = user.getAddress().getLocation();
-        put(LOCATION, location);
         put(OWNER, user.getParseUser());
     }
 
@@ -212,6 +192,11 @@ public class AdoptionPet extends ParseObject implements Pet {
     @Override
     public void setBreed(String breed) {
         put(BREED, breed);
+    }
+
+    @Override
+    public void setLocation(Address address) {
+        put(LOCATION, address.getLocation());
     }
 
     public Address getAddress() {

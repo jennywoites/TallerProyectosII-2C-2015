@@ -49,18 +49,6 @@ public class MissingPet extends ParseObject implements Pet {
     public MissingPet() {
     }
 
-    public MissingPet(ParseProxyObject ppo) {
-        setAgeRange(ppo.getString(AGE));
-        setDescription(ppo.getString(DESCRIPTION));
-        setName(ppo.getString(NAME));
-        setGender(ppo.getString(GENDER));
-        setKind(ppo.getString(KIND));
-        setBreed(ppo.getString(BREED));
-        User owner = new User(ppo.getParseObject(OWNER));
-        setOwner(owner);
-        setPicture(new ParseFile(ppo.getBytes(PHOTO_ONE)));
-    }
-
     @Override
     public String getAgeRange() {
         return getString(AGE);
@@ -164,8 +152,6 @@ public class MissingPet extends ParseObject implements Pet {
 
     @Override
     public void setOwner(User user) {
-        ParseGeoPoint location = user.getAddress().getLocation();
-        put(LOCATION, location);
         put(OWNER, user.getParseUser());
     }
 
@@ -209,8 +195,13 @@ public class MissingPet extends ParseObject implements Pet {
         put(BREED, breed);
     }
 
+    @Override
+    public void setLocation(Address address) {
+        put(LOCATION, address.getLocation());
+    }
+
     public Address getAddress() {
-        Address address = this.getLastKnowAddress();
+        Address address = getLastKnowAddress();
         return address;
     }
 
@@ -318,6 +309,7 @@ public class MissingPet extends ParseObject implements Pet {
     public void setLastKnowDate(Date lastKnowDate) {
         put(LAST_KNOW_DATE, lastKnowDate);
     }
+
     public String getLastKnowDate() {
         return getString(LAST_KNOW_DATE);
     }
@@ -326,8 +318,10 @@ public class MissingPet extends ParseObject implements Pet {
     // Última dirección vista-
     // -*-*-*-*-*-*-*-*-*-*-*-
     public void setLastKnowAddress(Address lastKnowAddress) {
+        setLocation(lastKnowAddress);
         put(LAST_KNOW_ADDRESS, lastKnowAddress);
     }
+
     public Address getLastKnowAddress() {
         try {
             return (Address) getParseObject(LAST_KNOW_ADDRESS).fetchIfNeeded();

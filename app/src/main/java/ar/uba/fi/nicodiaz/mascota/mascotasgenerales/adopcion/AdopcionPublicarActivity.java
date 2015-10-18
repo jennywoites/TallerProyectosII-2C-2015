@@ -350,6 +350,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setBreed(raza);
         pet.setKind(kind);
         pet.setOwner(user);
+        pet.setLocation(user.getAddress());
         pet.setOtherPets(pets);
         pet.setChildren(children);
         pet.setSocialNotes(socialNotes);
