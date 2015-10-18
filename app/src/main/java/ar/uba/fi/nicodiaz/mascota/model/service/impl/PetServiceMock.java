@@ -14,7 +14,7 @@ import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabaseAdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
-import ar.uba.fi.nicodiaz.mascota.utils.service.MockDogFactory;
+import ar.uba.fi.nicodiaz.mascota.utils.service.MockPetFactory;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -43,15 +43,15 @@ public class PetServiceMock extends PetService {
         this.databaseAdoptionPetState = databaseAdoptionPetState;
         switch (databaseAdoptionPetState) {
             case EMPTY:
-                adoptionPets = Collections.emptyList();
+                adoptionPets.clear();
                 break;
             case DOGS:
                 adoptionPets.clear();
-                adoptionPets = dogAdoptionPets;
+                adoptionPets.addAll(dogAdoptionPets);
                 break;
             case CATS:
                 adoptionPets.clear();
-                adoptionPets = catAdoptionPets;
+                adoptionPets.addAll(catAdoptionPets);
                 break;
             case ALL:
                 adoptionPets.clear();
@@ -63,41 +63,64 @@ public class PetServiceMock extends PetService {
 
     private PetServiceMock() {
         this.adoptionPets = new ArrayList<>();
-        createAdoptionDogPets();
-        createAdoptionDogCats();
+        createAdoptionDog();
+        createAdoptionCats();
         loadAdoptionPets(DatabaseAdoptionPetState.ALL);
     }
 
-    private void createAdoptionDogPets() {
+    private void createAdoptionDog() {
         dogAdoptionPets = new ArrayList<>();
 
         //Menos de 1Km
-        List<AdoptionPet> result = MockDogFactory.createMaleDogPets(5, "Richie McCaw", "Richie McCaw", "4-6 meses", new Address("", -34.579567, -58.434171, "", "Palermo"));
+        List<AdoptionPet> result = MockPetFactory.createMaleDogPets(5, "Richie McCaw", "Richie McCaw", "4-6 meses", new Address("", -34.579567, -58.434171, "", "Palermo"));
         dogAdoptionPets.addAll(result);
 
         //1-5 Km
-        result = MockDogFactory.createMaleDogPets(5, "Dan Carter", "Dan Carter", "0-3 meses", new Address("", -34.583577, -58.446402, "", "Villa Crespo"));
+        result = MockPetFactory.createMaleDogPets(5, "Dan Carter", "Dan Carter", "0-3 meses", new Address("", -34.583577, -58.446402, "", "Villa Crespo"));
         dogAdoptionPets.addAll(result);
 
         //5-10Km
-        result = MockDogFactory.createMaleDogPets(5, "Julian Savea", "Julian Savea", "7-12 meses", new Address("", -34.614927, -58.484718, "", "Chacarita"));
+        result = MockPetFactory.createMaleDogPets(5, "Julian Savea", "Julian Savea", "7-12 meses", new Address("", -34.614927, -58.484718, "", "Chacarita"));
         dogAdoptionPets.addAll(result);
 
         //10-15Km
-        result = MockDogFactory.createMaleDogPets(5, "Snny Bill Williams", "Snny Bill Williams", "1-3 años", new Address("", -34.671206, -58.484203, "", "Parque Chas"));
+        result = MockPetFactory.createFemaleDogPets(5, "Snny Bill Williams", "Snny Bill Williams", "1-3 años", new Address("", -34.671206, -58.484203, "", "Parque Chas"));
         dogAdoptionPets.addAll(result);
 
         //Mas 15
-        result = MockDogFactory.createMaleDogPets(5, "Ma'a Nonu", "Ma'a Nonu", "8-15 años", new Address("", -34.750441, -58.507206, "", "Mataderos"));
+        result = MockPetFactory.createFemaleDogPets(5, "Ma'a Nonu", "Ma'a Nonu", "8-15 años", new Address("", -34.750441, -58.507206, "", "Mataderos"));
         dogAdoptionPets.addAll(result);
 
-        result = MockDogFactory.createMaleDogPets(5, "", "Israel Dagg", "4-7 años", new Address("", -34.580616, -58.4316696, "", "Palermo"));
+        result = MockPetFactory.createFemaleDogPets(5, "", "Israel Dagg", "4-7 años", new Address("", -34.580616, -58.4316696, "", "Palermo"));
         dogAdoptionPets.addAll(result);
 
     }
 
-    private void createAdoptionDogCats() {
+    private void createAdoptionCats() {
         catAdoptionPets = new ArrayList<>();
+
+        //Menos de 1Km
+        List<AdoptionPet> result = MockPetFactory.createMaleCats(5, "Tigger", "Tigger", "4-6 meses", new Address("", -34.579567, -58.434171, "", "Palermo"));
+        catAdoptionPets.addAll(result);
+
+        //1-5 Km
+        result = MockPetFactory.createFemaleCats(5, "Bella", "Bella", "0-3 meses", new Address("", -34.583577, -58.446402, "", "Villa Crespo"));
+        catAdoptionPets.addAll(result);
+
+        //5-10Km
+        result = MockPetFactory.createFemaleCats(5, "Chloe", "Chloe", "7-12 meses", new Address("", -34.614927, -58.484718, "", "Chacarita"));
+        catAdoptionPets.addAll(result);
+
+        //10-15Km
+        result = MockPetFactory.createMaleCats(5, "Shadow", "Shadow", "1-3 años", new Address("", -34.671206, -58.484203, "", "Parque Chas"));
+        catAdoptionPets.addAll(result);
+
+        //Mas 15
+        result = MockPetFactory.createMaleCats(5, "Oliver", "Oliver", "8-15 años", new Address("", -34.750441, -58.507206, "", "Mataderos"));
+        catAdoptionPets.addAll(result);
+
+        result = MockPetFactory.createFemaleCats(5, "", "Lucy", "4-7 años", new Address("", -34.580616, -58.4316696, "", "Palermo"));
+        catAdoptionPets.addAll(result);
     }
 
 

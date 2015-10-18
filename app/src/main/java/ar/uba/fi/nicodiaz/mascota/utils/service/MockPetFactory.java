@@ -13,13 +13,25 @@ import ar.uba.fi.nicodiaz.mascota.model.UserService;
 /**
  * Created by Juan Manuel Romera on 17/10/2015.
  */
-public class MockDogFactory {
+public class MockPetFactory {
 
     public static List<AdoptionPet> createMaleDogPets(int total, String owner, String name, String age, Address address) {
-        return createDogPets(total, owner, name, "Macho", age, address);
+        return createPets(total, "Perro", owner, name, "Macho", age, address);
     }
 
-    public static List<AdoptionPet> createDogPets(int total, String owner, String name, String gender, String age, Address address) {
+    public static List<AdoptionPet> createFemaleDogPets(int total, String owner, String name, String age, Address address) {
+        return createPets(total, "Perro", owner, name, "Hembra", age, address);
+    }
+
+    public static List<AdoptionPet> createMaleCats(int total, String owner, String name, String age, Address address) {
+        return createPets(total, "Gato", owner, name, "Macho", age, address);
+    }
+
+    public static List<AdoptionPet> createFemaleCats(int total, String owner, String name, String age, Address address) {
+        return createPets(total, "Gato", owner, name, "Hembra", age, address);
+    }
+
+    public static List<AdoptionPet> createPets(int total, String kind, String owner, String name, String gender, String age, Address address) {
         List<AdoptionPet> list = new ArrayList<>();
         for (int i = 0; i < total; i++) {
             AdoptionPet adoptionPet = new AdoptionPet();
@@ -39,7 +51,7 @@ public class MockDogFactory {
             adoptionPet.setGender(gender);
             adoptionPet.setName(name + " " + i);
             adoptionPet.setAgeRange(age);
-            adoptionPet.setKind("Perro");
+            adoptionPet.setKind(kind);
             adoptionPet.setSocialNotes("");
             adoptionPet.setDescription("");
             adoptionPet.setBreed("");
