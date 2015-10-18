@@ -1,11 +1,11 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaDetalleComentariosFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.MascotaDetalleComentariosFragment;
 
 /**
  * Created by nicolas on 03/10/15.

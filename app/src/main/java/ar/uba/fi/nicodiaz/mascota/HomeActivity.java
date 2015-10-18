@@ -15,10 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionFragment;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.HomeFragment;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasFragment;
-import ar.uba.fi.nicodiaz.mascota.MisMascotas.MisMascotasFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.HomeFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasFragment;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.MisMascotasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;

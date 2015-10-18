@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
+package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,28 +33,24 @@ import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
+import ar.uba.fi.nicodiaz.mascota.utils.MissingEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
-import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
-public class AdopcionFragment extends Fragment {
-
-    private static final String TAG = "AdopcionFragment";
+public class PerdidasFragment extends Fragment {
+    private static final String TAG = "PerdidasFragment";
     private List<Pet> list;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView listView;
     private TextView emptyView;
     private boolean hayMas;
-    private AdopcionEndlessAdapter listAdapter;
+    private MissingEndlessAdapter listAdapter;
     private Context activity;
     private DrawerLayout drawerLayout;
     private View mainView;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
-
         List<? extends Pet> resultList;
 
         @Override
@@ -66,9 +62,9 @@ public class AdopcionFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Integer... currentPage) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0]);
+                resultList = PetServiceFactory.getInstance().getMissingPets(currentPage[0]);
             } else {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
+                resultList = PetServiceFactory.getInstance().getMissingPets(currentPage[0], selectedFilter);
             }
             return !resultList.isEmpty();
         }
@@ -91,7 +87,6 @@ public class AdopcionFragment extends Fragment {
     }
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
-
         private LinearLayout linlaHeaderProgress;
         private List<? extends Pet> resultList;
 
@@ -112,13 +107,10 @@ public class AdopcionFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(0);
+                resultList = PetServiceFactory.getInstance().getMissingPets(0);
             } else {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(0, selectedFilter);
+                resultList = PetServiceFactory.getInstance().getMissingPets(0, selectedFilter);
             }
-            if (resultList == null)
-                return false;
-
             return !(resultList.isEmpty());
         }
 
@@ -144,15 +136,15 @@ public class AdopcionFragment extends Fragment {
         setHasOptionsMenu(true);
 
         // View:
-        mainView = inflater.inflate(R.layout.fragment_adopcion, container, false);
+        mainView = inflater.inflate(R.layout.fragment_missing, container, false);
         mainView.setTag(TAG);
 
         // FAB
-        FloatingActionButton FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_adopcion);
+        FloatingActionButton FAB = (FloatingActionButton) mainView.findViewById(R.id.FAB_agregar_perdido);
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nuevaAdopcion();
+                nuevaPerdida();
             }
         });
 
@@ -167,16 +159,16 @@ public class AdopcionFragment extends Fragment {
 
         list = new ArrayList<>();
 
-        listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
+        listView = (RecyclerView) mainView.findViewById(R.id.list_missing);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+        listAdapter = new MissingEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new MissingEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaDetalleActivity.class);
+                Intent i = new Intent(activity, MascotaPerdidaDetalleActivity.class);
                 Pet pet = list.get(position);
                 PetServiceFactory.getInstance().setSelectedPet(pet);
                 startActivity(i);
@@ -184,7 +176,7 @@ public class AdopcionFragment extends Fragment {
             }
         });
 
-        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+        listAdapter.setOnLoadMoreListener(new MissingEndlessAdapter.OnLoadMoreListener() {
             @Override
             public boolean onLoadMore(int currentPage) {
                 if (hayMas) {
@@ -204,7 +196,6 @@ public class AdopcionFragment extends Fragment {
             }
         });
 
-
         // Cargando la lista de mascotas:
         applyQuery();
 
@@ -217,9 +208,6 @@ public class AdopcionFragment extends Fragment {
     }
 
     private void checkEmptyList() {
-        if (!WaitForInternet.isConnected(activity)) {
-            Toast.makeText(activity, "Revise su conexión a Internet", Toast.LENGTH_SHORT).show();
-        }
         if (list.isEmpty()) {
             listView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
@@ -231,7 +219,7 @@ public class AdopcionFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_adopcion, menu);
+        inflater.inflate(R.menu.menu_missing, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -241,8 +229,8 @@ public class AdopcionFragment extends Fragment {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_buscar_adopcion:
-                buscarAdopcion();
+            case R.id.action_buscar_perdido:
+                buscarPerdido();
                 return true;
             case R.id.action_refresh:
                 applyQuery();
@@ -252,7 +240,7 @@ public class AdopcionFragment extends Fragment {
         }
     }
 
-    private void buscarAdopcion() {
+    private void buscarPerdido() {
         int drawer = GravityCompat.END;
         if (drawerLayout.isDrawerOpen(drawer)) {
             drawerLayout.closeDrawers();
@@ -261,8 +249,8 @@ public class AdopcionFragment extends Fragment {
         }
     }
 
-    private void nuevaAdopcion() {
-        Intent i = new Intent(activity, AdopcionPublicarActivity.class);
+    private void nuevaPerdida() {
+        Intent i = new Intent(activity, PerdidasPublicarActivity.class);
         startActivity(i);
     }
 
@@ -275,7 +263,7 @@ public class AdopcionFragment extends Fragment {
 
     private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
-        filters = Filter.getFilters();
+        filters = Filter.getPerdidasFilters();
         adapter = new SettingsListAdapter(activity,
                 filters, filtersList);
         filtersList.setAdapter(adapter);
@@ -349,7 +337,7 @@ public class AdopcionFragment extends Fragment {
         cancelFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filters = Filter.getFilters();
+                filters = Filter.getPerdidasFilters();
                 adapter = new SettingsListAdapter(activity, filters, filtersList);
                 filtersList.setAdapter(adapter);
                 tempSelectedFilter.clear();

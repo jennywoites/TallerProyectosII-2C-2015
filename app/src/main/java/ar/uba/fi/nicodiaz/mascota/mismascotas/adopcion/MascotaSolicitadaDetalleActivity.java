@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,8 +20,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.ViewPagerMascotaDetalleAdapter;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;

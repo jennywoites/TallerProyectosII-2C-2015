@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +21,10 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;

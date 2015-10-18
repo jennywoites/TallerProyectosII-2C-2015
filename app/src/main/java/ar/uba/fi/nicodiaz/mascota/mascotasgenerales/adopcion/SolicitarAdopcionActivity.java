@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
+package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,7 +24,6 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;

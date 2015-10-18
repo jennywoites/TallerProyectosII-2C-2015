@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity">
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarActivity">
 
     <include
         android:id="@+id/toolbar"

@@ -4,7 +4,7 @@
     android:id="@+id/product_detail_main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ar.uba.fi.nicodiaz.mascota.MascotasGenerales.MascotaAdopcionPublicadaDetalleActivity">
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.MascotaAdopcionPublicadaDetalleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

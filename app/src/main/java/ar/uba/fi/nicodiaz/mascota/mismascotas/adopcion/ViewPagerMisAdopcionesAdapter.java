@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

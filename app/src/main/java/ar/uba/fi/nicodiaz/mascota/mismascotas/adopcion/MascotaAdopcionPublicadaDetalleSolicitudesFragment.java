@@ -1,7 +1,6 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,17 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
-import ar.uba.fi.nicodiaz.mascota.utils.RequestAdoptionEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.RequestEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 14/09/15.
  */
-public class MisAdopcionesSolicitadasFragment extends Fragment {
+public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment {
 
     private static final String TAG = "MisAdopcionesPublicadasFragment";
 
@@ -38,15 +38,14 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
     private TextView emptyView;
     private ArrayList<AdoptionRequest> list;
     private RecyclerView listView;
-    private RequestAdoptionEndlessAdapter listAdapter;
+    private RequestEndlessAdapter listAdapter;
 
-
-    private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
+    private class RequestListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
         private List<AdoptionRequest> resultList;
 
-        public PetListLoader(View view) {
+        public RequestListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
             resultList = new ArrayList<>();
         }
@@ -61,7 +60,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = RequestService.getInstance().getAdoptionRequestsByUser(0);
+            Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+            resultList = RequestService.getInstance().getAdoptionRequests((AdoptionPet) pet);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -71,8 +71,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                for (AdoptionRequest request : resultList) {
-                    list.add(request);
+                for (AdoptionRequest adoptionRequest : resultList) {
+                    list.add(adoptionRequest);
                 }
                 listAdapter.notifyDataSetChanged();
             }
@@ -86,7 +86,7 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
         activity = getActivity();
 
         // View:
-        mainView = inflater.inflate(R.layout.fragment_mis_adopciones_solicitadas, container, false);
+        mainView = inflater.inflate(R.layout.fragment_mascota_adopcion_publicada_detalle_solicitudes, container, false);
         mainView.setTag(TAG);
 
         // ListView:
@@ -94,31 +94,34 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
         list = new ArrayList<>();
 
-        listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
+        listView = (RecyclerView) mainView.findViewById(R.id.list_request);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new RequestAdoptionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new RequestAdoptionEndlessAdapter.OnItemClickListener() {
+        listAdapter = new RequestEndlessAdapter(list, listView, activity);
+        listAdapter.setOnConfirmListener(new RequestEndlessAdapter.OnConfirmListener() {
             @Override
-            public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
-                AdoptionRequest adoptionRequest = list.get(position);
-                RequestService.getInstance().setSelectedAdoptionRequest(adoptionRequest);
-                PetServiceFactory.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
-                startActivity(i);
-                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
+            public void doAction() {
+                refresh();
             }
         });
-
+        listAdapter.setOnIgnoreListener(new RequestEndlessAdapter.OnIgnoreListener() {
+            @Override
+            public void doAction() {
+                refresh();
+            }
+        });
         listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
-        new PetListLoader(mainView).execute();
-
+        new RequestListLoader(mainView).execute();
 
         return mainView;
+    }
+
+    private void refresh() {
+        checkEmptyList();
     }
 
     private void checkEmptyList() {

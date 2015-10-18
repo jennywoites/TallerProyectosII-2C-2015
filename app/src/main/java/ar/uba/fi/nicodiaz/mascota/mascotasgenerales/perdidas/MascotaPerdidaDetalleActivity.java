@@ -1,8 +1,6 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas;
+package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
@@ -23,20 +20,19 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.SolicitarAdopcionActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
-    CharSequence Titles[] = {"Información", "Comentarios"}; // TODO: obtener la cantidad de comentarios desde la base de datos.
+    CharSequence Titles[];
     int NumbOfTabs = 2;
-    FloatingActionButton FAB_adopt;
+  //  FloatingActionButton FAB_adopt;
     FloatingActionButton FAB_comment;
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -65,7 +61,7 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
                 Toast.makeText(MascotaPerdidaDetalleActivity.this, "Ya ha enviado una solicitud de adopción.", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +74,15 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(pet.getName());
 
-        FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
+        /*FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
 
-        // TODO: consultar a base de datos si este usuario ya habia mandado una solicitud de adopcion (Y esta activa):
         boolean yaAdopto = false;
 
         if (yaAdopto) {
             disableAdoptFAB();
         } else {
             enableAdoptFAB();
-        }
+        }*/
 
         FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
         FAB_comment.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +94,9 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         });
 
         loadHeader(pet);
+
+        int commentsCount = CommentService.getInstance().getCount(pet.getID());
+        Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
 
         ViewPagerAdapter adapter = new ViewPagerMascotaPerdidaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -116,15 +114,15 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
                 switch (position) {
                     case 0:
-                        FAB_adopt.setVisibility(View.VISIBLE);
+          //              FAB_adopt.setVisibility(View.VISIBLE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                     case 1:
-                        FAB_adopt.setVisibility(View.GONE);
+            //            FAB_adopt.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.VISIBLE);
                         break;
                     default:
-                        FAB_adopt.setVisibility(View.GONE);
+              //          FAB_adopt.setVisibility(View.GONE);
                         FAB_comment.setVisibility(View.GONE);
                         break;
                 }

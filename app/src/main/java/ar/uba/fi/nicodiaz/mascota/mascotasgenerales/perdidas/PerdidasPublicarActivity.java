@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas;
+package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -48,23 +48,18 @@ import net.yazeed44.imagepicker.util.Picker;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.channels.NonWritableChannelException;
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;

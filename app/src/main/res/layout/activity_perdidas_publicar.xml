@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ar.uba.fi.nicodiaz.mascota.MascotasGenerales.PerdidasPublicarActivity">
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.PerdidasPublicarActivity">
 
     <include
         android:id="@+id/toolbar"

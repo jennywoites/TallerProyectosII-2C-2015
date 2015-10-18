@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ar.uba.fi.nicodiaz.mascota.MascotasGenerales.SolicitarAdopcionActivity"
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.SolicitarAdopcionActivity"
     android:weightSum="1">
 
     <include

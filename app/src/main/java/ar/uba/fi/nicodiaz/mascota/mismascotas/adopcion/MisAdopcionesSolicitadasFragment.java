@@ -1,57 +1,49 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseUser;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.uba.fi.nicodiaz.mascota.ConfigurationActivity;
-import ar.uba.fi.nicodiaz.mascota.LoginActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.utils.RequestAdoptionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 14/09/15.
  */
-public class HomeFragment extends Fragment {
+public class MisAdopcionesSolicitadasFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
-
-    private List<Pet> list;
-    private RecyclerView listView;
-    private TextView emptyView;
-    private AdopcionEndlessAdapter listAdapter;
+    private static final String TAG = "MisAdopcionesPublicadasFragment";
 
     private Context activity;
+    private View mainView;
+    private TextView emptyView;
+    private ArrayList<AdoptionRequest> list;
+    private RecyclerView listView;
+    private RequestAdoptionEndlessAdapter listAdapter;
+
 
     private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<? extends Pet> resultList;
+        private List<AdoptionRequest> resultList;
 
         public PetListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
@@ -68,7 +60,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = PetServiceFactory.getInstance().getAdoptionPets(0);
+            resultList = RequestService.getInstance().getAdoptionRequestsByUser(0);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -78,7 +70,9 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                list.addAll(resultList);
+                for (AdoptionRequest request : resultList) {
+                    list.add(request);
+                }
                 listAdapter.notifyDataSetChanged();
             }
             checkEmptyList();
@@ -89,39 +83,39 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
-        ((AppCompatActivity) activity).getSupportActionBar().setSubtitle(null);
-        // Toolbar:
-        setHasOptionsMenu(true);
 
         // View:
-        View mainView = inflater.inflate(R.layout.fragment_home, container, false);
+        mainView = inflater.inflate(R.layout.fragment_mis_adopciones_solicitadas, container, false);
         mainView.setTag(TAG);
 
-        // ListView
+        // ListView:
         emptyView = (TextView) mainView.findViewById(R.id.empty_view);
 
         list = new ArrayList<>();
-        ;
+
         listView = (RecyclerView) mainView.findViewById(R.id.list_adoption);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+        listAdapter = new RequestAdoptionEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new RequestAdoptionEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaDetalleActivity.class);
-                Pet pet = list.get(position);
-                PetServiceFactory.getInstance().setSelectedPet(pet);
+                Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
+                AdoptionRequest adoptionRequest = list.get(position);
+                RequestService.getInstance().setSelectedAdoptionRequest(adoptionRequest);
+                PetServiceFactory.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
+
         listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
         new PetListLoader(mainView).execute();
+
 
         return mainView;
     }
@@ -138,40 +132,5 @@ public class HomeFragment extends Fragment {
             emptyView.setVisibility(View.GONE);
         }
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_home, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_logout) {
-            logout();
-        }
-        if (id == R.id.action_config) {
-            createConfigurationFragmnet();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void logout() {
-        ParseUser.logOut();
-        Intent intent = new Intent(activity, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
-    private void createConfigurationFragmnet() {
-        Intent i = new Intent(activity, ConfigurationActivity.class);
-        startActivity(i);
-    }
 }
+

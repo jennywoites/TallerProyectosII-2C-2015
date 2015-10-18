@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MisMascotas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.AdopcionPublicarActivity;
-import ar.uba.fi.nicodiaz.mascota.MascotasGenerales.Perdidas.PerdidasPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MisAdopcionesFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
 
 /**

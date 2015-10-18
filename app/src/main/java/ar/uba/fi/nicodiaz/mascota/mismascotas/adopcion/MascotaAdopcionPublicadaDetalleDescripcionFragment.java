@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.MascotasGenerales;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -31,13 +31,12 @@ import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 03/10/15.
  */
-public class MascotaDetalleDescripcionFragment extends Fragment {
+public class MascotaAdopcionPublicadaDetalleDescripcionFragment extends Fragment {
 
     View view;
     private Pet adoptionPet;
@@ -49,14 +48,14 @@ public class MascotaDetalleDescripcionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_mascota_detalle, container, false);
-
         adoptionPet = PetServiceFactory.getInstance().getSelectedPet();
-
         ArrayList<String> urlPhotos = new ArrayList<>();
-        for (ParseFile picture : adoptionPet.getPictures()) {
-            urlPhotos.add(picture.getUrl());
+        for (ParseFile file : adoptionPet.getPictures()) {
+            urlPhotos.add(file.getUrl());
         }
+
         ArrayList<String> urlVideos = adoptionPet.getVideos();
+
         loadInformacionBasica(adoptionPet);
         loadInformacionSocial(adoptionPet);
         loadInformacionMedica(adoptionPet);
