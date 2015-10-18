@@ -225,6 +225,11 @@ public class PetServiceMock extends PetService {
     }
 
     @Override
+    public List<? extends Pet> getMissingPetsByUser(int page) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<MissingPet> getMissingPets(int page, Map<String, List<String>> filters) {
         return Collections.emptyList();
     }

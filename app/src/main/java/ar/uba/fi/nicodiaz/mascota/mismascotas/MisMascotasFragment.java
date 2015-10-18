@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarActivity;
-import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MisAdopcionesFragment;
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MisAdopcionesFragment;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MisPerdidasFragment;
 
 /**
  * Created by nicolas on 09/10/15.
@@ -49,11 +50,10 @@ public class MisMascotasFragment extends Fragment {
         my_missing_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.frame, new MisAdopcionesPerdidasFragment());
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.frame, new MisPerdidasFragment());
                 ft.addToBackStack(null);
-                ft.commit();*/
-                Toast.makeText(activity, "Próximamente podras hacerlo.", Toast.LENGTH_SHORT).show();
+                ft.commit();
             }
         });
 
