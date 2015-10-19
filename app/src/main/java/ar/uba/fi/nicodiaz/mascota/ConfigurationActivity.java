@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
-import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabaseAdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabasePetState;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceMock;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
@@ -98,7 +98,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             developmentModeEnable();
 
             PetServiceMock instance = (PetServiceMock) PetServiceFactory.getInstance();
-            DatabaseAdoptionPetState databaseAdoptionPetState = instance.getDatabaseAdoptionPetState();
+            DatabasePetState databaseAdoptionPetState = instance.getDatabaseAdoptionPetState();
             switch (databaseAdoptionPetState) {
 
                 case EMPTY:
@@ -123,13 +123,13 @@ public class ConfigurationActivity extends AppCompatActivity {
             PetServiceFactory.developmentModeEnable();
             PetServiceMock instance = (PetServiceMock) PetServiceFactory.getInstance();
             if (emptyAdoptionSwitch.isChecked()) {
-                instance.loadAdoptionPets(DatabaseAdoptionPetState.EMPTY);
+                instance.loadAdoptionPets(DatabasePetState.EMPTY);
             } else if (onlyDogsSwitch.isChecked()) {
-                instance.loadAdoptionPets(DatabaseAdoptionPetState.DOGS);
+                instance.loadAdoptionPets(DatabasePetState.DOGS);
             } else if (onlyCatsSwitch.isChecked()) {
-                instance.loadAdoptionPets(DatabaseAdoptionPetState.CATS);
+                instance.loadAdoptionPets(DatabasePetState.CATS);
             } else {
-                instance.loadAdoptionPets(DatabaseAdoptionPetState.ALL);
+                instance.loadAdoptionPets(DatabasePetState.ALL);
             }
         } else {
             PetServiceFactory.developmentModeDisable();
