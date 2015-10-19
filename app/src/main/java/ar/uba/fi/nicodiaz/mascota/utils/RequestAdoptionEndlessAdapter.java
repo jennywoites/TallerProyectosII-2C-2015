@@ -149,9 +149,12 @@ public class RequestAdoptionEndlessAdapter extends RecyclerView.Adapter<Recycler
             if (adoptionRequest.isAccepted()) {
                 view.requestDescription.setText("Estado Solicitud: Aceptada");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_approved_white);
-            } else {
+            } else if (adoptionRequest.isPending()) {
                 view.requestDescription.setText("Estado Solicitud: Pendiente");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_time_white);
+            } else {
+                view.requestDescription.setText("Estado Solicitud: Rechazada");
+                view.requestStatusIcon.setImageResource(R.drawable.ic_action_rejected);
             }
 
             view.currentMascota = adoptionPet;
