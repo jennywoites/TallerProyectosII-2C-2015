@@ -21,6 +21,9 @@ public class ConfigurationActivity extends AppCompatActivity {
     private SwitchCompat onlyDogsSwitch;
     private SwitchCompat onlyCatsSwitch;
     private SwitchCompat devModeSwitch;
+    private SwitchCompat emptyMissingSwitch;
+    private SwitchCompat onlyDogsMissingSwitch;
+    private SwitchCompat onlyCatsMissingSwitch;
 
     @Override
     public void onBackPressed() {
@@ -80,6 +83,27 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
         });
 
+        emptyMissingSwitch = (SwitchCompat) findViewById(R.id.switchEmptyMissing);
+        emptyMissingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                emptyMissingSwitch(isChecked);
+            }
+        });
+
+        onlyDogsMissingSwitch = (SwitchCompat) findViewById(R.id.switchOnlyDogMissing);
+        onlyDogsMissingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onlyDogsMissingSwitch(isChecked);
+            }
+        });
+
+        onlyCatsMissingSwitch = (SwitchCompat) findViewById(R.id.switchOnlyCatsMissing);
+        onlyCatsMissingSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onlyCatsMissingSwitch(isChecked);
+            }
+        });
+
         Button saveButton = (Button) findViewById(R.id.btn_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +138,22 @@ public class ConfigurationActivity extends AppCompatActivity {
                     break;
             }
 
+            DatabasePetState databaseMissingPetState = instance.getDatabaseMissingPetState();
+            switch (databaseMissingPetState) {
+
+                case EMPTY:
+                    emptyMissingSwitch.setChecked(Boolean.TRUE);
+                    break;
+                case DOGS:
+                    onlyDogsMissingSwitch.setChecked(Boolean.TRUE);
+                    break;
+                case CATS:
+                    onlyCatsMissingSwitch.setChecked(Boolean.TRUE);
+                    break;
+                case ALL:
+                    break;
+            }
+
         }
     }
 
@@ -131,6 +171,17 @@ public class ConfigurationActivity extends AppCompatActivity {
             } else {
                 instance.loadAdoptionPets(DatabasePetState.ALL);
             }
+
+            if (emptyMissingSwitch.isChecked()) {
+                instance.loadMissingPets(DatabasePetState.EMPTY);
+            } else if (onlyDogsMissingSwitch.isChecked()) {
+                instance.loadMissingPets(DatabasePetState.DOGS);
+            } else if (onlyCatsMissingSwitch.isChecked()) {
+                instance.loadMissingPets(DatabasePetState.CATS);
+            } else {
+                instance.loadMissingPets(DatabasePetState.ALL);
+            }
+
         } else {
             PetServiceFactory.developmentModeDisable();
         }
@@ -171,16 +222,44 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
 
+    private void emptyMissingSwitch(boolean isChecked) {
+        if (isChecked) {
+            onlyDogsMissingSwitch.setChecked(false);
+            onlyCatsMissingSwitch.setChecked(false);
+        }
+    }
+
+    private void onlyDogsMissingSwitch(boolean isChecked) {
+        if (isChecked) {
+            emptyMissingSwitch.setChecked(false);
+            onlyCatsMissingSwitch.setChecked(false);
+        }
+    }
+
+    private void onlyCatsMissingSwitch(boolean isChecked) {
+        if (isChecked) {
+            emptyMissingSwitch.setChecked(false);
+            onlyDogsMissingSwitch.setChecked(false);
+        }
+    }
+
+
     private void developmentModeEnable() {
         emptyAdoptionSwitch.setEnabled(Boolean.TRUE);
         onlyDogsSwitch.setEnabled(Boolean.TRUE);
         onlyCatsSwitch.setEnabled(Boolean.TRUE);
+        emptyMissingSwitch.setEnabled(Boolean.TRUE);
+        onlyDogsMissingSwitch.setEnabled(Boolean.TRUE);
+        onlyCatsMissingSwitch.setEnabled(Boolean.TRUE);
     }
 
     private void developmentModeDisable() {
         emptyAdoptionSwitch.setEnabled(Boolean.FALSE);
         onlyDogsSwitch.setEnabled(Boolean.FALSE);
         onlyCatsSwitch.setEnabled(Boolean.FALSE);
+        emptyMissingSwitch.setEnabled(Boolean.FALSE);
+        onlyDogsMissingSwitch.setEnabled(Boolean.FALSE);
+        onlyCatsMissingSwitch.setEnabled(Boolean.FALSE);
 
     }
 

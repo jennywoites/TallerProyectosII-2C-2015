@@ -30,22 +30,43 @@
             android:id="@+id/switchEmptyAdoption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sin Mascotas en Adopcion"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="Sin Mascotas en Adopcion" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switchOnlyDog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Solo Perros en Adopcion"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="Solo Perros en Adopcion" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switchOnlyCats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Solo Gatos en Adopcion"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:text="Solo Gatos en Adopcion" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchEmptyMissing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Sin Mascotas Perdidas" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchOnlyDogMissing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Solo Perros Perdidos" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchOnlyCatsMissing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Solo Gatos Perdidos" />
 
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
