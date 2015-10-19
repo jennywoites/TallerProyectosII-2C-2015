@@ -201,7 +201,7 @@ public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment 
         double latitude = adoptionPetAddress.getLocation().getLatitude();
         double longitude = adoptionPetAddress.getLocation().getLongitude();
         LatLng posicion = new LatLng(latitude, longitude);
-        String msg = adoptionPet.getName() + " esta acá";
+        String msg = adoptionPet.getName() + " se perdió en esta zona";
         mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
     }
