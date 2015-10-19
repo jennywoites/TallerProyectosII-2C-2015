@@ -17,6 +17,11 @@ public class WaitForInternet {
     }
 
     public static boolean isConnected(final WaitForInternetCallback callback) {
+
+        if (Configuration.isDevelopmentMode()) {
+            return true;
+        }
+
         ConnectivityManager cm = (ConnectivityManager) callback.mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();

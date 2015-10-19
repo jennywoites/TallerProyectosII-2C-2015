@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 
 import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabasePetState;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceMock;
+import ar.uba.fi.nicodiaz.mascota.utils.Configuration;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class ConfigurationActivity extends AppCompatActivity {
@@ -117,7 +118,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (PetServiceFactory.isDevelopmentMode()) {
+        if (Configuration.isDevelopmentMode()) {
             devModeSwitch.setChecked(Boolean.TRUE);
             developmentModeEnable();
 
@@ -160,7 +161,7 @@ public class ConfigurationActivity extends AppCompatActivity {
     private void save() {
 
         if (devModeSwitch.isChecked()) {
-            PetServiceFactory.developmentModeEnable();
+            Configuration.developmentModeEnable();
             PetServiceMock instance = (PetServiceMock) PetServiceFactory.getInstance();
             if (emptyAdoptionSwitch.isChecked()) {
                 instance.loadAdoptionPets(DatabasePetState.EMPTY);
@@ -183,7 +184,7 @@ public class ConfigurationActivity extends AppCompatActivity {
             }
 
         } else {
-            PetServiceFactory.developmentModeDisable();
+            Configuration.developmentModeDisable();
         }
 
         Intent intent = new Intent(this, HomeActivity.class);
