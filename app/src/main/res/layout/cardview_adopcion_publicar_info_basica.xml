@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:paddingLeft="5px"
-                android:text="Especie *"
+                android:text="Especie"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:paddingLeft="5px"
-                android:text="Sexo *"
+                android:text="Sexo"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:paddingLeft="5px"
-                android:text="Edad *"
+                android:text="Edad"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"

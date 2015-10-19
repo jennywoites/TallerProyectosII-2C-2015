@@ -90,18 +90,18 @@
     <!-- Services -->
     <string name="error_saving_user">Error guardando usuario</string>
     <string name="error_uploading_photo">Ha ocurrido un error cargando la foto, intente nuevamente.</string>
-    <string name="pet_name_label">Nombre *</string>
-    <string name="pet_description_label">Descripcion *</string>
-    <string name="pet_raza_label">Raza *</string>
+    <string name="pet_name_label">Nombre</string>
+    <string name="pet_description_label">Descripcion</string>
+    <string name="pet_raza_label">Raza</string>
     <string name="pregunta_relacion_animales">¿Se lleva bien con otros animales?</string>
     <string name="pregunta_relacion_niños">¿Se lleva bien con los niños?</string>
-    <string name="pregunta_relacion_animales_label">¿Se lleva bien con otros animales? *</string>
-    <string name="pregunta_relacion_niños_label">¿Se lleva bien con los niños? *</string>
+    <string name="pregunta_relacion_animales_label">¿Se lleva bien con otros animales?</string>
+    <string name="pregunta_relacion_niños_label">¿Se lleva bien con los niños?</string>
     <string name="comentarios_label">Comentarios</string>
     <string name="pregunta_medicina">¿Toma alguna medicina?</string>
     <string name="pregunta_periocidad">¿Con qué periodicidad?</string>
-    <string name="pregunta_medicina_label">¿Toma alguna medicina? *</string>
-    <string name="pregunta_periocidad_label">¿Con qué periodicidad? *</string>
+    <string name="pregunta_medicina_label">¿Toma alguna medicina?</string>
+    <string name="pregunta_periocidad_label">¿Con qué periodicidad?</string>
     <string name="subir_foto">Subir Fotos</string>
     <string name="MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS">Debes seleccionar alguna opción</string>
     <string name="ERROR_FOTO_NO_INCLUIDA">Necesitamos una foto de tu mascota.</string>
