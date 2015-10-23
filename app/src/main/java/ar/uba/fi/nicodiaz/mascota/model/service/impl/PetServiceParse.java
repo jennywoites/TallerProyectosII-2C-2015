@@ -215,4 +215,24 @@ public class PetServiceParse extends PetService {
     public void setSelectedPet(Pet pet) {
         this.selectedPet = pet;
     }
+
+    @Override
+    public AdoptionPet getAdoptionPet(String petId) {
+        return getPet(petId, AdoptionPet.class);
+    }
+
+    @Override
+    public Pet getMissingPet(String petId) {
+        return getPet(petId, MissingPet.class);
+    }
+
+    private <T extends ParseObject> T getPet(String petId, Class petClass) {
+        ParseQuery<T> query = ParseQuery.getQuery(petClass);
+        query.whereEqualTo(AdoptionPet.OBJECT_ID, petId);
+        try {
+            return query.getFirst();
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 }

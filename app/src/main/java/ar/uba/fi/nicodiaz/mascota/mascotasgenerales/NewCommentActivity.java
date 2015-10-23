@@ -23,7 +23,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 public class NewCommentActivity extends AppCompatActivity {
 
     private EditText editText;
-    private String  parentId;
+    private String parentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,7 @@ public class NewCommentActivity extends AppCompatActivity {
             comment.setText(text);
             comment.setPetId(pet.getID());
 
-            CommentService.getInstance().save(comment);
+            CommentService.getInstance().save(comment, pet);
 
             return true;
         }

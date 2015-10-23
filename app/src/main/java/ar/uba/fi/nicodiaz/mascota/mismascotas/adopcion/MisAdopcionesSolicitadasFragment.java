@@ -104,7 +104,6 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
                 AdoptionRequest adoptionRequest = list.get(position);
-                RequestService.getInstance().setSelectedAdoptionRequest(adoptionRequest);
                 PetServiceFactory.getInstance().setSelectedPet(adoptionRequest.getAdoptionPet());
                 startActivity(i);
                 getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);

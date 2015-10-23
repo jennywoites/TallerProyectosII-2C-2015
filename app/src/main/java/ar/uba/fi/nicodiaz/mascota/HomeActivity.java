@@ -15,10 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.parse.ParseInstallation;
+
+import java.util.List;
+
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.HomeFragment;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasFragment;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.MisMascotasFragment;
+import ar.uba.fi.nicodiaz.mascota.model.Channel;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -43,10 +49,19 @@ public class HomeActivity extends AppCompatActivity {
                 toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
 
+                //SaveUserInInstallation
+                User user = UserService.getInstance().getUser();
+                PushService.getInstance().registerUser(user);
+
+                //RegisterChannels
+                List<Channel> channels = Channel.getChannels();
+                PushService.getInstance().subscribeChannels(channels);
+
                 FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new HomeFragment();
                 tx.replace(R.id.frame, fragment);
                 tx.commit();
+
 
 /*                String result = null;
                 try {
@@ -58,7 +73,6 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle("Mascota");
 
                 // Fill user information in header.
-                User user = UserService.getInstance().getUser();
                 CircleImageView imageProfileView = (CircleImageView) findViewById(R.id.profile_image);
                 if (user.isMale()) {
                     imageProfileView.setImageResource(R.drawable.user_male);

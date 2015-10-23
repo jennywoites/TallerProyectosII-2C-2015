@@ -31,8 +31,10 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
+import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 
 public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
@@ -52,8 +54,7 @@ public class MascotaSolicitadaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                AdoptionRequest selectedAdoptionRequest = RequestService.getInstance().getSelectedAdoptionRequest();
-                Pet pet = selectedAdoptionRequest.getAdoptionPet();
+                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());

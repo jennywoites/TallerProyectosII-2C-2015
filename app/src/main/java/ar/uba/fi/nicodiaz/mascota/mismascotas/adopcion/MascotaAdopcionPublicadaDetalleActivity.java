@@ -44,7 +44,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        final int fragementView = getIntent().getIntExtra("fragementView", 0);
         WaitForInternetCallback callback = new WaitForInternetCallback(this) {
             public void onConnectionSuccess() {
                 setContentView(R.layout.activity_mascota_adopcion_publicada_detalle);
@@ -127,6 +127,8 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                     }
                 });
                 tabs.setViewPager(pager);
+                pager.setCurrentItem(fragementView);
+
             }
         };
         WaitForInternet.setCallback(callback);

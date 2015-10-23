@@ -378,4 +378,14 @@ public class PetServiceMock extends PetService {
     public void setSelectedPet(Pet pet) {
         this.selectedPet = pet;
     }
+
+    @Override
+    public Pet getAdoptionPet(String petId) {
+        return null;
+    }
+
+    @Override
+    public Pet getMissingPet(String petId) {
+        return null;
+    }
 }

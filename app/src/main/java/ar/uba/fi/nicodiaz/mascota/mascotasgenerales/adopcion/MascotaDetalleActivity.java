@@ -75,7 +75,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        final int fragementView = getIntent().getIntExtra("fragementView", 0);
         WaitForInternetCallback callback = new WaitForInternetCallback(this) {
             public void onConnectionSuccess() {
                 setContentView(R.layout.activity_mascota_detalle);
@@ -158,6 +158,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                     }
                 });
                 tabs.setViewPager(pager);
+                pager.setCurrentItem(fragementView);
             }
         };
         WaitForInternet.setCallback(callback);

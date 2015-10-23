@@ -45,4 +45,8 @@ public abstract class PetService {
     public abstract Pet getSelectedPet();
 
     public abstract void setSelectedPet(Pet pet);
+
+    public abstract Pet getAdoptionPet(String petId);
+
+    public abstract Pet getMissingPet(String petId);
 }

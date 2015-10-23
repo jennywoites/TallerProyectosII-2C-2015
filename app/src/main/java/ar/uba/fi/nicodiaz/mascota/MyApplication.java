@@ -6,6 +6,7 @@ import android.content.Context;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
@@ -40,6 +41,9 @@ public class MyApplication extends Application {
         //Facebook Connect
         FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(this);
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+
     }
 
     public static Context getContext() {

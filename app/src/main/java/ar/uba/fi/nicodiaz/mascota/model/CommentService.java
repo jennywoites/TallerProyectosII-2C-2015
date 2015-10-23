@@ -14,6 +14,8 @@ import java.util.ListIterator;
 public class CommentService {
 
     private static CommentService ourInstance = new CommentService();
+    private static List<CommentDB> lastListComments = new ArrayList<>();
+
 
     public static CommentService getInstance() {
         return ourInstance;
@@ -47,6 +49,7 @@ public class CommentService {
     }
 
     public static List<Comment> generateListOfComments(List<CommentDB> listDB) {
+        lastListComments = listDB;
         List<Comment> comments = new ArrayList<>();
         HashMap<String, List<Comment>> hash = new HashMap<>();
 
@@ -79,7 +82,8 @@ public class CommentService {
         return comments;
     }
 
-    public void save(CommentDB comment) {
+    public void save(CommentDB comment, Pet pet) {
         comment.saveInBackground();
+        PushService.getInstance().sendCommentNotification(comment, pet, lastListComments);
     }
 }

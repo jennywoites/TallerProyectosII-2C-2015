@@ -16,24 +16,25 @@ public class RequestService {
     private static final int LIMIT_PETS = 4;
     private static final int LIMIT_REQUEST = 10;
     private static RequestService ourInstance = new RequestService();
+    private static PushService pushService;
 
     public static RequestService getInstance() {
         return ourInstance;
     }
 
     private RequestService() {
-
+        pushService = PushService.getInstance();
     }
 
     private AdoptionRequest adoptionRequest;
 
-    public AdoptionRequest getSelectedAdoptionRequest() {
+/*    public AdoptionRequest getSelectedAdoptionRequest() {
         return adoptionRequest;
-    }
+    }*/
 
-    public void setSelectedAdoptionRequest(AdoptionRequest adoptionRequest) {
+/*    public void setSelectedAdoptionRequest(AdoptionRequest adoptionRequest) {
         this.adoptionRequest = adoptionRequest;
-    }
+    }*/
 
     public boolean requestSent(AdoptionPet adoptionPet) {
         User user = UserService.getInstance().getUser();
@@ -110,5 +111,16 @@ public class RequestService {
 
     public void save(AdoptionRequest adoptionRequest) {
         adoptionRequest.saveInBackground();
+        sendPushNotification(adoptionRequest);
+    }
+
+    private void sendPushNotification(AdoptionRequest adoptionRequest) {
+        AdoptionPet adoptionPet = adoptionRequest.getAdoptionPet();
+        User requestingUser = adoptionRequest.getRequestingUser();
+        if (adoptionRequest.isAccepted()) {
+            pushService.sendAcceptedRequestAdoptionPet(adoptionPet, requestingUser);
+        } else if (adoptionRequest.isPending()) {
+            pushService.sendRequestAdoptionPet(adoptionPet);
+        }
     }
 }
