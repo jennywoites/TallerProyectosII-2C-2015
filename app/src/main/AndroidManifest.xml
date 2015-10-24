@@ -78,7 +78,7 @@
         </activity>
         <activity
             android:name=".mascotasgenerales.perdidas.PerdidasPublicarActivity"
-            android:label="Publicar una pérdida"
+            android:label="@string/title_activity_agregar_perdida"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -116,6 +116,9 @@
             android:name=".mascotasgenerales.adopcion.SolicitarAdopcionActivity"
             android:label="Adoptar"></activity>
         <activity
+            android:name=".mascotasgenerales.encontradas.SolicitarEncontradaActivity"
+            android:label="Adoptar"></activity>
+        <activity
             android:name=".mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
@@ -133,7 +136,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
-
+        <activity
+            android:name=".mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity"
+            android:label="@string/title_activity_mascota_detalle"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
         <activity
             android:name=".mismascotas.adopcion.MascotaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
@@ -146,6 +157,16 @@
         <activity
             android:name=".ConfigurationActivity"
             android:label="Configuracion"></activity>
+
+        <activity
+            android:name=".mascotasgenerales.encontradas.EncontradasPublicarActivity"
+            android:label="@string/title_activity_agregar_encontrada"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
 
         <service android:name="com.parse.PushService" />
 

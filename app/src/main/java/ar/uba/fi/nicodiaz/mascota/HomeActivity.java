@@ -15,12 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.parse.ParseInstallation;
-
 import java.util.List;
 
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionFragment;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.HomeFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionFragment;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.EncontradasFragment;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasFragment;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.MisMascotasFragment;
 import ar.uba.fi.nicodiaz.mascota.model.Channel;
@@ -131,7 +130,6 @@ public class HomeActivity extends AppCompatActivity {
                 fragment = new AdopcionFragment();
                 currentFragment = getResources().getString(R.string.title_activity_adopcion);
                 break;
-
 /*            case R.id.drawer_profile:
                 Toast.makeText(getApplicationContext(), "Profile selected", Toast.LENGTH_SHORT).show();
                 fragment = new ProfileFragment();
@@ -140,6 +138,10 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.drawer_missing:
                 fragment = new PerdidasFragment();
                 currentFragment = getResources().getString(R.string.title_activity_missing);
+                break;
+            case R.id.drawer_found:
+                fragment = new EncontradasFragment();
+                currentFragment = getResources().getString(R.string.title_activity_found);
                 break;
             /*case R.id.drawer_about:
                 Toast.makeText(getApplicationContext(), "About selected", Toast.LENGTH_SHORT).show();

@@ -35,6 +35,7 @@
 
     <string name="title_activity_adopcion">Adopciones</string>
     <string name="title_activity_agregar_adopcion">Publicar una adopción</string>
+    <string name="title_activity_agregar_encontrada">Publicar una encontrada</string>
     <string name="title_activity_buscar_adopcion">Buscar Mascota</string>
     <string name="title_activity_home">Inicio</string>
     <string name="title_activity_about">Acerca de</string>
@@ -501,4 +502,6 @@
     <string name="title_activity_perdida_publicar">PerdidaPublicarActivity</string>
     <string name="configuracion">Configuración</string>
     <string name="comment_push_notification_author_message">Comentaron una publicación por la cual te interesaste</string>
+    <string name="title_activity_found">Encontradas</string>
+    <string name="title_activity_agregar_perdida">Publicar una pérdida</string>
 </resources>

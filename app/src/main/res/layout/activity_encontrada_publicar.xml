@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.EncontradasPublicarActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_info_basica"
+                    layout="@layout/cardview_adopcion_publicar_info_basica" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_social"
+                    layout="@layout/cardview_adopcion_publicar_social" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_medicina"
+                    layout="@layout/cardview_adopcion_publicar_medicina" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_info_basica_foto"
+                    layout="@layout/cardview_adopcion_publicar_info_basica_foto" />
+
+                <include
+                    android:id="@+id/cardview_adopcion_publicar_videos"
+                    layout="@layout/cardview_adopcion_publicar_videos" />
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+</LinearLayout>

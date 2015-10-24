@@ -21,6 +21,12 @@
             android:title="@string/title_activity_missing" />
 
         <item
+            android:id="@+id/drawer_found"
+            android:checked="false"
+            android:icon="@drawable/ic_action_found"
+            android:title="@string/title_activity_found" />
+
+        <item
             android:id="@+id/drawer_my_pets"
             android:checked="false"
             android:icon="@drawable/ic_social"

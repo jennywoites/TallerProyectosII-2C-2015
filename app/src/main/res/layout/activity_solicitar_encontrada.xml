@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.SolicitarEncontradaActivity"
+    android:weightSum="1">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titulo"
+        android:text="¿MASCOTA es tu mascota perdida?"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_margin="16dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/imageView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/firstrow"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sexo"
+                android:paddingTop="8dp"/>
+            <TextView
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:id="@+id/infSexoPet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sexo"
+                android:paddingStart="16dp"
+                android:paddingBottom="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Especie"
+                    android:paddingTop="8dp"/>
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/infEspeciePet"
+                    android:layout_height="wrap_content"
+                    android:text="especie"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Raza"
+                    android:paddingTop="8dp"/>
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:id="@+id/infRazaPet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="raza"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación"
+                    android:paddingTop="8dp"/>
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:id="@+id/infUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ubicación"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/comment_editText"
+        android:hint="Deje su comentario..."
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="140"
+        android:gravity="top"
+        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:id="@+id/mine"
+            android:layout_marginRight="8dp"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:id="@+id/cancel"
+            android:layout_marginLeft="8dp"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+    </LinearLayout>
+
+</LinearLayout>

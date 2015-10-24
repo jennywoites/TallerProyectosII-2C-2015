@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollableView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/cardview_basica"
+            layout="@layout/cardview_informacion_basica_mascota" />
+
+        <include
+            android:id="@+id/cardview_descripcion"
+            layout="@layout/cardview_descripcion_mascota" />
+
+        <include
+            android:id="@+id/cardview_ubicacion"
+            layout="@layout/cardview_ubicacion_mascota" />
+
+        <include
+            android:id="@+id/cardview_social"
+            layout="@layout/cardview_informacion_social_mascota" />
+
+        <include
+            android:id="@+id/cardview_medica"
+            layout="@layout/cardview_informacion_medica_mascota" />
+
+        <include
+            android:id="@+id/cardview_fotos"
+            layout="@layout/cardview_fotos_mascota" />
+
+        <include
+            android:id="@+id/cardview_video"
+            layout="@layout/cardview_video_mascota" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.EncontradasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MisAdopcionesFragment;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MisPerdidasFragment;
@@ -79,7 +79,8 @@ public class MisMascotasFragment extends Fragment {
         add_found_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "Próximamente podras hacerlo.", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(activity, EncontradasPublicarActivity.class);
+                startActivity(i);
             }
         });
 
