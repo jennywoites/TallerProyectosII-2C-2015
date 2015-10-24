@@ -117,7 +117,7 @@
             android:label="Adoptar"></activity>
         <activity
             android:name=".mascotasgenerales.encontradas.SolicitarEncontradaActivity"
-            android:label="Adoptar"></activity>
+            android:label="Reclamar"></activity>
         <activity
             android:name=".mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
