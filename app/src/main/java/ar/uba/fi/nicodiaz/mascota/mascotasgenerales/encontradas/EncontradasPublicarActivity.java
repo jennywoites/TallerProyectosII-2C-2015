@@ -1,9 +1,11 @@
 package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -15,9 +17,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +30,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
@@ -35,12 +48,17 @@ import net.yazeed44.imagepicker.util.Picker;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
@@ -48,11 +66,12 @@ import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
+import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
-public class EncontradasPublicarActivity extends AppCompatActivity {
+public class EncontradasPublicarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
     private Toolbar toolbar;
     private Button selectImageButton;
     private AdoptionPet pet;
@@ -60,6 +79,31 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
     private LinearLayout photos_layout;
     private TextView photos_empty;
     private EditText nameEditText;
+
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+    // DatePicker Fecha encuentro de la Mascota.
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+    private Calendar myCalendar = Calendar.getInstance();
+    private DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+    };
+
+    // -*-*-*-*-*-*-*-*-*-*-*
+    // Completa la dirección.
+    // -*-*-*-*-*-*-*-*-*-*-*
+    AutoCompleteTextView _addressAutoCompleteText;
+    protected GoogleApiClient mGoogleApiClient;
+    private PlaceAutoCompleteAdapter mAdapter;
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
+    private Address direccion;
 
     @Override
     public void onBackPressed() {
@@ -120,25 +164,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
                     }
                 });
 
-                RadioGroup medicineYesNo = (RadioGroup) findViewById(R.id.rgMedicine);
-
-                medicineYesNo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        switch (checkedId) {
-                            case R.id.rdSi:
-                                findViewById(R.id.medicineTimeLayout).setVisibility(View.VISIBLE);
-                                ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
-                                break;
-                            case R.id.rdNo:
-                                findViewById(R.id.medicineTimeLayout).setVisibility(View.GONE);
-                                ((RadioButton) findViewById(R.id.rdNoToma)).setChecked(true);
-                                break;
-                        }
-                    }
-                });
-
-
                 photos = new ArrayList<>();
                 photos_layout = (LinearLayout) findViewById(R.id.photos_layout);
                 photos_empty = (TextView) findViewById(R.id.selected_photos_empty);
@@ -168,9 +193,52 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
                 });
 
                 pet = new AdoptionPet();
+
+
+                // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                // DatePicker Fecha última vista de la Mascota.
+                // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                ((EncontradasPublicarActivity) mActivity).updateLabel();
+
+                ((TextView) findViewById(R.id.txtDate)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DatePickerDialog(EncontradasPublicarActivity.this, date, myCalendar
+                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
+                });
+
+                // -*-*-*-*-*-*-*-*-*-*-*
+                // Completa la dirección.
+                // -*-*-*-*-*-*-*-*-*-*-*
+                mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
+                        .enableAutoManage((EncontradasPublicarActivity)mActivity, 0, (EncontradasPublicarActivity)mActivity)
+                        .addApi(Places.GEO_DATA_API)
+                        .build();
+
+
+                _addressAutoCompleteText = (AutoCompleteTextView) findViewById(R.id.input_direccion);
+                _addressAutoCompleteText.setOnItemClickListener((EncontradasPublicarActivity)mActivity);
+
+
+                mAdapter = new PlaceAutoCompleteAdapter(mActivity, android.R.layout.simple_list_item_1,
+                        mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
+                _addressAutoCompleteText.setAdapter(mAdapter);
+
+
             }
         };
         WaitForInternet.setCallback(callback);
+    }
+
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    // Actualiza la vista con la fecha seleccionada.
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    private void updateLabel() {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        ((TextView) findViewById(R.id.txtDate)).setText(sdf.format(myCalendar.getTime()));
     }
 
     private void showMedia() {
@@ -193,6 +261,61 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
             photos_layout.addView(imageView, 0);
         }
 
+    }
+
+    // -*-*-*-*-*-*-*-*-*-*-*
+    // Completa la dirección.
+    // -*-*-*-*-*-*-*-*-*-*-*
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        final PlaceAutoCompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
+        final String placeId = String.valueOf(item.placeId);
+        PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                .getPlaceById(mGoogleApiClient, placeId);
+
+        placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+            @Override
+            public void onResult(PlaceBuffer places) {
+                if (!places.getStatus().isSuccess()) {
+                    // Request did not complete successfully
+                    places.release();
+                    direccion = null;
+                    return;
+                }
+                // Get the Place object from the buffer.
+                final Place place = places.get(0);
+                Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+                String address = place.getAddress().toString();
+                double longitude = place.getLatLng().longitude;
+                double latitude = place.getLatLng().latitude;
+
+
+                List<android.location.Address> addresses = null;
+                String locality = "";
+                String subLocality = "";
+                try {
+                    addresses = gcd.getFromLocation(latitude, longitude, 1);
+                    if (addresses.size() > 0) {
+                        locality = addresses.get(0).getLocality();
+                        subLocality = addresses.get(0).getSubLocality();
+                    }
+
+                } catch (IOException e) {
+                    direccion = null;
+                    return;
+                }
+
+                direccion = new Address(address, latitude, longitude, locality, subLocality);
+                places.release();
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(this,
+                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                Toast.LENGTH_SHORT).show();
     }
 
     public void onPickPhoto() {
@@ -332,12 +455,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
         String ageRange = this.getAgeValue();
-        String pets = this.getPetsValue();
-        String children = this.getChildrenValue();
-        String socialNotes = ((EditText) findViewById(R.id.txtSocialNotes)).getText().toString();
-        String medicine = this.getMedicineValue();
-        String medicineTime = this.getMedicineTimeValue();
-        String medicineNotes = ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString();
         String urlOne = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoOne)).getText().toString());
         String urlTwo = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
         String urlThree = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
@@ -351,16 +468,22 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
         pet.setKind(kind);
         pet.setOwner(user);
         pet.setLocation(user.getAddress());
-        pet.setOtherPets(pets);
-        pet.setChildren(children);
-        pet.setSocialNotes(socialNotes);
-        pet.setMedicine(medicine);
-        pet.setMedicineTime(medicineTime);
-        pet.setMedicineNotes(medicineNotes);
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
         pet.setState(AdoptionPetState.NO_ADOPTED);
+    }
+
+    private Date parseStringToDate(String lastKnowDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date convertedDate = null;
+
+        try {
+            convertedDate = dateFormat.parse(lastKnowDate);
+        } catch (java.text.ParseException e) {
+        }
+
+        return(convertedDate);
     }
 
     private String parseYouTubeVideoUrl(String url) {
@@ -418,21 +541,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
         return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
     }
 
-    private String getChildrenValue() {
-        RadioGroup rg = (RadioGroup) findViewById(R.id.rgChildren);
-        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
-    }
-
-    private String getMedicineValue() {
-        RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicine);
-        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
-    }
-
-    private String getMedicineTimeValue() {
-        RadioGroup rg = (RadioGroup) findViewById(R.id.rgMedicineTime);
-        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
-    }
-
     private boolean validate() {
         boolean valid = true;
 
@@ -462,23 +570,23 @@ public class EncontradasPublicarActivity extends AppCompatActivity {
         valid &= checkOpciones(R.id.rgSpecie, R.id.lbspecies);
         valid &= checkOpciones(R.id.rgSexo, R.id.lbSexo);
         valid &= checkOpciones(R.id.rgAge, R.id.lbAge);
-        valid &= checkOpciones(R.id.rgPets, R.id.lbSocialAnimales);
-        valid &= checkOpciones(R.id.rgChildren, R.id.lbSocialNiños);
-        valid &= checkOpciones(R.id.rgMedicine, R.id.lbMedicina);
-        valid &= checkOpciones(R.id.rgMedicineTime, R.id.lbMedicinaTiempo);
 
-        // Checkeo de medicina:
-        if (((RadioButton) findViewById(R.id.rdSi)).isChecked() && ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString().isEmpty()) {
-            EditText notes = (EditText) findViewById(R.id.txtMedicineNotes);
-            notes.setError("Debes especificar la medicina que toma");
-            valid = false;
+        // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+        // La última fecha conocida no puede ser futura.
+        // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+        if (valid) {
+            Date lastKnowDate = parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
+            Date dateNow = Calendar.getInstance().getTime();
+
+            if (lastKnowDate.compareTo(dateNow) > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.ADVERTENCIA);
+                builder.setMessage(getString(R.string.ERROR_FECHA_FUTURA));
+                AlertDialog alert = builder.create();
+                alert.show();
+                valid = false;
+            }
         }
-        if (((RadioButton) findViewById(R.id.rdSi)).isChecked() && ((RadioButton) findViewById(R.id.rdNoToma)).isChecked()) {
-            TextView medicineTime = (TextView) findViewById(R.id.lbMedicinaTiempo);
-            medicineTime.setError(getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS));
-            valid = false;
-        }
-        // Fin checkeo de medicina
 
         if (valid) {
             if (photos.isEmpty()) {
