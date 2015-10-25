@@ -57,8 +57,6 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
         }
         ArrayList<String> urlVideos = encontradaPet.getVideos();
         loadInformacionBasica(encontradaPet);
-        loadInformacionSocial(encontradaPet);
-        loadInformacionMedica(encontradaPet);
         loadPhotos(urlPhotos);
         loadVideos(urlVideos);
         setUpMapIfNeeded();
@@ -161,57 +159,6 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
 
     }
 
-    private void loadInformacionSocial(Pet pet) {
-        TextView textView = (TextView) view.findViewById(R.id.infRelacionNiños);
-        textView.setText(pet.getChildren());
-
-        textView = (TextView) view.findViewById(R.id.infRelacionAnimales);
-        textView.setText(pet.getOtherPets());
-
-        String socialNotes = pet.getSocialNotes();
-        if (!socialNotes.isEmpty()) {
-            textView = (TextView) view.findViewById(R.id.infComentariosSocial);
-            textView.setText(socialNotes);
-        } else {
-            textView = (TextView) view.findViewById(R.id.comentariosSocialLabel);
-            textView.setVisibility(View.GONE);
-
-            textView = (TextView) view.findViewById(R.id.infComentariosSocial);
-            textView.setVisibility(View.GONE);
-        }
-    }
-
-    private void loadInformacionMedica(Pet pet) {
-        TextView textView = (TextView) view.findViewById(R.id.infTomaMedicina);
-        textView.setText(pet.getMedicine());
-
-        String responseNO = getResources().getString(R.string.no);
-
-        if (pet.getMedicine().equals(responseNO)) {
-            textView = (TextView) view.findViewById(R.id.infPeriocidadLabel);
-            textView.setVisibility(View.GONE);
-
-            textView = (TextView) view.findViewById(R.id.infPeriocidad);
-            textView.setVisibility(View.GONE);
-        } else {
-            textView = (TextView) view.findViewById(R.id.infPeriocidad);
-            textView.setText(pet.getMedicineTime());
-        }
-
-
-        String medicineNotes = pet.getMedicineNotes();
-        if (!medicineNotes.isEmpty()) {
-            textView = (TextView) view.findViewById(R.id.infComentariosMedicina);
-            textView.setText(medicineNotes);
-        } else {
-            textView = (TextView) view.findViewById(R.id.comentariosMedicinaLabel);
-            textView.setVisibility(View.GONE);
-
-            textView = (TextView) view.findViewById(R.id.infComentariosMedicina);
-            textView.setVisibility(View.GONE);
-        }
-    }
-
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
@@ -248,8 +195,9 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
     private void setUpMap() {
         ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = encontradaPet.getAddress();
 
-/*        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
-        ubicacion.setText(adoptionPetAddress.getCalle());*/
+        TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
+        //fecha.setText(encontradaPet.getDate()); // TODO: setear fecha via base de datos.
+        fecha.setText("NO HAY FECHA");
 
         double latitude = adoptionPetAddress.getLocation().getLatitude();
         double longitude = adoptionPetAddress.getLocation().getLongitude();

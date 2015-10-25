@@ -23,7 +23,7 @@
 
         <include
             android:id="@+id/cardview_ubicacion"
-            layout="@layout/cardview_ubicacion_mascota" />
+            layout="@layout/cardview_ubicacion_mascota_perdida" />
 
         <include
             android:id="@+id/cardview_fotos"

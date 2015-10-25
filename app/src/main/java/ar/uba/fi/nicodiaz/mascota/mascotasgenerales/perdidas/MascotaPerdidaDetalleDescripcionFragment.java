@@ -173,10 +173,9 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     private void setUpMap() {
         ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = missingPet.getAddress();
 
-        /*
-        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
-        ubicacion.setText(adoptionPetAddress.getCalle());
-        */
+        TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
+        //fecha.setText(missingPet.getDate()); // TODO: setear fecha via base de datos.
+        fecha.setText("NO HAY FECHA");
 
         if (adoptionPetAddress != null) {
             double latitude = adoptionPetAddress.getLocation().getLatitude();
