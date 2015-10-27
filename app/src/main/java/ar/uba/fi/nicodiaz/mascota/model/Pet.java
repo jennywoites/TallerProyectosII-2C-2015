@@ -12,6 +12,7 @@ public interface Pet {
 
     public final static char ADOPTION = 'A';
     public final static char MISSING = 'M';
+    public final static char FOUND = 'F';
 
     String getAgeRange();
 
@@ -26,6 +27,8 @@ public interface Pet {
     User getOwner();
 
     User getCatcher();
+
+    User getPublisher();
 
     String getOtherPets();
 

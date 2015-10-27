@@ -119,6 +119,11 @@ public class RequestAdoptionEndlessAdapter extends RecyclerView.Adapter<Recycler
             MascotaViewHolder view = (MascotaViewHolder) viewHolder;
             AdoptionRequest adoptionRequest = adoptionRequests.get(i);
             AdoptionPet adoptionPet = adoptionRequest.getAdoptionPet();
+
+            if (adoptionPet == null) {
+                return;
+            }
+
             ParseFile photoFile = adoptionPet.getPicture();
             if (photoFile != null) {
                 view.mascotaImage.setVisibility(View.VISIBLE);

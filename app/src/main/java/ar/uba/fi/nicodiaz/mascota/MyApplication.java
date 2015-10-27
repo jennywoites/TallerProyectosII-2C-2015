@@ -14,6 +14,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 13/9/2015.
@@ -33,6 +34,7 @@ public class MyApplication extends Application {
         ParseObject.registerSubclass(MissingPet.class);
         ParseObject.registerSubclass(CommentDB.class);
         ParseObject.registerSubclass(AdoptionRequest.class);
+        ParseObject.registerSubclass(FoundPet.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);

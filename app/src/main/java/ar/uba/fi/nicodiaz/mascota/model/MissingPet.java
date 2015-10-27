@@ -91,6 +91,11 @@ public class MissingPet extends ParseObject implements Pet {
     }
 
     @Override
+    public User getPublisher() {
+        return null;
+    }
+
+    @Override
     public String getOtherPets() {
         return getString(PETS);
     }

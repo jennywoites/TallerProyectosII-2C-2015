@@ -38,19 +38,22 @@ public class RequestService {
 
     public boolean requestSent(AdoptionPet adoptionPet) {
         User user = UserService.getInstance().getUser();
-        if (user == null)
-            return false;
-        List<AdoptionRequest> adoptionRequests = getAdoptionRequestsToPets(user, 0);
-        if (adoptionRequests == null) {
+
+        if (user == null) {
             return false;
         }
-        for (AdoptionRequest adoptionRequest : adoptionRequests) {
-            if (adoptionRequest == null)
-                return false;
-            if (adoptionRequest.getAdoptionPet().getID().equals(adoptionPet.getID()))
-                return true;
+
+        int requestCount = 0;
+        ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
+        query.whereEqualTo(AdoptionRequest.REQUESTING_USER, user.getParseUser());
+        query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
+        try {
+            requestCount = query.count();
+        } catch (ParseException e) {
+            return false;
         }
-        return false;
+
+        return requestCount > 0;
     }
 
     public Map<AdoptionPet, AdoptionRequest> getAdoptionPetRequestedByUser(int page) {
@@ -73,7 +76,7 @@ public class RequestService {
 
 
     public List<AdoptionRequest> getAdoptionRequests(AdoptionPet adoptionPet) {
-        List<AdoptionRequest> list = new ArrayList<>();
+        List<AdoptionRequest> list;
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
         query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
         query.whereNotEqualTo(AdoptionRequest.STATE, RequestState.IGNORED.toString());

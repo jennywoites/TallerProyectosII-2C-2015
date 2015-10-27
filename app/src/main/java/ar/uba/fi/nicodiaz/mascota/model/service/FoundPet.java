@@ -1,38 +1,35 @@
-package ar.uba.fi.nicodiaz.mascota.model;
+package ar.uba.fi.nicodiaz.mascota.model.service;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
+import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
+import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.User;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
  */
-@ParseClassName("MascotaEnAdopcion")
-public class AdoptionPet extends ParseObject implements Pet {
+@ParseClassName("MascotaEncontrada")
+public class FoundPet extends ParseObject implements Pet {
 
     public static final String OBJECT_ID = "objectId";
     public static final String AGE = "age";
     public static final String DESCRIPTION = "description";
-    public static final String NAME = "name";
     public static final String GENDER = "gender";
     public static final String KIND = "kind";
     public static final String BREED = "breed";
+    public static final String PUBLISHER = "publisher";
     public static final String OWNER = "owner";
-    public static final String CATCHER = "catcher";
-    public static final String PETS = "pets";
-    public static final String CHILDREN = "children";
-    public static final String SOCIAL_NOTES = "socialNotes";
-    public static final String MEDICINE = "medicine";
-    public static final String MEDICINE_TIME = "medicineTime";
-    public static final String MEDICINE_NOTES = "medicineNotes";
     public static final String VIDEO_ONE = "urlOne";
     public static final String VIDEO_TWO = "urlTwo";
     public static final String VIDEO_THREE = "urlThree";
@@ -43,9 +40,11 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
     public static final String STATE = "state";
+    public static final String LAST_KNOW_DATE = "lastKnowDate";
+    public static final String LAST_KNOW_ADDRESS = "lastKnowAddress";
     public static String MALE = "Macho";
 
-    public AdoptionPet() {
+    public FoundPet() {
     }
 
     @Override
@@ -60,7 +59,7 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public String getName() {
-        return getString(NAME);
+        throw new NoSuchMethodError();
     }
 
     @Override
@@ -85,43 +84,43 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public User getCatcher() {
-        ParseUser parseUser = getParseUser(CATCHER);
-        return new User(parseUser);
-    }
-
-    @Override
-    public User getPublisher() {
         return null;
     }
 
     @Override
+    public User getPublisher() {
+        ParseUser parseUser = getParseUser(PUBLISHER);
+        return new User(parseUser);
+    }
+
+    @Override
     public String getOtherPets() {
-        return getString(PETS);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public String getChildren() {
-        return getString(CHILDREN);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public String getSocialNotes() {
-        return getString(SOCIAL_NOTES);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public String getMedicine() {
-        return getString(MEDICINE);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public String getMedicineTime() {
-        return getString(MEDICINE_TIME);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public String getMedicineNotes() {
-        return getString(MEDICINE_NOTES);
+        throw new NoSuchMethodError();
     }
 
     @Override
@@ -141,7 +140,7 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public void setName(String name) {
-        put(NAME, name);
+
     }
 
     @Override
@@ -161,37 +160,37 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public void setCatcher(User user) {
-        put(CATCHER, user.getParseUser());
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setOtherPets(String otherPets) {
-        put(PETS, otherPets);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setChildren(String children) {
-        put(CHILDREN, children);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setSocialNotes(String notes) {
-        put(SOCIAL_NOTES, notes);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setMedicine(String medicine) {
-        put(MEDICINE, medicine);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setMedicineTime(String time) {
-        put(MEDICINE_TIME, time);
+        throw new NoSuchMethodError();
     }
 
     @Override
     public void setMedicineNotes(String notes) {
-        put(MEDICINE_NOTES, notes);
+        throw new NoSuchMethodError();
     }
 
     @Override
@@ -205,7 +204,7 @@ public class AdoptionPet extends ParseObject implements Pet {
     }
 
     public Address getAddress() {
-        Address address = getOwner().getAddress();
+        Address address = getLastKnowAddress();
         return address;
     }
 
@@ -298,7 +297,7 @@ public class AdoptionPet extends ParseObject implements Pet {
 
     @Override
     public char getType() {
-        return Pet.ADOPTION;
+        return Pet.FOUND;
     }
 
     @Override
@@ -306,12 +305,34 @@ public class AdoptionPet extends ParseObject implements Pet {
         return getObjectId();
     }
 
-    public void setState(AdoptionPetState adoptionPetState) {
-        put(STATE, adoptionPetState.toString());
+    public void setState(FoundPetState foundPetState) {
+        put(STATE, foundPetState.toString());
     }
 
     public AdoptionPetState getState() {
         String text = getString(STATE);
         return AdoptionPetState.getState(text);
+    }
+
+    public void setLastKnowDate(Date lastKnowDate) {
+        put(LAST_KNOW_DATE, lastKnowDate);
+    }
+
+    public String getLastKnowDate() {
+        return getString(LAST_KNOW_DATE);
+    }
+
+    public void setLastKnowAddress(Address lastKnowAddress) {
+        setLocation(lastKnowAddress);
+        put(LAST_KNOW_ADDRESS, lastKnowAddress);
+    }
+
+    public Address getLastKnowAddress() {
+        try {
+            return (Address) getParseObject(LAST_KNOW_ADDRESS).fetchIfNeeded();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
