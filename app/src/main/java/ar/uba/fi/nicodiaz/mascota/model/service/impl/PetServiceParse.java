@@ -11,10 +11,12 @@ import java.util.Set;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 
@@ -42,6 +44,11 @@ public class PetServiceParse extends PetService {
     @Override
     public void saveMissingPet(MissingPet missingPet) {
         missingPet.saveInBackground();
+    }
+
+    @Override
+    public void saveFoundPet(FoundPet foundPet) {
+        foundPet.saveInBackground();
     }
 
     @Override
@@ -80,13 +87,42 @@ public class PetServiceParse extends PetService {
         return pets;
     }
 
+    @Override
+    public List<? extends Pet> getFoundPets(int page) {
+        List<FoundPet> pets = getPets(page, FoundPet.class);
+        return pets;
+    }
+
+    @Override
+    public List<? extends Pet> getFoundPetsByUser(int page) {
+        List<FoundPet> pets = getPetsByUser(page, FoundPet.class);
+        return pets;
+    }
+
+    @Override
+    public List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters) {
+        List<FoundPet> pets = getPets(page, filters, FoundPet.class);
+        return pets;
+    }
+
     private <T extends ParseObject> List<T> getPetsByUser(int page, Class petClass) {
         User user = UserService.getInstance().getUser();
         List<T> pets = new ArrayList<>();
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
         query.addDescendingOrder("createdAt");
-        query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
-        query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
+
+        if (petClass.equals(AdoptionPet.class)) {
+            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+            query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
+        } else if (petClass.equals(FoundPet.class)) {
+            query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
+        } else if (petClass.equals(MissingPet.class)) {
+            //Todo Revisar poner un MissingPetState
+            query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        }
+
         query.setLimit(LIMIT);
         query.setSkip(page * LIMIT);
         try {
@@ -104,10 +140,15 @@ public class PetServiceParse extends PetService {
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
 
         if (petClass.equals(AdoptionPet.class)) {
+            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
             query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+        } else if (petClass.equals(FoundPet.class)) {
+            query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
+        } else if (petClass.equals(MissingPet.class)) {
+            //Todo Revisar poner un MissingPetState
+            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         }
-
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
 
         query.addDescendingOrder("createdAt");
         query.setLimit(LIMIT);
@@ -170,11 +211,19 @@ public class PetServiceParse extends PetService {
 
     private <T extends ParseObject> ParseQuery<T> createQuery(User user, Map<String, List<String>> filters, Class petClass) {
         ParseQuery<T> query = ParseQuery.getQuery(petClass);
-        query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+
         //Filtro las no adoptadas
         if (petClass.equals(AdoptionPet.class)) {
+            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
             query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+        } else if (petClass.equals(FoundPet.class)) {
+            query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
+        } else if (petClass.equals(MissingPet.class)) {
+            //Todo Revisar poner un MissingPetState
+            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
         }
+
 
         Set<String> filterKeys = filters.keySet();
         for (String key : filterKeys) {
@@ -224,6 +273,11 @@ public class PetServiceParse extends PetService {
     @Override
     public Pet getMissingPet(String petId) {
         return getPet(petId, MissingPet.class);
+    }
+
+    @Override
+    public Pet getFoundPet(String petId) {
+        return null;
     }
 
     private <T extends ParseObject> T getPet(String petId, Class petClass) {

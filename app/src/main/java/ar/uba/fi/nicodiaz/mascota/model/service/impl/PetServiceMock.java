@@ -14,6 +14,7 @@ import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.DatabasePetState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
@@ -229,6 +230,11 @@ public class PetServiceMock extends PetService {
     }
 
     @Override
+    public void saveFoundPet(FoundPet foundPet) {
+
+    }
+
+    @Override
     public List<? extends Pet> getAdoptionPets(int page) {
         return getPets(page, adoptionPets);
     }
@@ -258,6 +264,21 @@ public class PetServiceMock extends PetService {
     @Override
     public List<MissingPet> getMissingPets(int page, Map<String, List<String>> filters) {
         return getPets(page, missingPets, filters);
+    }
+
+    @Override
+    public List<? extends Pet> getFoundPets(int page) {
+        return null;
+    }
+
+    @Override
+    public List<? extends Pet> getFoundPetsByUser(int page) {
+        return null;
+    }
+
+    @Override
+    public List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters) {
+        return null;
     }
 
 
@@ -386,6 +407,11 @@ public class PetServiceMock extends PetService {
 
     @Override
     public Pet getMissingPet(String petId) {
+        return null;
+    }
+
+    @Override
+    public Pet getFoundPet(String petId) {
         return null;
     }
 }

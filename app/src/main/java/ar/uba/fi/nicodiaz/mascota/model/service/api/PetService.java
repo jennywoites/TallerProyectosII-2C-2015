@@ -7,6 +7,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 17/10/2015.
@@ -21,6 +22,8 @@ public abstract class PetService {
 
     public abstract void saveMissingPet(MissingPet missingPet);
 
+    public abstract void saveFoundPet(FoundPet foundPet);
+
     public abstract List<? extends Pet> getAdoptionPets(int page);
 
     public abstract List<? extends Pet> getAdoptionPets(int page, Map<String, List<String>> filters);
@@ -32,6 +35,12 @@ public abstract class PetService {
     public abstract List<? extends Pet> getMissingPetsByUser(int page);
 
     public abstract List<MissingPet> getMissingPets(int page, Map<String, List<String>> filters);
+
+    public abstract List<? extends Pet> getFoundPets(int page);
+
+    public abstract List<? extends Pet> getFoundPetsByUser(int page);
+
+    public abstract List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters);
 
     public int getIconPet(String petKind) {
         if (petKind.equals(DOG)) {
@@ -49,4 +58,6 @@ public abstract class PetService {
     public abstract Pet getAdoptionPet(String petId);
 
     public abstract Pet getMissingPet(String petId);
+
+    public abstract Pet getFoundPet(String petId);
 }
