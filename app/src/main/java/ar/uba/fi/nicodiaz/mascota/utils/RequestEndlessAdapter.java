@@ -242,7 +242,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
                                     adoptionRequestOK.accept();
-                                    requestService.save(adoptionRequestOK);
+                                    requestService.save(adoptionRequestOK,requestList);
 
                                     //Confirmo la mascota como adoptada
                                     AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();

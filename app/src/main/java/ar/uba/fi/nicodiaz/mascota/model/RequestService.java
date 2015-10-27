@@ -117,13 +117,24 @@ public class RequestService {
         sendPushNotification(adoptionRequest);
     }
 
+    public void save(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
+        adoptionRequest.saveInBackground();
+        sendPushNotification(adoptionRequest, adoptionRequestIgnored);
+    }
+
     private void sendPushNotification(AdoptionRequest adoptionRequest) {
+        AdoptionPet adoptionPet = adoptionRequest.getAdoptionPet();
+        if (adoptionRequest.isPending()) {
+            pushService.sendRequestAdoptionPet(adoptionPet);
+        }
+    }
+
+    private void sendPushNotification(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
         AdoptionPet adoptionPet = adoptionRequest.getAdoptionPet();
         User requestingUser = adoptionRequest.getRequestingUser();
         if (adoptionRequest.isAccepted()) {
             pushService.sendAcceptedRequestAdoptionPet(adoptionPet, requestingUser);
-        } else if (adoptionRequest.isPending()) {
-            pushService.sendRequestAdoptionPet(adoptionPet);
+            pushService.sendIgnoredRequestAdoptionPet(adoptionRequest, adoptionRequestIgnored);
         }
     }
 }

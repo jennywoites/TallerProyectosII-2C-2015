@@ -45,7 +45,8 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
             case ADOPTION_REQUEST_RECEIVED:
             case COMMENT_ON_ADOPTION_OWNER:
             case COMMENT_ON_ADOPTION_AUTHOR:
-            case ADOPTION_ACCEPTED_REQUEST: {
+            case ADOPTION_ACCEPTED_REQUEST:
+            case ADOPTION_IGNORED_REQUEST: {
                 Pet adoptionPet = PetServiceFactory.getInstance().getAdoptionPet(petId);
                 PetServiceFactory.getInstance().setSelectedPet(adoptionPet);
                 startActivity(context, intent, notification);

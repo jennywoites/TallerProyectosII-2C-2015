@@ -60,9 +60,27 @@ public class PushService {
 
     public void sendAcceptedRequestAdoptionPet(Pet pet, User requestingUser) {
         User user = UserService.getInstance().getUser();
-        String pushMessage = user.getName() + " ha aceptado tu solicitud de adopcion por " + pet.getName();
+        String pushMessage = "Felicitaciones " + user.getName() + " ha aceptado tu solicitud de adopcion por " + pet.getName();
         JSONObject data = createData(Notification.ADOPTION_ACCEPTED_REQUEST, pet.getID(), pushMessage);
-        sendRequestPet(pet, requestingUser, data);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendIgnoredRequestAdoptionPet(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
+
+        List<User> users = new ArrayList<>();
+        users.add(adoptionRequest.getRequestingUser());
+        String pushMessage = adoptionRequest.getRequestingUser().getName() + " ha adoptado a " + adoptionRequest.getAdoptionPet().getName();
+        JSONObject data = createData(Notification.ADOPTION_IGNORED_REQUEST, adoptionRequest.getAdoptionPet().getID(), pushMessage);
+        for (AdoptionRequest adoptionRequest_ : adoptionRequestIgnored) {
+            if (adoptionRequest_.isIgnored()) {
+                User requestingUser_ = adoptionRequest_.getRequestingUser();
+                if (!users.contains(requestingUser_)) {
+                    sendRequestPet(requestingUser_, data);
+                    users.add(requestingUser_);
+                }
+            }
+        }
+
     }
 
     public void sendRequestMissingPet(Pet pet) {
@@ -132,10 +150,10 @@ public class PushService {
 
     private void sendRequestPet(Pet pet, JSONObject data) {
         User owner = pet.getOwner();
-        sendRequestPet(pet, owner, data);
+        sendRequestPet(owner, data);
     }
 
-    private void sendRequestPet(Pet pet, User user, JSONObject data) {
+    private void sendRequestPet(User user, JSONObject data) {
         // Find devices associated with these users and the channels
         ParseQuery pushQuery = ParseInstallation.getQuery();
         pushQuery.whereEqualTo(USER, user.getParseUser());
