@@ -9,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -84,6 +86,8 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
 
+        setHasOptionsMenu(true);
+
         // View:
         mainView = inflater.inflate(R.layout.fragment_mis_adopciones_solicitadas, container, false);
         mainView.setTag(TAG);
@@ -117,6 +121,12 @@ public class MisAdopcionesSolicitadasFragment extends Fragment {
 
 
         return mainView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void checkEmptyList() {

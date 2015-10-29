@@ -70,6 +70,12 @@ public class PetServiceParse extends PetService {
     }
 
     @Override
+    public List<? extends Pet> getAdoptionPetsByUser(int page, String selectedFilter) {
+        List<AdoptionPet> pets = getPetsByUser(page, selectedFilter, AdoptionPet.class);
+        return pets;
+    }
+
+    @Override
     public List<? extends Pet> getMissingPets(int page) {
         List<MissingPet> pets = getPets(page, MissingPet.class);
         return pets;
@@ -118,6 +124,34 @@ public class PetServiceParse extends PetService {
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
+        } else if (petClass.equals(MissingPet.class)) {
+            //Todo Revisar poner un MissingPetState
+            query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+        }
+
+        query.setLimit(LIMIT);
+        query.setSkip(page * LIMIT);
+        try {
+            pets = query.find();
+        } catch (ParseException e) {
+            return null;
+        }
+
+        return pets;
+    }
+
+    private <T extends ParseObject> List<T> getPetsByUser(int page, String selectedFilter, Class petClass) {
+        User user = UserService.getInstance().getUser();
+        List<T> pets = new ArrayList<>();
+        ParseQuery<T> query = ParseQuery.getQuery(petClass);
+        query.addDescendingOrder("createdAt");
+
+        if (petClass.equals(AdoptionPet.class)) {
+            query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereEqualTo(AdoptionPet.STATE, selectedFilter);
+        } else if (petClass.equals(FoundPet.class)) {
+            query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereEqualTo(FoundPet.STATE, selectedFilter);
         } else if (petClass.equals(MissingPet.class)) {
             //Todo Revisar poner un MissingPetState
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());

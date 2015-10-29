@@ -30,6 +30,8 @@ public abstract class PetService {
 
     public abstract List<? extends Pet> getAdoptionPetsByUser(int page);
 
+    public abstract List<? extends Pet> getAdoptionPetsByUser(int page, String selectedFilter);
+
     public abstract List<? extends Pet> getMissingPets(int page);
 
     public abstract List<? extends Pet> getMissingPetsByUser(int page);
