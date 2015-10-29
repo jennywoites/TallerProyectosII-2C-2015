@@ -23,12 +23,17 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.util.List;
+
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
@@ -159,6 +164,17 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_adopcion_publicada_detalle, menu);
+        if (((AdoptionPet) pet).getState().equals(AdoptionPetState.PUBLISHED)) {
+            menu.findItem(R.id.action_delete).setVisible(true);
+            menu.findItem(R.id.action_republish).setVisible(false);
+        } else if (((AdoptionPet) pet).getState().equals(AdoptionPetState.HIDDEN)) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_republish).setVisible(true);
+        } else { // Caso Reservada o Adoptada, no se puede despublicar o republicar.
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_republish).setVisible(false);
+        }
+
         return true;
     }
 
@@ -173,6 +189,9 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete:
                 despublicar();
+                return true;
+            case R.id.action_republish:
+                republicar();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -189,6 +208,46 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                         ((AdoptionPet) pet).setState(AdoptionPetState.HIDDEN);
                         PetService petService = PetServiceFactory.getInstance();
                         petService.saveAdoptionPet((AdoptionPet) pet);
+
+                        RequestService requestService = RequestService.getInstance();
+                        List<AdoptionRequest> requests = requestService.getAllAdoptionRequests((AdoptionPet) pet);
+                        for (AdoptionRequest request : requests) {
+                            if (request.getState().equals(RequestState.PENDING)) {
+                                request.ignore();
+                                requestService.save(request);
+                            }
+                        }
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void republicar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente quiere republicar su mascota?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((AdoptionPet) pet).setState(AdoptionPetState.PUBLISHED);
+                        PetService petService = PetServiceFactory.getInstance();
+                        petService.saveAdoptionPet((AdoptionPet) pet);
+                        RequestService requestService = RequestService.getInstance();
+                        List<AdoptionRequest> requests = requestService.getAllAdoptionRequests((AdoptionPet) pet);
+                        for (AdoptionRequest request : requests) {
+                            if (request.getState().equals(RequestState.IGNORED)) {
+                                request.pend();
+                                requestService.save(request);
+                            }
+                        }
                         onBackPressed();
                     }
                 })

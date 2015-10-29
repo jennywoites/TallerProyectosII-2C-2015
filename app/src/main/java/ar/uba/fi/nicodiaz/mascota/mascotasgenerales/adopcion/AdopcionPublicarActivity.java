@@ -360,7 +360,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
-        pet.setState(AdoptionPetState.NO_ADOPTED);
+        pet.setState(AdoptionPetState.PUBLISHED);
     }
 
     private String parseYouTubeVideoUrl(String url) {

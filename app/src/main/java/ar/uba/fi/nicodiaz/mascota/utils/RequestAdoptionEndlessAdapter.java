@@ -21,7 +21,6 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -157,6 +156,9 @@ public class RequestAdoptionEndlessAdapter extends RecyclerView.Adapter<Recycler
             } else if (adoptionRequest.isPending()) {
                 view.requestDescription.setText("Estado Solicitud: Pendiente");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_time_white);
+            } else if (adoptionRequest.isConfirmed()) {
+                view.requestDescription.setText("Estado Solicitud: Adoptada");
+                view.requestStatusIcon.setImageResource(R.drawable.ic_adoption_white);
             } else {
                 view.requestDescription.setText("Estado Solicitud: Rechazada");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_rejected);

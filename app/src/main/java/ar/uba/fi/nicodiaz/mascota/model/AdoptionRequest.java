@@ -98,4 +98,16 @@ public class AdoptionRequest extends ParseObject {
     public boolean isIgnored() {
         return getState().equals(RequestState.IGNORED);
     }
+
+    public boolean isConfirmed() {
+        return getState().equals(RequestState.CONFIRMED);
+    }
+
+    public void confirm() {
+        setState(RequestState.CONFIRMED);
+    }
+
+    public void pend() {
+        setState(RequestState.PENDING);
+    }
 }

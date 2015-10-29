@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -21,7 +22,6 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -163,14 +163,26 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (request.isPending()) {
                 view.status.setText("Pendiente");
                 view.status_icon.setImageResource(R.drawable.ic_action_time);
-                view.confirmButton.setVisibility(View.VISIBLE);
-                view.ignoreButton.setVisibility(View.VISIBLE);
+                view.aceptConfirmButtons.setVisibility(View.VISIBLE);
+                view.successFailButtons.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.VISIBLE);
-            } else if (request.isAccepted()) { // Aceptada
-                view.status.setText("Aceptada");
+            } else if (request.isAccepted()) { // Reservada
+                view.status.setText("Reservada");
                 view.status_icon.setImageResource(R.drawable.ic_action_approved);
-                view.confirmButton.setVisibility(View.GONE);
-                view.ignoreButton.setVisibility(View.GONE);
+                view.aceptConfirmButtons.setVisibility(View.GONE);
+                view.successFailButtons.setVisibility(View.VISIBLE);
+                view.bottomDivider.setVisibility(View.GONE);
+            } else if (request.isConfirmed()) { // Adoptada
+                view.status.setText("Adoptada");
+                view.status_icon.setImageResource(R.drawable.ic_action_approved);
+                view.aceptConfirmButtons.setVisibility(View.GONE);
+                view.successFailButtons.setVisibility(View.GONE);
+                view.bottomDivider.setVisibility(View.GONE);
+            } else {
+                view.status.setText("NoSeVe");
+                view.status_icon.setImageResource(R.drawable.ic_action_rejected);
+                view.aceptConfirmButtons.setVisibility(View.GONE);
+                view.successFailButtons.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.GONE);
             }
 
@@ -206,8 +218,12 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public TextView requestDate;
         public ImageView userPhoto;
         public TextView message;
+        public LinearLayout aceptConfirmButtons;
+        public LinearLayout successFailButtons;
         public Button confirmButton;
         public Button ignoreButton;
+        public Button success;
+        public Button fail;
 
         public RequestViewHolder(View itemView) {
             super(itemView);
@@ -221,6 +237,10 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             bottomDivider = itemView.findViewById(R.id.bottomDivider);
             confirmButton = (Button) itemView.findViewById(R.id.confirm_button);
             ignoreButton = (Button) itemView.findViewById(R.id.ignore_button);
+            success = (Button) itemView.findViewById(R.id.success_button);
+            fail = (Button) itemView.findViewById(R.id.fail_button);
+            aceptConfirmButtons = (LinearLayout) itemView.findViewById(R.id.buttonsAceptIgnore);
+            successFailButtons = (LinearLayout) itemView.findViewById(R.id.buttonsSuccessFail);
 
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -244,9 +264,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     adoptionRequestOK.accept();
                                     requestService.save(adoptionRequestOK,requestList);
 
-                                    //Confirmo la mascota como adoptada
+                                    //Reservamos la mascota como adoptada
                                     AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
-                                    adoptionPet.setState(AdoptionPetState.ADOPTED);
+                                    adoptionPet.setState(AdoptionPetState.RETAINED);
                                     petService.saveAdoptionPet(adoptionPet);
 
                                     // Actualizamos la vista:
@@ -290,6 +310,107 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
+            success.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("¿Marcar la adopción como exitosa?")
+                            .setCancelable(false)
+                            .setPositiveButton("Exitosa", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    RequestService requestService = RequestService.getInstance();
+                                    PetService petService = PetServiceFactory.getInstance();
+
+                                    int index = getAdapterPosition();
+                                    AdoptionRequest adoptionRequestOK = requestList.get(index);
+                                    adoptionRequestOK.confirm();
+                                    requestService.save(adoptionRequestOK, requestList);
+
+                                    AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
+
+                                    // ponemos en rechazadas a las ignoradas:
+                                    List<AdoptionRequest> requests = requestService.getAllAdoptionRequests(adoptionPet);
+                                    for (AdoptionRequest request : requests) {
+                                        if (request.isIgnored()) {
+                                            request.reject();
+                                            requestService.save(request, requestList);
+                                        }
+                                    }
+
+                                    //Confirmo la mascota como adoptada
+                                    adoptionPet.setState(AdoptionPetState.ADOPTED);
+                                    petService.saveAdoptionPet(adoptionPet);
+
+                                    // Actualizamos la vista:
+                                    requestList.clear();
+                                    requestList.add(adoptionRequestOK);
+                                    notifyDataSetChanged();
+
+                                    if (onConfirmListener != null) {
+                                        onConfirmListener.doAction();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            });
+            fail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("¿La adopción no fue exitosa?")
+                            .setCancelable(false)
+                            .setPositiveButton("No Exitosa", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    int index = getAdapterPosition();
+                                    AdoptionRequest actualRequest = requestList.get(index);
+                                    actualRequest.reject();
+                                    actualRequest.saveInBackground();
+
+                                    // Republicamos la mascota:
+                                    PetService petService = PetServiceFactory.getInstance();
+                                    AdoptionPet pet = actualRequest.getAdoptionPet();
+                                    pet.setState(AdoptionPetState.PUBLISHED);
+                                    petService.saveAdoptionPet(pet);
+
+                                    // Actualizamos la vista:
+                                    requestList.remove(index); // quitamos la actual
+                                    // ponemos en pendiente a las ignoradas y las agregamos a la lista:
+                                    RequestService requestService = RequestService.getInstance();
+                                    List<AdoptionRequest> requests = requestService.getAllAdoptionRequests(pet);
+                                    for (AdoptionRequest request : requests) {
+                                        if (request.isIgnored()) {
+                                            request.pend();
+                                            requestService.save(request, requestList);
+                                            requestList.add(request);
+                                        }
+                                    }
+                                    notifyDataSetChanged();
+                                    if (onIgnoreListener != null) {
+                                        onIgnoreListener.doAction();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();

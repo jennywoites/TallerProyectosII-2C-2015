@@ -4,6 +4,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,12 +76,25 @@ public class RequestService {
     }
 
 
+    public List<AdoptionRequest> getAllAdoptionRequests(AdoptionPet adoptionPet) {
+        List<AdoptionRequest> list;
+        ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
+        query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
+        try {
+            list = query.find();
+        } catch (ParseException e) {
+            return null;
+        }
+
+        return list;
+    }
+
     public List<AdoptionRequest> getAdoptionRequests(AdoptionPet adoptionPet) {
         List<AdoptionRequest> list;
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
         query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
-        query.whereNotEqualTo(AdoptionRequest.STATE, RequestState.IGNORED.toString());
-        query.whereNotEqualTo(AdoptionRequest.STATE, RequestState.REJECTED.toString());
+        String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
+        query.whereNotContainedIn(AdoptionRequest.STATE, Arrays.asList(states));
         try {
             list = query.find();
         } catch (ParseException e) {
@@ -103,6 +117,8 @@ public class RequestService {
         List<AdoptionRequest> list = new ArrayList<>();
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
         query.whereEqualTo(AdoptionRequest.REQUESTING_USER, user.getParseUser());
+        String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
+        query.whereNotContainedIn(AdoptionRequest.STATE, Arrays.asList(states));
         try {
             list = query.find();
         } catch (ParseException e) {

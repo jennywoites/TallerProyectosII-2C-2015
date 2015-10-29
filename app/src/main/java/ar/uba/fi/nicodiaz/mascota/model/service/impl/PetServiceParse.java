@@ -112,9 +112,9 @@ public class PetServiceParse extends PetService {
         query.addDescendingOrder("createdAt");
 
         if (petClass.equals(AdoptionPet.class)) {
-            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+            //query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
-            query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
+          //  query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
@@ -141,7 +141,7 @@ public class PetServiceParse extends PetService {
 
         if (petClass.equals(AdoptionPet.class)) {
             query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
-            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
@@ -215,7 +215,7 @@ public class PetServiceParse extends PetService {
         //Filtro las no adoptadas
         if (petClass.equals(AdoptionPet.class)) {
             query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
-            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.NO_ADOPTED.toString());
+            query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());

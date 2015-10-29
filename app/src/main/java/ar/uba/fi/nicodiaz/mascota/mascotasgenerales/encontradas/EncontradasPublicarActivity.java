@@ -471,7 +471,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
-        pet.setState(AdoptionPetState.NO_ADOPTED);
+        pet.setState(AdoptionPetState.PUBLISHED);
     }
 
     private Date parseStringToDate(String lastKnowDate) {

@@ -5,7 +5,7 @@ package ar.uba.fi.nicodiaz.mascota.model;
  */
 public enum RequestState {
 
-    PENDING("PENDIENTE"), ACCEPTED("ACEPTADA"), IGNORED("IGNORADA"), REJECTED("RECHAZADA");
+    PENDING("PENDIENTE"), ACCEPTED("ACEPTADA"), IGNORED("IGNORADA"), REJECTED("RECHAZADA"), CONFIRMED("CONFIRMADA");
 
     private String text;
 

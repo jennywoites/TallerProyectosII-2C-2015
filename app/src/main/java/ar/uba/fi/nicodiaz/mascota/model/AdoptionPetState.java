@@ -5,7 +5,7 @@ package ar.uba.fi.nicodiaz.mascota.model;
  */
 public enum AdoptionPetState {
 
-    ADOPTED("ADOPTADA"), NO_ADOPTED("NO_ADOPTADA"), HIDDEN("OCULTA");;
+    RETAINED("RETENIDA"), PUBLISHED("PUBLICADA"), HIDDEN("OCULTA"), ADOPTED("ADOPTADA");
 
     private String text;
 
@@ -25,6 +25,6 @@ public enum AdoptionPetState {
             }
         }
 
-        return NO_ADOPTED;
+        return PUBLISHED;
     }
 }
