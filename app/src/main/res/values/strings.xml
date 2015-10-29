@@ -504,4 +504,5 @@
     <string name="comment_push_notification_author_message">Comentaron una publicación por la cual te interesaste</string>
     <string name="title_activity_found">Encontradas</string>
     <string name="title_activity_agregar_perdida">Publicar una pérdida</string>
+    <string name="title_activity_mail">MailActivity</string>
 </resources>

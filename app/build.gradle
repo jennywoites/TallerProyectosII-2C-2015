@@ -60,4 +60,5 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'net.yazeed44.imagepicker:imagepicker:1.3.0'
+    compile project(':BackgroundMailLibrary-1.8')
 }

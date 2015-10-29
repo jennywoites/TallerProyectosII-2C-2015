@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.uba.fi.nicodiaz.mascota">
+    package="ar.uba.fi.nicodiaz.mascota" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,6 +17,7 @@
     <permission
         android:name="com.parse.starter.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="ar.uba.fi.nicodiaz.mascota.permission.C2D_MESSAGE" />
 
     <application
@@ -24,7 +25,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/splash_screen_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -38,11 +39,11 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,26 +52,26 @@
         </activity>
         <activity
             android:name=".DispatchActivity"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ApplicationLoginActivity"
             android:label="Cuenta Mascota"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegistrarDatosPersonalesActivity"
-            android:label="@string/title_activity_datos_personales"></activity>
+            android:label="@string/title_activity_datos_personales" />
         <activity
             android:name=".RegistrarDatosCuentaActivity"
-            android:label="Cuenta Mascota"></activity>
+            android:label="Cuenta Mascota" />
         <activity
             android:name=".mascotasgenerales.perdidas.MascotaPerdidaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -79,7 +80,7 @@
             android:name=".mascotasgenerales.perdidas.PerdidasPublicarActivity"
             android:label="@string/title_activity_agregar_perdida"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -88,7 +89,7 @@
             android:name=".mascotasgenerales.adopcion.AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -97,12 +98,12 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mascotasgenerales.adopcion.MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -110,18 +111,18 @@
         <activity
             android:name=".mascotasgenerales.NewCommentActivity"
             android:label="Publicar un comentario"
-            android:windowSoftInputMode="stateVisible"></activity>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".mascotasgenerales.adopcion.SolicitarAdopcionActivity"
-            android:label="Adoptar"></activity>
+            android:label="Adoptar" />
         <activity
             android:name=".mascotasgenerales.encontradas.SolicitarEncontradaActivity"
-            android:label="Reclamar"></activity>
+            android:label="Reclamar" />
         <activity
             android:name=".mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -130,7 +131,7 @@
             android:name=".mismascotas.perdidas.MascotaPerdidaPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -139,7 +140,7 @@
             android:name=".mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -148,20 +149,19 @@
             android:name=".mismascotas.adopcion.MascotaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity
             android:name=".ConfigurationActivity"
-            android:label="Configuracion"></activity>
-
+            android:label="Configuracion" />
         <activity
             android:name=".mascotasgenerales.encontradas.EncontradasPublicarActivity"
             android:label="@string/title_activity_agregar_encontrada"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -170,8 +170,8 @@
         <service android:name="com.parse.PushService" />
 
         <receiver
-            android:name="ar.uba.fi.nicodiaz.mascota.utils.PushReceiver"
-            android:exported="false">
+            android:name=".utils.PushReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
@@ -180,7 +180,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -193,5 +193,11 @@
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_push_icon" />
 
+        <activity
+            android:name=".MailActivity"
+            android:label="@string/title_activity_mail"
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
+
 </manifest>
