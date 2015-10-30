@@ -36,13 +36,15 @@ public class EmailHelper
             usuarioActual_mailSubject = "¡Felicidades! " + usuarioSolicitante.getName() + " adoptó a tu mascota.";
             usuarioActual_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
-            usuarioActual_mailBody = usuarioActual_mailBody + "Dirección: " + usuarioSolicitante.getAddress().getCalle().split(",")[0] + ", " + usuarioSolicitante.getAddress().getPiso() + usuarioSolicitante.getAddress().getDepartamento() + "(" + usuarioSolicitante.getAddress().getSubLocality() + " - " + usuarioSolicitante.getAddress().getLocality() + ")" + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
 
             usuarioSolicitante_mailSubject = "¡Felicidades! Adoptaste la mascota de " + usuarioActual.getName() + ".";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
-            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Dirección: " + usuarioActual.getAddress().getCalle().split(",")[0] + ", " + usuarioActual.getAddress().getPiso() + usuarioActual.getAddress().getDepartamento() + "(" + usuarioActual.getAddress().getSubLocality() + " - " + usuarioActual.getAddress().getLocality() + ")" + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Ubicación: " + usuarioActual.getAddress().getSubLocality() + ", " + usuarioActual.getAddress().getLocality() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
         }
         else if ("MascotaPerdidaEncontrada".equals(tipo))
@@ -50,13 +52,15 @@ public class EmailHelper
             usuarioActual_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " encontró a tu mascota.";
             usuarioActual_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
-            usuarioActual_mailBody = usuarioActual_mailBody + "Dirección: " + usuarioSolicitante.getAddress().getCalle().split(",")[0] + ", " + usuarioSolicitante.getAddress().getPiso() + usuarioSolicitante.getAddress().getDepartamento() + "(" + usuarioSolicitante.getAddress().getSubLocality() + " - " + usuarioSolicitante.getAddress().getLocality() + ")" + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
 
             usuarioSolicitante_mailSubject = "¡Gracias! Ayudaste a " + usuarioActual.getName() + " a reencontrarse con su mascota.";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
-            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Dirección: " + usuarioActual.getAddress().getCalle().split(",")[0] + ", " + usuarioActual.getAddress().getPiso() + usuarioActual.getAddress().getDepartamento() + "(" + usuarioActual.getAddress().getSubLocality() + " - " + usuarioActual.getAddress().getLocality() + ")" + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Ubicación: " + usuarioActual.getAddress().getSubLocality() + ", " + usuarioActual.getAddress().getLocality() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
         }
         else if ("MascotaEncontradaSolicitada".equals(tipo))
@@ -64,13 +68,15 @@ public class EmailHelper
             usuarioActual_mailSubject = "¡Gracias! Ayudaste a " + usuarioActual.getName() + " a reencontrarse con su mascota.";
             usuarioActual_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
-            usuarioActual_mailBody = usuarioActual_mailBody + "Dirección: " + usuarioActual.getAddress().getCalle().split(",")[0] + ", " + usuarioActual.getAddress().getPiso() + usuarioActual.getAddress().getDepartamento() + "(" + usuarioActual.getAddress().getSubLocality() + " - " + usuarioActual.getAddress().getLocality() + ")" + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
 
             usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " encontró a tu mascota.";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
-            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Dirección: " + usuarioActual.getAddress().getCalle().split(",")[0] + ", " + usuarioActual.getAddress().getPiso() + usuarioActual.getAddress().getDepartamento() + "(" + usuarioActual.getAddress().getSubLocality() + " - " + usuarioActual.getAddress().getLocality() + ")" + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";
+            usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Ubicación: " + usuarioActual.getAddress().getSubLocality() + ", " + usuarioActual.getAddress().getLocality() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
         }
 

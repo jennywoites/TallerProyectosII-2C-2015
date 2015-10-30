@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -21,9 +22,10 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
+import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -262,7 +264,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
                                     adoptionRequestOK.accept();
-                                    requestService.save(adoptionRequestOK,requestList);
+                                    requestService.save(adoptionRequestOK, requestList);
+
+                                    EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", adoptionRequestOK.getAdoptionPet().getOwner(), adoptionRequestOK.getRequestingUser());
 
                                     //Reservamos la mascota como adoptada
                                     AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
