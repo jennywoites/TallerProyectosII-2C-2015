@@ -29,6 +29,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -87,11 +88,11 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
                 Pet pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-                collapsingToolbar.setTitle(pet.getName());
+                //collapsingToolbar.setTitle(pet.getName());
 
                 FAB_esMia = (FloatingActionButton) findViewById(R.id.FAB_esMia);
 
-                if (RequestService.getInstance().requestSent((AdoptionPet) pet)) {
+                if (RequestService.getInstance().hasFoundRequestSent((FoundPet) pet)) {
                     disableEsMiaFAB();
                 } else {
                     enableEsMiaFAB();

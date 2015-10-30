@@ -91,7 +91,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
 
                 FAB_adopt = (FloatingActionButton) findViewById(R.id.FAB_adoptar);
 
-                if (RequestService.getInstance().requestSent((AdoptionPet) pet)) {
+                if (RequestService.getInstance().hasAdoptionRequestSent((AdoptionPet) pet)) {
                     disableAdoptFAB();
                 } else {
                     enableAdoptFAB();

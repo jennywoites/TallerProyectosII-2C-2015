@@ -12,6 +12,7 @@ import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MascotaPerdidaPublicadaDe
 public enum Notification {
 
     ADOPTION_REQUEST_RECEIVED("ADOPTION_REQUEST_RECEIVED", MascotaAdopcionPublicadaDetalleActivity.class, 2), MISSING_REQUEST_RECEIVED("MISSING_REQUEST_RECEIVED", MascotaPerdidaPublicadaDetalleActivity.class, 2),
+    FOUND_REQUEST_RECEIVED("FOUND_REQUEST_RECEIVED", HomeActivity.class, 0),
     COMMENT_ON_ADOPTION_OWNER("COMMENT_ON_ADOPTION_OWNER", MascotaAdopcionPublicadaDetalleActivity.class, 1), COMMENT_ON_MISSING_OWNER("COMMENT_ON_MISSING_OWNER", MascotaPerdidaPublicadaDetalleActivity.class, 1),
     COMMENT_ON_ADOPTION_AUTHOR("COMMENT_ON_ADOPTION_AUTHOR", MascotaDetalleActivity.class, 1), COMMENT_ON_MISSING_AUTHOR("COMMENT_ON_MISSING_AUTHOR", MascotaDetalleActivity.class, 1),
     ADOPTION_ACCEPTED_REQUEST("ADOPTION_ACCEPTED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0), ADOPTION_IGNORED_REQUEST("ADOPTION_IGNORED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0),

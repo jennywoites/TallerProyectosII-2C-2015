@@ -89,7 +89,7 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
                 FAB_encontre = (FloatingActionButton) findViewById(R.id.FAB_encontre);
 
-                if (RequestService.getInstance().requestSent((AdoptionPet) pet)) {
+                if (RequestService.getInstance().hasAdoptionRequestSent((AdoptionPet) pet)) {
                     disableEncontreFAB();
                 } else {
                     enableEncontreFAB();

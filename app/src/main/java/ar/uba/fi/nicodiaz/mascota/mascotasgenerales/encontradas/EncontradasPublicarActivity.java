@@ -61,9 +61,11 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
@@ -74,11 +76,10 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 public class EncontradasPublicarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, GoogleApiClient.OnConnectionFailedListener {
     private Toolbar toolbar;
     private Button selectImageButton;
-    private AdoptionPet pet;
+    private FoundPet pet;
     private List<Bitmap> photos;
     private LinearLayout photos_layout;
     private TextView photos_empty;
-    private EditText nameEditText;
 
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
     // DatePicker Fecha encuentro de la Mascota.
@@ -175,24 +176,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
                     }
                 });
 
-                // Solo permite caracteres de tipo letra o espacio
-                nameEditText = (EditText) findViewById(R.id.txtName);
-                nameEditText.setFilters(new InputFilter[]{
-                        new InputFilter() {
-                            @Override
-                            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                                if (source.equals("")) { // for backspace
-                                    return source;
-                                }
-                                if (source.toString().matches("[a-zA-Z ]+")) {
-                                    return source;
-                                }
-                                return "";
-                            }
-                        }
-                });
-
-                pet = new AdoptionPet();
+                pet = new FoundPet();
 
 
                 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -213,13 +197,13 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
                 // Completa la dirección.
                 // -*-*-*-*-*-*-*-*-*-*-*
                 mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
-                        .enableAutoManage((EncontradasPublicarActivity)mActivity, 0, (EncontradasPublicarActivity)mActivity)
+                        .enableAutoManage((EncontradasPublicarActivity) mActivity, 0, (EncontradasPublicarActivity) mActivity)
                         .addApi(Places.GEO_DATA_API)
                         .build();
 
 
                 _addressAutoCompleteText = (AutoCompleteTextView) findViewById(R.id.input_direccion);
-                _addressAutoCompleteText.setOnItemClickListener((EncontradasPublicarActivity)mActivity);
+                _addressAutoCompleteText.setOnItemClickListener((EncontradasPublicarActivity) mActivity);
 
 
                 mAdapter = new PlaceAutoCompleteAdapter(mActivity, android.R.layout.simple_list_item_1,
@@ -449,8 +433,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
 
 
     private void createPet() {
-        String name = nameEditText.getText().toString();
-        String description = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
         String raza = ((AutoCompleteTextView) findViewById(R.id.txtRace)).getText().toString();
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
@@ -459,19 +441,20 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         String urlTwo = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
         String urlThree = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
         User user = UserService.getInstance().getUser();
+        Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
+        Address lastKnowAddress = this.direccion;
 
-        pet.setName(name);
         pet.setAgeRange(ageRange);
-        pet.setDescription(description);
         pet.setGender(gender);
         pet.setBreed(raza);
         pet.setKind(kind);
-        pet.setOwner(user);
-        pet.setLocation(user.getAddress());
+        pet.setPublisher(user);
         pet.setVideo1(urlOne);
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
-        pet.setState(AdoptionPetState.PUBLISHED);
+        pet.setLastKnowDate(lastKnowDate);
+        pet.setLastKnowAddress(lastKnowAddress);
+        pet.setState(FoundPetState.PUBLISHED);
     }
 
     private Date parseStringToDate(String lastKnowDate) {
@@ -483,7 +466,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         } catch (java.text.ParseException e) {
         }
 
-        return(convertedDate);
+        return (convertedDate);
     }
 
     private String parseYouTubeVideoUrl(String url) {
@@ -516,7 +499,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
     }
 
     private void finishAndSavePet() {
-        PetServiceFactory.getInstance().saveAdoptionPet(pet);
+        PetServiceFactory.getInstance().saveFoundPet(pet);
         Toast.makeText(EncontradasPublicarActivity.this, "¡Mascota publicada!", Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -544,27 +527,15 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
     private boolean validate() {
         boolean valid = true;
 
-        EditText name = (EditText) findViewById(R.id.txtName);
-        EditText description = (EditText) findViewById(R.id.txtDescription);
-        String nameText = ((EditText) findViewById(R.id.txtName)).getText().toString();
-        String descriptionText = ((EditText) findViewById(R.id.txtDescription)).getText().toString();
+        EditText address = (EditText) findViewById(R.id.input_direccion);
+        String addressText = ((EditText) findViewById(R.id.input_direccion)).getText().toString();
+        String errorAddress = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_ADDRESS);
 
-        String errorName = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_NAME);
-        String errorDescription = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_DESCRIPTION);
-
-
-        if (nameText.isEmpty()) {
-            name.setError(errorName);
+        if (addressText.isEmpty()) {
+            address.setError(errorAddress);
             valid = false;
         } else {
-            name.setError(null);
-        }
-
-        if (descriptionText.isEmpty()) {
-            description.setError(errorDescription);
-            valid = false;
-        } else {
-            description.setError(null);
+            address.setError(null);
         }
 
         valid &= checkOpciones(R.id.rgSpecie, R.id.lbspecies);

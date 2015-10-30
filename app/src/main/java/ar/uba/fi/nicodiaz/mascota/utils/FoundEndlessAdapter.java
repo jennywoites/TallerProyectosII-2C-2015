@@ -18,7 +18,6 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -26,7 +25,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
  * <p/>
  * From: http://stackoverflow.com/questions/30681905/adding-items-to-endless-scroll-recyclerview-with-progressbar-at-bottom/30691092#30691092
  */
-public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FoundEndlessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
@@ -66,7 +65,7 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         currentPage = 1; // TODO: o cero
     }
 
-    public MissingEndlessAdapter(List<Pet> mascotas, RecyclerView recyclerView, Context context) {
+    public FoundEndlessAdapter(List<Pet> mascotas, RecyclerView recyclerView, Context context) {
         this.mascotas = mascotas;
         this.context = context;
         this.view = recyclerView;
@@ -129,7 +128,6 @@ public class MissingEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view.mascotaImage.setVisibility(View.INVISIBLE);
             }
 
-            view.mascotaName.setText(mascota.getName());
             view.mascotaDescription.setText(mascota.getPreviewDescription());
 
             if (mascota.isMale()) {

@@ -115,6 +115,14 @@ public class PushService {
     }
 
 
+    public void sendRequestFoundPet(Pet pet) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = user.getName() + " dice ser el dueño de una mascota que encontraste!";
+        JSONObject data = createData(Notification.FOUND_REQUEST_RECEIVED, pet.getID(), pushMessage);
+        sendRequestPet(pet.getPublisher(), data);
+    }
+
+
     public void sendCommentNotification(CommentDB comment, Pet pet, List<CommentDB> commentsOfPet) {
 
         //Send Notification to Owner
