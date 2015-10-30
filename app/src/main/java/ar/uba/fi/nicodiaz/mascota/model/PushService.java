@@ -65,11 +65,36 @@ public class PushService {
         sendRequestPet(requestingUser, data);
     }
 
+    public void sendRejectRequestAdoptionPet(Pet pet, User requestingUser) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = "No has podido adoptar a " + pet.getName() + ", pero no te preocupes hay muchas mascotas esperando un hogar!";
+        JSONObject data = createData(Notification.ADOPTION_REJECTED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendUnpublishRequestAdoptionPet(AdoptionRequest request) {
+        User user = UserService.getInstance().getUser();
+        AdoptionPet pet = request.getAdoptionPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = user.getName() + " ha despublicado a " + pet.getName() + ", pero no te preocupes hay muchas mascotas esperando un hogar!";
+        JSONObject data = createData(Notification.ADOPTION_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendRepublishRequestAdoptionPet(AdoptionRequest request) {
+        User user = UserService.getInstance().getUser();
+        AdoptionPet pet = request.getAdoptionPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = user.getName() + " ha republicado a " + pet.getName();
+        JSONObject data = createData(Notification.ADOPTION_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
     public void sendIgnoredRequestAdoptionPet(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
 
         List<User> users = new ArrayList<>();
         users.add(adoptionRequest.getRequestingUser());
-        String pushMessage = adoptionRequest.getRequestingUser().getName() + " ha adoptado a " + adoptionRequest.getAdoptionPet().getName();
+        String pushMessage = "¡Genial! " + adoptionRequest.getAdoptionPet().getName() + " encontró un hogar. Intenta buscar otra mascota";
         JSONObject data = createData(Notification.ADOPTION_IGNORED_REQUEST, adoptionRequest.getAdoptionPet().getID(), pushMessage);
         for (AdoptionRequest adoptionRequest_ : adoptionRequestIgnored) {
             if (adoptionRequest_.isIgnored()) {
@@ -80,7 +105,6 @@ public class PushService {
                 }
             }
         }
-
     }
 
     public void sendRequestMissingPet(Pet pet) {

@@ -24,6 +24,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
@@ -85,6 +86,7 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                         adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
 
                         RequestService.getInstance().save(adoptionRequest);
+                        PushService.getInstance().sendRequestAdoptionPet(pet);
                         setResult(Activity.RESULT_OK);
                         finish();
                     }

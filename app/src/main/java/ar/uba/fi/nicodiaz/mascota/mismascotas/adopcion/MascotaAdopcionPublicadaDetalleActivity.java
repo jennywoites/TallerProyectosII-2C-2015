@@ -32,6 +32,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
@@ -207,6 +208,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         ((AdoptionPet) pet).setState(AdoptionPetState.HIDDEN);
                         PetService petService = PetServiceFactory.getInstance();
+                        PushService pushService = PushService.getInstance();
                         petService.saveAdoptionPet((AdoptionPet) pet);
 
                         RequestService requestService = RequestService.getInstance();
@@ -215,6 +217,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                             if (request.getState().equals(RequestState.PENDING)) {
                                 request.ignore();
                                 requestService.save(request);
+                                pushService.sendUnpublishRequestAdoptionPet(request);
                             }
                         }
                         onBackPressed();
@@ -239,6 +242,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         ((AdoptionPet) pet).setState(AdoptionPetState.PUBLISHED);
                         PetService petService = PetServiceFactory.getInstance();
+                        PushService pushService = PushService.getInstance();
                         petService.saveAdoptionPet((AdoptionPet) pet);
                         RequestService requestService = RequestService.getInstance();
                         List<AdoptionRequest> requests = requestService.getAllAdoptionRequests((AdoptionPet) pet);
@@ -246,6 +250,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                             if (request.getState().equals(RequestState.IGNORED)) {
                                 request.pend();
                                 requestService.save(request);
+                                pushService.sendRepublishRequestAdoptionPet(request);
                             }
                         }
                         onBackPressed();

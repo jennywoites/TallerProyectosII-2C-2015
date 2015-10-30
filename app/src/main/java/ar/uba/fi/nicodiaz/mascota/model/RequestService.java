@@ -130,19 +130,11 @@ public class RequestService {
 
     public void save(AdoptionRequest adoptionRequest) {
         adoptionRequest.saveInBackground();
-        sendPushNotification(adoptionRequest);
     }
 
     public void save(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
         adoptionRequest.saveInBackground();
         sendPushNotification(adoptionRequest, adoptionRequestIgnored);
-    }
-
-    private void sendPushNotification(AdoptionRequest adoptionRequest) {
-        AdoptionPet adoptionPet = adoptionRequest.getAdoptionPet();
-        if (adoptionRequest.isPending()) {
-            pushService.sendRequestAdoptionPet(adoptionPet);
-        }
     }
 
     private void sendPushNotification(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
