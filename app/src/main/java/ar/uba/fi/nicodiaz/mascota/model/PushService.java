@@ -94,7 +94,7 @@ public class PushService {
 
         List<User> users = new ArrayList<>();
         users.add(adoptionRequest.getRequestingUser());
-        String pushMessage = "¡Genial! " + adoptionRequest.getAdoptionPet().getName() + " encontró un hogar. Intenta buscar otra mascota";
+        String pushMessage = "¡Genial! " + adoptionRequest.getAdoptionPet().getName() + " encontró un hogar. Intenta buscar otra, hay muchas mascotas esperando un hogar!";
         JSONObject data = createData(Notification.ADOPTION_IGNORED_REQUEST, adoptionRequest.getAdoptionPet().getID(), pushMessage);
         for (AdoptionRequest adoptionRequest_ : adoptionRequestIgnored) {
             if (adoptionRequest_.isIgnored()) {
