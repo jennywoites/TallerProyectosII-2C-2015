@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -21,9 +22,10 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
+import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -178,6 +180,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view.aceptConfirmButtons.setVisibility(View.GONE);
                 view.successFailButtons.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.GONE);
+                EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", request.getAdoptionPet().getOwner(), request.getRequestingUser());
             } else {
                 view.status.setText("NoSeVe");
                 view.status_icon.setImageResource(R.drawable.ic_action_rejected);
