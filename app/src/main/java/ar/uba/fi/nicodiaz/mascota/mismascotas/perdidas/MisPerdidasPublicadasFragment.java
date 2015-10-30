@@ -123,6 +123,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
+        setHasOptionsMenu(false);
 
         // View:
         mainView = inflater.inflate(R.layout.fragment_mis_perdidas_publicadas, container, false);

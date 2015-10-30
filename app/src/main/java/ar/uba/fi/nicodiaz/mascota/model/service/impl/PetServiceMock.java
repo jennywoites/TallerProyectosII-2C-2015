@@ -1,7 +1,5 @@
 package ar.uba.fi.nicodiaz.mascota.model.service.impl;
 
-import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -247,6 +245,11 @@ public class PetServiceMock extends PetService {
 
     @Override
     public List<? extends Pet> getAdoptionPetsByUser(int page) {
+        return getPetsByUser(page, adoptionPets);
+    }
+
+    @Override
+    public List<? extends Pet> getAdoptionPetsByUser(int page, String selectedFilter) {
         return getPetsByUser(page, adoptionPets);
     }
 

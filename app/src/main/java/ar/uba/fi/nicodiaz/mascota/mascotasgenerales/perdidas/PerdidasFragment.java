@@ -219,6 +219,7 @@ public class PerdidasFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.menu_missing, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
