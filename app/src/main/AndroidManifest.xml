@@ -116,6 +116,9 @@
             android:name=".mascotasgenerales.adopcion.SolicitarAdopcionActivity"
             android:label="Adoptar" />
         <activity
+            android:name=".mascotasgenerales.perdidas.SolicitarPerdidaActivity"
+            android:label="Encontrar" />
+        <activity
             android:name=".mascotasgenerales.encontradas.SolicitarEncontradaActivity"
             android:label="Reclamar" />
         <activity
