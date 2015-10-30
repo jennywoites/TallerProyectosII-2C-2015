@@ -1,5 +1,6 @@
 package ar.uba.fi.nicodiaz.mascota.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -153,6 +155,7 @@ public class RequestAdoptionEndlessAdapter extends RecyclerView.Adapter<Recycler
             if (adoptionRequest.isAccepted()) {
                 view.requestDescription.setText("Estado Solicitud: Aceptada");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_approved_white);
+                EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", adoptionPet.getOwner(), adoptionRequest.getRequestingUser());
             } else if (adoptionRequest.isPending()) {
                 view.requestDescription.setText("Estado Solicitud: Pendiente");
                 view.requestStatusIcon.setImageResource(R.drawable.ic_action_time_white);
