@@ -180,7 +180,6 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view.aceptConfirmButtons.setVisibility(View.GONE);
                 view.successFailButtons.setVisibility(View.GONE);
                 view.bottomDivider.setVisibility(View.GONE);
-                EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", request.getAdoptionPet().getOwner(), request.getRequestingUser());
             } else {
                 view.status.setText("NoSeVe");
                 view.status_icon.setImageResource(R.drawable.ic_action_rejected);
@@ -265,7 +264,9 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     int index = getAdapterPosition();
                                     AdoptionRequest adoptionRequestOK = requestList.get(index);
                                     adoptionRequestOK.accept();
-                                    requestService.save(adoptionRequestOK,requestList);
+                                    requestService.save(adoptionRequestOK, requestList);
+
+                                    EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", adoptionRequestOK.getAdoptionPet().getOwner(), adoptionRequestOK.getRequestingUser());
 
                                     //Reservamos la mascota como adoptada
                                     AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
