@@ -22,6 +22,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
@@ -137,7 +138,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             view.message.setText(adoptionRequest.getMessage());
             view.requestDate.setText(adoptionRequest.getDate());
 
-            User requestingUser =  adoptionRequest.getRequestingUser();
+            User requestingUser = adoptionRequest.getRequestingUser();
             if (requestingUser.isMale()) {
                 view.userPhoto.setImageResource(R.drawable.user_male);
             } else if (requestingUser.isFemale()) {
@@ -304,7 +305,8 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     int index = getAdapterPosition();
                                     AdoptionRequest request = requestList.get(index);
                                     request.reject();
-                                    request.saveInBackground();
+                                    RequestService.getInstance().save(request);
+                                    PushService.getInstance().sendRejectRequestAdoptionPet(request.getAdoptionPet(), request.getRequestingUser());
                                     // Actualizamos la vista:
                                     requestList.remove(index);
                                     notifyItemRemoved(index);
