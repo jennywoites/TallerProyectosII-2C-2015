@@ -19,8 +19,8 @@ import ar.uba.fi.nicodiaz.mascota.R;
 public class MisPerdidasFragment extends Fragment {
     private static final String TAG = "MisPerdidasFragment";
 
-    CharSequence Titles[] = {"Publicadas"};
-    int NumbOfTabs = 1;
+    CharSequence Titles[] = {"Publicadas", "Sol. Encontradas"};
+    int NumbOfTabs = 2;
 
     private Context activity;
 

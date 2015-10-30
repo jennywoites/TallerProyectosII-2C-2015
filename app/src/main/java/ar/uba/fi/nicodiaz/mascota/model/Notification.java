@@ -5,6 +5,7 @@ import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.MascotaDetalleActiv
 import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MascotaSolicitadaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MascotaPerdidaPublicadaDetalleActivity;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MascotaPerdidaSolicitadaDetalleActivity;
 
 /**
  * Created by Juan Manuel Romera on 23/10/2015.
@@ -15,7 +16,8 @@ public enum Notification {
     COMMENT_ON_ADOPTION_OWNER("COMMENT_ON_ADOPTION_OWNER", MascotaAdopcionPublicadaDetalleActivity.class, 1), COMMENT_ON_MISSING_OWNER("COMMENT_ON_MISSING_OWNER", MascotaPerdidaPublicadaDetalleActivity.class, 1),
     COMMENT_ON_ADOPTION_AUTHOR("COMMENT_ON_ADOPTION_AUTHOR", MascotaDetalleActivity.class, 1), COMMENT_ON_MISSING_AUTHOR("COMMENT_ON_MISSING_AUTHOR", MascotaDetalleActivity.class, 1),
     ADOPTION_ACCEPTED_REQUEST("ADOPTION_ACCEPTED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0), ADOPTION_IGNORED_REQUEST("ADOPTION_IGNORED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0),
-    ADOPTION_REJECTED_REQUEST("ADOPTION_REJECTED_REQUEST", HomeActivity.class, 0);
+    ADOPTION_REJECTED_REQUEST("ADOPTION_REJECTED_REQUEST", HomeActivity.class, 0), MISSING_ACCEPTED_REQUEST("MISSING_ACCEPTED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0),
+    MISSING_IGNORED_REQUEST("MISSING_IGNORED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0), MISSING_REJECTED_REQUEST("MISSING_REJECTED_REQUEST", HomeActivity.class, 0);
 
     private String description;
     private int fragmentView;

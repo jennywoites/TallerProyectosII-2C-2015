@@ -39,7 +39,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment {
 
     View view;
-    private Pet adoptionPet;
+    private Pet missingPet;
     private SliderLayout photo_slider;
     private SliderLayout video_slider;
     private GoogleMap mMap;
@@ -48,15 +48,15 @@ public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_mascota_perdida_detalle_descripcion, container, false);
-        adoptionPet = PetServiceFactory.getInstance().getSelectedPet();
+        missingPet = PetServiceFactory.getInstance().getSelectedPet();
         ArrayList<String> urlPhotos = new ArrayList<>();
-        for (ParseFile file : adoptionPet.getPictures()) {
+        for (ParseFile file : missingPet.getPictures()) {
             urlPhotos.add(file.getUrl());
         }
 
-        ArrayList<String> urlVideos = adoptionPet.getVideos();
+        ArrayList<String> urlVideos = missingPet.getVideos();
 
-        loadInformacionBasica(adoptionPet);
+        loadInformacionBasica(missingPet);
         loadPhotos(urlPhotos);
         loadVideos(urlVideos);
         setUpMapIfNeeded();
@@ -139,23 +139,23 @@ public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment 
         photo_slider.setCustomIndicator((PagerIndicator) view.findViewById(R.id.custom_indicator));
     }
 
-    private void loadInformacionBasica(Pet adoptionPet) {
+    private void loadInformacionBasica(Pet missingPet) {
 
         TextView textView = (TextView) view.findViewById(R.id.infSexoPet);
-        textView.setText(adoptionPet.getGender());
+        textView.setText(missingPet.getGender());
 
         textView = (TextView) view.findViewById(R.id.infRazaPet);
-        if (adoptionPet.getBreed() == null || adoptionPet.getBreed().isEmpty()) {
+        if (missingPet.getBreed() == null || missingPet.getBreed().isEmpty()) {
             textView.setText(R.string.raza_desconocida);
         } else {
-            textView.setText(adoptionPet.getBreed());
+            textView.setText(missingPet.getBreed());
         }
 
         textView = (TextView) view.findViewById(R.id.infEdadPet);
-        textView.setText(adoptionPet.getAgeRange());
+        textView.setText(missingPet.getAgeRange());
 
         textView = (TextView) view.findViewById(R.id.infDescPet);
-        textView.setText(adoptionPet.getDescription());
+        textView.setText(missingPet.getDescription());
 
     }
 
@@ -193,15 +193,15 @@ public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment 
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = adoptionPet.getAddress();
+        ar.uba.fi.nicodiaz.mascota.model.Address missingPetAddress = missingPet.getAddress();
 
 /*        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
-        ubicacion.setText(adoptionPetAddress.getCalle());*/
+        ubicacion.setText(missingPetAddress.getCalle());*/
 
-        double latitude = adoptionPetAddress.getLocation().getLatitude();
-        double longitude = adoptionPetAddress.getLocation().getLongitude();
+        double latitude = missingPetAddress.getLocation().getLatitude();
+        double longitude = missingPetAddress.getLocation().getLongitude();
         LatLng posicion = new LatLng(latitude, longitude);
-        String msg = adoptionPet.getName() + " se perdió en esta zona";
+        String msg = missingPet.getName() + " se perdió en esta zona";
         mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
     }

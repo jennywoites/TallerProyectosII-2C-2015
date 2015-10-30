@@ -1,20 +1,19 @@
-package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
@@ -25,58 +24,28 @@ import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
-public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
-    CharSequence Titles[];
+
+public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
+
     int NumbOfTabs = 2;
-    FloatingActionButton FAB_encontre;
-    FloatingActionButton FAB_comment;
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Si dio adoptar:
-        if (resultCode == Activity.RESULT_OK) {
-            disableEncontreFAB();
-        }
-    }
-
-    private void enableEncontreFAB() {
-        FAB_encontre.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.ColorPrimary)));
-        FAB_encontre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MascotaPerdidaDetalleActivity.this, SolicitarPerdidaActivity.class);
-                startActivityForResult(i, 0);
-            }
-        });
-    }
-
-    private void disableEncontreFAB() {
-        FAB_encontre.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.Disabled)));
-        FAB_encontre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MascotaPerdidaDetalleActivity.this, "Ya ha enviado una solicitud.", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+    CharSequence Titles[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final int fragementView = getIntent().getIntExtra("fragementView", 0);
+
         WaitForInternetCallback callback = new WaitForInternetCallback(this) {
             public void onConnectionSuccess() {
-                setContentView(R.layout.activity_mascota_perdida_detalle);
+                setContentView(R.layout.activity_mascota_solicitada_detalle);
 
                 Toolbar toolbar = (Toolbar) findViewById(R.id.anim_toolbar);
                 setSupportActionBar(toolbar);
@@ -87,30 +56,21 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());
 
-                FAB_encontre = (FloatingActionButton) findViewById(R.id.FAB_encontre);
-
-                if (RequestMissingService.getInstance().requestSent((MissingPet) pet)) {
-                    disableEncontreFAB();
-                } else {
-                    enableEncontreFAB();
-                }
-
-                FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
+                final FloatingActionButton FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
                 FAB_comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(MascotaPerdidaDetalleActivity.this, NewCommentActivity.class);
+                        Intent i = new Intent(MascotaPerdidaSolicitadaDetalleActivity.this, NewCommentActivity.class);
                         startActivity(i);
                     }
                 });
 
                 loadHeader(pet);
 
-
                 int commentsCount = CommentService.getInstance().getCount(pet.getID());
                 Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
 
-                ViewPagerAdapter adapter = new ViewPagerMascotaPerdidaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+                ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
                 pager.setAdapter(adapter);
                 pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -126,15 +86,15 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
                         switch (position) {
                             case 0:
-                                FAB_encontre.setVisibility(View.VISIBLE);
+                                //FAB_adopt.setVisibility(View.VISIBLE);
                                 FAB_comment.setVisibility(View.GONE);
                                 break;
                             case 1:
-                                FAB_encontre.setVisibility(View.GONE);
+                                //FAB_adopt.setVisibility(View.GONE);
                                 FAB_comment.setVisibility(View.VISIBLE);
                                 break;
                             default:
-                                FAB_encontre.setVisibility(View.GONE);
+                                //FAB_adopt.setVisibility(View.GONE);
                                 FAB_comment.setVisibility(View.GONE);
                                 break;
                         }
@@ -156,7 +116,20 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
                     }
                 });
                 tabs.setViewPager(pager);
-                pager.setCurrentItem(fragementView);
+
+                if (((MissingPet) pet).getState() == MissingPetState.HIDDEN) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                    builder.setMessage("Esta publicación fue eliminada.")
+                            .setCancelable(false)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         };
         WaitForInternet.setCallback(callback);

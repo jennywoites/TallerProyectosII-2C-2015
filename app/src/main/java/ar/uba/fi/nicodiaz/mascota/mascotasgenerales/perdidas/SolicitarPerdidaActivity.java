@@ -21,11 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
-import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
@@ -78,15 +78,15 @@ public class SolicitarPerdidaActivity extends AppCompatActivity {
                         }
                         String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
                         User user = UserService.getInstance().getUser();
-                        AdoptionRequest adoptionRequest = new AdoptionRequest();
-                        adoptionRequest.setMessage(message);
-                        adoptionRequest.setState(RequestState.PENDING);
-                        adoptionRequest.setAdoptionPet((AdoptionPet) pet);
-                        adoptionRequest.setRequestingUser(user);
-                        adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
+                        MissingRequest missingRequest = new MissingRequest();
+                        missingRequest.setMessage(message);
+                        missingRequest.setState(RequestState.PENDING);
+                        missingRequest.setMissingPet((MissingPet) pet);
+                        missingRequest.setRequestingUser(user);
+                        missingRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
 
-                        RequestService.getInstance().save(adoptionRequest);
-                        PushService.getInstance().sendRequestAdoptionPet(pet);
+                        RequestMissingService.getInstance().save(missingRequest);
+                        PushService.getInstance().sendRequestMissingPet(pet);
                         setResult(Activity.RESULT_OK);
                         finish();
                     }

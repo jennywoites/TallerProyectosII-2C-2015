@@ -1,11 +1,13 @@
 package ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,10 +23,19 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
+import java.util.List;
+
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
+import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestState;
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -33,7 +44,8 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
 
     CharSequence Titles[];
-    int NumbOfTabs = 2;
+    int NumbOfTabs = 3;
+    private Pet pet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +59,7 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());
@@ -73,7 +85,7 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
                 loadHeader(pet);
 
                 int commentsCount = CommentService.getInstance().getCount(pet.getID());
-                Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
+                Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")", "Solicitudes"};
 
                 ViewPagerAdapter adapter = new ViewPagerMascotaPerdidaPublicadaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -122,6 +134,7 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
                 });
                 tabs.setViewPager(pager);
                 pager.setCurrentItem(fragementView);
+
             }
         };
         WaitForInternet.setCallback(callback);
@@ -152,6 +165,17 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_perdida_publicada_detalle, menu);
+        if (((MissingPet) pet).getState().equals(MissingPetState.PUBLISHED)) {
+            menu.findItem(R.id.action_delete).setVisible(true);
+            menu.findItem(R.id.action_republish).setVisible(false);
+        } else if (((MissingPet) pet).getState().equals(MissingPetState.HIDDEN)) {
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_republish).setVisible(true);
+        } else { // Caso Reservada o Adoptada, no se puede despublicar o republicar.
+            menu.findItem(R.id.action_delete).setVisible(false);
+            menu.findItem(R.id.action_republish).setVisible(false);
+        }
+
         return true;
     }
 
@@ -164,9 +188,82 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
             case R.id.action_close:
                 volverAtras();
                 return true;
+            case R.id.action_delete:
+                despublicar();
+                return true;
+            case R.id.action_republish:
+                republicar();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void despublicar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente quiere despublicar su mascota?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MissingPet) pet).setState(MissingPetState.HIDDEN);
+                        PetService petService = PetServiceFactory.getInstance();
+                        PushService pushService = PushService.getInstance();
+                        petService.saveMissingPet((MissingPet) pet);
+
+                        RequestMissingService requestService = RequestMissingService.getInstance();
+                        List<MissingRequest> requests = requestService.getAllMissingRequests((MissingPet) pet);
+                        for (MissingRequest request : requests) {
+                            if (request.getState().equals(RequestState.PENDING)) {
+                                request.ignore();
+                                requestService.save(request);
+                                pushService.sendUnpublishRequestMissingPet(request);
+                            }
+                        }
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void republicar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente quiere republicar su mascota?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        ((MissingPet) pet).setState(MissingPetState.PUBLISHED);
+                        PetService petService = PetServiceFactory.getInstance();
+                        PushService pushService = PushService.getInstance();
+                        petService.saveMissingPet((MissingPet) pet);
+                        RequestMissingService requestService = RequestMissingService.getInstance();
+                        List<MissingRequest> requests = requestService.getAllMissingRequests((MissingPet) pet);
+                        for (MissingRequest request : requests) {
+                            if (request.getState().equals(RequestState.IGNORED)) {
+                                request.pend();
+                                requestService.save(request);
+                                pushService.sendRepublishRequestMissingPet(request);
+                            }
+                        }
+                        onBackPressed();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override

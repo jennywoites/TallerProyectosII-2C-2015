@@ -11,6 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -22,6 +25,7 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.MissingEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -42,6 +46,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     private MissingEndlessAdapter listAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean hayMas;
+    private String selectedFilter;
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
 
@@ -55,7 +60,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Integer... currentPage) {
-            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(currentPage[0]);
+            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(currentPage[0], selectedFilter);
             if (resultList == null)
                 return false;
             return !resultList.isEmpty();
@@ -99,7 +104,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(0);
+            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(0, selectedFilter);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -121,9 +126,42 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.mis_perdidas_publicadas, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_published:
+                selectedFilter=MissingPetState.PUBLISHED.toString();
+                break;
+            case R.id.action_accepted:
+                selectedFilter=MissingPetState.POSIBLE.toString();
+                break;
+            case R.id.action_found:
+                selectedFilter=MissingPetState.FOUND.toString();
+                break;
+            case R.id.action_hidden:
+                selectedFilter=MissingPetState.HIDDEN.toString();
+                break;
+            default:
+                selectedFilter=MissingPetState.PUBLISHED.toString();
+                applyQuery();
+                return super.onOptionsItemSelected(item);
+        }
+        applyQuery();
+        return true;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
+
+        selectedFilter = MissingPetState.PUBLISHED.toString();
 
         // View:
         mainView = inflater.inflate(R.layout.fragment_mis_perdidas_publicadas, container, false);
