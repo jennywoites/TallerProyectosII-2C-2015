@@ -350,7 +350,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     for (AdoptionRequest request : requests) {
                                         if (request.isIgnored()) {
                                             request.reject();
-                                            requestService.save(request, requestList);
+                                            requestService.save(request);
                                         }
                                     }
 
@@ -406,7 +406,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     for (AdoptionRequest request : requests) {
                                         if (request.isIgnored()) {
                                             request.pend();
-                                            requestService.save(request, requestList);
+                                            requestService.save(request);
                                             requestList.add(request);
                                         }
                                     }
