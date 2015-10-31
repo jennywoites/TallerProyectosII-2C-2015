@@ -203,7 +203,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
                 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
                 // DatePicker Fecha última vista de la Mascota.
                 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-                ((PerdidasPublicarActivity)mActivity).updateLabel();
+                ((PerdidasPublicarActivity) mActivity).updateLabel();
 
                 findViewById(R.id.txtDate).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -218,11 +218,11 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
                 // Completa la dirección.
                 // -*-*-*-*-*-*-*-*-*-*-*
                 mGoogleApiClient = new GoogleApiClient.Builder(mActivity)
-                        .enableAutoManage((PerdidasPublicarActivity)mActivity, 0, (PerdidasPublicarActivity)mActivity)
+                        .enableAutoManage((PerdidasPublicarActivity) mActivity, 0, (PerdidasPublicarActivity) mActivity)
                         .addApi(Places.GEO_DATA_API)
                         .build();
 
-                _addressAutoCompleteText.setOnItemClickListener((PerdidasPublicarActivity)mActivity);
+                _addressAutoCompleteText.setOnItemClickListener((PerdidasPublicarActivity) mActivity);
 
 
                 mAdapter = new PlaceAutoCompleteAdapter(mActivity, android.R.layout.simple_list_item_1,
@@ -486,7 +486,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         } catch (java.text.ParseException e) {
         }
 
-        return(convertedDate);
+        return (convertedDate);
     }
 
     private String parseYouTubeVideoUrl(String url) {
@@ -566,7 +566,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
             description.setError(null);
         }
 
-        if (addressText.isEmpty()) {
+        if (direccion == null) {
             address.setError(errorAddress);
             valid = false;
         } else {

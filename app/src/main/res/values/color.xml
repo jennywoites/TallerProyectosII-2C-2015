@@ -3,6 +3,7 @@
     <color name="ColorPrimary">#009688</color>
     <color name="ColorPrimaryDark">#00796B</color>
     <color name="Disabled">#afafaf</color>
+    <color name="Selected">#E0F2F1</color>
 
     <!-- Color de la rallita indicadora -->
     <color name="ColorPrimaryLight">#ffffff</color>

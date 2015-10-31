@@ -8,42 +8,55 @@
     tools:context=".HomeActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout2">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/published"
-                android:text="Publicadas"/>
-
-            <Button
-                android:layout_width="wrap_content"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Publicadas"
+                android:textSize="10dp" />
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/hidden"
-                android:text="Ocultas"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/possible"
-                android:text="Posibles"/>
+                android:layout_weight="1"
+                android:text="Ocultas"
+                android:textSize="10dp" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/possible"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Posibles"
+                android:textSize="10dp" />
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/found"
-                android:text="Encontradas"/>
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Encontradas"
+                android:textSize="10dp" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

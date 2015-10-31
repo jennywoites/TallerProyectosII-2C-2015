@@ -320,7 +320,7 @@ public class PetServiceParse extends PetService {
 
     @Override
     public Pet getFoundPet(String petId) {
-        return null;
+        return getPet(petId, FoundPet.class);
     }
 
     private <T extends ParseObject> T getPet(String petId, Class petClass) {

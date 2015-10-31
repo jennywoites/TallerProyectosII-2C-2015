@@ -531,7 +531,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         String addressText = ((EditText) findViewById(R.id.input_direccion)).getText().toString();
         String errorAddress = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_EMPTY_ADDRESS);
 
-        if (addressText.isEmpty()) {
+        if (direccion == null) {
             address.setError(errorAddress);
             valid = false;
         } else {

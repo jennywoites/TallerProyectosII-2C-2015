@@ -52,15 +52,22 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
                 startActivity(context, intent, notification);
                 break;
             }
+            case MISSING_REQUEST_RECEIVED:
             case COMMENT_ON_MISSING_OWNER:
-            case COMMENT_ON_MISSING_AUTHOR: {
+            case COMMENT_ON_MISSING_AUTHOR:
+            case MISSING_ACCEPTED_REQUEST:
+            case MISSING_IGNORED_REQUEST: {
                 Pet adoptionPet = PetServiceFactory.getInstance().getMissingPet(petId);
                 PetServiceFactory.getInstance().setSelectedPet(adoptionPet);
                 startActivity(context, intent, notification);
                 break;
             }
 
-            case COMMENT_ON_FOUND_AUTHOR: {
+            case FOUND_REQUEST_RECEIVED:
+            case COMMENT_ON_FOUND_OWNER:
+            case COMMENT_ON_FOUND_AUTHOR:
+            case FOUND_ACCEPTED_REQUEST:
+            case FOUND_IGNORED_REQUEST: {
                 Pet foundPet = PetServiceFactory.getInstance().getFoundPet(petId);
                 PetServiceFactory.getInstance().setSelectedPet(foundPet);
                 startActivity(context, intent, notification);

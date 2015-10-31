@@ -67,7 +67,6 @@ public class PushService {
     }
 
     public void sendRejectRequestAdoptionPet(Pet pet, User requestingUser) {
-        User user = UserService.getInstance().getUser();
         String pushMessage = "No has podido adoptar a " + pet.getName() + ", pero no te preocupes hay muchas mascotas esperando un hogar!";
         JSONObject data = createData(Notification.ADOPTION_REJECTED_REQUEST, pet.getID(), pushMessage);
         sendRequestPet(requestingUser, data);
@@ -233,13 +232,26 @@ public class PushService {
     }
 
     public void sendRejectRequestFoundPet(FoundPet foundPet, User requestingUser) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = user.getName() + " ha rechazado un pedido por una mascota que indentificaste como tuya!";
+        JSONObject data = createData(Notification.FOUND_REJECTED_REQUEST, foundPet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
     }
 
     public void sendUnpublishRequestFoundPet(FoundRequest request) {
+        FoundPet pet = request.getFoundPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = "Parece que una mascota  por la que te interesaste encontro a su dueño!";
+        JSONObject data = createData(Notification.FOUND_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
     }
 
     public void sendRepublishRequestFoundPet(FoundRequest request) {
-
+        FoundPet pet = request.getFoundPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = "Hay una mascota que sigue buscando a su dueño";
+        JSONObject data = createData(Notification.FOUND_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
     }
 
     public void sendAcceptedRequestMissingPet(MissingPet pet, User requestingUser) {
@@ -288,5 +300,29 @@ public class PushService {
         String pushMessage = user.getName() + " ha republicado a " + pet.getName();
         JSONObject data = createData(Notification.MISSING_IGNORED_REQUEST, pet.getID(), pushMessage);
         sendRequestPet(requestingUser, data);
+    }
+
+    public void sendAcceptedRequestFoundPet(FoundPet foundPet, User requestingUser) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = "Felicitaciones " + user.getName() + " quiere comunicarse con vos por una mascota que identificaste como tuya! ";
+        JSONObject data = createData(Notification.FOUND_ACCEPTED_REQUEST, foundPet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendIgnoredRequestFoundPet(FoundRequest foundRequest, List<FoundRequest> foundRequestIgnored) {
+        List<User> users = new ArrayList<>();
+        users.add(foundRequest.getRequestingUser());
+        String pushMessage = "¡Genial! Una mascota por la cual te interesaste encontró un hogar. Sigue buscando, quizás encuentres la tuya!";
+        JSONObject data = createData(Notification.FOUND_IGNORED_REQUEST, foundRequest.getFoundPet().getID(), pushMessage);
+        for (FoundRequest foundRequest_ : foundRequestIgnored) {
+            if (foundRequest_.isIgnored()) {
+                User requestingUser_ = foundRequest_.getRequestingUser();
+                if (!users.contains(requestingUser_)) {
+                    sendRequestPet(requestingUser_, data);
+                    users.add(requestingUser_);
+                }
+            }
+        }
+
     }
 }

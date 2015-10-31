@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.EncontradasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.FoundEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -126,37 +128,6 @@ public class MisEncontradasPublicadasFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.mis_encontradas_publicadas, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_published:
-                selectedFilter = FoundPetState.PUBLISHED.toString();
-                break;
-            case R.id.action_accepted:
-                selectedFilter = FoundPetState.RETAINED.toString();
-                break;
-            case R.id.action_founded:
-                selectedFilter = FoundPetState.REENCOTRADA.toString();
-                break;
-            case R.id.action_hidden:
-                selectedFilter = FoundPetState.HIDDEN.toString();
-                break;
-            default:
-                selectedFilter = FoundPetState.PUBLISHED.toString();
-                applyQuery();
-                return super.onOptionsItemSelected(item);
-        }
-        applyQuery();
-        return true;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
         setHasOptionsMenu(true);
@@ -215,6 +186,39 @@ public class MisEncontradasPublicadasFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                applyQuery();
+            }
+        });
+
+        Button published = (Button) mainView.findViewById(R.id.published);
+        published.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = FoundPetState.PUBLISHED.toString();
+                applyQuery();
+            }
+        });
+        Button hidden = (Button) mainView.findViewById(R.id.hidden);
+        hidden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = FoundPetState.HIDDEN.toString();
+                applyQuery();
+            }
+        });
+        Button found = (Button) mainView.findViewById(R.id.back);
+        found.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = FoundPetState.REENCOTRADA.toString();
+                applyQuery();
+            }
+        });
+        Button possible = (Button) mainView.findViewById(R.id.possible);
+        possible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = FoundPetState.POSSIBLE.toString();
                 applyQuery();
             }
         });

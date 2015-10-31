@@ -259,12 +259,30 @@ public class RequestService {
 
     public void save(FoundRequest foundRequest, List<FoundRequest> foundRequestIgnored) {
         foundRequest.saveInBackground();
-        //sendPushNotification(foundRequest, foundRequestIgnored);
+        sendPushNotification(foundRequest, foundRequestIgnored);
+    }
+
+    private void sendPushNotification(FoundRequest foundRequest, List<FoundRequest> foundRequestIgnored) {
+        FoundPet foundPet = foundRequest.getFoundPet();
+        User requestingUser = foundRequest.getRequestingUser();
+        if (foundRequest.isAccepted()) {
+            pushService.sendAcceptedRequestFoundPet(foundPet, requestingUser);
+            pushService.sendIgnoredRequestFoundPet(foundRequest, foundRequestIgnored);
+        }
     }
 
     public void save(MissingRequest missingRequest, List<MissingRequest> missingRequestsIgnored) {
         missingRequest.saveInBackground();
-        //sendPushNotification(missingRequest, missingRequestsIgnored);
+        sendPushNotification(missingRequest, missingRequestsIgnored);
+    }
+
+    private void sendPushNotification(MissingRequest missingRequest, List<MissingRequest> missingRequestsIgnored) {
+        MissingPet missingPet = missingRequest.getMissingPet();
+        User requestingUser = missingRequest.getRequestingUser();
+        if (missingRequest.isAccepted()) {
+            pushService.sendAcceptedRequestMissingPet(missingPet, requestingUser);
+            pushService.sendIgnoredRequestMissingPet(missingRequest, missingRequestsIgnored);
+        }
     }
 
     public List<FoundRequest> getAllFoundRequests(FoundPet foundPet) {
@@ -293,12 +311,5 @@ public class RequestService {
         return list;
     }
 
-/*    private void sendPushNotification(FoundRequest foundRequest, List<FoundRequest> foundRequestIgnored) {
-        FoundPet foundPet = foundRequest.getFoundPet();
-        User requestingUser = foundRequest.getRequestingUser();
-        if (foundRequest.isAccepted()) {
-            pushService.sendAcceptedRequestFoundPet(foundPet, requestingUser);
-            pushService.sendIgnoredRequestFoundPet(foundRequest, foundRequestIgnored);
-        }
-    }*/
+
 }

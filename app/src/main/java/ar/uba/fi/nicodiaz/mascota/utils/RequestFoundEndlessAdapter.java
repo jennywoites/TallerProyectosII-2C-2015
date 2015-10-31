@@ -19,9 +19,6 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
@@ -281,7 +278,7 @@ public class RequestFoundEndlessAdapter extends RecyclerView.Adapter<RecyclerVie
 
                                     //Reservamos la mascota como retained
                                     FoundPet foundPet = foundRequestOK.getFoundPet();
-                                    foundPet.setState(FoundPetState.RETAINED);
+                                    foundPet.setState(FoundPetState.POSSIBLE);
                                     petService.saveFoundPet(foundPet);
 
                                     // Actualizamos la vista:

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestFoundPetEndlessAdapter;
@@ -106,7 +107,7 @@ public class MisEncontradasSolicitadasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new RequestFoundPetEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
+                Intent i = new Intent(activity, MascotaEncontradaDetalleActivity.class);
                 FoundRequest foundRequest = list.get(position);
                 PetServiceFactory.getInstance().setSelectedPet(foundRequest.getFoundPet());
                 startActivity(i);
