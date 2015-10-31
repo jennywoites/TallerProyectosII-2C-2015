@@ -159,9 +159,8 @@ public class PetServiceParse extends PetService {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, selectedFilter);
         } else if (petClass.equals(MissingPet.class)) {
-            //Todo Revisar poner un MissingPetState
-            /*query.whereEqualTo(MissingPet.OWNER, user.getParseUser());
-            query.whereEqualTo(MissingPet.STATE, selectedFilter);*/
+            query.whereEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereEqualTo(MissingPet.STATE, selectedFilter);
         }
 
         query.setLimit(LIMIT);
