@@ -1,4 +1,4 @@
-package ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas;
+package ar.uba.fi.nicodiaz.mascota.utils;
 
 import android.app.Activity;
 import android.content.Context;
