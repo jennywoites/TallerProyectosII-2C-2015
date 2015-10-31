@@ -8,7 +8,7 @@ import com.parse.ParseUser;
 /**
  * Created by JFERRIO on 13/10/2015.
  */
-@ParseClassName("SolicitudMascotaEnAdopcion")
+@ParseClassName("SolicitudMascotaPerdida")
 public class MissingRequest extends ParseObject {
 
     public static final String REQUESTING_USER = "requestingUser";

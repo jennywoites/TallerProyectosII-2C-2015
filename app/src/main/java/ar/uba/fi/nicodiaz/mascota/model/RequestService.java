@@ -49,6 +49,26 @@ public class RequestService {
         return requestCount > 0;
     }
 
+    public boolean hasMissingRequestSent(MissingPet missingPet) {
+        User user = UserService.getInstance().getUser();
+
+        if (user == null) {
+            return false;
+        }
+
+        int requestCount = 0;
+        ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
+        query.whereEqualTo(MissingRequest.REQUESTING_USER, user.getParseUser());
+        query.whereEqualTo(MissingRequest.MISSING_PET, missingPet);
+        try {
+            requestCount = query.count();
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return requestCount > 0;
+    }
+
     public boolean hasFoundRequestSent(FoundPet foundPet) {
         User user = UserService.getInstance().getUser();
 
@@ -116,6 +136,22 @@ public class RequestService {
         return list;
     }
 
+
+    public List<MissingRequest> getMissingRequests(MissingPet missingPet) {
+        List<MissingRequest> list;
+        ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
+        query.whereEqualTo(MissingRequest.MISSING_PET, missingPet);
+        String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
+        query.whereNotContainedIn(MissingPet.STATE, Arrays.asList(states));
+        try {
+            list = query.find();
+        } catch (ParseException e) {
+            return null;
+        }
+
+        return list;
+    }
+
     public List<FoundRequest> getFoundRequests(FoundPet foundPet) {
         List<FoundRequest> list;
         ParseQuery<FoundRequest> query = ParseQuery.getQuery(FoundRequest.class);
@@ -136,6 +172,11 @@ public class RequestService {
         return getAdoptionRequests(user, page, LIMIT_REQUEST);
     }
 
+    public List<MissingRequest> getMissingRequestsByUser(int page) {
+        User user = UserService.getInstance().getUser();
+        return getMissingRequests(user, page, LIMIT_REQUEST);
+    }
+
     public List<FoundRequest> getFoundRequestsByUser(int page) {
         User user = UserService.getInstance().getUser();
         return getFoundRequests(user, page, LIMIT_REQUEST);
@@ -151,6 +192,21 @@ public class RequestService {
         query.whereEqualTo(AdoptionRequest.REQUESTING_USER, user.getParseUser());
         String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
         query.whereNotContainedIn(AdoptionRequest.STATE, Arrays.asList(states));
+        try {
+            list = query.find();
+        } catch (ParseException e) {
+            return null;
+        }
+
+        return list;
+    }
+
+    private List<MissingRequest> getMissingRequests(User user, int page, int limit) {
+        List<MissingRequest> list = new ArrayList<>();
+        ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
+        query.whereEqualTo(MissingRequest.REQUESTING_USER, user.getParseUser());
+        String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
+        query.whereNotContainedIn(MissingRequest.STATE, Arrays.asList(states));
         try {
             list = query.find();
         } catch (ParseException e) {
@@ -183,6 +239,10 @@ public class RequestService {
         foundRequest.saveInBackground();
     }
 
+    public void save(MissingRequest missingRequest) {
+        missingRequest.saveInBackground();
+    }
+
     public void save(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {
         adoptionRequest.saveInBackground();
         sendPushNotification(adoptionRequest, adoptionRequestIgnored);
@@ -202,10 +262,28 @@ public class RequestService {
         //sendPushNotification(foundRequest, foundRequestIgnored);
     }
 
+    public void save(MissingRequest missingRequest, List<MissingRequest> missingRequestsIgnored) {
+        missingRequest.saveInBackground();
+        //sendPushNotification(missingRequest, missingRequestsIgnored);
+    }
+
     public List<FoundRequest> getAllFoundRequests(FoundPet foundPet) {
         List<FoundRequest> list;
         ParseQuery<FoundRequest> query = ParseQuery.getQuery(FoundRequest.class);
         query.whereEqualTo(FoundRequest.FOUND_PET, foundPet);
+        try {
+            list = query.find();
+        } catch (ParseException e) {
+            return null;
+        }
+
+        return list;
+    }
+
+    public List<MissingRequest> getAllMissingRequests(MissingPet missingPet) {
+        List<MissingRequest> list;
+        ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
+        query.whereEqualTo(MissingRequest.MISSING_PET, missingPet);
         try {
             list = query.find();
         } catch (ParseException e) {

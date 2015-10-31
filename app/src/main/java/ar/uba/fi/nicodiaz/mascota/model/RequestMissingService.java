@@ -1,3 +1,4 @@
+/*
 package ar.uba.fi.nicodiaz.mascota.model;
 
 import com.parse.ParseException;
@@ -9,9 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * Created by JFERRIO on 13/10/2015.
- */
+ *//*
+
 public class RequestMissingService {
 
     private static final int LIMIT_PETS = 4;
@@ -25,36 +28,6 @@ public class RequestMissingService {
 
     private RequestMissingService() {
         pushService = PushService.getInstance();
-    }
-
-    private MissingRequest missingRequest;
-
-/*    public MissingRequest getSelectedMissingRequest() {
-        return missingRequest;
-    }*/
-
-/*    public void setSelectedMissingRequest(MissingRequest missingRequest) {
-        this.missingRequest = missingRequest;
-    }*/
-
-    public boolean requestSent(MissingPet missingPet) {
-        User user = UserService.getInstance().getUser();
-
-        if (user == null) {
-            return false;
-        }
-
-        int requestCount = 0;
-        ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
-        query.whereEqualTo(MissingRequest.REQUESTING_USER, user.getParseUser());
-        query.whereEqualTo(MissingRequest.MISSING_PET, missingPet);
-        try {
-            requestCount = query.count();
-        } catch (ParseException e) {
-            return false;
-        }
-
-        return requestCount > 0;
     }
 
     public Map<MissingPet, MissingRequest> getMissingPetRequestedByUser(int page) {
@@ -146,3 +119,4 @@ public class RequestMissingService {
         }
     }
 }
+*/

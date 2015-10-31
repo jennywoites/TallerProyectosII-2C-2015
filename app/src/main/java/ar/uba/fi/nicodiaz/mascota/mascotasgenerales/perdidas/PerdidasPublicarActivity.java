@@ -59,7 +59,9 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
@@ -472,6 +474,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         pet.setVideo3(urlThree);
         pet.setLastKnowDate(lastKnowDate);
         pet.setLastKnowAddress(lastKnowAddress);
+        pet.setState(MissingPetState.PUBLISHED);
     }
 
     private Date parseStringToDate(String lastKnowDate) {

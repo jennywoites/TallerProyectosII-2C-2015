@@ -15,6 +15,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 
 /**
@@ -32,11 +33,12 @@ public class MyApplication extends Application {
         // Register your parse models
         ParseObject.registerSubclass(Address.class);
         ParseObject.registerSubclass(AdoptionPet.class);
-        ParseObject.registerSubclass(MissingPet.class);
-        ParseObject.registerSubclass(CommentDB.class);
         ParseObject.registerSubclass(AdoptionRequest.class);
+        ParseObject.registerSubclass(MissingPet.class);
+        ParseObject.registerSubclass(MissingRequest.class);
         ParseObject.registerSubclass(FoundPet.class);
         ParseObject.registerSubclass(FoundRequest.class);
+        ParseObject.registerSubclass(CommentDB.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);

@@ -23,7 +23,7 @@ import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
@@ -255,7 +255,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
 
-                                    RequestMissingService requestService = RequestMissingService.getInstance();
+                                    RequestService requestService = RequestService.getInstance();
                                     PetService petService = PetServiceFactory.getInstance();
                                     for (MissingRequest request : requestList) {
                                         request.ignore();
@@ -267,7 +267,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
                                     missingRequestOK.accept();
                                     requestService.save(missingRequestOK, requestList);
 
-                                    EmailHelper.sendEmail((Activity) context, "MascotaPerdida", missingRequestOK.getMissingPet().getOwner(), missingRequestOK.getRequestingUser());
+                                    EmailHelper.sendEmail((Activity) context, "MascotaPerdidaEncontrada", missingRequestOK.getMissingPet().getOwner(), missingRequestOK.getRequestingUser());
 
                                     //Reservamos la mascota como posible
                                     MissingPet missingPet = missingRequestOK.getMissingPet();
@@ -305,7 +305,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
                                     int index = getAdapterPosition();
                                     MissingRequest request = requestList.get(index);
                                     request.reject();
-                                    RequestMissingService.getInstance().save(request);
+                                    RequestService.getInstance().save(request);
                                     PushService.getInstance().sendRejectRequestMissingPet(request.getMissingPet(), request.getRequestingUser());
                                     // Actualizamos la vista:
                                     requestList.remove(index);
@@ -335,7 +335,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
 
-                                    RequestMissingService requestService = RequestMissingService.getInstance();
+                                    RequestService requestService = RequestService.getInstance();
                                     PetService petService = PetServiceFactory.getInstance();
 
                                     int index = getAdapterPosition();
@@ -401,7 +401,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
                                     // Actualizamos la vista:
                                     requestList.remove(index); // quitamos la actual
                                     // ponemos en pendiente a las ignoradas y las agregamos a la lista:
-                                    RequestMissingService requestService = RequestMissingService.getInstance();
+                                    RequestService requestService = RequestService.getInstance();
                                     List<MissingRequest> requests = requestService.getAllMissingRequests(pet);
                                     for (MissingRequest request : requests) {
                                         if (request.isIgnored()) {

@@ -13,6 +13,7 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
@@ -130,14 +131,10 @@ public class PetServiceParse extends PetService {
         query.addDescendingOrder("createdAt");
 
         if (petClass.equals(AdoptionPet.class)) {
-            //query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
-            //  query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
-            query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
         } else if (petClass.equals(MissingPet.class)) {
-            //Todo Revisar poner un MissingPetState
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
         }
 
@@ -192,8 +189,8 @@ public class PetServiceParse extends PetService {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
         } else if (petClass.equals(MissingPet.class)) {
-            //Todo Revisar poner un MissingPetState
-            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereEqualTo(MissingPet.STATE, MissingPetState.PUBLISHED.toString());
         }
 
         query.addDescendingOrder("createdAt");
@@ -266,8 +263,8 @@ public class PetServiceParse extends PetService {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
         } else if (petClass.equals(MissingPet.class)) {
-            //Todo Revisar poner un MissingPetState
-            query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereEqualTo(MissingPet.STATE, MissingPetState.PUBLISHED.toString());
         }
 
 

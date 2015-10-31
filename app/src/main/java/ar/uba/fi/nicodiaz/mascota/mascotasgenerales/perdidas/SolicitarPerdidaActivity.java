@@ -25,7 +25,7 @@ import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
@@ -85,7 +85,7 @@ public class SolicitarPerdidaActivity extends AppCompatActivity {
                         missingRequest.setRequestingUser(user);
                         missingRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
 
-                        RequestMissingService.getInstance().save(missingRequest);
+                        RequestService.getInstance().save(missingRequest);
                         PushService.getInstance().sendRequestMissingPet(pet);
                         setResult(Activity.RESULT_OK);
                         finish();

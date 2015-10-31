@@ -23,7 +23,7 @@ import java.util.List;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MascotaSolicitadaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestMissingEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -63,7 +63,7 @@ public class MisPerdidasSolicitadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = RequestMissingService.getInstance().getMissingRequestsByUser(0);
+            resultList = RequestService.getInstance().getMissingRequestsByUser(0);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());

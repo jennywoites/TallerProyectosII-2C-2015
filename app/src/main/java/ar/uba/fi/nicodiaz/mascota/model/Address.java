@@ -96,5 +96,11 @@ public class Address extends ParseObject {
         return getString(LOCALITY);
     }
 
+    public boolean hasSublocality() {
+        if (getString(SUBLOCALITY) == null || getString(SUBLOCALITY).equals("")) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -25,10 +25,10 @@ import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -54,8 +54,8 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         FAB_encontre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*                Intent i = new Intent(MascotaPerdidaDetalleActivity.this, SolicitarPerdidaActivity.class);
-                startActivityForResult(i, 0);*/
+                Intent i = new Intent(MascotaPerdidaDetalleActivity.this, SolicitarPerdidaActivity.class);
+                startActivityForResult(i, 0);
             }
         });
     }
@@ -89,7 +89,7 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
                 FAB_encontre = (FloatingActionButton) findViewById(R.id.FAB_encontre);
 
-                if (RequestMissingService.getInstance().requestSent((MissingPet) pet)) {
+                if (RequestService.getInstance().hasMissingRequestSent((MissingPet) pet)) {
                     disableEncontreFAB();
                 } else {
                     enableEncontreFAB();

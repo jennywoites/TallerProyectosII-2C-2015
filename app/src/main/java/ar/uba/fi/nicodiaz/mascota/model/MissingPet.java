@@ -322,8 +322,8 @@ public class MissingPet extends ParseObject implements Pet {
         put(LAST_KNOW_DATE, lastKnowDate);
     }
 
-    public String getLastKnowDate() {
-        return getString(LAST_KNOW_DATE);
+    public Date getLastKnowDate() {
+        return getDate(LAST_KNOW_DATE);
     }
 
     // -*-*-*-*-*-*-*-*-*-*-*-

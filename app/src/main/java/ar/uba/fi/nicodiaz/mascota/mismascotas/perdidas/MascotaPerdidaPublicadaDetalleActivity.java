@@ -27,13 +27,13 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
-import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
-import ar.uba.fi.nicodiaz.mascota.model.RequestMissingService;
+import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -211,7 +211,7 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
                         PushService pushService = PushService.getInstance();
                         petService.saveMissingPet((MissingPet) pet);
 
-                        RequestMissingService requestService = RequestMissingService.getInstance();
+                        RequestService requestService = RequestService.getInstance();
                         List<MissingRequest> requests = requestService.getAllMissingRequests((MissingPet) pet);
                         for (MissingRequest request : requests) {
                             if (request.getState().equals(RequestState.PENDING)) {
@@ -244,7 +244,7 @@ public class MascotaPerdidaPublicadaDetalleActivity extends AppCompatActivity {
                         PetService petService = PetServiceFactory.getInstance();
                         PushService pushService = PushService.getInstance();
                         petService.saveMissingPet((MissingPet) pet);
-                        RequestMissingService requestService = RequestMissingService.getInstance();
+                        RequestService requestService = RequestService.getInstance();
                         List<MissingRequest> requests = requestService.getAllMissingRequests((MissingPet) pet);
                         for (MissingRequest request : requests) {
                             if (request.getState().equals(RequestState.IGNORED)) {

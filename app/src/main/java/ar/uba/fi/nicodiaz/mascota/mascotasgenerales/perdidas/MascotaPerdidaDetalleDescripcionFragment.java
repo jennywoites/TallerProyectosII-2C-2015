@@ -27,15 +27,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.utils.DateUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     View view;
-    private Pet missingPet;
+    private MissingPet missingPet;
     private SliderLayout photo_slider;
     private SliderLayout video_slider;
     private GoogleMap mMap;
@@ -43,7 +46,7 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_mascota_perdida_detalle_descripcion, container, false);
-        missingPet = PetServiceFactory.getInstance().getSelectedPet();
+        missingPet = (MissingPet) PetServiceFactory.getInstance().getSelectedPet();
         ArrayList<String> urlPhotos = new ArrayList<>();
 
         for (ParseFile picture : missingPet.getPictures()) {
@@ -174,8 +177,8 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
         ar.uba.fi.nicodiaz.mascota.model.Address missingPetAddress = missingPet.getAddress();
 
         TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
-        //fecha.setText(missingPet.getDate()); // TODO: setear fecha via base de datos.
-        fecha.setText("NO HAY FECHA");
+        Date lastKnowDate = missingPet.getLastKnowDate();
+        fecha.setText(DateUtils.formatDate(lastKnowDate));
 
         if (missingPetAddress != null) {
             double latitude = missingPetAddress.getLocation().getLatitude();
