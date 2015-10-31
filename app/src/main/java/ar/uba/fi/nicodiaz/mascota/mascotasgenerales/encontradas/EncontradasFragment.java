@@ -66,9 +66,9 @@ public class EncontradasFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Integer... currentPage) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0]);
+                resultList = PetServiceFactory.getInstance().getFoundPets(currentPage[0]);
             } else {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(currentPage[0], selectedFilter);
+                resultList = PetServiceFactory.getInstance().getFoundPets(currentPage[0], selectedFilter);
             }
             return !resultList.isEmpty();
         }
