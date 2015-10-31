@@ -271,7 +271,7 @@ public class RequestMisPerdidasEndlessAdapter extends RecyclerView.Adapter<Recyc
 
                                     //Reservamos la mascota como posible
                                     MissingPet missingPet = missingRequestOK.getMissingPet();
-                                    missingPet.setState(MissingPetState.POSIBLE);
+                                    missingPet.setState(MissingPetState.POSSIBLE);
                                     petService.saveMissingPet(missingPet);
 
                                     // Actualizamos la vista:

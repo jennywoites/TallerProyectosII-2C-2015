@@ -5,7 +5,7 @@ package ar.uba.fi.nicodiaz.mascota.model;
  */
 public enum MissingPetState {
 
-    POSIBLE("POSIBLE"), PUBLISHED("PUBLICADA"), HIDDEN("OCULTA"), FOUND("ENCONTRADA");
+    POSSIBLE("POSSIBLE"), PUBLISHED("PUBLICADA"), HIDDEN("OCULTA"), FOUND("ENCONTRADA");
 
     private String text;
 

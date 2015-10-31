@@ -139,7 +139,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
                 selectedFilter=MissingPetState.PUBLISHED.toString();
                 break;
             case R.id.action_accepted:
-                selectedFilter=MissingPetState.POSIBLE.toString();
+                selectedFilter=MissingPetState.POSSIBLE.toString();
                 break;
             case R.id.action_found:
                 selectedFilter=MissingPetState.FOUND.toString();
