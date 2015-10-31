@@ -41,7 +41,7 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Mis Adopciones"
+                android:text="Mis\nAdopciones"
                 android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:gravity="center_vertical|center_horizontal"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Mis Perdidas"
+                android:text="Mis\nPerdidas"
                 android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:gravity="center_vertical|center_horizontal"
@@ -74,6 +74,29 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_action_search"
+                android:background="@color/ColorPrimary"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Mis\nEncontradas"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center" />
+            <ImageButton
+                android:id="@+id/found_button"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_social_white"
                 android:background="@color/ColorPrimary"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
@@ -112,7 +135,7 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Perdí mi mascota"
+                android:text="Perdí\nmi mascota"
                 android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:gravity="center_vertical|center_horizontal"
@@ -135,7 +158,7 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Encontré una mascota"
+                android:text="Encontré\nuna mascota"
                 android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:gravity="center_vertical|center_horizontal"
@@ -158,7 +181,7 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Dar en adopción"
+                android:text="Dar\nen adopción"
                 android:textSize="14sp"
                 android:layout_margin="8dp"
                 android:gravity="center_vertical|center_horizontal"

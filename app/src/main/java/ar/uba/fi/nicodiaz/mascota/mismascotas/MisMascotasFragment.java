@@ -18,6 +18,7 @@ import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.AdopcionPublicarAct
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.EncontradasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MisAdopcionesFragment;
+import ar.uba.fi.nicodiaz.mascota.mismascotas.encontradas.MisEncontradasFragment;
 import ar.uba.fi.nicodiaz.mascota.mismascotas.perdidas.MisPerdidasFragment;
 
 /**
@@ -55,6 +56,17 @@ public class MisMascotasFragment extends Fragment {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.frame, new MisPerdidasFragment());
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        ImageButton my_found_button = (ImageButton) view.findViewById(R.id.found_button);
+        my_found_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.frame, new MisEncontradasFragment());
                 ft.addToBackStack(null);
                 ft.commit();
             }

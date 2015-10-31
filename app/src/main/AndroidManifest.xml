@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ar.uba.fi.nicodiaz.mascota" >
+    package="ar.uba.fi.nicodiaz.mascota">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,7 +25,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/splash_screen_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -43,7 +43,7 @@
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,7 +71,7 @@
             android:name=".mascotasgenerales.perdidas.MascotaPerdidaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -80,7 +80,7 @@
             android:name=".mascotasgenerales.perdidas.PerdidasPublicarActivity"
             android:label="@string/title_activity_agregar_perdida"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -89,7 +89,7 @@
             android:name=".mascotasgenerales.adopcion.AdopcionPublicarActivity"
             android:label="@string/title_activity_agregar_adopcion"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -103,7 +103,7 @@
             android:name=".mascotasgenerales.adopcion.MascotaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -125,7 +125,7 @@
             android:name=".mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -134,7 +134,25 @@
             android:name=".mismascotas.perdidas.MascotaPerdidaPublicadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".mismascotas.encontradas.MascotaEncontradaPublicadaDetalleActivity"
+            android:label="@string/title_activity_mascota_detalle"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".mismascotas.encontradas.MascotaSolicitadaDetalleActivity"
+            android:label="@string/title_activity_mascota_detalle"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -143,7 +161,7 @@
             android:name=".mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -152,11 +170,12 @@
             android:name=".mismascotas.adopcion.MascotaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
+
         <activity
             android:name=".ConfigurationActivity"
             android:label="Configuracion" />
@@ -164,7 +183,7 @@
             android:name=".mascotasgenerales.encontradas.EncontradasPublicarActivity"
             android:label="@string/title_activity_agregar_encontrada"
             android:parentActivityName=".HomeActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
@@ -174,7 +193,7 @@
 
         <receiver
             android:name=".utils.PushReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
@@ -183,7 +202,7 @@
         </receiver>
         <receiver
             android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -199,8 +218,7 @@
         <activity
             android:name=".MailActivity"
             android:label="@string/title_activity_mail"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

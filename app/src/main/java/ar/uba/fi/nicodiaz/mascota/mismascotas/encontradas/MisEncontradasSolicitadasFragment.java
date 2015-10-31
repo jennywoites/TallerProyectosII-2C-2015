@@ -1,6 +1,7 @@
-package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
+package ar.uba.fi.nicodiaz.mascota.mismascotas.encontradas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,34 +21,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
-import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
-import ar.uba.fi.nicodiaz.mascota.utils.RequestEndlessAdapter;
+import ar.uba.fi.nicodiaz.mascota.utils.RequestFoundPetEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
  * Created by nicolas on 14/09/15.
  */
-public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment {
+public class MisEncontradasSolicitadasFragment extends Fragment {
 
-    private static final String TAG = "MisAdopcionesPublicadasFragment";
+    private static final String TAG = "MisEncontradasSolicitadasFragment";
 
     private Context activity;
     private View mainView;
     private TextView emptyView;
-    private ArrayList<AdoptionRequest> list;
+    private ArrayList<FoundRequest> list;
     private RecyclerView listView;
-    private RequestEndlessAdapter listAdapter;
+    private RequestFoundPetEndlessAdapter listAdapter;
 
-    private class RequestListLoader extends AsyncTask<Void, Void, Boolean> {
+
+    private class PetListLoader extends AsyncTask<Void, Void, Boolean> {
 
         private LinearLayout linlaHeaderProgress;
-        private List<AdoptionRequest> resultList;
+        private List<FoundRequest> resultList;
 
-        public RequestListLoader(View view) {
+        public PetListLoader(View view) {
             linlaHeaderProgress = (LinearLayout) view.findViewById(R.id.linlaHeaderProgress);
             resultList = new ArrayList<>();
         }
@@ -60,8 +62,7 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            Pet pet = PetServiceFactory.getInstance().getSelectedPet();
-            resultList = RequestService.getInstance().getAdoptionRequests((AdoptionPet) pet);
+            resultList = RequestService.getInstance().getFoundRequestsByUser(0);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -71,8 +72,8 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
         protected void onPostExecute(Boolean result) {
             linlaHeaderProgress.setVisibility(View.GONE);
             if (result) {
-                for (AdoptionRequest adoptionRequest : resultList) {
-                    list.add(adoptionRequest);
+                for (FoundRequest request : resultList) {
+                    list.add(request);
                 }
                 listAdapter.notifyDataSetChanged();
             }
@@ -85,8 +86,10 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
 
+        setHasOptionsMenu(true);
+
         // View:
-        mainView = inflater.inflate(R.layout.fragment_mascota_encontrada_publicada_detalle_solicitudes, container, false);
+        mainView = inflater.inflate(R.layout.fragment_mis_encontradas_solicitadas, container, false);
         mainView.setTag(TAG);
 
         // ListView:
@@ -94,34 +97,36 @@ public class MascotaAdopcionPublicadaDetalleSolicitudesFragment extends Fragment
 
         list = new ArrayList<>();
 
-        listView = (RecyclerView) mainView.findViewById(R.id.list_request);
+        listView = (RecyclerView) mainView.findViewById(R.id.list_encontradas);
         listView.setLayoutManager(new LinearLayoutManager(activity));
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new RequestEndlessAdapter(list, listView, activity);
-        listAdapter.setOnConfirmListener(new RequestEndlessAdapter.OnConfirmListener() {
+        listAdapter = new RequestFoundPetEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new RequestFoundPetEndlessAdapter.OnItemClickListener() {
             @Override
-            public void doAction() {
-                refresh();
+            public void onItemClick(View itemView, int position) {
+                Intent i = new Intent(activity, MascotaSolicitadaDetalleActivity.class);
+                FoundRequest foundRequest = list.get(position);
+                PetServiceFactory.getInstance().setSelectedPet(foundRequest.getFoundPet());
+                startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_1, R.anim.slide_out_1);
             }
         });
-        listAdapter.setOnIgnoreListener(new RequestEndlessAdapter.OnIgnoreListener() {
-            @Override
-            public void doAction() {
-                refresh();
-            }
-        });
+
         listView.setAdapter(listAdapter);
 
         // Cargando la lista de mascotas:
-        new RequestListLoader(mainView).execute();
+        new PetListLoader(mainView).execute();
+
 
         return mainView;
     }
 
-    private void refresh() {
-        checkEmptyList();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void checkEmptyList() {
