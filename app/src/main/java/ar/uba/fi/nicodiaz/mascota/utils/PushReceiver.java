@@ -60,6 +60,13 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
                 break;
             }
 
+            case COMMENT_ON_FOUND_AUTHOR: {
+                Pet foundPet = PetServiceFactory.getInstance().getFoundPet(petId);
+                PetServiceFactory.getInstance().setSelectedPet(foundPet);
+                startActivity(context, intent, notification);
+                break;
+            }
+
             default:
                 Intent i = new Intent(context, HomeActivity.class);
                 i.putExtras(intent.getExtras());
