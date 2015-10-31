@@ -23,6 +23,8 @@ public class ViewPagerMascotaPerdidaPublicadaDetalleAdapter extends ViewPagerAda
                 return new MascotaPerdidaPublicadaDetalleDescripcionFragment();
             case 1:
                 return new MascotaDetalleComentariosFragment();
+            case 2:
+                return new MascotaPerdidaPublicadaDetalleSolicitudesFragment();
             default:
                 return null;
         }

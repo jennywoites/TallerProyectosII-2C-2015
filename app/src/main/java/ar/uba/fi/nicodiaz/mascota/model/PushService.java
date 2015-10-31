@@ -241,4 +241,52 @@ public class PushService {
     public void sendRepublishRequestFoundPet(FoundRequest request) {
 
     }
+
+    public void sendAcceptedRequestMissingPet(MissingPet pet, User requestingUser) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = "Felicitaciones " + user.getName() + " ha aceptado tu solicitud de encontrada por " + pet.getName();
+        JSONObject data = createData(Notification.MISSING_ACCEPTED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendIgnoredRequestMissingPet(MissingRequest missingRequest, List<MissingRequest> missingRequests) {
+        List<User> users = new ArrayList<>();
+        users.add(missingRequest.getRequestingUser());
+        String pushMessage = "¡Genial! " + missingRequest.getMissingPet().getName() + " ha sido encontrada.";
+        JSONObject data = createData(Notification.MISSING_IGNORED_REQUEST, missingRequest.getMissingPet().getID(), pushMessage);
+        for (MissingRequest request_ : missingRequests) {
+            if (request_.isIgnored()) {
+                User requestingUser_ = request_.getRequestingUser();
+                if (!users.contains(requestingUser_)) {
+                    sendRequestPet(requestingUser_, data);
+                    users.add(requestingUser_);
+                }
+            }
+        }
+    }
+
+    public void sendRejectRequestMissingPet(MissingPet pet, User requestingUser) {
+        User user = UserService.getInstance().getUser();
+        String pushMessage = pet.getName() + " no era la mascota que había perdido, ¡seguro es de alguien más!";
+        JSONObject data = createData(Notification.MISSING_REJECTED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendUnpublishRequestMissingPet(MissingRequest request) {
+        User user = UserService.getInstance().getUser();
+        MissingPet pet = request.getMissingPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = user.getName() + " ha despublicado a " + pet.getName() + ", ¡quizás ya la encontró!";
+        JSONObject data = createData(Notification.MISSING_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
+
+    public void sendRepublishRequestMissingPet(MissingRequest request) {
+        User user = UserService.getInstance().getUser();
+        MissingPet pet = request.getMissingPet();
+        User requestingUser = request.getRequestingUser();
+        String pushMessage = user.getName() + " ha republicado a " + pet.getName();
+        JSONObject data = createData(Notification.MISSING_IGNORED_REQUEST, pet.getID(), pushMessage);
+        sendRequestPet(requestingUser, data);
+    }
 }

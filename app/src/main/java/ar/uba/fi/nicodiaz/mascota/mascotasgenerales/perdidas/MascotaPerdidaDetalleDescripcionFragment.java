@@ -139,23 +139,23 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
         photo_slider.setCustomIndicator((PagerIndicator) view.findViewById(R.id.custom_indicator));
     }
 
-    private void loadInformacionBasica(Pet adoptionPet) {
+    private void loadInformacionBasica(Pet missingPet) {
 
         TextView textView = (TextView) view.findViewById(R.id.infSexoPet);
-        textView.setText(adoptionPet.getGender());
+        textView.setText(missingPet.getGender());
         textView = (TextView) view.findViewById(R.id.infRazaPet);
 
-        if (adoptionPet.getBreed() == null || adoptionPet.getBreed().isEmpty()) {
+        if (missingPet.getBreed() == null || missingPet.getBreed().isEmpty()) {
             textView.setText(R.string.raza_desconocida);
         } else {
-            textView.setText(adoptionPet.getBreed());
+            textView.setText(missingPet.getBreed());
         }
 
         textView = (TextView) view.findViewById(R.id.infEdadPet);
-        textView.setText(adoptionPet.getAgeRange());
+        textView.setText(missingPet.getAgeRange());
 
         textView = (TextView) view.findViewById(R.id.infDescPet);
-        textView.setText(adoptionPet.getDescription());
+        textView.setText(missingPet.getDescription());
 
     }
 
@@ -171,15 +171,15 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     }
 
     private void setUpMap() {
-        ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = missingPet.getAddress();
+        ar.uba.fi.nicodiaz.mascota.model.Address missingPetAddress = missingPet.getAddress();
 
         TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
         //fecha.setText(missingPet.getDate()); // TODO: setear fecha via base de datos.
         fecha.setText("NO HAY FECHA");
 
-        if (adoptionPetAddress != null) {
-            double latitude = adoptionPetAddress.getLocation().getLatitude();
-            double longitude = adoptionPetAddress.getLocation().getLongitude();
+        if (missingPetAddress != null) {
+            double latitude = missingPetAddress.getLocation().getLatitude();
+            double longitude = missingPetAddress.getLocation().getLongitude();
             LatLng posicion = new LatLng(latitude, longitude);
             String msg = missingPet.getName() + " se perdió en esta zona";
             mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();

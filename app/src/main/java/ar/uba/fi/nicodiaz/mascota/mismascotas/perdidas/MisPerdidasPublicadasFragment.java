@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.PerdidasPublicarActivity;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.MissingEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -42,6 +44,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     private MissingEndlessAdapter listAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean hayMas;
+    private String selectedFilter;
 
     private class LoadMorePets extends AsyncTask<Integer, Void, Boolean> {
 
@@ -55,7 +58,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Integer... currentPage) {
-            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(currentPage[0]);
+            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(currentPage[0], selectedFilter);
             if (resultList == null)
                 return false;
             return !resultList.isEmpty();
@@ -99,7 +102,7 @@ public class MisPerdidasPublicadasFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(0);
+            resultList = PetServiceFactory.getInstance().getMissingPetsByUser(0, selectedFilter);
             if (resultList == null)
                 return false;
             return !(resultList.isEmpty());
@@ -123,7 +126,8 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
-        setHasOptionsMenu(false);
+
+        selectedFilter = MissingPetState.PUBLISHED.toString();
 
         // View:
         mainView = inflater.inflate(R.layout.fragment_mis_perdidas_publicadas, container, false);
@@ -177,6 +181,40 @@ public class MisPerdidasPublicadasFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                applyQuery();
+            }
+        });
+
+
+        Button published = (Button) mainView.findViewById(R.id.published);
+        published.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.PUBLISHED.toString();
+                applyQuery();
+            }
+        });
+        Button hidden = (Button) mainView.findViewById(R.id.hidden);
+        hidden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.HIDDEN.toString();
+                applyQuery();
+            }
+        });
+        Button found = (Button) mainView.findViewById(R.id.found);
+        found.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.FOUND.toString();
+                applyQuery();
+            }
+        });
+        Button possible = (Button) mainView.findViewById(R.id.possible);
+        possible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.POSSIBLE.toString();
                 applyQuery();
             }
         });

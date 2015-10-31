@@ -3,15 +3,12 @@ package ar.uba.fi.nicodiaz.mascota.model;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 6/10/2015.
@@ -42,6 +39,7 @@ public class MissingPet extends ParseObject implements Pet {
     public static final String PHOTO_FOUR = "picture4";
     public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
+    public static final String STATE = "state";
     public static final String LAST_KNOW_DATE = "lastKnowDate";
     public static final String LAST_KNOW_ADDRESS = "lastKnowAddress";
     public static String MALE = "Macho";
@@ -306,6 +304,15 @@ public class MissingPet extends ParseObject implements Pet {
     @Override
     public String getID() {
         return getObjectId();
+    }
+
+    public void setState(MissingPetState missingPetState) {
+        put(STATE, missingPetState.toString());
+    }
+
+    public MissingPetState getState() {
+        String text = getString(STATE);
+        return MissingPetState.getState(text);
     }
 
     // -*-*-*-*-*-*-*-*-*-

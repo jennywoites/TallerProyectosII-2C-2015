@@ -7,4 +7,13 @@
         android:icon="@drawable/ic_action_close_white"
         android:orderInCategory="200"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_delete"
+        android:title="Despublicar"
+        android:icon="@drawable/ic_action_delete"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_republish"
+        android:title="Republicar"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
 </menu>
