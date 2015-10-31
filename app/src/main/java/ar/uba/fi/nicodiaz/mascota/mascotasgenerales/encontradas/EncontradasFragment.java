@@ -35,6 +35,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
+import ar.uba.fi.nicodiaz.mascota.utils.FoundEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -47,7 +48,7 @@ public class EncontradasFragment extends Fragment {
     private RecyclerView listView;
     private TextView emptyView;
     private boolean hayMas;
-    private AdopcionEndlessAdapter listAdapter;
+    private FoundEndlessAdapter listAdapter;
     private Context activity;
     private DrawerLayout drawerLayout;
     private View mainView;
@@ -111,9 +112,9 @@ public class EncontradasFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             if (selectedFilter.isEmpty()) {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(0);
+                resultList = PetServiceFactory.getInstance().getFoundPets(0);
             } else {
-                resultList = PetServiceFactory.getInstance().getAdoptionPets(0, selectedFilter);
+                resultList = PetServiceFactory.getInstance().getFoundPets(0, selectedFilter);
             }
             if (resultList == null)
                 return false;
@@ -171,8 +172,8 @@ public class EncontradasFragment extends Fragment {
         listView.setItemAnimator(new DefaultItemAnimator());
         listView.setHasFixedSize(true);
 
-        listAdapter = new AdopcionEndlessAdapter(list, listView, activity);
-        listAdapter.setOnItemClickListener(new AdopcionEndlessAdapter.OnItemClickListener() {
+        listAdapter = new FoundEndlessAdapter(list, listView, activity);
+        listAdapter.setOnItemClickListener(new FoundEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
                 Intent i = new Intent(activity, MascotaEncontradaDetalleActivity.class);
@@ -183,7 +184,7 @@ public class EncontradasFragment extends Fragment {
             }
         });
 
-        listAdapter.setOnLoadMoreListener(new AdopcionEndlessAdapter.OnLoadMoreListener() {
+        listAdapter.setOnLoadMoreListener(new FoundEndlessAdapter.OnLoadMoreListener() {
             @Override
             public boolean onLoadMore(int currentPage) {
                 if (hayMas) {

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+
 /**
  * Created by JFERRIO on 13/10/2015.
  */
@@ -27,17 +29,7 @@ public class RequestService {
         pushService = PushService.getInstance();
     }
 
-    private AdoptionRequest adoptionRequest;
-
-/*    public AdoptionRequest getSelectedAdoptionRequest() {
-        return adoptionRequest;
-    }*/
-
-/*    public void setSelectedAdoptionRequest(AdoptionRequest adoptionRequest) {
-        this.adoptionRequest = adoptionRequest;
-    }*/
-
-    public boolean requestSent(AdoptionPet adoptionPet) {
+    public boolean hasAdoptionRequestSent(AdoptionPet adoptionPet) {
         User user = UserService.getInstance().getUser();
 
         if (user == null) {
@@ -48,6 +40,26 @@ public class RequestService {
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
         query.whereEqualTo(AdoptionRequest.REQUESTING_USER, user.getParseUser());
         query.whereEqualTo(AdoptionRequest.ADOPTION_PET, adoptionPet);
+        try {
+            requestCount = query.count();
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return requestCount > 0;
+    }
+
+    public boolean hasFoundRequestSent(FoundPet foundPet) {
+        User user = UserService.getInstance().getUser();
+
+        if (user == null) {
+            return false;
+        }
+
+        int requestCount = 0;
+        ParseQuery<FoundRequest> query = ParseQuery.getQuery(FoundRequest.class);
+        query.whereEqualTo(FoundRequest.REQUESTING_USER, user.getParseUser());
+        query.whereEqualTo(FoundRequest.FOUND_PET, foundPet);
         try {
             requestCount = query.count();
         } catch (ParseException e) {
@@ -130,6 +142,10 @@ public class RequestService {
 
     public void save(AdoptionRequest adoptionRequest) {
         adoptionRequest.saveInBackground();
+    }
+
+    public void save(FoundRequest foundRequest) {
+        foundRequest.saveInBackground();
     }
 
     public void save(AdoptionRequest adoptionRequest, List<AdoptionRequest> adoptionRequestIgnored) {

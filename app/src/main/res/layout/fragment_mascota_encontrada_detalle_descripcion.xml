@@ -18,10 +18,6 @@
             layout="@layout/cardview_informacion_basica_mascota" />
 
         <include
-            android:id="@+id/cardview_descripcion"
-            layout="@layout/cardview_descripcion_mascota" />
-
-        <include
             android:id="@+id/cardview_ubicacion"
             layout="@layout/cardview_ubicacion_mascota_encontrada" />
 

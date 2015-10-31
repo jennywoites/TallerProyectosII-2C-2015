@@ -87,6 +87,11 @@ public class FoundPet extends ParseObject implements Pet {
         return null;
     }
 
+    public void setPublisher(User user) {
+        put(PUBLISHER, user.getParseUser());
+    }
+
+
     @Override
     public User getPublisher() {
         ParseUser parseUser = getParseUser(PUBLISHER);
@@ -211,14 +216,15 @@ public class FoundPet extends ParseObject implements Pet {
     @Override
     public String getPreviewDescription() {
         String previewDescription = "";
-
         previewDescription += "Edad: " + getAgeRange();
+        Address address = this.getLastKnowAddress();
 
-        Address address = getOwner().getAddress();
-        if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
-            previewDescription += " / Ubicación: " + address.getSubLocality();
-        } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
-            previewDescription += " / Ubicación: " + address.getLocality();
+        if (address != null) {
+            if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
+                previewDescription += " / Ubicación: " + address.getSubLocality();
+            } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
+                previewDescription += " / Ubicación: " + address.getLocality();
+            }
         }
 
         return previewDescription;
@@ -318,8 +324,8 @@ public class FoundPet extends ParseObject implements Pet {
         put(LAST_KNOW_DATE, lastKnowDate);
     }
 
-    public String getLastKnowDate() {
-        return getString(LAST_KNOW_DATE);
+    public Date getLastKnowDate() {
+        return getDate(LAST_KNOW_DATE);
     }
 
     public void setLastKnowAddress(Address lastKnowAddress) {

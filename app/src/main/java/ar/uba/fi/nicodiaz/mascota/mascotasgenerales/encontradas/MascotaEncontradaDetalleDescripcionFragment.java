@@ -27,10 +27,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.utils.DateUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -39,7 +42,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
 
     View view;
-    private Pet encontradaPet;
+    private FoundPet encontradaPet;
     private SliderLayout photo_slider;
     private SliderLayout video_slider;
     private GoogleMap mMap;
@@ -49,7 +52,7 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_mascota_encontrada_detalle_descripcion, container, false);
 
-        encontradaPet = PetServiceFactory.getInstance().getSelectedPet();
+        encontradaPet = (FoundPet) PetServiceFactory.getInstance().getSelectedPet();
 
         ArrayList<String> urlPhotos = new ArrayList<>();
         for (ParseFile picture : encontradaPet.getPictures()) {
@@ -153,10 +156,6 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
 
         textView = (TextView) view.findViewById(R.id.infEdadPet);
         textView.setText(pet.getAgeRange());
-
-        textView = (TextView) view.findViewById(R.id.infDescPet);
-        textView.setText(pet.getDescription());
-
     }
 
     /**
@@ -196,13 +195,13 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
         ar.uba.fi.nicodiaz.mascota.model.Address adoptionPetAddress = encontradaPet.getAddress();
 
         TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
-        //fecha.setText(encontradaPet.getDate()); // TODO: setear fecha via base de datos.
-        fecha.setText("NO HAY FECHA");
+        Date lastKnowDate = encontradaPet.getLastKnowDate();
+        fecha.setText(DateUtils.formatDate(lastKnowDate));
 
         double latitude = adoptionPetAddress.getLocation().getLatitude();
         double longitude = adoptionPetAddress.getLocation().getLongitude();
         LatLng posicion = new LatLng(latitude, longitude);
-        String msg = encontradaPet.getName() + " apareció acá";
+        String msg = "La mascota apareció acá";
         mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
     }

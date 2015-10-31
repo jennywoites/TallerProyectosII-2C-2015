@@ -21,13 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -45,12 +49,21 @@ public class SolicitarEncontradaActivity extends AppCompatActivity {
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
 
-                final Pet pet = PetServiceFactory.getInstance().getSelectedPet();
-                ((TextView) findViewById(R.id.titulo)).setText("¿" + pet.getName() + " es tu mascota perdida?");
+                final FoundPet pet = (FoundPet) PetServiceFactory.getInstance().getSelectedPet();
+                ((TextView) findViewById(R.id.titulo)).setText("¿Piensas que está es tu Mascota?");
                 ((TextView) findViewById(R.id.infSexoPet)).setText(pet.getGender());
                 ((TextView) findViewById(R.id.infRazaPet)).setText(pet.getBreed());
                 ((TextView) findViewById(R.id.infEspeciePet)).setText(pet.getKind());
-                ((TextView) findViewById(R.id.infUbicacion)).setText(pet.getAddress().getSubLocality());
+
+                Address lastKnowAddress = pet.getLastKnowAddress();
+                if (lastKnowAddress.getSubLocality() != null) {
+                    ((TextView) findViewById(R.id.infUbicacion)).setText(lastKnowAddress.getSubLocality());
+                } else if (lastKnowAddress.getLocality() != null) {
+                    ((TextView) findViewById(R.id.infUbicacion)).setText(lastKnowAddress.getLocality());
+                } else {
+                    ((TextView) findViewById(R.id.infUbicacion)).setText("");
+                }
+
                 final ParseImageView imageView = new ParseImageView(mActivity);
                 ParseFile photoFile = pet.getPicture();
                 if (photoFile != null) {
@@ -77,14 +90,15 @@ public class SolicitarEncontradaActivity extends AppCompatActivity {
                         }
                         String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
                         User user = UserService.getInstance().getUser();
-                        AdoptionRequest adoptionRequest = new AdoptionRequest();
-                        adoptionRequest.setMessage(message);
-                        adoptionRequest.setState(RequestState.PENDING);
-                        adoptionRequest.setAdoptionPet((AdoptionPet) pet);
-                        adoptionRequest.setRequestingUser(user);
-                        adoptionRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
+                        FoundRequest foundRequest = new FoundRequest();
+                        foundRequest.setMessage(message);
+                        foundRequest.setState(RequestState.PENDING);
+                        foundRequest.setFoundPet(pet);
+                        foundRequest.setRequestingUser(user);
+                        foundRequest.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(Calendar.getInstance().getTime()));
 
-                        RequestService.getInstance().save(adoptionRequest);
+                        RequestService.getInstance().save(foundRequest);
+                        PushService.getInstance().sendRequestFoundPet(pet);
                         setResult(Activity.RESULT_OK);
                         finish();
                     }
