@@ -11,11 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,40 +124,8 @@ public class MisPerdidasPublicadasFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.mis_perdidas_publicadas, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_published:
-                selectedFilter=MissingPetState.PUBLISHED.toString();
-                break;
-            case R.id.action_accepted:
-                selectedFilter=MissingPetState.POSSIBLE.toString();
-                break;
-            case R.id.action_found:
-                selectedFilter=MissingPetState.FOUND.toString();
-                break;
-            case R.id.action_hidden:
-                selectedFilter=MissingPetState.HIDDEN.toString();
-                break;
-            default:
-                selectedFilter=MissingPetState.PUBLISHED.toString();
-                applyQuery();
-                return super.onOptionsItemSelected(item);
-        }
-        applyQuery();
-        return true;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = getActivity();
-        setHasOptionsMenu(true);
 
         selectedFilter = MissingPetState.PUBLISHED.toString();
 
@@ -215,6 +181,40 @@ public class MisPerdidasPublicadasFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                applyQuery();
+            }
+        });
+
+
+        Button published = (Button) mainView.findViewById(R.id.published);
+        published.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.PUBLISHED.toString();
+                applyQuery();
+            }
+        });
+        Button hidden = (Button) mainView.findViewById(R.id.hidden);
+        hidden.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.HIDDEN.toString();
+                applyQuery();
+            }
+        });
+        Button found = (Button) mainView.findViewById(R.id.found);
+        found.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.FOUND.toString();
+                applyQuery();
+            }
+        });
+        Button possible = (Button) mainView.findViewById(R.id.possible);
+        possible.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedFilter = MissingPetState.POSSIBLE.toString();
                 applyQuery();
             }
         });
