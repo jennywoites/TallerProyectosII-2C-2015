@@ -123,7 +123,6 @@ public class PushService {
         sendRequestPet(pet.getPublisher(), data);
     }
 
-
     public void sendCommentNotification(CommentDB comment, Pet pet, List<CommentDB> commentsOfPet) {
 
         //Send Notification to Owner
@@ -231,5 +230,15 @@ public class PushService {
         }
 
         return data;
+    }
+
+    public void sendRejectRequestFoundPet(FoundPet foundPet, User requestingUser) {
+    }
+
+    public void sendUnpublishRequestFoundPet(FoundRequest request) {
+    }
+
+    public void sendRepublishRequestFoundPet(FoundRequest request) {
+
     }
 }

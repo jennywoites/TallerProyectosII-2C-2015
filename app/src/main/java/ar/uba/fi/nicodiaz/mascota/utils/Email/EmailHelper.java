@@ -65,14 +65,14 @@ public class EmailHelper
         }
         else if ("MascotaEncontradaSolicitada".equals(tipo))
         {
-            usuarioActual_mailSubject = "¡Gracias! Ayudaste a " + usuarioActual.getName() + " a reencontrarse con su mascota.";
-            usuarioActual_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
-            usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
+            usuarioActual_mailSubject = "¡Gracias! Ayudaste a " + usuarioSolicitante.getName() + " a reencontrarse con su mascota.";
+            usuarioActual_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
 
-            usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " encontró a tu mascota.";
+            usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioActual.getName() + " encontró a tu mascota.";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";

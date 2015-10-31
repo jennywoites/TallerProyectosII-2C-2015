@@ -315,9 +315,9 @@ public class FoundPet extends ParseObject implements Pet {
         put(STATE, foundPetState.toString());
     }
 
-    public AdoptionPetState getState() {
+    public FoundPetState getState() {
         String text = getString(STATE);
-        return AdoptionPetState.getState(text);
+        return FoundPetState.getState(text);
     }
 
     public void setLastKnowDate(Date lastKnowDate) {

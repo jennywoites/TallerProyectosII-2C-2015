@@ -280,6 +280,11 @@ public class PetServiceMock extends PetService {
     }
 
     @Override
+    public List<? extends Pet> getFoundPetsByUser(int page, String selectedFilter) {
+        return null;
+    }
+
+    @Override
     public List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters) {
         return null;
     }

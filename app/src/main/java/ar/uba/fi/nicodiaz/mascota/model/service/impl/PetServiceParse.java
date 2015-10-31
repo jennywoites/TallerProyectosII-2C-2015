@@ -106,6 +106,12 @@ public class PetServiceParse extends PetService {
     }
 
     @Override
+    public List<? extends Pet> getFoundPetsByUser(int page, String selectedFilter) {
+        List<FoundPet> pets = getPetsByUser(page, selectedFilter, FoundPet.class);
+        return pets;
+    }
+
+    @Override
     public List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters) {
         List<FoundPet> pets = getPets(page, filters, FoundPet.class);
         return pets;
@@ -120,7 +126,7 @@ public class PetServiceParse extends PetService {
         if (petClass.equals(AdoptionPet.class)) {
             //query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
-          //  query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
+            //  query.whereNotEqualTo(AdoptionPet.STATE, AdoptionPetState.HIDDEN.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());

@@ -42,6 +42,8 @@ public abstract class PetService {
 
     public abstract List<? extends Pet> getFoundPetsByUser(int page);
 
+    public abstract List<? extends Pet> getFoundPetsByUser(int page, String selectedFilter);
+
     public abstract List<FoundPet> getFoundPets(int page, Map<String, List<String>> filters);
 
     public int getIconPet(String petKind) {

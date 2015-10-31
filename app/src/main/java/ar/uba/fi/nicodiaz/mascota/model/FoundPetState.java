@@ -5,7 +5,7 @@ package ar.uba.fi.nicodiaz.mascota.model;
  */
 public enum FoundPetState {
 
-    PUBLISHED("PUBLISHED"), CLAIMED("CLAIMED"), HIDDEN("OCULTA");;
+    PUBLISHED("PUBLISHED"), REENCOTRADA("REENCOTRADA"), HIDDEN("OCULTA"), RETAINED("RETENIDA");
 
     private String text;
 

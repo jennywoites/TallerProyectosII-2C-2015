@@ -22,9 +22,12 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
+import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -34,7 +37,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
  * <p/>
  * From: http://stackoverflow.com/questions/30681905/adding-items-to-endless-scroll-recyclerview-with-progressbar-at-bottom/30691092#30691092
  */
-public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RequestFoundEndlessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
@@ -47,7 +50,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    private List<AdoptionRequest> requestList;
+    private List<FoundRequest> requestList;
     private Context context;
     private OnConfirmListener onConfirmListener;
     private OnIgnoreListener onIgnoreListener;
@@ -83,7 +86,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         currentPage = 1; // TODO: o cero
     }
 
-    public RequestEndlessAdapter(List<AdoptionRequest> list, RecyclerView recyclerView, Context context) {
+    public RequestFoundEndlessAdapter(List<FoundRequest> list, RecyclerView recyclerView, Context context) {
         this.requestList = list;
         this.context = context;
         this.view = recyclerView;
@@ -117,7 +120,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         RecyclerView.ViewHolder vh;
         View v;
         if (viewType == VIEW_ITEM) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_solicitante_adopcion, parent, false);
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_solicitante_encontrada, parent, false);
             vh = new RequestViewHolder(v);
         } else {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.progress_item, parent, false);
@@ -132,19 +135,20 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (viewHolder instanceof RequestViewHolder) {
             RequestViewHolder view = (RequestViewHolder) viewHolder;
 
-            AdoptionRequest adoptionRequest = requestList.get(i);
-            view.userName.setText(adoptionRequest.getRequestingUser().getName());
-            if (adoptionRequest.getRequestingUser().getAddress().getSubLocality() != null) {
-                view.userUbication.setText(adoptionRequest.getRequestingUser().getAddress().getSubLocality());
-            } else if (adoptionRequest.getRequestingUser().getAddress().getLocality() != null) {
-                view.userUbication.setText(adoptionRequest.getRequestingUser().getAddress().getSubLocality());
+            FoundRequest foundRequest = requestList.get(i);
+            view.userName.setText(foundRequest.getRequestingUser().getName());
+            if (foundRequest.getRequestingUser().getAddress().getSubLocality() != null) {
+                view.userUbication.setText(foundRequest.getRequestingUser().getAddress().getSubLocality());
+            } else if (foundRequest.getRequestingUser().getAddress().getLocality() != null) {
+                view.userUbication.setText(foundRequest.getRequestingUser().getAddress().getSubLocality());
             } else {
                 view.userUbication.setText("");
             }
-            view.message.setText(adoptionRequest.getMessage());
-            view.requestDate.setText(adoptionRequest.getDate());
 
-            User requestingUser = adoptionRequest.getRequestingUser();
+            view.message.setText(foundRequest.getMessage());
+            view.requestDate.setText(foundRequest.getDate());
+
+            User requestingUser = foundRequest.getRequestingUser();
             if (requestingUser.isMale()) {
                 view.userPhoto.setImageResource(R.drawable.user_male);
             } else if (requestingUser.isFemale()) {
@@ -167,7 +171,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
             }*/
 
-            AdoptionRequest request = requestList.get(view.getAdapterPosition());
+            FoundRequest request = requestList.get(view.getAdapterPosition());
 
             if (request.isPending()) {
                 view.status.setText("Pendiente");
@@ -181,8 +185,8 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 view.aceptConfirmButtons.setVisibility(View.GONE);
                 view.successFailButtons.setVisibility(View.VISIBLE);
                 view.bottomDivider.setVisibility(View.GONE);
-            } else if (request.isConfirmed()) { // Adoptada
-                view.status.setText("Adoptada");
+            } else if (request.isConfirmed()) { // Reencontrada
+                view.status.setText("Reencontrada");
                 view.status_icon.setImageResource(R.drawable.ic_action_approved);
                 view.aceptConfirmButtons.setVisibility(View.GONE);
                 view.successFailButtons.setVisibility(View.GONE);
@@ -196,7 +200,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
 
 
-            view.currentRequest = adoptionRequest;
+            view.currentRequest = request;
         } else {
             ((ProgressViewHolder) viewHolder).progressBar.spin();
         }
@@ -221,7 +225,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public View bottomDivider;
         public ImageView status_icon;
         public TextView status;
-        public AdoptionRequest currentRequest;
+        public FoundRequest currentRequest;
         public TextView userName;
         public TextView userUbication;
         public TextView requestDate;
@@ -255,7 +259,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿Realmente quiere aceptar esta solicitud de adopción?")
+                    builder.setMessage("¿Realmente quiere aceptar este pedido de reencuentro?")
                             .setCancelable(false)
                             .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
@@ -263,26 +267,26 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                                     RequestService requestService = RequestService.getInstance();
                                     PetService petService = PetServiceFactory.getInstance();
-                                    for (AdoptionRequest request : requestList) {
+                                    for (FoundRequest request : requestList) {
                                         request.ignore();
                                         requestService.save(request);
                                     }
 
                                     int index = getAdapterPosition();
-                                    AdoptionRequest adoptionRequestOK = requestList.get(index);
-                                    adoptionRequestOK.accept();
-                                    requestService.save(adoptionRequestOK, requestList);
+                                    FoundRequest foundRequestOK = requestList.get(index);
+                                    foundRequestOK.accept();
+                                    requestService.save(foundRequestOK, requestList);
 
-                                    EmailHelper.sendEmail((Activity) context, "MascotaAdoptada", adoptionRequestOK.getAdoptionPet().getOwner(), adoptionRequestOK.getRequestingUser());
+                                    EmailHelper.sendEmail((Activity) context, "MascotaEncontradaSolicitada", foundRequestOK.getFoundPet().getPublisher(), foundRequestOK.getRequestingUser());
 
-                                    //Reservamos la mascota como adoptada
-                                    AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
-                                    adoptionPet.setState(AdoptionPetState.RETAINED);
-                                    petService.saveAdoptionPet(adoptionPet);
+                                    //Reservamos la mascota como retained
+                                    FoundPet foundPet = foundRequestOK.getFoundPet();
+                                    foundPet.setState(FoundPetState.RETAINED);
+                                    petService.saveFoundPet(foundPet);
 
                                     // Actualizamos la vista:
                                     requestList.clear(); // Saco todos
-                                    requestList.add(adoptionRequestOK); // Menos la que aceptó
+                                    requestList.add(foundRequestOK); // Menos la que aceptó
                                     notifyDataSetChanged();
                                     if (onConfirmListener != null) {
                                         onConfirmListener.doAction();
@@ -303,16 +307,16 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿Realmente quiere rechazar esta solicitud de adopción?")
+                    builder.setMessage("¿Realmente quiere rechazar este pedido?")
                             .setCancelable(false)
                             .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     int index = getAdapterPosition();
-                                    AdoptionRequest request = requestList.get(index);
+                                    FoundRequest request = requestList.get(index);
                                     request.reject();
                                     RequestService.getInstance().save(request);
-                                    PushService.getInstance().sendRejectRequestAdoptionPet(request.getAdoptionPet(), request.getRequestingUser());
+                                    PushService.getInstance().sendRejectRequestFoundPet(request.getFoundPet(), request.getRequestingUser());
                                     // Actualizamos la vista:
                                     requestList.remove(index);
                                     notifyItemRemoved(index);
@@ -335,7 +339,7 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿Marcar la adopción como exitosa?")
+                    builder.setMessage("¿Marcar el reencuentro como exitosa?")
                             .setCancelable(false)
                             .setPositiveButton("Exitosa", new DialogInterface.OnClickListener() {
                                 @Override
@@ -345,28 +349,28 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     PetService petService = PetServiceFactory.getInstance();
 
                                     int index = getAdapterPosition();
-                                    AdoptionRequest adoptionRequestOK = requestList.get(index);
-                                    adoptionRequestOK.confirm();
-                                    requestService.save(adoptionRequestOK, requestList);
+                                    FoundRequest foundRequestOK = requestList.get(index);
+                                    foundRequestOK.confirm();
+                                    requestService.save(foundRequestOK, requestList);
 
-                                    AdoptionPet adoptionPet = adoptionRequestOK.getAdoptionPet();
+                                    FoundPet foundPet = foundRequestOK.getFoundPet();
 
                                     // ponemos en rechazadas a las ignoradas:
-                                    List<AdoptionRequest> requests = requestService.getAllAdoptionRequests(adoptionPet);
-                                    for (AdoptionRequest request : requests) {
+                                    List<FoundRequest> requests = requestService.getAllFoundRequests(foundPet);
+                                    for (FoundRequest request : requests) {
                                         if (request.isIgnored()) {
                                             request.reject();
                                             requestService.save(request);
                                         }
                                     }
 
-                                    //Confirmo la mascota como adoptada
-                                    adoptionPet.setState(AdoptionPetState.ADOPTED);
-                                    petService.saveAdoptionPet(adoptionPet);
+                                    //Confirmo la mascota como rencontrada
+                                    foundPet.setState(FoundPetState.REENCOTRADA);
+                                    petService.saveFoundPet(foundPet);
 
                                     // Actualizamos la vista:
                                     requestList.clear();
-                                    requestList.add(adoptionRequestOK);
+                                    requestList.add(foundRequestOK);
                                     notifyDataSetChanged();
 
                                     if (onConfirmListener != null) {
@@ -388,28 +392,28 @@ public class RequestEndlessAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("¿La adopción no fue exitosa?")
+                    builder.setMessage("¿El reencuentro no fue exitoso?")
                             .setCancelable(false)
-                            .setPositiveButton("No Exitosa", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("No Exitoso", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     int index = getAdapterPosition();
-                                    AdoptionRequest actualRequest = requestList.get(index);
+                                    FoundRequest actualRequest = requestList.get(index);
                                     actualRequest.reject();
                                     actualRequest.saveInBackground();
 
                                     // Republicamos la mascota:
                                     PetService petService = PetServiceFactory.getInstance();
-                                    AdoptionPet pet = actualRequest.getAdoptionPet();
-                                    pet.setState(AdoptionPetState.PUBLISHED);
-                                    petService.saveAdoptionPet(pet);
+                                    FoundPet pet = actualRequest.getFoundPet();
+                                    pet.setState(FoundPetState.PUBLISHED);
+                                    petService.saveFoundPet(pet);
 
                                     // Actualizamos la vista:
                                     requestList.remove(index); // quitamos la actual
                                     // ponemos en pendiente a las ignoradas y las agregamos a la lista:
                                     RequestService requestService = RequestService.getInstance();
-                                    List<AdoptionRequest> requests = requestService.getAllAdoptionRequests(pet);
-                                    for (AdoptionRequest request : requests) {
+                                    List<FoundRequest> requests = requestService.getAllFoundRequests(pet);
+                                    for (FoundRequest request : requests) {
                                         if (request.isIgnored()) {
                                             request.pend();
                                             requestService.save(request);
