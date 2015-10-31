@@ -149,7 +149,7 @@
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity
-            android:name=".mismascotas.encontradas.MascotaSolicitadaDetalleActivity"
+            android:name=".mismascotas.encontradas.MascotaEncontradaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"
             android:screenOrientation="portrait">

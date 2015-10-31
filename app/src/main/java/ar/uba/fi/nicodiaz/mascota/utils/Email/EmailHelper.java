@@ -42,7 +42,6 @@ public class EmailHelper {
                 usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getLocality() + "\n";
             }
 
-            usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
 
             usuarioSolicitante_mailSubject = "¡Felicidades! Adoptaste la mascota de " + usuarioActual.getName() + ".";
