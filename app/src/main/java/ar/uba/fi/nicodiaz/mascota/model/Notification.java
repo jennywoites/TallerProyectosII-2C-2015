@@ -15,7 +15,9 @@ public enum Notification {
     ADOPTION_REQUEST_RECEIVED("ADOPTION_REQUEST_RECEIVED", MascotaAdopcionPublicadaDetalleActivity.class, 2), MISSING_REQUEST_RECEIVED("MISSING_REQUEST_RECEIVED", MascotaPerdidaPublicadaDetalleActivity.class, 2),
     FOUND_REQUEST_RECEIVED("FOUND_REQUEST_RECEIVED", HomeActivity.class, 0),
     COMMENT_ON_ADOPTION_OWNER("COMMENT_ON_ADOPTION_OWNER", MascotaAdopcionPublicadaDetalleActivity.class, 1), COMMENT_ON_MISSING_OWNER("COMMENT_ON_MISSING_OWNER", MascotaPerdidaPublicadaDetalleActivity.class, 1),
+    COMMENT_ON_FOUND_OWNER("COMMENT_ON_FOUND_OWNER", HomeActivity.class, 0),
     COMMENT_ON_ADOPTION_AUTHOR("COMMENT_ON_ADOPTION_AUTHOR", MascotaDetalleActivity.class, 1), COMMENT_ON_MISSING_AUTHOR("COMMENT_ON_MISSING_AUTHOR", MascotaDetalleActivity.class, 1),
+    COMMENT_ON_FOUND_AUTHOR("COMMENT_ON_FOUND_AUTHOR", MascotaDetalleActivity.class, 1),
     ADOPTION_ACCEPTED_REQUEST("ADOPTION_ACCEPTED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0), ADOPTION_IGNORED_REQUEST("ADOPTION_IGNORED_REQUEST", MascotaSolicitadaDetalleActivity.class, 0),
     ADOPTION_REJECTED_REQUEST("ADOPTION_REJECTED_REQUEST", HomeActivity.class, 0), MISSING_ACCEPTED_REQUEST("MISSING_ACCEPTED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0),
     MISSING_IGNORED_REQUEST("MISSING_IGNORED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0), MISSING_REJECTED_REQUEST("MISSING_REJECTED_REQUEST", HomeActivity.class, 0);

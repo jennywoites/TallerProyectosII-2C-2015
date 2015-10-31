@@ -13,6 +13,7 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.MyApplication;
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.
@@ -127,19 +128,29 @@ public class PushService {
 
         //Send Notification to Owner
         User user = UserService.getInstance().getUser();
-        ParseUser owner = pet.getOwner().getParseUser();
 
-        if (!owner.getObjectId().equals(user.getParseUser().getObjectId())) {
+        ParseUser petUser = null;
+        if (pet instanceof FoundPet) {
+            petUser = pet.getPublisher().getParseUser();
+        } else {
+            petUser = pet.getOwner().getParseUser();
+        }
+
+
+        if (!petUser.getObjectId().equals(user.getParseUser().getObjectId())) {
             ParseQuery pushQuery = ParseInstallation.getQuery();
-            pushQuery.whereEqualTo(USER, pet.getOwner().getParseUser());
+            pushQuery.whereEqualTo(USER, petUser);
             pushQuery.whereEqualTo(Channel.COMMENTS.toString(), Boolean.TRUE);
-
-            String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre " + pet.getName();
             JSONObject dataOwner = null;
             if (pet instanceof AdoptionPet) {
+                String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre " + pet.getName();
                 dataOwner = createData(Notification.COMMENT_ON_ADOPTION_OWNER, pet.getID(), pushMessageOwner);
             } else if (pet instanceof MissingPet) {
+                String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre " + pet.getName();
                 dataOwner = createData(Notification.COMMENT_ON_MISSING_OWNER, pet.getID(), pushMessageOwner);
+            } else if (pet instanceof FoundPet) {
+                String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre una mascota que encontraste";
+                dataOwner = createData(Notification.COMMENT_ON_FOUND_OWNER, pet.getID(), pushMessageOwner);
             }
 
             sendPushNotification(pushQuery, dataOwner);
@@ -154,7 +165,7 @@ public class PushService {
             for (CommentDB commentDB : commentsOfPet) {
                 ParseUser commentUser = commentDB.getAuthor().getParseUser();
                 if (commentUser.getObjectId().equals(user.getParseUser().getObjectId())
-                        || commentUser.getObjectId().equals(owner.getObjectId())) {
+                        || commentUser.getObjectId().equals(petUser.getObjectId())) {
                     continue;
                 }
 
@@ -173,6 +184,8 @@ public class PushService {
                     dataAuthor = createData(Notification.COMMENT_ON_ADOPTION_AUTHOR, pet.getID(), pushMessageAuthor);
                 } else if (pet instanceof MissingPet) {
                     dataAuthor = createData(Notification.COMMENT_ON_MISSING_AUTHOR, pet.getID(), pushMessageAuthor);
+                } else if (pet instanceof FoundPet) {
+                    dataAuthor = createData(Notification.COMMENT_ON_FOUND_AUTHOR, pet.getID(), pushMessageAuthor);
                 }
 
                 sendPushNotification(pushQueryAuthor, dataAuthor);
