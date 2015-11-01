@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,8 +57,6 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
@@ -436,7 +432,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         String raza = ((AutoCompleteTextView) findViewById(R.id.txtRace)).getText().toString();
         String kind = this.getSpecieValue();
         String gender = this.getSexoValue();
-        String ageRange = this.getAgeValue();
         String urlOne = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoOne)).getText().toString());
         String urlTwo = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
         String urlThree = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
@@ -444,7 +439,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         Date lastKnowDate = this.parseStringToDate(((TextView) findViewById(R.id.txtDate)).getText().toString());
         Address lastKnowAddress = this.direccion;
 
-        pet.setAgeRange(ageRange);
         pet.setGender(gender);
         pet.setBreed(raza);
         pet.setKind(kind);
@@ -540,7 +534,6 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
 
         valid &= checkOpciones(R.id.rgSpecie, R.id.lbspecies);
         valid &= checkOpciones(R.id.rgSexo, R.id.lbSexo);
-        valid &= checkOpciones(R.id.rgAge, R.id.lbAge);
 
         // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
         // La última fecha conocida no puede ser futura.

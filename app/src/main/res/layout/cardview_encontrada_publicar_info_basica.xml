@@ -125,69 +125,6 @@
                 android:inputType="textCapSentences"
                 android:maxLength="50" />
         </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/lbAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:paddingLeft="5px"
-                android:text="Edad"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rgAge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_vertical"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
-
-                <RadioButton
-                    android:id="@+id/rdAge1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0-3 meses" />
-
-                <RadioButton
-                    android:id="@+id/rdAge2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4-6 meses" />
-
-                <RadioButton
-                    android:id="@+id/rdAge3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="7-12 meses" />
-
-                <RadioButton
-                    android:id="@+id/rdAge4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1-3 años" />
-
-                <RadioButton
-                    android:id="@+id/rdAge5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4-7 años" />
-
-                <RadioButton
-                    android:id="@+id/rdAge6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="8-15 años" />
-            </RadioGroup>
-
-        </android.support.design.widget.TextInputLayout>
-
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

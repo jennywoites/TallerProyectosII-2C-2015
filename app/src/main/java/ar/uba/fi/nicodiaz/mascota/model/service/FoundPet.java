@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
@@ -216,14 +215,13 @@ public class FoundPet extends ParseObject implements Pet {
     @Override
     public String getPreviewDescription() {
         String previewDescription = "";
-        previewDescription += "Edad: " + getAgeRange();
         Address address = this.getLastKnowAddress();
 
         if (address != null) {
             if (address.getSubLocality() != null && !address.getSubLocality().isEmpty()) {
-                previewDescription += " / Ubicación: " + address.getSubLocality();
+                previewDescription += "Ubicación: " + address.getSubLocality();
             } else if (address.getLocality() != null && !address.getLocality().isEmpty()) {
-                previewDescription += " / Ubicación: " + address.getLocality();
+                previewDescription += "Ubicación: " + address.getLocality();
             }
         }
 

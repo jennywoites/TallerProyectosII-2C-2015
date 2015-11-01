@@ -96,4 +96,27 @@ public class Filter {
 
         return filters;
     }
+
+    public static ArrayList<Filter> getEncontradasFilters() {
+        ArrayList<Filter> filters = new ArrayList<>();
+
+
+        filters.add(new Filter(ESPECIE)
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.dog))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.cat)));
+
+        filters.add(new Filter(SEXO)
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_male))
+                .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_female)));
+
+        // TODO: especificar rangos:
+        filters.add(new Filter(DISTANCIA)
+                .addChildren(MENOS_1)
+                .addChildren(D_ENTRE_1_5)
+                .addChildren(D_ENTRE_5_10)
+                .addChildren(D_ENTRE_10_15)
+                .addChildren(MAS_15));
+
+        return filters;
+    }
 }

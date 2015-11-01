@@ -154,8 +154,8 @@ public class MascotaEncontradaDetalleDescripcionFragment extends Fragment {
             textView.setText(pet.getBreed());
         }
 
-        textView = (TextView) view.findViewById(R.id.infEdadPet);
-        textView.setText(pet.getAgeRange());
+        // textView = (TextView) view.findViewById(R.id.infEdadPet);
+        // textView.setText(pet.getAgeRange());
     }
 
     /**

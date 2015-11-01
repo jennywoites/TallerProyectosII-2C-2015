@@ -15,7 +15,7 @@
 
         <include
             android:id="@+id/cardview_basica"
-            layout="@layout/cardview_informacion_basica_mascota" />
+            layout="@layout/cardview_informacion_basica_mascota_encontrada" />
 
         <include
             android:id="@+id/cardview_ubicacion"

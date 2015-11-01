@@ -33,7 +33,6 @@ import java.util.Map;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.utils.AdopcionEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 import ar.uba.fi.nicodiaz.mascota.utils.FoundEndlessAdapter;
 import ar.uba.fi.nicodiaz.mascota.utils.SettingsListAdapter;
@@ -276,7 +275,7 @@ public class EncontradasFragment extends Fragment {
 
     private void createFilterMenu(View view) {
         filtersList = (ExpandableListView) view.findViewById(R.id.categories);
-        filters = Filter.getFilters();
+        filters = Filter.getEncontradasFilters();
         adapter = new SettingsListAdapter(activity,
                 filters, filtersList);
         filtersList.setAdapter(adapter);
@@ -350,7 +349,7 @@ public class EncontradasFragment extends Fragment {
         cancelFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filters = Filter.getFilters();
+                filters = Filter.getEncontradasFilters();
                 adapter = new SettingsListAdapter(activity, filters, filtersList);
                 filtersList.setAdapter(adapter);
                 tempSelectedFilter.clear();
