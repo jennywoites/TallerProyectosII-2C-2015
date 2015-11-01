@@ -97,7 +97,7 @@ public class EmailHelper {
 
             usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
 
-            usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioActual.getName() + " encontró a tu mascota.";
+            usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioActual.getName() + " tiene a tu mascota.";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";
