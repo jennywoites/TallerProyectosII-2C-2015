@@ -67,7 +67,7 @@ public class PushService {
     }
 
     public void sendRejectRequestAdoptionPet(Pet pet, User requestingUser) {
-        String pushMessage = "No has podido adoptar a " + pet.getName() + ", pero no te preocupes hay muchas mascotas esperando un hogar!";
+        String pushMessage = "No fue aceptada tu solicitud de adopcion por " + pet.getName() + ", pero no te preocupes hay muchas mascotas esperando un hogar!";
         JSONObject data = createData(Notification.ADOPTION_REJECTED_REQUEST, pet.getID(), pushMessage);
         sendRequestPet(requestingUser, data);
     }
@@ -147,7 +147,8 @@ public class PushService {
                 String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre " + pet.getName();
                 dataOwner = createData(Notification.COMMENT_ON_MISSING_OWNER, pet.getID(), pushMessageOwner);
             } else if (pet instanceof FoundPet) {
-                String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre una mascota que encontraste";
+                // String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre una mascota que encontraste";
+                String pushMessageOwner = comment.getAuthor().getName() + " a comentado algo sobre " + pet.getName();
                 dataOwner = createData(Notification.COMMENT_ON_FOUND_OWNER, pet.getID(), pushMessageOwner);
             }
 
@@ -241,7 +242,7 @@ public class PushService {
     public void sendUnpublishRequestFoundPet(FoundRequest request) {
         FoundPet pet = request.getFoundPet();
         User requestingUser = request.getRequestingUser();
-        String pushMessage = "Parece que una mascota  por la que te interesaste encontro a su dueño!";
+        String pushMessage = "Parece que una mascota por la que te interesaste encontro a su dueño!";
         JSONObject data = createData(Notification.FOUND_IGNORED_REQUEST, pet.getID(), pushMessage);
         sendRequestPet(requestingUser, data);
     }
