@@ -61,6 +61,7 @@ public class EmailHelper {
             usuarioActual_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
             usuarioActual_mailBody = usuarioActual_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
+
             if (usuarioSolicitante.getAddress().hasSublocality()) {
                 usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
             } else {
@@ -94,12 +95,13 @@ public class EmailHelper {
                 usuarioActual_mailBody = usuarioActual_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getLocality() + "\n";
             }
 
-            usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioActual.getTelephone() + "\n";
+            usuarioActual_mailBody = usuarioActual_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
 
             usuarioSolicitante_mailSubject = "¡Buenas noticias! " + usuarioActual.getName() + " encontró a tu mascota.";
             usuarioSolicitante_mailBody = "Te acercamos los datos de " + usuarioActual.getName() + ":" + "\n\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Nombre: " + usuarioActual.getName() + "\n";
             usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Email: " + usuarioActual.getEmail() + "\n";
+
             if (usuarioActual.getAddress().hasSublocality()) {
                 usuarioSolicitante_mailBody = usuarioSolicitante_mailBody + "Ubicación: " + usuarioActual.getAddress().getSubLocality() + ", " + usuarioActual.getAddress().getLocality() + "\n";
             } else {
