@@ -149,6 +149,15 @@
                 android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
         </activity>
         <activity
+            android:name=".mismascotas.perdidas.MascotaPerdidaSolicitadaDetalleActivity"
+            android:label="@string/title_activity_mascota_detalle"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ar.uba.fi.nicodiaz.mascota.HomeActivity" />
+        </activity>
+        <activity
             android:name=".mismascotas.encontradas.MascotaEncontradaSolicitadaDetalleActivity"
             android:label="@string/title_activity_mascota_detalle"
             android:parentActivityName=".HomeActivity"

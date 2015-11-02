@@ -25,6 +25,7 @@ import com.parse.ParseImageView;
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.ViewPagerMascotaDetalleAdapter;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.ViewPagerMascotaPerdidaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
@@ -70,7 +71,7 @@ public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
                 int commentsCount = CommentService.getInstance().getCount(pet.getID());
                 Titles = new CharSequence[]{"Información", "Comentarios (" + String.valueOf(commentsCount) + ")"};
 
-                ViewPagerAdapter adapter = new ViewPagerMascotaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
+                ViewPagerAdapter adapter = new ViewPagerMascotaPerdidaDetalleAdapter(getSupportFragmentManager(), Titles, NumbOfTabs);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
                 pager.setAdapter(adapter);
                 pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
