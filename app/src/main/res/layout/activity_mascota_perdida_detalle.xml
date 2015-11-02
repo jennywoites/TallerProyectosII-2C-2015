@@ -79,7 +79,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:elevation="@dimen/elevation"
-        android:src="@drawable/ic_adoption_white"
+        android:src="@drawable/ic_action_search"
         app:layout_anchor="@+id/pager"
         app:layout_anchorGravity="bottom|right|end" />
 
