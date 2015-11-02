@@ -282,3 +282,33 @@ Parse.Cloud.job("deleteComments", function(request, status) {
 		console.log("Error Eliminando Comentarios: " + error);
 	});
 });
+Parse.Cloud.job("unPublishAdopcion", function(request, status) {
+
+	var MascotaEnAdopcion = Parse.Object.extend("MascotaEnAdopcion");
+	var query = new Parse.Query(MascotaEnAdopcion);
+
+	var day = new Date();
+	day.setDate(day.getDate() - 30);
+	
+	var counterMascotaEnAdopcion = 1;
+	query.limit = 1000;
+	query.lessThan("createdAt", day);
+	query.equalTo("state","PUBLICADA");
+
+	query.each(function(object) {
+		// Update the object
+		
+		object.set("state","OCULTA");
+		object.save();
+		
+	}).then(function() {
+
+		// Return a success response
+		status.success("Operation Despublicando Adopcion");
+
+	}, function(error) {
+
+		// Log the error
+		console.log("Error Despublicando Adopcion: " + error);
+	});
+});
