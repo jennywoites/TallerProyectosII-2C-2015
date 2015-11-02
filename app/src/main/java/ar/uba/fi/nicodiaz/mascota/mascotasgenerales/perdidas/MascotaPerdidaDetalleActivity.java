@@ -44,9 +44,9 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Si dio adoptar:
-        if (resultCode == Activity.RESULT_OK) {
-            disableEncontreFAB();
-        }
+        /*if (resultCode == Activity.RESULT_OK) {
+           disableEncontreFAB();
+        }*/
     }
 
     private void enableEncontreFAB() {
@@ -89,11 +89,11 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
 
                 FAB_encontre = (FloatingActionButton) findViewById(R.id.FAB_encontre);
 
-                if (RequestService.getInstance().hasMissingRequestSent((MissingPet) pet)) {
+               /* if (RequestService.getInstance().hasMissingRequestSent((MissingPet) pet)) {
                     disableEncontreFAB();
-                } else {
+                } else {*/
                     enableEncontreFAB();
-                }
+                //}
 
                 FAB_comment = (FloatingActionButton) findViewById(R.id.FAB_comentar);
                 FAB_comment.setOnClickListener(new View.OnClickListener() {
