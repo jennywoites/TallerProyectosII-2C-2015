@@ -107,7 +107,7 @@ public class MisEncontradasSolicitadasFragment extends Fragment {
         listAdapter.setOnItemClickListener(new RequestFoundPetEndlessAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
-                Intent i = new Intent(activity, MascotaEncontradaDetalleActivity.class);
+                Intent i = new Intent(activity, MascotaEncontradaSolicitadaDetalleActivity.class);
                 FoundRequest foundRequest = list.get(position);
                 PetServiceFactory.getInstance().setSelectedPet(foundRequest.getFoundPet());
                 startActivity(i);
