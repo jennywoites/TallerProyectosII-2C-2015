@@ -1,6 +1,5 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

@@ -3,14 +3,11 @@ package ar.uba.fi.nicodiaz.mascota.model;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import ar.uba.fi.nicodiaz.mascota.utils.ParseProxyObject;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.

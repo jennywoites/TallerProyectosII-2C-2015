@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_action_close_white"
         android:orderInCategory="200"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_denounce"
+        android:title="Reportar"
+        android:icon="@drawable/ic_action_found_white"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
 </menu>

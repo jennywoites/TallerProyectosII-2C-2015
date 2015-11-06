@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MascotaSolicitadaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestMissingEndlessAdapter;

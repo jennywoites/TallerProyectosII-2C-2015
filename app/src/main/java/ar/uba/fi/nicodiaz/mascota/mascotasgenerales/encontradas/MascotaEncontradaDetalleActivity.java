@@ -24,8 +24,8 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
@@ -201,6 +201,10 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_close:
                 volverAtras();
+                return true;
+            case R.id.action_denounce:
+                Intent i = new Intent(MascotaEncontradaDetalleActivity.this, DenounceActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

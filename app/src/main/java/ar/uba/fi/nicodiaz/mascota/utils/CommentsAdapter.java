@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
 
 public class CommentsAdapter extends MultiLevelExpIndListAdapter {

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.RequestFoundPetEndlessAdapter;

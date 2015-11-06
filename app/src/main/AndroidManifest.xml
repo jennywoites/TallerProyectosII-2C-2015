@@ -113,6 +113,9 @@
             android:label="Publicar un comentario"
             android:windowSoftInputMode="stateVisible" />
         <activity
+            android:name=".mascotasgenerales.DenounceActivity"
+            android:label="Denunciar Publicación"/>
+        <activity
             android:name=".mascotasgenerales.adopcion.SolicitarAdopcionActivity"
             android:label="Adoptar" />
         <activity

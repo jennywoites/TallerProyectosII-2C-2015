@@ -1,6 +1,5 @@
 package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -24,11 +23,10 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
-import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -198,6 +196,10 @@ public class MascotaPerdidaDetalleActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_close:
                 volverAtras();
+                return true;
+            case R.id.action_denounce:
+                Intent i = new Intent(MascotaPerdidaDetalleActivity.this, DenounceActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

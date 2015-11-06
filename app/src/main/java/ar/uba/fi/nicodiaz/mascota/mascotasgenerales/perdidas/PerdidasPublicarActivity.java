@@ -59,7 +59,6 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
-import ar.uba.fi.nicodiaz.mascota.model.AdoptionPetState;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;

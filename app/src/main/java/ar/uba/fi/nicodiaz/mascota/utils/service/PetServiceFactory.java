@@ -1,8 +1,8 @@
 package ar.uba.fi.nicodiaz.mascota.utils.service;
 
+import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceMock;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.PetServiceParse;
-import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Configuration;
 
 /**

@@ -2,7 +2,6 @@ package ar.uba.fi.nicodiaz.mascota.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
@@ -11,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ar.uba.fi.nicodiaz.mascota.HomeActivity;
-import ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion.MascotaAdopcionPublicadaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.model.Notification;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;

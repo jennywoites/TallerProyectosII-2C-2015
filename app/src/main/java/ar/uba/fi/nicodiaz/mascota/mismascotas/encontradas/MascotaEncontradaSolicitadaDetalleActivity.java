@@ -23,8 +23,8 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.ViewPagerMascotaEncontradaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
@@ -39,6 +39,7 @@ public class MascotaEncontradaSolicitadaDetalleActivity extends AppCompatActivit
 
     int NumbOfTabs = 2;
     CharSequence Titles[];
+    private Pet pet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class MascotaEncontradaSolicitadaDetalleActivity extends AppCompatActivit
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 //collapsingToolbar.setTitle(pet.getName());
@@ -169,6 +170,13 @@ public class MascotaEncontradaSolicitadaDetalleActivity extends AppCompatActivit
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_detalle, menu);
+
+        if (((FoundPet) pet).getState().equals(FoundPetState.REENCOTRADA)) {
+            menu.findItem(R.id.action_denounce).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_denounce).setVisible(true);
+        }
+
         return true;
     }
 
@@ -180,6 +188,10 @@ public class MascotaEncontradaSolicitadaDetalleActivity extends AppCompatActivit
         switch (item.getItemId()) {
             case R.id.action_close:
                 volverAtras();
+                return true;
+            case R.id.action_denounce:
+                Intent i = new Intent(MascotaEncontradaSolicitadaDetalleActivity.this, DenounceActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -7,8 +7,6 @@ import com.parse.ParseUser;
 
 import java.util.Date;
 
-import ar.uba.fi.nicodiaz.mascota.model.User;
-
 /**
  * Created by nicolas on 08/10/15.
  */

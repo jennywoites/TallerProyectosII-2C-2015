@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Indica la razón por la que quieres reportar la publicación:"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_below="@+id/toolbar"/>
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_above="@+id/textview2"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/lenguaje_indebido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lenguaje indebido"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/spam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spam"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/conducta_extrania"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Conducta extraña"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/contenido_inadecuado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contenido inadecuado"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/intento_comercio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Intento de comerciar"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/fraude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fraude / Robo"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton
+            android:id="@+id/otro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Otra razón"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Comentarios"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_above="@+id/comment_editText"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:ems="10"
+        android:id="@+id/comment_editText"
+        android:layout_alignParentBottom="true"
+        android:hint="Deja un comentario... (opcional)"
+        android:inputType="textCapSentences|textMultiLine"
+        android:gravity="top"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp" />
+
+</RelativeLayout>
+

@@ -23,12 +23,12 @@ import com.parse.ParseFile;
 import com.parse.ParseImageView;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
-import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.ViewPagerMascotaDetalleAdapter;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.ViewPagerMascotaPerdidaDetalleAdapter;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
-import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
@@ -39,6 +39,7 @@ public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
 
     int NumbOfTabs = 2;
     CharSequence Titles[];
+    private Pet pet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());
@@ -161,6 +162,13 @@ public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_detalle, menu);
+
+        if (((MissingPet) pet).getState().equals(MissingPetState.FOUND)) {
+            menu.findItem(R.id.action_denounce).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_denounce).setVisible(true);
+        }
+
         return true;
     }
 
@@ -172,6 +180,10 @@ public class MascotaPerdidaSolicitadaDetalleActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_close:
                 volverAtras();
+                return true;
+            case R.id.action_denounce:
+                Intent i = new Intent(MascotaPerdidaSolicitadaDetalleActivity.this, DenounceActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
