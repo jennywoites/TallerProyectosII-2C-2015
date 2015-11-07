@@ -14,6 +14,10 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/cardview_transito"
+            layout="@layout/cardview_transito_mascota" />
+
+        <include
             android:id="@+id/cardview_basica"
             layout="@layout/cardview_informacion_basica_mascota" />
 

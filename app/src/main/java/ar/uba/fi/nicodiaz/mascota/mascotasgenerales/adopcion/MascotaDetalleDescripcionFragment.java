@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
@@ -57,6 +58,7 @@ public class MascotaDetalleDescripcionFragment extends Fragment {
         }
         ArrayList<String> urlVideos = adoptionPet.getVideos();
         loadInformacionBasica(adoptionPet);
+        loadTransito(adoptionPet);
         loadInformacionSocial(adoptionPet);
         loadInformacionMedica(adoptionPet);
         loadPhotos(urlPhotos);
@@ -64,6 +66,13 @@ public class MascotaDetalleDescripcionFragment extends Fragment {
         setUpMapIfNeeded();
 
         return view;
+    }
+
+    private void loadTransito(Pet adoptionPet) {
+        boolean bool = ((AdoptionPet) adoptionPet).getTransito();
+        if (!bool) {
+            view.findViewById(R.id.cardview_transito).setVisibility(View.GONE);
+        }
     }
 
     @Override
