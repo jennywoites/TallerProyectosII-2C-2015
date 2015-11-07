@@ -88,8 +88,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_gravity="center"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_alignBaseline="@+id/reply_button"
-            android:layout_alignBottom="@+id/reply_button"
+            android:layout_below="@+id/divider1"
             android:layout_alignParentEnd="true" />
 
         <View

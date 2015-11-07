@@ -17,6 +17,7 @@ public class CommentDB extends ParseObject {
     public static final String TEXT = "text";
     public static final String PET_ID = "petId";
     public static final String PARENT_ID = "parentId";
+    public static final String BANNED = "banned";
 
     public CommentDB() {
     }
@@ -67,4 +68,16 @@ public class CommentDB extends ParseObject {
         put(PARENT_ID, parentID);
     }
 
+    public void setBanned(boolean banned) {
+        put(BANNED, banned);
+    }
+
+    public boolean getBanned() {
+        return getBoolean(BANNED);
+    }
+
+    public boolean isBanned()
+    {
+        return getBanned();
+    }
 }

@@ -55,7 +55,13 @@ public class CommentService {
 
         for (CommentDB commentDB : listDB) {
             if (commentDB.getParentID().equals("-1")) { // Is top parent
-                Comment comment = new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), commentDB.getText(), commentDB.getDate());
+                String text = "";
+                if (commentDB.getAuthor().isBanned() || commentDB.isBanned()) {
+                    text = "[Mensaje eliminado por un moderador]";
+                } else {
+                    text = commentDB.getText();
+                }
+                Comment comment = new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate());
                 comments.add(comment); // Add it to the list
             } else { // Is a child of some comment
                 if (hash.get(commentDB.getParentID()) == null) {

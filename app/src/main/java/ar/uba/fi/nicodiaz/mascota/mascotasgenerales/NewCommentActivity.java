@@ -105,6 +105,7 @@ public class NewCommentActivity extends AppCompatActivity {
             comment.setAuthor(user);
             comment.setParentID(parentId);
             comment.setText(text);
+            comment.setBanned(false);
             comment.setPetId(pet.getID());
 
             CommentService.getInstance().save(comment, pet);

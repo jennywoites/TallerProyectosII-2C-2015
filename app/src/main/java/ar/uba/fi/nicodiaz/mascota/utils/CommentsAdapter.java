@@ -16,6 +16,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
 public class CommentsAdapter extends MultiLevelExpIndListAdapter {
     private static final int VIEW_TYPE_ITEM = 0;
@@ -118,6 +119,11 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
                 commentViewHolder.authorTextView.setText(comment.author);
                 commentViewHolder.commentTextView.setText(comment.text);
                 commentViewHolder.dateTextView.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm").format(comment.date));
+
+                // El usuario actual no se puede denunciar a sí mismo:
+                if (comment.author.equals(UserService.getInstance().getUser().getName()) || comment.text.equals("[Mensaje eliminado por un moderador]")) {
+                    commentViewHolder.denounceButton.setVisibility(View.GONE);
+                }
 
                 if (comment.getIndentation() == 0) {
                     commentViewHolder.colorBand.setVisibility(View.GONE);
