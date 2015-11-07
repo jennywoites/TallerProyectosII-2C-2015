@@ -54,20 +54,20 @@ public class CommentService {
         HashMap<String, List<Comment>> hash = new HashMap<>();
 
         for (CommentDB commentDB : listDB) {
+            String text = "";
+            if (commentDB.getAuthor().isBanned() || commentDB.isBanned()) {
+                text = "[Mensaje eliminado por un moderador]";
+            } else {
+                text = commentDB.getText();
+            }
             if (commentDB.getParentID().equals("-1")) { // Is top parent
-                String text = "";
-                if (commentDB.getAuthor().isBanned() || commentDB.isBanned()) {
-                    text = "[Mensaje eliminado por un moderador]";
-                } else {
-                    text = commentDB.getText();
-                }
                 Comment comment = new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate());
                 comments.add(comment); // Add it to the list
             } else { // Is a child of some comment
                 if (hash.get(commentDB.getParentID()) == null) {
                     hash.put(commentDB.getParentID(), new ArrayList<Comment>());
                 }
-                hash.get(commentDB.getParentID()).add(new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), commentDB.getText(), commentDB.getDate())); // temporary to a hash
+                hash.get(commentDB.getParentID()).add(new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate())); // temporary to a hash
             }
         }
 
