@@ -165,15 +165,27 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_adopcion_publicada_detalle, menu);
+
         if (((AdoptionPet) pet).getState().equals(AdoptionPetState.PUBLISHED)) {
             menu.findItem(R.id.action_delete).setVisible(true);
             menu.findItem(R.id.action_republish).setVisible(false);
+            if (((AdoptionPet) pet).getTransito()) {
+                menu.findItem(R.id.action_ponerEnTransito).setVisible(false);
+                menu.findItem(R.id.action_quitarEnTransito).setVisible(true);
+            } else if (!(((AdoptionPet) pet).getTransito())) {
+                menu.findItem(R.id.action_ponerEnTransito).setVisible(true);
+                menu.findItem(R.id.action_quitarEnTransito).setVisible(false);
+            }
         } else if (((AdoptionPet) pet).getState().equals(AdoptionPetState.HIDDEN)) {
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(true);
+            menu.findItem(R.id.action_ponerEnTransito).setVisible(false);
+            menu.findItem(R.id.action_quitarEnTransito).setVisible(false);
         } else { // Caso Reservada o Adoptada, no se puede despublicar o republicar.
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(false);
+            menu.findItem(R.id.action_ponerEnTransito).setVisible(false);
+            menu.findItem(R.id.action_quitarEnTransito).setVisible(false);
         }
 
         return true;
@@ -194,9 +206,21 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
             case R.id.action_republish:
                 republicar();
                 return true;
+            case R.id.action_ponerEnTransito:
+                setearTransito(true);
+                return true;
+            case R.id.action_quitarEnTransito:
+                setearTransito(false);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setearTransito(boolean enTransito) {
+        ((AdoptionPet) pet).setTransito(enTransito);
+        PetServiceFactory.getInstance().saveAdoptionPet((AdoptionPet) pet);
+        volverAtras();
     }
 
     private void despublicar() {
@@ -220,7 +244,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                                 pushService.sendUnpublishRequestAdoptionPet(request);
                             }
                         }
-                        onBackPressed();
+                        volverAtras();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -253,7 +277,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                                 pushService.sendRepublishRequestAdoptionPet(request);
                             }
                         }
-                        onBackPressed();
+                        volverAtras();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

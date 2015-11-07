@@ -16,4 +16,12 @@
         android:title="Republicar"
         android:orderInCategory="300"
         app:showAsAction="never" />
+    <item android:id="@+id/action_ponerEnTransito"
+        android:title="Poner en Transito"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_quitarEnTransito"
+        android:title="Quitar en Transito"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
 </menu>

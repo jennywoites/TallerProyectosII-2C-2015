@@ -375,7 +375,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo3(urlThree);
         pet.setState(AdoptionPetState.PUBLISHED);
         pet.setTransito(enTransito);
-        pet.setEnTransito(false);
         pet.setBanned(false);
     }
 
