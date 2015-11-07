@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
 
@@ -29,6 +30,7 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
     private final int mPaddingDP = 5;
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
+        public Button denounceButton;
         private View colorBand;
         public TextView authorTextView;
         public TextView commentTextView;
@@ -54,6 +56,16 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
                     Comment comment = (Comment) getItemAt(getAdapterPosition());
                     Intent i = new Intent(mContext, NewCommentActivity.class);
                     i.putExtra("Parent", comment.id);
+                    mContext.startActivity(i);
+                }
+            });
+            denounceButton = (Button) itemView.findViewById(R.id.denounce_button);
+            denounceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Comment comment = (Comment) getItemAt(getAdapterPosition());
+                    Intent i = new Intent(mContext, DenounceCommentActivity.class);
+                    i.putExtra("Id", comment.id);
                     mContext.startActivity(i);
                 }
             });

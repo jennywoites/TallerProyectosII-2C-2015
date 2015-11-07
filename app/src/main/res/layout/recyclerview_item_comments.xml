@@ -76,7 +76,21 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_gravity="center"
             android:layout_below="@id/divider1"
+            android:textStyle="bold"
             style="?android:attr/borderlessButtonStyle"/>
+
+        <Button
+            android:id="@+id/denounce_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Denunciar"
+            android:textColor="@android:color/holo_red_dark"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_alignBaseline="@+id/reply_button"
+            android:layout_alignBottom="@+id/reply_button"
+            android:layout_alignParentEnd="true" />
 
         <View
             android:layout_width="match_parent"
