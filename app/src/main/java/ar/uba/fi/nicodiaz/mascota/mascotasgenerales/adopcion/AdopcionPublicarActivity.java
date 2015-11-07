@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +62,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
     private LinearLayout photos_layout;
     private TextView photos_empty;
     private EditText nameEditText;
+    private CheckBox transitoCheckBox;
+    private boolean enTransito;
 
     @Override
     public void onBackPressed() {
@@ -165,6 +169,15 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
                                 return "";
                             }
                         }
+                });
+
+                enTransito = false;
+                transitoCheckBox = (CheckBox) findViewById(R.id.transito);
+                transitoCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        enTransito = isChecked;
+                    }
                 });
 
                 pet = new AdoptionPet();
@@ -361,6 +374,8 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
         pet.setState(AdoptionPetState.PUBLISHED);
+        pet.setTransito(enTransito);
+        pet.setEnTransito(false);
         pet.setBanned(false);
     }
 

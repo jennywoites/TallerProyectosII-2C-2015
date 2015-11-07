@@ -41,6 +41,8 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String LOCATION = "location";
     public static final String STATE = "state";
     public static final String BANNED = "banned";
+    public static final String TRANSITO = "transito";
+    public static final String ENTRANSITO = "enTransito";
     public static String MALE = "Macho";
 
     public AdoptionPet() {
@@ -317,5 +319,21 @@ public class AdoptionPet extends ParseObject implements Pet {
     public AdoptionPetState getState() {
         String text = getString(STATE);
         return AdoptionPetState.getState(text);
+    }
+
+    public void setTransito(boolean enTransito) {
+        put(TRANSITO, enTransito);
+    }
+
+    public boolean getTransito() {
+        return getBoolean(TRANSITO);
+    }
+
+    public void setEnTransito(boolean bool) {
+        put(ENTRANSITO,bool);
+    }
+
+    public boolean getEnTransito() {
+        return getBoolean(ENTRANSITO);
     }
 }
