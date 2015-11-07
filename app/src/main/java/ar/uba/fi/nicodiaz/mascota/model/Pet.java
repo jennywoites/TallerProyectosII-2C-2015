@@ -89,5 +89,9 @@ public interface Pet {
     String getID();
 
     Address getAddress();
+
+    boolean getBanned();
+
+    void setBanned(boolean banned);
 }
 

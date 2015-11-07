@@ -7,7 +7,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 17/10/2015.

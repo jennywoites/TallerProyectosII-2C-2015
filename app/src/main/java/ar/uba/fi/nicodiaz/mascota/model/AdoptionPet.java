@@ -40,10 +40,17 @@ public class AdoptionPet extends ParseObject implements Pet {
     public static final String PHOTO_FIVE = "picture5";
     public static final String LOCATION = "location";
     public static final String STATE = "state";
+    public static final String BANNED = "banned";
     public static String MALE = "Macho";
 
     public AdoptionPet() {
     }
+
+    @Override
+    public boolean getBanned() { return getBoolean(BANNED); }
+
+    @Override
+    public void setBanned(boolean banned) { put(BANNED, banned);}
 
     @Override
     public String getAgeRange() {

@@ -28,7 +28,7 @@ import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;

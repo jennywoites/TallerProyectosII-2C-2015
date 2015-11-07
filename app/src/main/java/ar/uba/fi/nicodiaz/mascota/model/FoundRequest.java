@@ -5,8 +5,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
-
 /**
  * Created by JFERRIO on 13/10/2015.
  */

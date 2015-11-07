@@ -42,10 +42,17 @@ public class MissingPet extends ParseObject implements Pet {
     public static final String STATE = "state";
     public static final String LAST_KNOW_DATE = "lastKnowDate";
     public static final String LAST_KNOW_ADDRESS = "lastKnowAddress";
+    public static final String BANNED = "banned";
     public static String MALE = "Macho";
 
     public MissingPet() {
     }
+
+    @Override
+    public boolean getBanned() { return getBoolean(BANNED); }
+
+    @Override
+    public void setBanned(boolean banned) { put(BANNED, banned);}
 
     @Override
     public String getAgeRange() {

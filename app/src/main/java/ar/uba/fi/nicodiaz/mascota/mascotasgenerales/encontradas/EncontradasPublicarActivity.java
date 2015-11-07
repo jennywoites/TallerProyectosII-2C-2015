@@ -61,7 +61,7 @@ import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
@@ -449,6 +449,7 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         pet.setLastKnowDate(lastKnowDate);
         pet.setLastKnowAddress(lastKnowAddress);
         pet.setState(FoundPetState.PUBLISHED);
+        pet.setBanned(false);
     }
 
     private Date parseStringToDate(String lastKnowDate) {

@@ -32,7 +32,7 @@ import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.DateUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 

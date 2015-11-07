@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
-
 /**
  * Created by JFERRIO on 13/10/2015.
  */

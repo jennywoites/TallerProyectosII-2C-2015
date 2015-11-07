@@ -16,7 +16,7 @@ import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 13/9/2015.

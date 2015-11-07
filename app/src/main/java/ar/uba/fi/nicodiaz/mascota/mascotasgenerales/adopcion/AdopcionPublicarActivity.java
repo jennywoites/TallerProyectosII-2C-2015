@@ -361,6 +361,7 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setVideo2(urlTwo);
         pet.setVideo3(urlThree);
         pet.setState(AdoptionPetState.PUBLISHED);
+        pet.setBanned(false);
     }
 
     private String parseYouTubeVideoUrl(String url) {

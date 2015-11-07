@@ -24,7 +24,7 @@ import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.User;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;

@@ -474,6 +474,7 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         pet.setLastKnowDate(lastKnowDate);
         pet.setLastKnowAddress(lastKnowAddress);
         pet.setState(MissingPetState.PUBLISHED);
+        pet.setBanned(false);
     }
 
     private Date parseStringToDate(String lastKnowDate) {

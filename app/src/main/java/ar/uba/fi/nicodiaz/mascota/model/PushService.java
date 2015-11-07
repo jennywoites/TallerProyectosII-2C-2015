@@ -13,7 +13,6 @@ import java.util.List;
 
 import ar.uba.fi.nicodiaz.mascota.MyApplication;
 import ar.uba.fi.nicodiaz.mascota.R;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
 
 /**
  * Created by Juan Manuel Romera on 23/9/2015.

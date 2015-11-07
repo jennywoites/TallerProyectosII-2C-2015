@@ -17,7 +17,7 @@ import ar.uba.fi.nicodiaz.mascota.model.MissingPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.service.api.PetService;
 import ar.uba.fi.nicodiaz.mascota.utils.Filter;
 
@@ -132,10 +132,13 @@ public class PetServiceParse extends PetService {
 
         if (petClass.equals(AdoptionPet.class)) {
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(AdoptionPet.BANNED, true);
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereNotEqualTo(FoundPet.BANNED, true);
         } else if (petClass.equals(MissingPet.class)) {
-            query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.BANNED, true);
         }
 
         query.setLimit(LIMIT);
@@ -157,12 +160,15 @@ public class PetServiceParse extends PetService {
 
         if (petClass.equals(AdoptionPet.class)) {
             query.whereEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(AdoptionPet.BANNED, true);
             query.whereEqualTo(AdoptionPet.STATE, selectedFilter);
         } else if (petClass.equals(FoundPet.class)) {
             query.whereEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereNotEqualTo(FoundPet.BANNED, true);
             query.whereEqualTo(FoundPet.STATE, selectedFilter);
         } else if (petClass.equals(MissingPet.class)) {
             query.whereEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.BANNED, true);
             query.whereEqualTo(MissingPet.STATE, selectedFilter);
         }
 
@@ -184,12 +190,15 @@ public class PetServiceParse extends PetService {
 
         if (petClass.equals(AdoptionPet.class)) {
             query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(AdoptionPet.BANNED,true);
             query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereNotEqualTo(FoundPet.BANNED,true);
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
         } else if (petClass.equals(MissingPet.class)) {
             query.whereNotEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.BANNED,true);
             query.whereEqualTo(MissingPet.STATE, MissingPetState.PUBLISHED.toString());
         }
 
@@ -258,12 +267,15 @@ public class PetServiceParse extends PetService {
         //Filtro las no adoptadas
         if (petClass.equals(AdoptionPet.class)) {
             query.whereNotEqualTo(AdoptionPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(AdoptionPet.BANNED,true);
             query.whereEqualTo(AdoptionPet.STATE, AdoptionPetState.PUBLISHED.toString());
         } else if (petClass.equals(FoundPet.class)) {
             query.whereNotEqualTo(FoundPet.PUBLISHER, user.getParseUser());
+            query.whereNotEqualTo(FoundPet.BANNED,true);
             query.whereEqualTo(FoundPet.STATE, FoundPetState.PUBLISHED.toString());
         } else if (petClass.equals(MissingPet.class)) {
             query.whereNotEqualTo(MissingPet.OWNER, user.getParseUser());
+            query.whereNotEqualTo(MissingPet.BANNED,true);
             query.whereEqualTo(MissingPet.STATE, MissingPetState.PUBLISHED.toString());
         }
 

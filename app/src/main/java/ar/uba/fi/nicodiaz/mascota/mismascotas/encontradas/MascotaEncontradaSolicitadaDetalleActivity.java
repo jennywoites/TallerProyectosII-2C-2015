@@ -29,7 +29,7 @@ import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.ViewPagerMascota
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
-import ar.uba.fi.nicodiaz.mascota.model.service.FoundPet;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
