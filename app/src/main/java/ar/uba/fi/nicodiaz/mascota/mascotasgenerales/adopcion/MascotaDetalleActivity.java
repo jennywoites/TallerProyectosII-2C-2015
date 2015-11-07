@@ -1,6 +1,7 @@
 package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -41,6 +43,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     int NumbOfTabs = 2;
     FloatingActionButton FAB_adopt;
     FloatingActionButton FAB_comment;
+    private Pet pet;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -85,7 +88,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 collapsingToolbar.setTitle(pet.getName());
@@ -189,7 +192,14 @@ public class MascotaDetalleActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mascota_detalle, menu);
+        getMenuInflater().inflate(R.menu.menu_mascota_adopcion_general_detalle, menu);
+
+        if ((((AdoptionPet) pet).getTransito())) {
+            menu.findItem(R.id.action_transito).setVisible(true);
+        } else {
+            menu.findItem(R.id.action_transito).setVisible(false);
+        }
+
         return true;
     }
 
@@ -202,6 +212,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             case R.id.action_close:
                 volverAtras();
                 return true;
+            case R.id.action_transito:
+                ofrecerTransito();
+                return true;
             case R.id.action_denounce:
                 Intent i = new Intent(MascotaDetalleActivity.this, DenounceActivity.class);
                 startActivity(i);
@@ -209,6 +222,28 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void ofrecerTransito() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Realmente quiere ofrecerse para cuidar la mascota?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // TODO: enviar mail.
+                        Toast.makeText(MascotaDetalleActivity.this, "Se envió un mail al dueño.", Toast.LENGTH_SHORT).show();
+                        volverAtras();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
