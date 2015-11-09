@@ -186,7 +186,15 @@ public class RequestService {
 
     private List<AdoptionRequest> getAdoptionRequests(User user, int page, int limit) {
         List<AdoptionRequest> list = new ArrayList<>();
+
+        // Obtengo las mascotas banneadas:
+        ParseQuery<AdoptionPet> innerQuery = ParseQuery.getQuery(AdoptionPet.class);
+        innerQuery.whereEqualTo(AdoptionPet.BANNED, true);
+
+        // Obtengo las request cuya mascota no este banneada:
         ParseQuery<AdoptionRequest> query = ParseQuery.getQuery(AdoptionRequest.class);
+        query.whereDoesNotMatchQuery(AdoptionRequest.ADOPTION_PET, innerQuery);
+
         query.whereEqualTo(AdoptionRequest.REQUESTING_USER, user.getParseUser());
         String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
         query.whereNotContainedIn(AdoptionRequest.STATE, Arrays.asList(states));
@@ -201,7 +209,14 @@ public class RequestService {
 
     private List<MissingRequest> getMissingRequests(User user, int page, int limit) {
         List<MissingRequest> list = new ArrayList<>();
+
+        // Obtengo las mascotas banneadas:
+        ParseQuery<MissingPet> innerQuery = ParseQuery.getQuery(MissingPet.class);
+        innerQuery.whereEqualTo(MissingPet.BANNED, true);
+
         ParseQuery<MissingRequest> query = ParseQuery.getQuery(MissingRequest.class);
+        query.whereDoesNotMatchQuery(MissingRequest.MISSING_PET, innerQuery);
+
         query.whereEqualTo(MissingRequest.REQUESTING_USER, user.getParseUser());
         String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
         query.whereNotContainedIn(MissingRequest.STATE, Arrays.asList(states));
@@ -216,7 +231,15 @@ public class RequestService {
 
     private List<FoundRequest> getFoundRequests(User user, int page, int limit) {
         List<FoundRequest> list = new ArrayList<>();
+
+
+        // Obtengo las mascotas banneadas:
+        ParseQuery<FoundPet> innerQuery = ParseQuery.getQuery(FoundPet.class);
+        innerQuery.whereEqualTo(FoundPet.BANNED, true);
+
         ParseQuery<FoundRequest> query = ParseQuery.getQuery(FoundRequest.class);
+        query.whereDoesNotMatchQuery(FoundRequest.FOUND_PET, innerQuery);
+
         query.whereEqualTo(FoundRequest.REQUESTING_USER, user.getParseUser());
         String[] states = {RequestState.IGNORED.toString(), RequestState.REJECTED.toString()};
         query.whereNotContainedIn(FoundRequest.STATE, Arrays.asList(states));
