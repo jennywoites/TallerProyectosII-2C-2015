@@ -153,10 +153,6 @@ public class MascotaEncontradaPublicadaDetalleDescripcionFragment extends Fragme
         } else {
             textView.setText(foundPet.getBreed());
         }
-
-        textView = (TextView) view.findViewById(R.id.infEdadPet);
-        textView.setText(foundPet.getAgeRange());
-
     }
 
     /**
