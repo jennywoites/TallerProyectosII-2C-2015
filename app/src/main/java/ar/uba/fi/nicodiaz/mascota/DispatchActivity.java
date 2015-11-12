@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
+import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -27,7 +28,13 @@ public class DispatchActivity extends AppCompatActivity {
                 if (userService.userLogged()) {
                     try {
                         if (userService.hasSavedInformation()) {
-                            startActivity(new Intent(mActivity, HomeActivity.class));
+                            User user = userService.getUser();
+                            if (user.isBanned()) {
+                                ParseUser.logOut();
+                                startActivity(new Intent(mActivity, BannedActivity.class));
+                            } else {
+                                startActivity(new Intent(mActivity, HomeActivity.class));
+                            }
                         } else {
                             ParseUser.logOut();
                             startActivity(new Intent(mActivity, LoginActivity.class));

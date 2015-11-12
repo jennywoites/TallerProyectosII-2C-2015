@@ -116,6 +116,9 @@
             android:name=".mascotasgenerales.DenounceActivity"
             android:label="Denunciar Publicación"/>
         <activity
+            android:name=".BannedActivity"
+            android:label="Acceso Denegado"/>
+        <activity
             android:name=".mascotasgenerales.DenounceCommentActivity"
             android:label="Denunciar Comentario"/>
         <activity

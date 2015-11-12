@@ -91,8 +91,15 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                             intent = new Intent(ApplicationLoginActivity.this, RegistrarDatosPersonalesActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         } else {
-                            intent = new Intent(ApplicationLoginActivity.this, HomeActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            if (UserService.getInstance().getUser().isBanned()) {
+                                ParseUser.logOut();
+                                intent = new Intent(ApplicationLoginActivity.this, BannedActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            }
+                            else {
+                                intent = new Intent(ApplicationLoginActivity.this, HomeActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            }
                         }
 
                     } catch (ApplicationConnectionException ex) {
