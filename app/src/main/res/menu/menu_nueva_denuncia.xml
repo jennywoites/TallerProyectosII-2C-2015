@@ -4,7 +4,7 @@
     tools:context="ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity">
 
     <item android:id="@+id/action_publish"
-        android:title="Denunciar"
+        android:title="Denunciar Publicación"
         android:icon="@drawable/ic_action_ok"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"/>
