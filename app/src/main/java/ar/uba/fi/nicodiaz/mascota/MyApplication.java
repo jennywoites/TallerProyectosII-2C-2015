@@ -10,10 +10,13 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 
 import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.AdoptionComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.model.FoundComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
+import ar.uba.fi.nicodiaz.mascota.model.MissingComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.MissingRequest;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
@@ -39,6 +42,9 @@ public class MyApplication extends Application {
         ParseObject.registerSubclass(FoundPet.class);
         ParseObject.registerSubclass(FoundRequest.class);
         ParseObject.registerSubclass(CommentDB.class);
+        ParseObject.registerSubclass(AdoptionComplaint.class);
+        ParseObject.registerSubclass(MissingComplaint.class);
+        ParseObject.registerSubclass(FoundComplaint.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);
