@@ -16,6 +16,7 @@ import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.NewCommentActivity;
 import ar.uba.fi.nicodiaz.mascota.model.Comment;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 
 public class CommentsAdapter extends MultiLevelExpIndListAdapter {
@@ -66,7 +67,7 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
                 public void onClick(View v) {
                     Comment comment = (Comment) getItemAt(getAdapterPosition());
                     Intent i = new Intent(mContext, DenounceCommentActivity.class);
-                    i.putExtra("Id", comment.id);
+                    CommentService.getInstance().setSelectedComment(comment.getCommentDB());
                     mContext.startActivity(i);
                 }
             });
@@ -79,7 +80,7 @@ public class CommentsAdapter extends MultiLevelExpIndListAdapter {
         }
 
         public void setPaddingLeft(int paddingLeft) {
-            view.setPadding(paddingLeft,0,0,0);
+            view.setPadding(paddingLeft, 0, 0, 0);
         }
 
     }

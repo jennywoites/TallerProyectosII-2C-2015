@@ -16,6 +16,7 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
     public String text;
     public Date date;
     public String id;
+    private CommentDB commentDB;
 
     private int mIndentation;
     private List<Comment> mChildren;
@@ -33,11 +34,12 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
         setIndentation(0);
     }
 
-    public Comment(String id, String author, String text, Date date) {
+    public Comment(String id, String author, String text, Date date, CommentDB commentDB) {
         this.id = id;
         this.author = author;
         this.text = text;
         this.date = date;
+        this.commentDB = commentDB;
         mChildren = new ArrayList<>();
         setIndentation(0);
         parent = "-1";
@@ -91,5 +93,9 @@ public class Comment implements MultiLevelExpIndListAdapter.ExpIndData {
 
     private void setIndentation(int indentation) {
         mIndentation = indentation;
+    }
+
+    public CommentDB getCommentDB() {
+        return commentDB;
     }
 }

@@ -9,16 +9,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.CommentComplaint;
+import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
+import ar.uba.fi.nicodiaz.mascota.model.CommentService;
+import ar.uba.fi.nicodiaz.mascota.model.Complaint;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.model.service.impl.ComplaintService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 
 public class DenounceCommentActivity extends AppCompatActivity {
 
     private EditText editText;
-    private String commentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +37,6 @@ public class DenounceCommentActivity extends AppCompatActivity {
 
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
-
-                commentId = getIntent().getStringExtra("Id");
                 editText = (EditText) findViewById(R.id.comment_editText);
             }
         };
@@ -39,35 +44,6 @@ public class DenounceCommentActivity extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.lenguaje_indebido:
-                if (checked) {
-                    // TODO: marcar la denuncia
-                }
-                break;
-            case R.id.spam:
-                if (checked) {
-                    // TODO: marcar la denuncia
-                }
-                break;
-            case R.id.conducta_extrania:
-                if (checked) {
-                    // TODO: marcar la denuncia
-                }
-                break;
-            case R.id.intento_comercio:
-                if (checked) {
-                    // TODO: marcar la denuncia
-                }
-                break;
-            case R.id.otro:
-                if (checked) {
-                    // TODO: marcar la denuncia
-                }
-                break;
-        }
     }
 
     @Override
@@ -84,7 +60,10 @@ public class DenounceCommentActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_publish:
-                new SaveDenounceTask().execute();  // TODO: guardar en base de datos
+                if (!this.validate()) {
+                    return false;
+                }
+                new SaveDenounceTask().execute();
                 volverAtras();
                 return true;
             case R.id.action_close:
@@ -106,6 +85,29 @@ public class DenounceCommentActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_2, R.anim.slide_out_2);
     }
 
+    private String getRazon() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.radiogroup);
+        return (((RadioButton) findViewById(rg.getCheckedRadioButtonId())).getText().toString());
+    }
+
+    private boolean validate() {
+        return checkOpciones(R.id.radiogroup, R.id.textview);
+    }
+
+    private boolean checkOpciones(int radioGrupoId, int labelId) {
+        String errorOpciones = getResources().getString(R.string.MASCOTA_ADOPCION_ERROR_OPCIONES_VACIAS);
+        RadioGroup rg = (RadioGroup) findViewById(radioGrupoId);
+        TextView textView = (TextView) findViewById(labelId);
+
+        if (rg.getCheckedRadioButtonId() == -1) {
+            textView.setError(errorOpciones);
+            return false;
+        } else {
+            textView.setError(null);
+            return true;
+        }
+    }
+
     private class SaveDenounceTask extends AsyncTask<Void, Integer, Boolean> {
         private String text;
 
@@ -116,7 +118,8 @@ public class DenounceCommentActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: guardar en base de datos una denuncia.
+            CommentComplaint complaint = createComplaint();
+            ComplaintService.getInstance().saveCommentComplaint(complaint);
             return true;
         }
 
@@ -129,5 +132,17 @@ public class DenounceCommentActivity extends AppCompatActivity {
             }
             volverAtras();
         }
+    }
+
+    private CommentComplaint createComplaint() {
+        CommentDB commentDB = CommentService.getInstance().getSelectedComment();
+        CommentComplaint complaint = new CommentComplaint();
+        complaint.setInformed(commentDB.getAuthor());
+        complaint.setInformer(UserService.getInstance().getUser());
+        complaint.setComment(commentDB);
+        complaint.setKind(getRazon());
+        String info = editText.getText().toString();
+        complaint.setInfo(info);
+        return complaint;
     }
 }

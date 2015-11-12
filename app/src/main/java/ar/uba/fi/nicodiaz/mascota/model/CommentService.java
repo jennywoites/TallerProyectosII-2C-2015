@@ -15,6 +15,7 @@ public class CommentService {
 
     private static CommentService ourInstance = new CommentService();
     private static List<CommentDB> lastListComments = new ArrayList<>();
+    private static CommentDB selectedComment;
 
 
     public static CommentService getInstance() {
@@ -23,6 +24,14 @@ public class CommentService {
 
     private CommentService() {
 
+    }
+
+    public void setSelectedComment(CommentDB commentDB) {
+        this.selectedComment = commentDB;
+    }
+
+    public CommentDB getSelectedComment() {
+        return this.selectedComment;
     }
 
     public int getCount(String petID) {
@@ -61,13 +70,13 @@ public class CommentService {
                 text = commentDB.getText();
             }
             if (commentDB.getParentID().equals("-1")) { // Is top parent
-                Comment comment = new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate());
+                Comment comment = new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate(), commentDB);
                 comments.add(comment); // Add it to the list
             } else { // Is a child of some comment
                 if (hash.get(commentDB.getParentID()) == null) {
                     hash.put(commentDB.getParentID(), new ArrayList<Comment>());
                 }
-                hash.get(commentDB.getParentID()).add(new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate())); // temporary to a hash
+                hash.get(commentDB.getParentID()).add(new Comment(commentDB.getObjectId(), commentDB.getAuthor().getName(), text, commentDB.getDate(), commentDB)); // temporary to a hash
             }
         }
 

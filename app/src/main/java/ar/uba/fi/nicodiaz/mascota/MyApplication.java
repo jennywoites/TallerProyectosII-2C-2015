@@ -13,6 +13,7 @@ import ar.uba.fi.nicodiaz.mascota.model.Address;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
+import ar.uba.fi.nicodiaz.mascota.model.CommentComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.FoundComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
@@ -45,6 +46,7 @@ public class MyApplication extends Application {
         ParseObject.registerSubclass(AdoptionComplaint.class);
         ParseObject.registerSubclass(MissingComplaint.class);
         ParseObject.registerSubclass(FoundComplaint.class);
+        ParseObject.registerSubclass(CommentComplaint.class);
 
         //Enable Local Datastore.
         Parse.enableLocalDatastore(this);

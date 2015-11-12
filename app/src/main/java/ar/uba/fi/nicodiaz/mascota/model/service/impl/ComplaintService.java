@@ -4,6 +4,7 @@ import com.parse.ParseObject;
 
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
+import ar.uba.fi.nicodiaz.mascota.model.CommentComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.Complaint;
 import ar.uba.fi.nicodiaz.mascota.model.FoundComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
@@ -37,4 +38,7 @@ public class ComplaintService {
 
     }
 
+    public void saveCommentComplaint(CommentComplaint complaint) {
+        complaint.saveInBackground();
+    }
 }
