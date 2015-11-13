@@ -505,4 +505,7 @@
     <string name="title_activity_found">Encontradas</string>
     <string name="title_activity_agregar_perdida">Publicar una pérdida</string>
     <string name="title_activity_mail">MailActivity</string>
+    <string name="usuario_bloqueado">Tu usuario ha sido bloqueado</string>
+    <string name="USUARIO_BLOQUEADO_TITULO">Tu usuario ha sido bloqueado</string>
+    <string name="USUARIO_BLOQUEADO_MENSAJE">Por conducta indebida se decidió bloquear tu usuario para obtener más información póngase en contacto a tallerproy2.2c2015@gmail.com</string>
 </resources>

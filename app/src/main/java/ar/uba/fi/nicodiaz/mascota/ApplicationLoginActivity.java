@@ -3,6 +3,7 @@ package ar.uba.fi.nicodiaz.mascota;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -82,7 +83,7 @@ public class ApplicationLoginActivity extends AppCompatActivity {
 
                 } else {
                     // Start an intent for the dispatch activity
-                    Intent intent;
+                    Intent intent = null;
                     try {
 
                         Boolean userHasSavedInformation = UserService.getInstance().hasSavedInformation();
@@ -91,12 +92,14 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                             intent = new Intent(ApplicationLoginActivity.this, RegistrarDatosPersonalesActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         } else {
-                            if (UserService.getInstance().getUser().isBanned()) {
+                            if (UserService.getInstance().isBanned(user)) {
                                 ParseUser.logOut();
-                                intent = new Intent(ApplicationLoginActivity.this, BannedActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            }
-                            else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationLoginActivity.this);
+                                builder.setTitle(R.string.USUARIO_BLOQUEADO_TITULO);
+                                builder.setMessage(getString(R.string.USUARIO_BLOQUEADO_MENSAJE));
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            } else {
                                 intent = new Intent(ApplicationLoginActivity.this, HomeActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             }
@@ -106,8 +109,8 @@ public class ApplicationLoginActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad), Toast.LENGTH_SHORT).show();
                         return;
                     }
-
-                    startActivity(intent);
+                    if (intent != null)
+                        startActivity(intent);
                 }
             }
         });

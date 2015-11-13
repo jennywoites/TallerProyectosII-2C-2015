@@ -3,6 +3,8 @@ package ar.uba.fi.nicodiaz.mascota.model;
 import android.util.Log;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -61,5 +63,18 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public boolean isBanned(ParseUser user) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UsuariosBloqueados");
+        query.whereEqualTo("User", user);
+        int count = 0;
+        try {
+            count = query.count();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return count > 0;
     }
 }

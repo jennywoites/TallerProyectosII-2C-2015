@@ -3,6 +3,7 @@ package ar.uba.fi.nicodiaz.mascota;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -70,15 +71,24 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
                             try {
                                 if (user.isNew() || !userService.hasSavedInformation()) {
                                     facebookUtils.asociarUsuarioConDatosDeFacebook(activity);
-                                } else {
+                                } else if (!userService.isBanned(user)) {
                                     intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+                                } else {
+                                    ParseUser.logOut();
+                                    onLoadingFinish();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                    builder.setTitle(R.string.USUARIO_BLOQUEADO_TITULO);
+                                    builder.setMessage(getString(R.string.USUARIO_BLOQUEADO_MENSAJE));
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
                                 }
-
                             } catch (ApplicationConnectionException ex) {
                                 Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad) + ex.toString(), Toast.LENGTH_SHORT).show();
                             }
+
+                            onLoadingFinish();
                         }
 
                     }
