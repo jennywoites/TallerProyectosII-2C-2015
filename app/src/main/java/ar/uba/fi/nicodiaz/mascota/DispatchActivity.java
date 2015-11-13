@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -29,9 +30,11 @@ public class DispatchActivity extends AppCompatActivity {
                     try {
                         if (userService.hasSavedInformation()) {
                             User user = userService.getUser();
-                            if (user.isBanned()) {
+                            if (UserService.getInstance().isBanned(user.getParseUser())) {
                                 ParseUser.logOut();
-                                startActivity(new Intent(mActivity, BannedActivity.class));
+                                Intent i = new Intent(mActivity, LoginActivity.class);
+                                i.putExtra("banned", true);
+                                startActivity(i);
                             } else {
                                 startActivity(new Intent(mActivity, HomeActivity.class));
                             }

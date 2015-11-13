@@ -44,6 +44,11 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
             public void onConnectionSuccess() {
                 setContentView(R.layout.activity_login);
                 ButterKnife.inject(mActivity);
+
+                boolean userBanned = getIntent().getBooleanExtra("banned", false);
+                if (userBanned) {
+                    showBannedMessage();
+                }
             }
         };
         WaitForInternet.setCallback(callback);
@@ -78,11 +83,7 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
                                 } else {
                                     ParseUser.logOut();
                                     onLoadingFinish();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                    builder.setTitle(R.string.USUARIO_BLOQUEADO_TITULO);
-                                    builder.setMessage(getString(R.string.USUARIO_BLOQUEADO_MENSAJE));
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
+                                    showBannedMessage();
                                 }
                             } catch (ApplicationConnectionException ex) {
                                 Toast.makeText(getBaseContext(), getResources().getString(R.string.error_conectividad) + ex.toString(), Toast.LENGTH_SHORT).show();
@@ -94,6 +95,14 @@ public class LoginActivity extends AppCompatActivity implements DatabaseOperatio
                     }
 
                 });
+    }
+
+    private void showBannedMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle(R.string.USUARIO_BLOQUEADO_TITULO);
+        builder.setMessage(getString(R.string.USUARIO_BLOQUEADO_MENSAJE));
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void onApplicationLoginClick(View v) {
