@@ -32,6 +32,8 @@ import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
+import ar.uba.fi.nicodiaz.mascota.model.UserService;
+import ar.uba.fi.nicodiaz.mascota.utils.Email.EmailHelper;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -231,7 +233,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: enviar mail.
+                        EmailHelper.sendEmailEnTransito(MascotaDetalleActivity.this, pet.getOwner(), UserService.getInstance().getUser(), pet.getName());
                         Toast.makeText(MascotaDetalleActivity.this, "Se envió un mail al dueño.", Toast.LENGTH_SHORT).show();
                         volverAtras();
                     }

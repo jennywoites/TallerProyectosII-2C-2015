@@ -125,6 +125,35 @@ public class EmailHelper {
     }
 
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    // Envía al usuario dueño de la mascota los datos del usuario solicitante para hogar en tránsito.
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    // activity: Activity desde donde se lanza el mail en caso de que se quiere mostrar un msj de progreso (necesario para backgroundmaillibrary).
+    // usuarioDuenio: Usuario dueño de la mascota que solicita tránsito.
+    // usuarioSolicitante: Usuario que se postula para ofrecer hogar en tránsito.
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+    public static void sendEmailEnTransito(Activity activity, User usuarioDuenio, User usuarioSolicitante, String nombreMascota) {
+        String usuarioDuenio_mailTo = usuarioDuenio.getEmail();
+        String usuarioDuenio_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " se ofreció para dar hogar tránsitorio a " + nombreMascota + ".";
+        String usuarioDuenio_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
+        usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
+        usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
+
+        if (usuarioSolicitante.getAddress().hasSublocality()) {
+            usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getSubLocality() + ", " + usuarioSolicitante.getAddress().getLocality() + "\n";
+        } else {
+            usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Ubicación: " + usuarioSolicitante.getAddress().getLocality() + "\n";
+        }
+
+        usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Teléfono: " + usuarioSolicitante.getTelephone() + "\n";
+
+        ArrayList<String> usuarioDuenioDatos = new ArrayList<String>();
+        usuarioDuenioDatos.add(usuarioDuenio_mailTo);
+        usuarioDuenioDatos.add(usuarioDuenio_mailSubject);
+        usuarioDuenioDatos.add(usuarioDuenio_mailBody);
+
+        sendMail(activity, usuarioDuenioDatos);
+    }
+    // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
     // Envía el mail utiliza backgroundmaillibrary.
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
     // activity: Activity desde donde se lanza el mail en caso de que se quiere mostrar un msj de progreso (necesario para backgroundmaillibrary).
