@@ -11,24 +11,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.FoundRequest;
 import ar.uba.fi.nicodiaz.mascota.model.PushService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestService;
 import ar.uba.fi.nicodiaz.mascota.model.RequestState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
-import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
@@ -85,6 +87,12 @@ public class SolicitarEncontradaActivity extends AppCompatActivity {
                         if (!validate()) {
                             return;
                         }
+                        if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                            Toast.makeText(SolicitarEncontradaActivity.this, "Ocurrió un problema. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+
                         String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();
                         User user = UserService.getInstance().getUser();
                         FoundRequest foundRequest = new FoundRequest();

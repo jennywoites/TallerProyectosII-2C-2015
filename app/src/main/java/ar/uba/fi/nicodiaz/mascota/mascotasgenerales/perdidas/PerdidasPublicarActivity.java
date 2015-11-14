@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import net.yazeed44.imagepicker.model.ImageEntry;
 import net.yazeed44.imagepicker.util.Picker;
@@ -381,6 +382,11 @@ public class PerdidasPublicarActivity extends AppCompatActivity implements Adapt
         switch (item.getItemId()) {
             case R.id.action_confirmar_agregar_mascota_adopcion:
                 if (!this.validate()) {
+                    return false;
+                }
+                if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                    Toast.makeText(PerdidasPublicarActivity.this, "Ocurrió un problema al publicar. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                    finish();
                     return false;
                 }
                 new SavePetTask(this).execute();

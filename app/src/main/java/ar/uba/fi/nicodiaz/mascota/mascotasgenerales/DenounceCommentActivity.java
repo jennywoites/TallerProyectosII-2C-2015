@@ -13,11 +13,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.CommentComplaint;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
-import ar.uba.fi.nicodiaz.mascota.model.Complaint;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.service.impl.ComplaintService;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
@@ -61,6 +62,11 @@ public class DenounceCommentActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_publish:
                 if (!this.validate()) {
+                    return false;
+                }
+                if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                    Toast.makeText(DenounceCommentActivity.this, "Ocurrió un problema al denunciar. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                    volverAtras();
                     return false;
                 }
                 new SaveDenounceTask().execute();

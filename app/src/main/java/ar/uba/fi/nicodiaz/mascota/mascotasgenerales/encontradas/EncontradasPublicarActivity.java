@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import net.yazeed44.imagepicker.model.ImageEntry;
 import net.yazeed44.imagepicker.util.Picker;
@@ -57,11 +58,11 @@ import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.Address;
+import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.model.FoundPetState;
 import ar.uba.fi.nicodiaz.mascota.model.User;
 import ar.uba.fi.nicodiaz.mascota.model.UserService;
 import ar.uba.fi.nicodiaz.mascota.model.exception.ApplicationConnectionException;
-import ar.uba.fi.nicodiaz.mascota.model.FoundPet;
 import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PlaceAutoCompleteAdapter;
@@ -362,6 +363,11 @@ public class EncontradasPublicarActivity extends AppCompatActivity implements Ad
         switch (item.getItemId()) {
             case R.id.action_confirmar_agregar_mascota_encontrada:
                 if (!this.validate()) {
+                    return false;
+                }
+                if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                    Toast.makeText(EncontradasPublicarActivity.this, "Ocurrió un problema al publicar. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                    finish();
                     return false;
                 }
                 new SavePetTask(this).execute();

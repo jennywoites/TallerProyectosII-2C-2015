@@ -64,7 +64,7 @@ public class CommentService {
 
         for (CommentDB commentDB : listDB) {
             String text = "";
-            if (commentDB.getAuthor().isBanned() || commentDB.isBanned()) {
+            if (UserService.getInstance().isBanned(commentDB.getAuthor().getParseUser()) || commentDB.isBanned()) {
                 text = "[Mensaje eliminado por un moderador]";
             } else {
                 text = commentDB.getText();

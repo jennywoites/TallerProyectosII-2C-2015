@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
+
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.CommentDB;
 import ar.uba.fi.nicodiaz.mascota.model.CommentService;
@@ -62,6 +64,11 @@ public class NewCommentActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_publish:
+                if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                    Toast.makeText(NewCommentActivity.this, "Ocurrió un problema al publicar. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                    volverAtras();
+                    return false;
+                }
                 new SaveCommentTask().execute();  // TODO: guardar en base de datos
                 volverAtras();
                 return true;

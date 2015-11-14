@@ -11,16 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.SolicitarPerdidaActivity;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionRequest;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
@@ -74,6 +77,11 @@ public class SolicitarAdopcionActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         // Guardar en base de datos request de adopcion para la mascota actual.
                         if (!validate()) {
+                            return;
+                        }
+                        if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                            Toast.makeText(SolicitarAdopcionActivity.this, "Ocurrió un problema. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                            finish();
                             return;
                         }
                         String message = ((EditText) findViewById(R.id.comment_editText)).getText().toString();

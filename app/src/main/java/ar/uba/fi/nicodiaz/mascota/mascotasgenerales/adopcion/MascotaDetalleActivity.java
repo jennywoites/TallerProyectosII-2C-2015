@@ -24,6 +24,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.DenounceActivity;
@@ -233,6 +234,11 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
+                        if (UserService.getInstance().isBanned(ParseUser.getCurrentUser())) {
+                            Toast.makeText(MascotaDetalleActivity.this, "Ocurrió un problema. Intente más tarde.", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                            return;
+                        }
                         EmailHelper.sendEmailEnTransito(MascotaDetalleActivity.this, pet.getOwner(), UserService.getInstance().getUser(), pet.getName());
                         Toast.makeText(MascotaDetalleActivity.this, "Se envió un mail al dueño.", Toast.LENGTH_SHORT).show();
                         volverAtras();

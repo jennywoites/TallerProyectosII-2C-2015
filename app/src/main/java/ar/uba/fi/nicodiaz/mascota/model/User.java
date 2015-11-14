@@ -16,7 +16,6 @@ public class User {
     public static String USER_GENDER_FIELD = "gender";
     public static String USER_PHONE_FIELD = "phone";
     public static String USER_ADDRESS_FIELD = "address";
-    public static String USER_BANNED_FIELD = "banned";
     public static String MALE = "male";
     public static String FEMALE = "female";
 
@@ -37,18 +36,8 @@ public class User {
         setName(ppo.getString(USER_NAME_FIELD));
         setGender(ppo.getString(USER_GENDER_FIELD));
         setTelephone(ppo.getString(USER_PHONE_FIELD));
-        setBanned(ppo.getBoolean(USER_BANNED_FIELD));
         ParseProxyObject addressPPO = ppo.getParseObject(USER_ADDRESS_FIELD);
         setAddress(new Address(addressPPO));
-    }
-
-
-    public void setBanned(boolean banned) {
-        this.user.put(USER_BANNED_FIELD, banned);
-    }
-
-    public boolean getBanned() {
-        return this.user.getBoolean(USER_BANNED_FIELD);
     }
 
     public void setEmail(String email) {
@@ -112,9 +101,5 @@ public class User {
     public boolean isFemale() {
         String gender = getGender();
         return gender != null && gender.equals(FEMALE);
-    }
-
-    public boolean isBanned() {
-        return getBanned();
     }
 }
