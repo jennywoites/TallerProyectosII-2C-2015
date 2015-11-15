@@ -1,6 +1,10 @@
 package ar.uba.fi.nicodiaz.mascota.model;
 
+import java.util.logging.Logger;
+
+import ar.uba.fi.nicodiaz.mascota.DispatchActivity;
 import ar.uba.fi.nicodiaz.mascota.HomeActivity;
+import ar.uba.fi.nicodiaz.mascota.LoginActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.adopcion.MascotaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas.MascotaEncontradaDetalleActivity;
 import ar.uba.fi.nicodiaz.mascota.mascotasgenerales.perdidas.MascotaPerdidaDetalleActivity;
@@ -26,7 +30,8 @@ public enum Notification {
     ADOPTION_REJECTED_REQUEST("ADOPTION_REJECTED_REQUEST", HomeActivity.class, 0), MISSING_ACCEPTED_REQUEST("MISSING_ACCEPTED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0),
     MISSING_IGNORED_REQUEST("MISSING_IGNORED_REQUEST", MascotaPerdidaSolicitadaDetalleActivity.class, 0), MISSING_REJECTED_REQUEST("MISSING_REJECTED_REQUEST", HomeActivity.class, 0),
     FOUND_REJECTED_REQUEST("FOUND_REJECTED_REQUEST", HomeActivity.class, 0), FOUND_ACCEPTED_REQUEST("FOUND_ACCEPTED_REQUEST", MascotaEncontradaSolicitadaDetalleActivity.class, 0),
-    FOUND_IGNORED_REQUEST("FOUND_IGNORED_REQUEST", MascotaEncontradaSolicitadaDetalleActivity.class, 0);
+    FOUND_IGNORED_REQUEST("FOUND_IGNORED_REQUEST", MascotaEncontradaSolicitadaDetalleActivity.class, 0),
+    PUBLICACION_BLOQUEADA("PUBLICACION_BLOQUEADA", HomeActivity.class, 0), COMENTARIO_BLOQUEADO("COMENTARIO_BLOQUEADO", HomeActivity.class, 0), USUARIO_BLOQUEADO("USUARIO_BLOQUEADO", DispatchActivity.class, 0);
 
     private String description;
     private int fragmentView;

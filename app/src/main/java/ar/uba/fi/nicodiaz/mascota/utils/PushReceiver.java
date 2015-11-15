@@ -72,6 +72,13 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
                 break;
             }
 
+            case COMENTARIO_BLOQUEADO:
+            case PUBLICACION_BLOQUEADA:
+            case USUARIO_BLOQUEADO: {
+                startActivity(context, intent, notification);
+                break;
+            }
+
             default:
                 Intent i = new Intent(context, HomeActivity.class);
                 i.putExtras(intent.getExtras());
