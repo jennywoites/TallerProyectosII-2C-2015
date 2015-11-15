@@ -17,11 +17,11 @@
         android:orderInCategory="300"
         app:showAsAction="never" />
     <item android:id="@+id/action_ponerEnTransito"
-        android:title="Poner en Transito"
+        android:title="Necesita hogar de tránsito"
         android:orderInCategory="300"
         app:showAsAction="never" />
     <item android:id="@+id/action_quitarEnTransito"
-        android:title="Quitar en Transito"
+        android:title="Ya no necesita hogar de tránsito"
         android:orderInCategory="300"
         app:showAsAction="never" />
 </menu>
