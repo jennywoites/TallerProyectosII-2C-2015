@@ -307,6 +307,15 @@ public class PetServiceParse extends PetService {
             query.whereContainedIn(AdoptionPet.GENDER, values);
         } else if (keyFilter.equals(Filter.EDAD)) {
             query.whereContainedIn(AdoptionPet.AGE, values);
+        } else if (keyFilter.equals(Filter.TRANSITO)) {
+            List<Boolean> bools = new ArrayList<>();
+            if (values.contains("Sí")) {
+                bools.add(true);
+            }
+            if (values.contains("No")) {
+                bools.add(false);
+            }
+            query.whereContainedIn(AdoptionPet.TRANSITO, bools);
         }
     }
 

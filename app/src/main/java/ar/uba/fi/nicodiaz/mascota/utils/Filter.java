@@ -14,6 +14,7 @@ public class Filter {
     public static String SEXO = "Sexo";
     public static String EDAD = "Edad";
     public static String DISTANCIA = "Distancia";
+    public static String TRANSITO = "Necesita Tránsito";
     public static String MAS_15 = "Más de 15km";
     public static String MENOS_1 = "Menos de 1km";
     public static String D_ENTRE_1_5 = "Entre 1km y 5km";
@@ -45,7 +46,6 @@ public class Filter {
     public static ArrayList<Filter> getFilters() {
         ArrayList<Filter> filters = new ArrayList<>();
 
-
         filters.add(new Filter(ESPECIE)
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.dog))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.cat)));
@@ -54,7 +54,6 @@ public class Filter {
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_male))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_female)));
 
-        // TODO: especificar rangos:
         filters.add(new Filter(EDAD)
                 .addChildren(MyApplication.getContext().getResources().getString(R.string._0_3_months))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string._4_6_months))
@@ -63,7 +62,6 @@ public class Filter {
                 .addChildren(MyApplication.getContext().getResources().getString(R.string._4_7_years))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string._8_15_years)));
 
-        // TODO: especificar rangos:
         filters.add(new Filter(DISTANCIA)
                 .addChildren(MENOS_1)
                 .addChildren(D_ENTRE_1_5)
@@ -71,12 +69,15 @@ public class Filter {
                 .addChildren(D_ENTRE_10_15)
                 .addChildren(MAS_15));
 
+        filters.add(new Filter(TRANSITO)
+                .addChildren("Sí")
+                .addChildren("No"));
+
         return filters;
     }
 
     public static ArrayList<Filter> getPerdidasFilters() {
         ArrayList<Filter> filters = new ArrayList<>();
-
 
         filters.add(new Filter(ESPECIE)
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.dog))
@@ -86,7 +87,6 @@ public class Filter {
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_male))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_female)));
 
-        // TODO: especificar rangos:
         filters.add(new Filter(DISTANCIA)
                 .addChildren(MENOS_1)
                 .addChildren(D_ENTRE_1_5)
@@ -100,7 +100,6 @@ public class Filter {
     public static ArrayList<Filter> getEncontradasFilters() {
         ArrayList<Filter> filters = new ArrayList<>();
 
-
         filters.add(new Filter(ESPECIE)
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.dog))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.cat)));
@@ -109,7 +108,6 @@ public class Filter {
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_male))
                 .addChildren(MyApplication.getContext().getResources().getString(R.string.pet_female)));
 
-        // TODO: especificar rangos:
         filters.add(new Filter(DISTANCIA)
                 .addChildren(MENOS_1)
                 .addChildren(D_ENTRE_1_5)
