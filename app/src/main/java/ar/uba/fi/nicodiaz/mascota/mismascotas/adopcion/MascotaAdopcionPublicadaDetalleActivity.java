@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota.mismascotas.adopcion;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
 import com.parse.GetDataCallback;
@@ -167,6 +170,7 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_mascota_adopcion_publicada_detalle, menu);
 
         if (((AdoptionPet) pet).getState().equals(AdoptionPetState.PUBLISHED)) {
+            menu.findItem(R.id.action_share).setVisible(true);
             menu.findItem(R.id.action_delete).setVisible(true);
             menu.findItem(R.id.action_republish).setVisible(false);
             if (((AdoptionPet) pet).getTransito()) {
@@ -177,11 +181,13 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_quitarEnTransito).setVisible(false);
             }
         } else if (((AdoptionPet) pet).getState().equals(AdoptionPetState.HIDDEN)) {
+            menu.findItem(R.id.action_share).setVisible(false);
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(true);
             menu.findItem(R.id.action_ponerEnTransito).setVisible(false);
             menu.findItem(R.id.action_quitarEnTransito).setVisible(false);
         } else { // Caso Reservada o Adoptada, no se puede despublicar o republicar.
+            menu.findItem(R.id.action_share).setVisible(false);
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(false);
             menu.findItem(R.id.action_ponerEnTransito).setVisible(false);
@@ -197,6 +203,9 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_share:
+                compartir();
+                return true;
             case R.id.action_close:
                 volverAtras();
                 return true;
@@ -214,6 +223,20 @@ public class MascotaAdopcionPublicadaDetalleActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void compartir() {
+        ShareDialog shareDialog = new ShareDialog(this);
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("¡" + pet.getName() + " está en adopción!")
+                    .setContentDescription(pet.getDescription() + " - 'Mascota', la app para publicar tus mascotas. ¡Disponible en Google Play ahora!")
+                    .setImageUrl(Uri.parse(pet.getPicture().getUrl()))
+                    .setContentUrl(Uri.parse("https://play.google.com"))
+                    .build();
+            shareDialog.show(linkContent);
         }
     }
 

@@ -2,6 +2,7 @@ package ar.uba.fi.nicodiaz.mascota.mismascotas.encontradas;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
 import com.parse.GetDataCallback;
@@ -140,6 +143,20 @@ public class MascotaEncontradaPublicadaDetalleActivity extends AppCompatActivity
         WaitForInternet.setCallback(callback);
     }
 
+    private void compartir() {
+        ShareDialog shareDialog = new ShareDialog(this);
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("¡Encontré una Mascota!")
+                    .setContentDescription(pet.getDescription() + " - 'Mascota', la app para publicar tus mascotas. ¡Disponible en Google Play ahora!")
+                    .setImageUrl(Uri.parse(pet.getPicture().getUrl()))
+                    .setContentUrl(Uri.parse("https://play.google.com"))
+                    .build();
+            shareDialog.show(linkContent);
+        }
+    }
+
     private void loadHeader(Pet pet) {
         final ImageView headerImage = (ImageView) findViewById(R.id.header);
 
@@ -166,12 +183,15 @@ public class MascotaEncontradaPublicadaDetalleActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mascota_encontrada_publicada_detalle, menu);
         if (((FoundPet) pet).getState().equals(FoundPetState.PUBLISHED)) {
+            menu.findItem(R.id.action_share).setVisible(true);
             menu.findItem(R.id.action_delete).setVisible(true);
             menu.findItem(R.id.action_republish).setVisible(false);
         } else if (((FoundPet) pet).getState().equals(FoundPetState.HIDDEN)) {
+            menu.findItem(R.id.action_share).setVisible(false);
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(true);
         } else { // Caso Reservada o Reencontrada, no se puede despublicar o republicar.
+            menu.findItem(R.id.action_share).setVisible(false);
             menu.findItem(R.id.action_delete).setVisible(false);
             menu.findItem(R.id.action_republish).setVisible(false);
         }
@@ -185,6 +205,9 @@ public class MascotaEncontradaPublicadaDetalleActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_share:
+                compartir();
+                return true;
             case R.id.action_close:
                 volverAtras();
                 return true;
