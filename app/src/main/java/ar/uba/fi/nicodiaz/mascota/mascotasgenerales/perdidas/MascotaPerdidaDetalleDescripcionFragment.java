@@ -176,8 +176,11 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
     private void setUpMap() {
         ar.uba.fi.nicodiaz.mascota.model.Address missingPetAddress = missingPet.getAddress();
 
+        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
+        ubicacion.setText(missingPetAddress.getCalle());
+
         TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
-        Date lastKnowDate = missingPet.getLastKnowDate();
+        Date lastKnowDate = ((MissingPet) missingPet).getLastKnowDate();
         fecha.setText(DateUtils.formatDate(lastKnowDate));
 
         if (missingPetAddress != null) {
@@ -186,7 +189,7 @@ public class MascotaPerdidaDetalleDescripcionFragment extends Fragment {
             LatLng posicion = new LatLng(latitude, longitude);
             String msg = missingPet.getName() + " se perdió en esta zona";
             mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 14)));
         }
     }
 }

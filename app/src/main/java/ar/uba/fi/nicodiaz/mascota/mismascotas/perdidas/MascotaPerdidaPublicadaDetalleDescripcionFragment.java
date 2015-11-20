@@ -27,10 +27,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import ar.uba.fi.nicodiaz.mascota.R;
+import ar.uba.fi.nicodiaz.mascota.model.MissingPet;
 import ar.uba.fi.nicodiaz.mascota.model.Pet;
+import ar.uba.fi.nicodiaz.mascota.utils.DateUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 /**
@@ -195,14 +198,18 @@ public class MascotaPerdidaPublicadaDetalleDescripcionFragment extends Fragment 
     private void setUpMap() {
         ar.uba.fi.nicodiaz.mascota.model.Address missingPetAddress = missingPet.getAddress();
 
-/*        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
-        ubicacion.setText(missingPetAddress.getCalle());*/
+        TextView ubicacion = (TextView) view.findViewById(R.id.text_ubicacion);
+        ubicacion.setText(missingPetAddress.getCalle());
+
+        TextView fecha = (TextView) view.findViewById(R.id.text_fecha);
+        Date lastKnowDate = ((MissingPet) missingPet).getLastKnowDate();
+        fecha.setText(DateUtils.formatDate(lastKnowDate));
 
         double latitude = missingPetAddress.getLocation().getLatitude();
         double longitude = missingPetAddress.getLocation().getLongitude();
         LatLng posicion = new LatLng(latitude, longitude);
         String msg = missingPet.getName() + " se perdió en esta zona";
         mMap.addMarker(new MarkerOptions().position(posicion).title(msg)).showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 16)));
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(posicion, 14)));
     }
 }
