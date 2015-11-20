@@ -40,8 +40,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ar.uba.fi.nicodiaz.mascota.R;
 import ar.uba.fi.nicodiaz.mascota.model.AdoptionPet;
@@ -53,6 +51,7 @@ import ar.uba.fi.nicodiaz.mascota.utils.ErrorUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.PhotoUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternet;
 import ar.uba.fi.nicodiaz.mascota.utils.WaitForInternetCallback;
+import ar.uba.fi.nicodiaz.mascota.utils.YouTubeUtils;
 import ar.uba.fi.nicodiaz.mascota.utils.service.PetServiceFactory;
 
 public class AdopcionPublicarActivity extends AppCompatActivity {
@@ -357,9 +356,9 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         String medicine = this.getMedicineValue();
         String medicineTime = this.getMedicineTimeValue();
         String medicineNotes = ((EditText) findViewById(R.id.txtMedicineNotes)).getText().toString();
-        String urlOne = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoOne)).getText().toString());
-        String urlTwo = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
-        String urlThree = parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
+        String urlOne = YouTubeUtils.parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoOne)).getText().toString());
+        String urlTwo = YouTubeUtils.parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoTwo)).getText().toString());
+        String urlThree = YouTubeUtils.parseYouTubeVideoUrl(((EditText) findViewById(R.id.txtVideoThree)).getText().toString());
         User user = UserService.getInstance().getUser();
 
         pet.setName(name);
@@ -382,17 +381,6 @@ public class AdopcionPublicarActivity extends AppCompatActivity {
         pet.setState(AdoptionPetState.PUBLISHED);
         pet.setTransito(enTransito);
         pet.setBanned(false);
-    }
-
-    private String parseYouTubeVideoUrl(String url) {
-        String regex = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(url);
-        if (matcher.find()) {
-            Log.d(String.valueOf(Log.DEBUG), "id parseado: " + matcher.group());
-            return matcher.group();
-        }
-        return "";
     }
 
     private void uploadPhoto(Bitmap photo) throws ApplicationConnectionException {
