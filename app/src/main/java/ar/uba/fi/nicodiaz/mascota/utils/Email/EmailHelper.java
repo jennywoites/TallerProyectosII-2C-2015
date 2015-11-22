@@ -133,7 +133,7 @@ public class EmailHelper {
     // -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
     public static void sendEmailEnTransito(Activity activity, User usuarioDuenio, User usuarioSolicitante, String nombreMascota) {
         String usuarioDuenio_mailTo = usuarioDuenio.getEmail();
-        String usuarioDuenio_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " se ofreció para dar hogar tránsitorio a " + nombreMascota + ".";
+        String usuarioDuenio_mailSubject = "¡Buenas noticias! " + usuarioSolicitante.getName() + " se ofreció para dar hogar transitorio a " + nombreMascota + ".";
         String usuarioDuenio_mailBody = "Te acercamos los datos de " + usuarioSolicitante.getName() + ":" + "\n\n";
         usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Nombre: " + usuarioSolicitante.getName() + "\n";
         usuarioDuenio_mailBody = usuarioDuenio_mailBody + "Email: " + usuarioSolicitante.getEmail() + "\n";
