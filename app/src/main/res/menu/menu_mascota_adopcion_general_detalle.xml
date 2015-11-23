@@ -5,6 +5,11 @@
     <item android:id="@+id/action_close"
         android:title="Cerrar"
         android:icon="@drawable/ic_action_close_white"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_share"
+        android:title="Compartir"
+        android:icon="@drawable/ic_action_share"
         android:orderInCategory="200"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_transito"

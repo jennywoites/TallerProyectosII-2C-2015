@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
 import com.parse.GetDataCallback;
@@ -53,7 +56,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Si dio adoptar:
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             disableAdoptFAB();
         }
     }
@@ -64,7 +67,7 @@ public class MascotaDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MascotaDetalleActivity.this, SolicitarAdopcionActivity.class);
-                startActivityForResult(i, 0);
+                startActivityForResult(i, 123);
             }
         });
     }
@@ -212,6 +215,9 @@ public class MascotaDetalleActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_share:
+                compartir();
+                return true;
             case R.id.action_close:
                 volverAtras();
                 return true;
@@ -224,6 +230,21 @@ public class MascotaDetalleActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void compartir() {
+        ShareDialog shareDialog = new ShareDialog(this);
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("¡" + pet.getName() + " está en adopción!")
+                    .setContentDescription(pet.getDescription() + " - 'Mascota', la app para publicar tus mascotas. ¡Disponible en Google Play ahora!")
+                    .setImageUrl(Uri.parse(pet.getPicture().getUrl()))
+                    .setContentUrl(Uri.parse("https://play.google.com"))
+                    .build();
+            shareDialog.show(linkContent);
         }
     }
 

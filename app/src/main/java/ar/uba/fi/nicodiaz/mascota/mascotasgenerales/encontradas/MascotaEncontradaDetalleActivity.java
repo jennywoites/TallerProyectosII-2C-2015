@@ -3,6 +3,7 @@ package ar.uba.fi.nicodiaz.mascota.mascotasgenerales.encontradas;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.google.samples.apps.iosched.ui.widget.ViewPagerAdapter;
 import com.parse.GetDataCallback;
@@ -41,13 +44,14 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
     int NumbOfTabs = 2;
     FloatingActionButton FAB_esMia;
     FloatingActionButton FAB_comment;
+    private Pet pet;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Si dio adoptar:
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == 123 && resultCode == Activity.RESULT_OK) {
             disableEsMiaFAB();
         }
     }
@@ -58,7 +62,7 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MascotaEncontradaDetalleActivity.this, SolicitarEncontradaActivity.class);
-                startActivityForResult(i, 0);
+                startActivityForResult(i, 123);
             }
         });
     }
@@ -85,7 +89,7 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
                 setSupportActionBar(toolbar);
                 //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-                Pet pet = PetServiceFactory.getInstance().getSelectedPet();
+                pet = PetServiceFactory.getInstance().getSelectedPet();
 
                 final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
                 //collapsingToolbar.setTitle(pet.getName());
@@ -199,6 +203,9 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_share:
+                compartir();
+                return true;
             case R.id.action_close:
                 volverAtras();
                 return true;
@@ -210,6 +217,21 @@ public class MascotaEncontradaDetalleActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void compartir() {
+        ShareDialog shareDialog = new ShareDialog(this);
+
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("¡Se encontró una Mascota!")
+                    .setContentDescription(pet.getDescription() + " - 'Mascota', la app para publicar tus mascotas. ¡Disponible en Google Play ahora!")
+                    .setImageUrl(Uri.parse(pet.getPicture().getUrl()))
+                    .setContentUrl(Uri.parse("https://play.google.com"))
+                    .build();
+            shareDialog.show(linkContent);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
